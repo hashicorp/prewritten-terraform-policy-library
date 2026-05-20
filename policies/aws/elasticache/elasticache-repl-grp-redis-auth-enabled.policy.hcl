@@ -1,0 +1,17 @@
+# ElastiCache.6 - ElastiCache (Redis OSS) replication groups should have Redis OSS AUTH enabled.
+
+policy {}
+
+resource_policy "aws_elasticache_replication_group" "redis-auth-enabled" {
+    filter = core::try(attrs.transit_encryption_enabled, false) == true && core::try(attrs.engine, "redis") == "redis"
+
+    locals {
+        engine_version = core::try(attrs.engine_version, "")
+        engine_version_condition = local.engine_version != "" ? core::parseint(core::split(".", local.engine_version)[0], 10) >= 6 : true
+    }
+
+    enforce {
+        condition = core::try(attrs.auth_token, "") != "" && local.engine_version_condition
+        error_message = "ElastiCache replication groups should have authentication enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticache-controls.html#elasticache-6 for more details."
+    }
+}
