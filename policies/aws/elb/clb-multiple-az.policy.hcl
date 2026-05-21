@@ -1,0 +1,30 @@
+# ELB.10 - Classic Load Balancer should span multiple Availability Zones.
+
+policy {}
+
+input "clb_min_availability_zones" {
+    type = number
+    default = 2
+}
+
+resource_policy "aws_elb" "multiple_availability_zones" {
+    locals {
+        ec2_classic_az_count = core::try(core::length(attrs.availability_zones), 0)
+        
+        # For VPC ELBs: we need to count unique AZs from subnets
+        # Since we cannot query subnet details in policy evaluation,
+        # we count the number of subnets as a proxy
+        # Note: This assumes each subnet is in a different AZ (common practice)
+        vpc_subnet_count = core::try(core::length(attrs.subnets), 0)
+
+        is_valid_input = core::contains([2, 3, 4, 5, 6], input.clb_min_availability_zones)
+        
+        # Use the appropriate count (whichever is greater than 0)
+        actual_az_count = local.ec2_classic_az_count > 0 ? local.ec2_classic_az_count : local.vpc_subnet_count
+    }
+
+    enforce {
+        condition = local.is_valid_input && (local.actual_az_count >= input.clb_min_availability_zones)
+        error_message = "Classic Load Balancer does not span enough Availability Zones. Configure the load balancer to span at least 2 Availability Zones for high availability. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-10 for more details."
+    }
+}

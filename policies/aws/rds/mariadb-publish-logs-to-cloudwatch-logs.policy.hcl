@@ -1,0 +1,27 @@
+# RDS.42 - RDS for MariaDB DB instances should publish logs to CloudWatch Logs.
+
+policy {}
+
+input "log_mariadb_types" {
+    type = string
+    default = "audit,error"
+}
+
+resource_policy "aws_db_instance" "mariadb_cloudwatch_logs" {
+    filter = attrs.engine == "mariadb"
+
+    locals {
+        enabled_logs = core::try(attrs.enabled_cloudwatch_logs_exports, [])
+        input_log_types = core::split(",", input.log_mariadb_types)
+        input_logging_not_enabled = core::contains([
+            for type in local.input_log_types : core::contains(local.enabled_logs, type)
+        ], false)
+        audit_logging_enabled = core::contains(local.enabled_logs, "audit")
+        error_logging_enabled = core::contains(local.enabled_logs, "error")
+    }
+
+    enforce {
+        condition = local.audit_logging_enabled || local.error_logging_enabled || !local.input_logging_not_enabled
+        error_message = "RDS MariaDB instance does not have CloudWatch Logs export enabled for 'audit' or 'error' logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-42 for more details."
+    }
+}

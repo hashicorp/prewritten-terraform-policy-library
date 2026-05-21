@@ -1,0 +1,22 @@
+# EC2.171 - EC2 VPN connections should have logging enabled.
+
+policy {}
+
+resource_policy "aws_vpn_connection" "vpn_connection_logging_enabled" {
+    locals {
+        tunnel1_log_enabled = core::try(attrs.tunnel1_log_options[0].cloudwatch_log_options[0].log_enabled, false)
+        tunnel2_log_enabled = core::try(attrs.tunnel2_log_options[0].cloudwatch_log_options[0].log_enabled, false)
+        tunnel1_log_group_configured = core::try(attrs.tunnel1_log_options[0].cloudwatch_log_options[0].log_group_arn, "") != ""
+        tunnel2_log_group_configured = core::try(attrs.tunnel2_log_options[0].cloudwatch_log_options[0].log_group_arn, "") != ""
+    }
+
+    enforce {
+        condition = local.tunnel1_log_enabled == true && local.tunnel2_log_enabled == true
+        error_message = "AWS Site-to-Site VPN connection must enable CloudWatch Logs for both tunnels by setting both tunnel1_log_options.cloudwatch_log_options.log_enabled and tunnel2_log_options.cloudwatch_log_options.log_enabled to true. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-171 for more details."
+    }
+
+    enforce {
+        condition = local.tunnel1_log_group_configured == true && local.tunnel2_log_group_configured == true
+        error_message = "AWS Site-to-Site VPN connection must configure a non-empty CloudWatch Log Group ARN for both tunnels in tunnel1_log_options.cloudwatch_log_options.log_group_arn and tunnel2_log_options.cloudwatch_log_options.log_group_arn. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-171 for more details."
+    }
+}

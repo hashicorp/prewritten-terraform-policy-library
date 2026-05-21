@@ -1,0 +1,20 @@
+# S3.8 - S3 general purpose buckets should block public access.
+
+policy {}
+
+resource_policy "aws_s3_bucket" "s3_block_public_access" {
+    locals {
+        public_access_block = core::getresources("aws_s3_bucket_public_access_block", {
+            bucket = attrs.id
+        })
+        block_public_acls = core::try(local.public_access_block[0].block_public_acls, false)
+        block_public_policy = core::try(local.public_access_block[0].block_public_policy, false)
+        ignore_public_acls = core::try(local.public_access_block[0].ignore_public_acls, false)
+        restrict_public_buckets = core::try(local.public_access_block[0].restrict_public_buckets, false)
+    }
+
+    enforce {
+        condition = local.block_public_acls && local.block_public_policy && local.ignore_public_acls && local.restrict_public_buckets
+        error_message = "S3 bucket does not have all required settings enabled. Set all to 'true' to comply with the control. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-8 for more details."
+    }
+}

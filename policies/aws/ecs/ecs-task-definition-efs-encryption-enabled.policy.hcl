@@ -1,0 +1,30 @@
+# ECS.18 - ECS Task Definitions should use in-transit encryption for EFS volumes.
+
+policy {}
+
+resource_policy "aws_ecs_task_definition" "efs_transit_encryption_enabled" {
+    locals {
+        efs_volumes = [
+            for vol in core::try(attrs.volume, []) : vol
+            if core::try(vol.efs_volume_configuration, null) != null
+        ]
+
+        efs_volumes_without_encryption = [
+            for vol in local.efs_volumes : vol
+            if core::try(vol.efs_volume_configuration[0].transit_encryption, "DISABLED") != "ENABLED"
+        ]
+        
+        # Check if task definition has any EFS volumes
+        has_efs_volumes = core::length(core::try(local.efs_volumes, [])) > 0
+
+        # Check if all EFS volumes have encryption enabled
+        all_efs_encrypted = core::length(local.efs_volumes_without_encryption) == 0
+    }
+
+    # Only enforce if the task definition actually uses EFS volumes
+    # Skip task definitions without EFS volumes (they pass by default)
+    enforce {
+        condition = !local.has_efs_volumes || local.all_efs_encrypted
+        error_message = "ECS task definition has EFS volumes without transit encryption enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-18 for more details."
+    }
+}

@@ -1,0 +1,17 @@
+# ELB.12 - Application Load Balancer Desync Mitigation Mode.
+
+policy {}
+
+resource_policy "aws_lb" "alb_desync_mitigation_mode" {
+    filter = core::try(attrs.load_balancer_type, "application") == "application"
+
+    locals {
+        desync_mode = core::try(attrs.desync_mitigation_mode, "defensive")
+        is_valid_mode = core::contains(["defensive", "strictest"], local.desync_mode)
+    }
+
+    enforce {
+        condition = local.is_valid_mode
+        error_message = "Application Load Balancer must be configured with 'defensive' or 'strictest' desync mode to protect against HTTP Desync vulnerabilities. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-12 for more details."
+    }
+}

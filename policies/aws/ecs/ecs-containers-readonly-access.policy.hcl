@@ -1,0 +1,23 @@
+# ECS.5 - ECS containers should be limited to read-only access to root filesystems
+
+policy {}
+
+resource_policy "aws_ecs_task_definition" "readonly_root_filesystem" {
+    filter = attrs.container_definitions != null
+
+    locals {
+        container_defs = core::jsondecode(attrs.container_definitions)
+        
+        # Check each container for readonlyRootFilesystem setting
+        # A container is compliant if readonlyRootFilesystem is explicitly set to true
+        containers_with_no_readonly = [
+            for container in local.container_defs : container
+            if core::try(container.readonlyRootFilesystem, false) == false
+        ]
+    }
+
+    enforce {
+        condition = core::length(local.containers_with_no_readonly) == 0
+        error_message = "ECS task definition contains one or more containers with readonlyRootFilesystem value set to false. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-5 for more details."
+    }
+}
