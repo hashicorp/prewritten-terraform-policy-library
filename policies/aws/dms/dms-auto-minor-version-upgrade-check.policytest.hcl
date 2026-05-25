@@ -3,7 +3,7 @@ policytest {
         "dms-auto-minor-version-upgrade-check.policy.hcl"
     ]
 }
-// Test 1: PASS - auto_minor_version_upgrade enabled
+# Test 1: PASS - auto_minor_version_upgrade enabled
 resource "aws_dms_replication_instance" "pass_auto_upgrade_enabled" {
     attrs = {
         replication_instance_id    = "test-dms-instance"
@@ -12,7 +12,7 @@ resource "aws_dms_replication_instance" "pass_auto_upgrade_enabled" {
     }
 }
 
-// Test 2: FAIL - auto_minor_version_upgrade disabled
+# Test 2: FAIL - auto_minor_version_upgrade disabled
 resource "aws_dms_replication_instance" "fail_auto_upgrade_disabled" {
     expect_failure = true
     
@@ -23,18 +23,18 @@ resource "aws_dms_replication_instance" "fail_auto_upgrade_disabled" {
     }
 }
 
-// Test 3: FAIL - auto_minor_version_upgrade not specified (defaults to false)
+# Test 3: FAIL - auto_minor_version_upgrade not specified (defaults to false)
 resource "aws_dms_replication_instance" "fail_auto_upgrade_not_specified" {
     expect_failure = true
     
     attrs = {
         replication_instance_id    = "test-dms-instance"
         replication_instance_class = "dms.t3.micro"
-        // auto_minor_version_upgrade not specified, defaults to false
+        # auto_minor_version_upgrade not specified, defaults to false
     }
 }
 
-// Test 4: PASS - auto_minor_version_upgrade enabled with other attributes
+# Test 4: PASS - auto_minor_version_upgrade enabled with other attributes
 resource "aws_dms_replication_instance" "pass_auto_upgrade_with_full_config" {
     attrs = {
         replication_instance_id    = "prod-dms-instance"

@@ -1,17 +1,17 @@
-// Policy: DynamoDB.3 - DynamoDB Accelerator (DAX) clusters should be encrypted at rest
+# Policy: DynamoDB.3 - DynamoDB Accelerator (DAX) clusters should be encrypted at rest
 
 policy {}
 
 resource_policy "aws_dax_cluster" "encryption_at_rest_required" {
     locals {
-        // Safely access the server_side_encryption block
-        // The server_side_encryption attribute is a list of objects (block)
+        # Safely access the server_side_encryption block
+        # The server_side_encryption attribute is a list of objects (block)
         sse_config = core::try(attrs.server_side_encryption, [])
         
-        // Check if the block exists and has at least one element
+        # Check if the block exists and has at least one element
         has_sse_block = core::length(local.sse_config) > 0
         
-        // Check if encryption is enabled (defaults to false if not set)
+        # Check if encryption is enabled (defaults to false if not set)
         encryption_enabled = local.has_sse_block && core::try(local.sse_config[0].enabled, false)
     }
 

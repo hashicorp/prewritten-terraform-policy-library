@@ -2,7 +2,7 @@ policytest {
   targets = ["cloudfront-no-sslv3.policy.hcl"]
 }
 
-// Test 1: PASS - Custom origin with only TLSv1.2
+# Test 1: PASS - Custom origin with only TLSv1.2
 resource "aws_cloudfront_distribution" "pass_custom_origin_tlsv12_only" {
   attrs = {
     enabled = true
@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "pass_custom_origin_tlsv12_only" {
   }
 }
 
-// Test 2: FAIL - Custom origin includes SSLv3
+# Test 2: FAIL - Custom origin includes SSLv3
 resource "aws_cloudfront_distribution" "fail_custom_origin_with_sslv3" {
   expect_failure = true
   attrs = {
@@ -45,7 +45,7 @@ resource "aws_cloudfront_distribution" "fail_custom_origin_with_sslv3" {
   }
 }
 
-// Test 3: PASS - S3 origin only (no custom_origin_config)
+# Test 3: PASS - S3 origin only (no custom_origin_config)
 resource "aws_cloudfront_distribution" "pass_s3_origin_only" {
   attrs = {
     enabled = true
@@ -63,7 +63,7 @@ resource "aws_cloudfront_distribution" "pass_s3_origin_only" {
   }
 }
 
-// Test 4: FAIL - Multiple custom origins, one with SSLv3
+# Test 4: FAIL - Multiple custom origins, one with SSLv3
 resource "aws_cloudfront_distribution" "fail_multiple_origins_one_with_sslv3" {
   expect_failure = true
   attrs = {
@@ -97,7 +97,7 @@ resource "aws_cloudfront_distribution" "fail_multiple_origins_one_with_sslv3" {
   }
 }
 
-// Test 5: PASS - Custom origin with TLSv1, TLSv1.1, TLSv1.2 (no SSLv3)
+# Test 5: PASS - Custom origin with TLSv1, TLSv1.1, TLSv1.2 (no SSLv3)
 resource "aws_cloudfront_distribution" "pass_custom_origin_multiple_tls_no_sslv3" {
   attrs = {
     enabled = true
@@ -118,7 +118,7 @@ resource "aws_cloudfront_distribution" "pass_custom_origin_multiple_tls_no_sslv3
   }
 }
 
-// Test 6: PASS - Mixed origins (S3 + custom with TLSv1.2)
+# Test 6: PASS - Mixed origins (S3 + custom with TLSv1.2)
 resource "aws_cloudfront_distribution" "pass_mixed_s3_and_custom_compliant" {
   attrs = {
     enabled = true

@@ -3,7 +3,7 @@ policytest {
     "dax-encryption-enabled.policy.hcl"
   ]
 }
-// Test 1: PASS - DAX cluster with encryption enabled
+# Test 1: PASS - DAX cluster with encryption enabled
 resource "aws_dax_cluster" "pass_encryption_enabled" {
   attrs = {
     cluster_name       = "compliant-cluster"
@@ -18,7 +18,7 @@ resource "aws_dax_cluster" "pass_encryption_enabled" {
   }
 }
 
-// Test 2: FAIL - DAX cluster with encryption explicitly disabled
+# Test 2: FAIL - DAX cluster with encryption explicitly disabled
 resource "aws_dax_cluster" "fail_encryption_disabled" {
   expect_failure = true
   attrs = {
@@ -34,7 +34,7 @@ resource "aws_dax_cluster" "fail_encryption_disabled" {
   }
 }
 
-// Test 3: FAIL - DAX cluster without server_side_encryption block
+# Test 3: FAIL - DAX cluster without server_side_encryption block
 resource "aws_dax_cluster" "fail_no_encryption_block" {
   expect_failure = true
   attrs = {
@@ -45,7 +45,7 @@ resource "aws_dax_cluster" "fail_no_encryption_block" {
   }
 }
 
-// Test 4: FAIL - DAX cluster with empty server_side_encryption block (enabled defaults to false)
+# Test 4: FAIL - DAX cluster with empty server_side_encryption block (enabled defaults to false)
 resource "aws_dax_cluster" "fail_encryption_not_specified" {
   expect_failure = true
   attrs = {

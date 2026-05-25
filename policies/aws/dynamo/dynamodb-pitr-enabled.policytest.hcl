@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: PASS - DynamoDB table with PITR explicitly enabled
+# Test 1: PASS - DynamoDB table with PITR explicitly enabled
 resource "aws_dynamodb_table" "pass_pitr_explicitly_enabled" {
   attrs = {
     name           = "compliant-table"
@@ -26,7 +26,7 @@ resource "aws_dynamodb_table" "pass_pitr_explicitly_enabled" {
   }
 }
 
-// Test 2: FAIL - DynamoDB table with PITR explicitly disabled
+# Test 2: FAIL - DynamoDB table with PITR explicitly disabled
 resource "aws_dynamodb_table" "fail_pitr_explicitly_disabled" {
   expect_failure = true
   
@@ -50,7 +50,7 @@ resource "aws_dynamodb_table" "fail_pitr_explicitly_disabled" {
   }
 }
 
-// Test 3: FAIL - DynamoDB table without point_in_time_recovery block
+# Test 3: FAIL - DynamoDB table without point_in_time_recovery block
 resource "aws_dynamodb_table" "fail_pitr_block_missing" {
   expect_failure = true
   
@@ -68,7 +68,7 @@ resource "aws_dynamodb_table" "fail_pitr_block_missing" {
   }
 }
 
-// Test 4: FAIL - DynamoDB table with empty point_in_time_recovery block (enabled missing)
+# Test 4: FAIL - DynamoDB table with empty point_in_time_recovery block (enabled missing)
 resource "aws_dynamodb_table" "fail_pitr_enabled_attribute_missing" {
   expect_failure = true
   
@@ -86,7 +86,7 @@ resource "aws_dynamodb_table" "fail_pitr_enabled_attribute_missing" {
     
     point_in_time_recovery = [
       {
-        // enabled attribute is missing - should default to false
+        # enabled attribute is missing - should default to false
       }
     ]
   }

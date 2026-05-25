@@ -1,4 +1,4 @@
-// Policy : DynamoDB.6 - DynamoDB tables should have deletion protection enabled
+# Policy : DynamoDB.6 - DynamoDB tables should have deletion protection enabled
 
 policy {}
 

@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 // Policy: SES.3 - SES configuration sets should have TLS enabled for sending emails
+=======
+# Policy: SES.3 - SES configuration sets should have TLS enabled for sending emails
+>>>>>>> origin/main
 
 policy {}
 
 resource_policy "aws_ses_configuration_set" "tls_required" {
     locals {
+<<<<<<< HEAD
         // Safe access to delivery_options and tls_policy
         delivery_options = core::try(attrs.delivery_options, [])
         has_delivery_options = core::length(local.delivery_options) > 0
@@ -12,6 +17,16 @@ resource_policy "aws_ses_configuration_set" "tls_required" {
         tls_policy = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, "Optional") : "Optional"
         
         // Check if TLS is required
+=======
+        # Safe access to delivery_options and tls_policy
+        delivery_options = core::try(attrs.delivery_options, [])
+        has_delivery_options = core::length(local.delivery_options) > 0
+        
+        # Extract TLS policy (default is 'Optional' if not specified)
+        tls_policy = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, "Optional") : "Optional"
+        
+        # Check if TLS is required
+>>>>>>> origin/main
         is_compliant = local.tls_policy == "Require"
     }
 
@@ -21,6 +36,7 @@ resource_policy "aws_ses_configuration_set" "tls_required" {
     }
 }
 
+<<<<<<< HEAD
 // Policy for SES v2 configuration sets
 resource_policy "aws_sesv2_configuration_set" "tls_required" {
     locals {
@@ -32,6 +48,19 @@ resource_policy "aws_sesv2_configuration_set" "tls_required" {
         tls_policy = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, "OPTIONAL") : "OPTIONAL"
         
         // Check if TLS is required
+=======
+# Policy for SES v2 configuration sets
+resource_policy "aws_sesv2_configuration_set" "tls_required" {
+    locals {
+        # Safe access to delivery_options and tls_policy
+        delivery_options = core::try(attrs.delivery_options, [])
+        has_delivery_options = core::length(local.delivery_options) > 0
+        
+        # Extract TLS policy (default is 'OPTIONAL' if not specified)
+        tls_policy = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, "OPTIONAL") : "OPTIONAL"
+        
+        # Check if TLS is required
+>>>>>>> origin/main
         is_compliant = local.tls_policy == "REQUIRE"
     }
 

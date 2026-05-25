@@ -1,0 +1,53 @@
+# Amazon SQS queues should be encrypted at rest
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Encryption of data-at-rest |
+
+## Description
+
+This control checks whether an Amazon SQS queue is encrypted at rest. The control fails if the queue isn't encrypted with an SQS-managed key (SSE-SQS) or an AWS Key Management Service (AWS KMS) key (SSE-KMS).
+
+Encrypting data at rest reduces the risk of an unauthorized user accessing data stored on disk. Server-side encryption (SSE) protects the contents of messages in SQS queues using SQS-managed encryption keys (SSE-SQS) or AWS KMS keys (SSE-KMS).
+
+This rule is covered by the [sqs-queue-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sqs/sqs-queue-encrypted.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # sqs-queue-encrypted.policytest.hcl...
+      running
+      # resource.aws_sqs_queue.pass_sqs_managed_sse...
+      running
+      # resource.aws_sqs_queue.pass_sqs_managed_sse...
+      pass
+      # resource.aws_sqs_queue.pass_kms_key_id...
+      running
+      # resource.aws_sqs_queue.pass_kms_key_id...
+      pass
+      # resource.aws_sqs_queue.pass_kms_alias...
+      running
+      # resource.aws_sqs_queue.pass_kms_alias...
+      pass
+      # resource.aws_sqs_queue.pass_both_encryption_methods...
+      running
+      # resource.aws_sqs_queue.pass_both_encryption_methods...
+      pass
+      # resource.aws_sqs_queue.fail_no_encryption...
+      running
+      # resource.aws_sqs_queue.fail_no_encryption...
+      pass
+      # resource.aws_sqs_queue.fail_sse_disabled...
+      running
+      # resource.aws_sqs_queue.fail_sse_disabled...
+      pass
+      # resource.aws_sqs_queue.fail_empty_kms_key...
+      running
+      # resource.aws_sqs_queue.fail_empty_kms_key...
+      pass
+      # sqs-queue-encrypted.policytest.hcl...
+      pass
+```
+
+---

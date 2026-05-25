@@ -1,18 +1,18 @@
-// Policy: CloudFront.16 - CloudFront distributions should use origin access control for Lambda function URL origins
+# Policy: CloudFront.16 - CloudFront distributions should use origin access control for Lambda function URL origins
 
 policy {}
 
 resource_policy "aws_cloudfront_distribution" "lambda_url_oac_required" {
-    // Filter to only check distributions that have origins
+    # Filter to only check distributions that have origins
     filter = attrs.origin != null && core::length(attrs.origin) > 0
 
     locals {
-        // Convert the origin collection to a list for iteration.
+        # Convert the origin collection to a list for iteration.
         origins = [for origin in attrs.origin : origin]
 
-        // Identify Lambda function URL origins by matching the Lambda URL host pattern.
-        // Lambda function URLs are custom origins and use a host like:
-        // <url-id>.lambda-url.<region>.on.aws
+        # Identify Lambda function URL origins by matching the Lambda URL host pattern.
+        # Lambda function URLs are custom origins and use a host like:
+        # <url-id>.lambda-url.<region>.on.aws
         lambda_origins = [
             for origin in local.origins :
             origin if (
@@ -33,26 +33,26 @@ resource_policy "aws_cloudfront_distribution" "lambda_url_oac_required" {
             )
         ]
 
-        // Check each Lambda origin for OAC
+        # Check each Lambda origin for OAC
         lambda_origins_without_oac = [
             for origin in local.lambda_origins :
             origin if core::try(origin.origin_access_control_id, null) == null
         ]
 
-        // Check if any Lambda origins exist
+        # Check if any Lambda origins exist
         has_lambda_origins = core::length(local.lambda_origins) > 0
 
-        // Check if all Lambda origins have OAC
+        # Check if all Lambda origins have OAC
         all_lambda_origins_have_oac = core::length(local.lambda_origins_without_oac) == 0
 
-        // Build error message with details
+        # Build error message with details
         missing_oac_origins = [
             for origin in local.lambda_origins_without_oac :
             core::try(origin.origin_id, "unknown")
         ]
     }
 
-    // Only enforce if there are Lambda function URL origins
+    # Only enforce if there are Lambda function URL origins
     enforce {
         condition = !local.has_lambda_origins || local.all_lambda_origins_have_oac
         error_message = <<-EOT

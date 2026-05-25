@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: FAIL - AWS_ACCESS_KEY_ID as plaintext (no type specified, defaults to PLAINTEXT)
+# Test 1: FAIL - AWS_ACCESS_KEY_ID as plaintext (no type specified, defaults to PLAINTEXT)
 resource "aws_codebuild_project" "fail_plaintext_access_key_no_type" {
   expect_failure = true
   attrs = {
@@ -25,7 +25,7 @@ resource "aws_codebuild_project" "fail_plaintext_access_key_no_type" {
   }
 }
 
-// Test 2: FAIL - AWS_SECRET_ACCESS_KEY as plaintext (no type specified)
+# Test 2: FAIL - AWS_SECRET_ACCESS_KEY as plaintext (no type specified)
 resource "aws_codebuild_project" "fail_plaintext_secret_key_no_type" {
   expect_failure = true
   attrs = {
@@ -46,7 +46,7 @@ resource "aws_codebuild_project" "fail_plaintext_secret_key_no_type" {
   }
 }
 
-// Test 3: FAIL - Both credentials as plaintext
+# Test 3: FAIL - Both credentials as plaintext
 resource "aws_codebuild_project" "fail_both_plaintext_credentials" {
   expect_failure = true
   attrs = {
@@ -71,7 +71,7 @@ resource "aws_codebuild_project" "fail_both_plaintext_credentials" {
   }
 }
 
-// Test 4: FAIL - AWS_ACCESS_KEY_ID explicitly set to PLAINTEXT type
+# Test 4: FAIL - AWS_ACCESS_KEY_ID explicitly set to PLAINTEXT type
 resource "aws_codebuild_project" "fail_explicit_plaintext_access_key" {
   expect_failure = true
   attrs = {
@@ -93,7 +93,7 @@ resource "aws_codebuild_project" "fail_explicit_plaintext_access_key" {
   }
 }
 
-// Test 5: PASS - AWS_ACCESS_KEY_ID stored in Parameter Store
+# Test 5: PASS - AWS_ACCESS_KEY_ID stored in Parameter Store
 resource "aws_codebuild_project" "pass_access_key_parameter_store" {
   attrs = {
     name = "test-project-5"
@@ -114,7 +114,7 @@ resource "aws_codebuild_project" "pass_access_key_parameter_store" {
   }
 }
 
-// Test 6: PASS - AWS_SECRET_ACCESS_KEY stored in Secrets Manager
+# Test 6: PASS - AWS_SECRET_ACCESS_KEY stored in Secrets Manager
 resource "aws_codebuild_project" "pass_secret_key_secrets_manager" {
   attrs = {
     name = "test-project-6"
@@ -135,7 +135,7 @@ resource "aws_codebuild_project" "pass_secret_key_secrets_manager" {
   }
 }
 
-// Test 7: PASS - Both credentials stored securely
+# Test 7: PASS - Both credentials stored securely
 resource "aws_codebuild_project" "pass_both_credentials_secure" {
   attrs = {
     name = "test-project-7"
@@ -161,7 +161,7 @@ resource "aws_codebuild_project" "pass_both_credentials_secure" {
   }
 }
 
-// Test 8: PASS - No environment variables (filtered out)
+# Test 8: PASS - No environment variables (filtered out)
 resource "aws_codebuild_project" "pass_no_environment_variables" {
   attrs = {
     name = "test-project-8"
@@ -175,7 +175,7 @@ resource "aws_codebuild_project" "pass_no_environment_variables" {
   }
 }
 
-// Test 9: PASS - Other environment variables but no AWS credentials
+# Test 9: PASS - Other environment variables but no AWS credentials
 resource "aws_codebuild_project" "pass_other_env_vars_no_credentials" {
   attrs = {
     name = "test-project-9"

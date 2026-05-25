@@ -1,16 +1,16 @@
-// Policy: CloudFront.7 - CloudFront distributions should use custom SSL/TLS certificates
+# Policy: CloudFront.7 - CloudFront distributions should use custom SSL/TLS certificates
 
 policy {}
 
 resource_policy "aws_cloudfront_distribution" "custom_ssl_required" {
   locals {
-    // Safe access to viewer_certificate block (it's a block, so needs [0] index)
+    # Safe access to viewer_certificate block (it's a block, so needs [0] index)
     viewer_cert = core::try(attrs.viewer_certificate[0], null)
     
-    // Check if using default CloudFront certificate
+    # Check if using default CloudFront certificate
     uses_default_cert = core::try(local.viewer_cert.cloudfront_default_certificate, false)
     
-    // Check if custom certificate is configured
+    # Check if custom certificate is configured
     has_acm_cert = core::try(local.viewer_cert.acm_certificate_arn, null) != null
     has_iam_cert = core::try(local.viewer_cert.iam_certificate_id, null) != null
     has_custom_cert = local.has_acm_cert || local.has_iam_cert

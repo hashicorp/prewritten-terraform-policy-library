@@ -1,4 +1,4 @@
-// Policy : CloudFront.9 - CloudFront distributions should encrypt traffic to custom origins
+# Policy : CloudFront.9 - CloudFront distributions should encrypt traffic to custom origins
 
 policy {}
 
@@ -25,7 +25,7 @@ resource_policy "aws_cloudfront_distribution" "encrypt_custom_origins" {
 
     all_viewer_policies = core::concat([local.default_viewer_policy], local.ordered_viewer_policies)
 
-    // True if any cache behavior (default or ordered) allows unencrypted viewer traffic
+    # True if any cache behavior (default or ordered) allows unencrypted viewer traffic
     any_behavior_allow_all = core::length([
       for p in local.all_viewer_policies : p if p == "allow-all"
     ]) > 0

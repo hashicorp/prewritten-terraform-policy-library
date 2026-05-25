@@ -1,4 +1,4 @@
-// Policy : CodeBuild.4 - CodeBuild project environments should have a logging AWS Configuration
+# Policy : CodeBuild.4 - CodeBuild project environments should have a logging AWS Configuration
 policy {}
 
 resource_policy "aws_codebuild_project" "logging_configuration" {

@@ -3,7 +3,11 @@ policytest {
     "elb-acm-certificate-required.policy.hcl"
   ]
 }
+<<<<<<< HEAD
 // PASS: HTTPS listener with ACM certificate
+=======
+# PASS: HTTPS listener with ACM certificate
+>>>>>>> origin/main
 resource "aws_elb" "pass_https_with_acm" {
   attrs = {
     name = "test-elb-https-acm"
@@ -19,7 +23,11 @@ resource "aws_elb" "pass_https_with_acm" {
   }
 }
 
+<<<<<<< HEAD
 // PASS: SSL listener with ACM certificate
+=======
+# PASS: SSL listener with ACM certificate
+>>>>>>> origin/main
 resource "aws_elb" "pass_ssl_with_acm" {
   attrs = {
     name = "test-elb-ssl-acm"
@@ -35,7 +43,11 @@ resource "aws_elb" "pass_ssl_with_acm" {
   }
 }
 
+<<<<<<< HEAD
 // PASS: Multiple HTTPS/SSL listeners all with certificates
+=======
+# PASS: Multiple HTTPS/SSL listeners all with certificates
+>>>>>>> origin/main
 resource "aws_elb" "pass_multiple_listeners_all_certs" {
   attrs = {
     name = "test-elb-multi-certs"
@@ -58,7 +70,11 @@ resource "aws_elb" "pass_multiple_listeners_all_certs" {
   }
 }
 
+<<<<<<< HEAD
 // PASS: HTTP listener only (not applicable)
+=======
+# PASS: HTTP listener only (not applicable)
+>>>>>>> origin/main
 resource "aws_elb" "pass_http_only" {
   attrs = {
     name = "test-elb-http-only"
@@ -73,7 +89,11 @@ resource "aws_elb" "pass_http_only" {
   }
 }
 
+<<<<<<< HEAD
 // PASS: TCP listener only (not applicable)
+=======
+# PASS: TCP listener only (not applicable)
+>>>>>>> origin/main
 resource "aws_elb" "pass_tcp_only" {
   attrs = {
     name = "test-elb-tcp-only"
@@ -88,7 +108,11 @@ resource "aws_elb" "pass_tcp_only" {
   }
 }
 
+<<<<<<< HEAD
 // FAIL: IAM certificate is not ACM-backed
+=======
+# FAIL: IAM certificate is not ACM-backed
+>>>>>>> origin/main
 resource "aws_elb" "fail_https_with_iam" {
   expect_failure = true
   attrs = {
@@ -105,7 +129,11 @@ resource "aws_elb" "fail_https_with_iam" {
   }
 }
 
+<<<<<<< HEAD
 // FAIL: HTTPS listener without ssl_certificate_id
+=======
+# FAIL: HTTPS listener without ssl_certificate_id
+>>>>>>> origin/main
 resource "aws_elb" "fail_https_no_cert" {
   expect_failure = true
   attrs = {
@@ -121,7 +149,11 @@ resource "aws_elb" "fail_https_no_cert" {
   }
 }
 
+<<<<<<< HEAD
 // FAIL: SSL listener without ssl_certificate_id
+=======
+# FAIL: SSL listener without ssl_certificate_id
+>>>>>>> origin/main
 resource "aws_elb" "fail_ssl_no_cert" {
   expect_failure = true
   attrs = {
@@ -137,7 +169,11 @@ resource "aws_elb" "fail_ssl_no_cert" {
   }
 }
 
+<<<<<<< HEAD
 // FAIL: Mixed listeners - one with cert, one without
+=======
+# FAIL: Mixed listeners - one with cert, one without
+>>>>>>> origin/main
 resource "aws_elb" "fail_mixed_cert_no_cert" {
   expect_failure = true
   attrs = {

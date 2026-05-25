@@ -1,0 +1,53 @@
+# Macie automated sensitive data discovery should be enabled
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Detection services |
+
+## Description
+
+This control checks whether automated sensitive data discovery is enabled for an Amazon Macie administrator account. The control fails if automated sensitive data discovery isn't enabled for a Macie administrator account. This control applies only to administrator accounts.
+
+Macie automates discovery and reporting of sensitive data, such as personally identifiable information (PII), in Amazon Simple Storage Service (Amazon S3) buckets. With automated sensitive data discovery, Macie continually evaluates your bucket inventory and uses sampling techniques to identify and select representative S3 objects from your buckets. Macie then analyzes the selected objects, inspecting them for sensitive data. As the analyses progress, Macie updates statistics, inventory data, and other information that it provides about your S3 data. Macie also generates findings to report sensitive data that it finds.
+
+This rule is covered by the [macie-auto-sensitive-data-discovery-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/macie/macie-auto-sensitive-data-discovery-check.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # macie-auto-sensitive-data-discovery-check.policytest.hcl...
+      running
+      # resource.aws_macie2_account.pass_macie_enabled_with_frequency...
+      running
+      # resource.aws_macie2_account.pass_macie_enabled_with_frequency...
+      pass
+      # resource.aws_macie2_account.fail_macie_enabled_no_frequency...
+      running
+      # resource.aws_macie2_account.fail_macie_enabled_no_frequency...
+      pass
+      # resource.aws_macie2_account.fail_macie_paused...
+      running
+      # resource.aws_macie2_account.fail_macie_paused...
+      pass
+      # resource.aws_macie2_account.filtered_no_status...
+      running
+      # resource.aws_macie2_account.filtered_no_status...
+      pass
+      # resource.aws_macie2_account.fail_invalid_status...
+      running
+      # resource.aws_macie2_account.fail_invalid_status...
+      pass
+      # resource.aws_macie2_account.pass_macie_enabled_one_hour...
+      running
+      # resource.aws_macie2_account.pass_macie_enabled_one_hour...
+      pass
+      # resource.aws_macie2_account.pass_macie_enabled_six_hours...
+      running
+      # resource.aws_macie2_account.pass_macie_enabled_six_hours...
+      pass
+      # macie-auto-sensitive-data-discovery-check.policytest.hcl...
+      pass
+```
+
+---

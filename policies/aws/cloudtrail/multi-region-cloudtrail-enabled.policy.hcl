@@ -1,4 +1,4 @@
-// CloudTrail.1: CloudTrail should be enabled and configured with at least one multi-Region trail
+# CloudTrail.1: CloudTrail should be enabled and configured with at least one multi-Region trail
 
 policy {}
 

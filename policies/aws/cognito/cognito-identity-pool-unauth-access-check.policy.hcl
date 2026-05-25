@@ -1,4 +1,4 @@
-// Policy : Cognito.2 - Cognito identity pools should not allow unauthenticated identities
+# Policy : Cognito.2 - Cognito identity pools should not allow unauthenticated identities
 
 policy {}
 

@@ -4,9 +4,9 @@ policytest {
   ]
 }
 
-// ============================================================================
-// Test 0: CloudFront distribution with non-Lambda custom origin (PASS)
-// ============================================================================
+# ============================================================================
+# Test 0: CloudFront distribution with non-Lambda custom origin (PASS)
+# ============================================================================
 resource "aws_cloudfront_distribution" "non_lambda_custom_origin_pass" {
   attrs = {
     enabled = true
@@ -32,9 +32,9 @@ resource "aws_cloudfront_distribution" "non_lambda_custom_origin_pass" {
     ]
   }
 }
-// ============================================================================
-// Test 1: CloudFront distribution with Lambda origin + OAC (PASS)
-// ============================================================================
+# ============================================================================
+# Test 1: CloudFront distribution with Lambda origin + OAC (PASS)
+# ============================================================================
 resource "aws_cloudfront_distribution" "lambda_with_oac_pass" {
   attrs = {
     enabled = true
@@ -62,9 +62,9 @@ resource "aws_cloudfront_distribution" "lambda_with_oac_pass" {
   }
 }
 
-// ============================================================================
-// Test 2: CloudFront distribution with Lambda origin WITHOUT OAC (FAIL)
-// ============================================================================
+# ============================================================================
+# Test 2: CloudFront distribution with Lambda origin WITHOUT OAC (FAIL)
+# ============================================================================
 resource "aws_cloudfront_distribution" "lambda_without_oac_fail" {
   expect_failure = true
   attrs = {
@@ -93,9 +93,9 @@ resource "aws_cloudfront_distribution" "lambda_without_oac_fail" {
   }
 }
 
-// ============================================================================
-// Test 3: CloudFront distribution with multiple origins, all Lambda with OAC (PASS)
-// ============================================================================
+# ============================================================================
+# Test 3: CloudFront distribution with multiple origins, all Lambda with OAC (PASS)
+# ============================================================================
 resource "aws_cloudfront_distribution" "multiple_lambda_with_oac_pass" {
   attrs = {
     enabled = true
@@ -136,9 +136,9 @@ resource "aws_cloudfront_distribution" "multiple_lambda_with_oac_pass" {
   }
 }
 
-// ============================================================================
-// Test 4: CloudFront distribution with multiple Lambda origins, one missing OAC (FAIL)
-// ============================================================================
+# ============================================================================
+# Test 4: CloudFront distribution with multiple Lambda origins, one missing OAC (FAIL)
+# ============================================================================
 resource "aws_cloudfront_distribution" "multiple_lambda_one_missing_oac_fail" {
   expect_failure = true
   attrs = {
@@ -180,9 +180,9 @@ resource "aws_cloudfront_distribution" "multiple_lambda_one_missing_oac_fail" {
   }
 }
 
-// ============================================================================
-// Test 5: CloudFront distribution with only S3 origins (PASS - not applicable)
-// ============================================================================
+# ============================================================================
+# Test 5: CloudFront distribution with only S3 origins (PASS - not applicable)
+# ============================================================================
 resource "aws_cloudfront_distribution" "s3_only_pass" {
   attrs = {
     enabled = true
@@ -207,9 +207,9 @@ resource "aws_cloudfront_distribution" "s3_only_pass" {
   }
 }
 
-// ============================================================================
-// Test 6: CloudFront distribution with no origins (PASS - filtered out)
-// ============================================================================
+# ============================================================================
+# Test 6: CloudFront distribution with no origins (PASS - filtered out)
+# ============================================================================
 resource "aws_cloudfront_distribution" "no_origins_pass" {
   attrs = {
     enabled = true
@@ -223,9 +223,9 @@ resource "aws_cloudfront_distribution" "no_origins_pass" {
   }
 }
 
-// ============================================================================
-// Test 7: CloudFront distribution with mixed origins (S3 + Lambda with OAC) (PASS)
-// ============================================================================
+# ============================================================================
+# Test 7: CloudFront distribution with mixed origins (S3 + Lambda with OAC) (PASS)
+# ============================================================================
 resource "aws_cloudfront_distribution" "mixed_origins_pass" {
   attrs = {
     enabled = true

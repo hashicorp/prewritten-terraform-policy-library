@@ -116,8 +116,8 @@ resource "aws_cloudfront_distribution" "match_viewer_allow_all_fails" {
   }
 }
 
-// FAIL: default cache behavior is safe (https-only) but an ordered cache
-// behavior overrides it with allow-all, paired with a match-viewer origin.
+# FAIL: default cache behavior is safe (https-only) but an ordered cache
+# behavior overrides it with allow-all, paired with a match-viewer origin.
 resource "aws_cloudfront_distribution" "ordered_behavior_allow_all_fails" {
   expect_failure = true
 
@@ -154,7 +154,7 @@ resource "aws_cloudfront_distribution" "ordered_behavior_allow_all_fails" {
   }
 }
 
-// PASS: ordered cache behaviors all use safe policies alongside match-viewer origin.
+# PASS: ordered cache behaviors all use safe policies alongside match-viewer origin.
 resource "aws_cloudfront_distribution" "ordered_behavior_safe_passes" {
   attrs = {
     comment = "ordered-safe"

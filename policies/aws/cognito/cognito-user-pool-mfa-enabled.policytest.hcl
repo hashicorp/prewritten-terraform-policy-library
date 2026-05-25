@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: PASS - Password sign-in with MFA ON and SMS configuration
+# Test 1: PASS - Password sign-in with MFA ON and SMS configuration
 resource "aws_cognito_user_pool" "pass_mfa_on_sms" {
   attrs = {
     name = "test-pool-mfa-on-sms"
@@ -19,7 +19,7 @@ resource "aws_cognito_user_pool" "pass_mfa_on_sms" {
   }
 }
 
-// Test 2: PASS - Password sign-in with MFA OPTIONAL and software token configuration
+# Test 2: PASS - Password sign-in with MFA OPTIONAL and software token configuration
 resource "aws_cognito_user_pool" "pass_mfa_optional_software_token" {
   attrs = {
     name = "test-pool-mfa-optional-totp"
@@ -33,7 +33,7 @@ resource "aws_cognito_user_pool" "pass_mfa_optional_software_token" {
   }
 }
 
-// Test 3: PASS - Password sign-in with MFA ON and email MFA configuration
+# Test 3: PASS - Password sign-in with MFA ON and email MFA configuration
 resource "aws_cognito_user_pool" "pass_mfa_on_email" {
   attrs = {
     name = "test-pool-mfa-on-email"
@@ -48,7 +48,7 @@ resource "aws_cognito_user_pool" "pass_mfa_on_email" {
   }
 }
 
-// Test 4: PASS - No password in allowed_first_auth_factors (policy not applicable)
+# Test 4: PASS - No password in allowed_first_auth_factors (policy not applicable)
 resource "aws_cognito_user_pool" "pass_no_password_auth" {
   attrs = {
     name = "test-pool-no-password"
@@ -59,7 +59,7 @@ resource "aws_cognito_user_pool" "pass_no_password_auth" {
   }
 }
 
-// Test 5: PASS - Multiple auth factors including password, MFA enabled
+# Test 5: PASS - Multiple auth factors including password, MFA enabled
 resource "aws_cognito_user_pool" "pass_multiple_auth_mfa_on" {
   attrs = {
     name = "test-pool-multiple-auth"
@@ -73,7 +73,7 @@ resource "aws_cognito_user_pool" "pass_multiple_auth_mfa_on" {
   }
 }
 
-// Test 6: FAIL - Password sign-in with MFA OFF
+# Test 6: FAIL - Password sign-in with MFA OFF
 resource "aws_cognito_user_pool" "fail_mfa_off" {
   expect_failure = true
   attrs = {
@@ -85,7 +85,7 @@ resource "aws_cognito_user_pool" "fail_mfa_off" {
   }
 }
 
-// Test 7: FAIL - Password sign-in with MFA ON but no MFA method configured
+# Test 7: FAIL - Password sign-in with MFA ON but no MFA method configured
 resource "aws_cognito_user_pool" "fail_mfa_on_no_method" {
   expect_failure = true
   attrs = {
@@ -97,7 +97,7 @@ resource "aws_cognito_user_pool" "fail_mfa_on_no_method" {
   }
 }
 
-// Test 8: FAIL - Password sign-in with MFA not specified (defaults to OFF)
+# Test 8: FAIL - Password sign-in with MFA not specified (defaults to OFF)
 resource "aws_cognito_user_pool" "fail_mfa_not_specified" {
   expect_failure = true
   attrs = {
@@ -108,7 +108,7 @@ resource "aws_cognito_user_pool" "fail_mfa_not_specified" {
   }
 }
 
-// Test 9: FAIL - Password sign-in with MFA OPTIONAL but no MFA method configured
+# Test 9: FAIL - Password sign-in with MFA OPTIONAL but no MFA method configured
 resource "aws_cognito_user_pool" "fail_mfa_optional_no_method" {
   expect_failure = true
   attrs = {

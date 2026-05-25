@@ -1,0 +1,53 @@
+# SageMaker models should use private registry in VPC for primary containers
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Resources within VPC |
+
+## Description
+
+This control checks whether an Amazon SageMaker AI model pulls container image from a private registry in a VPC for the primary container. The control fails if the image is not configured or repository access mode is Platform.
+
+Using a private Docker registry in a VPC for SageMaker model containers ensures container images are pulled from trusted, controlled sources within your VPC. Also, it ensures container images are accessed through VPC endpoints, without traversing the public internet.
+
+This rule is covered by the [sagemaker-model-private-registry-required](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-model-private-registry-required.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # sagemaker-model-private-registry-required.policytest.hcl...
+      running
+      # resource.aws_sagemaker_model.pass_vpc_with_auth...
+      running
+      # resource.aws_sagemaker_model.pass_vpc_with_auth...
+      pass
+      # resource.aws_sagemaker_model.pass_vpc_no_auth...
+      running
+      # resource.aws_sagemaker_model.pass_vpc_no_auth...
+      pass
+      # resource.aws_sagemaker_model.fail_no_image_config...
+      running
+      # resource.aws_sagemaker_model.fail_no_image_config...
+      pass
+      # resource.aws_sagemaker_model.fail_platform_mode...
+      running
+      # resource.aws_sagemaker_model.fail_platform_mode...
+      pass
+      # resource.aws_sagemaker_model.fail_empty_mode...
+      running
+      # resource.aws_sagemaker_model.fail_empty_mode...
+      pass
+      # resource.aws_sagemaker_model.fail_incomplete_auth...
+      running
+      # resource.aws_sagemaker_model.fail_incomplete_auth...
+      pass
+      # resource.aws_sagemaker_model.skip_no_primary_container...
+      running
+      # resource.aws_sagemaker_model.skip_no_primary_container...
+      pass
+      # sagemaker-model-private-registry-required.policytest.hcl...
+      pass
+```
+
+---

@@ -1,4 +1,4 @@
-// Policy : Cognito.4 - Cognito user pools should have threat protection activated with full function enforcement mode for custom authentication
+# Policy : Cognito.4 - Cognito user pools should have threat protection activated with full function enforcement mode for custom authentication
 
 policy {}
 

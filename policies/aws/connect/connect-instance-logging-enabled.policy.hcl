@@ -1,10 +1,10 @@
-// Policy: Connect.2 - Amazon Connect instances should have CloudWatch logging enabled
+# Policy: Connect.2 - Amazon Connect instances should have CloudWatch logging enabled
 
 policy {}
 
 resource_policy "aws_connect_instance" "cloudwatch_logging_enabled" {
     locals {
-        // Safely access the contact_flow_logs_enabled attribute with default false
+        # Safely access the contact_flow_logs_enabled attribute with default false
         contact_flow_logs_enabled = core::try(attrs.contact_flow_logs_enabled, false)
     }
 

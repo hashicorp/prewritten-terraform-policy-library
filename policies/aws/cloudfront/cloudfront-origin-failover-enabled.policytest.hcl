@@ -2,7 +2,7 @@ policytest {
   targets = ["cloudfront-origin-failover-enabled.policy.hcl"]
 }
 
-// Test 1: PASS - Properly configured origin group with two members and cache behavior referencing it
+# Test 1: PASS - Properly configured origin group with two members and cache behavior referencing it
 resource "aws_cloudfront_distribution" "pass_complete_configuration" {
   attrs = {
     enabled = true
@@ -45,7 +45,7 @@ resource "aws_cloudfront_distribution" "pass_complete_configuration" {
   }
 }
 
-// Test 2: FAIL - No origin_group configured
+# Test 2: FAIL - No origin_group configured
 resource "aws_cloudfront_distribution" "fail_no_origin_group" {
   expect_failure = true
   attrs = {
@@ -67,7 +67,7 @@ resource "aws_cloudfront_distribution" "fail_no_origin_group" {
   }
 }
 
-// Test 3: FAIL - Origin group with only one member
+# Test 3: FAIL - Origin group with only one member
 resource "aws_cloudfront_distribution" "fail_single_member" {
   expect_failure = true
   attrs = {
@@ -104,7 +104,7 @@ resource "aws_cloudfront_distribution" "fail_single_member" {
   }
 }
 
-// Test 4: FAIL - Origin group without failover_criteria
+# Test 4: FAIL - Origin group without failover_criteria
 resource "aws_cloudfront_distribution" "fail_no_failover_criteria" {
   expect_failure = true
   attrs = {
@@ -143,7 +143,7 @@ resource "aws_cloudfront_distribution" "fail_no_failover_criteria" {
   }
 }
 
-// Test 5: FAIL - Failover criteria without status_codes
+# Test 5: FAIL - Failover criteria without status_codes
 resource "aws_cloudfront_distribution" "fail_no_status_codes" {
   expect_failure = true
   attrs = {
@@ -187,7 +187,7 @@ resource "aws_cloudfront_distribution" "fail_no_status_codes" {
   }
 }
 
-// Test 6: FAIL - Cache behavior references individual origin instead of origin_group
+# Test 6: FAIL - Cache behavior references individual origin instead of origin_group
 resource "aws_cloudfront_distribution" "fail_cache_behavior_wrong_target" {
   expect_failure = true
   attrs = {
@@ -231,7 +231,7 @@ resource "aws_cloudfront_distribution" "fail_cache_behavior_wrong_target" {
   }
 }
 
-// Test 7: PASS - Multiple origin groups with ordered cache behavior
+# Test 7: PASS - Multiple origin groups with ordered cache behavior
 resource "aws_cloudfront_distribution" "pass_multiple_groups_ordered_behavior" {
   attrs = {
     enabled = true
@@ -307,7 +307,7 @@ resource "aws_cloudfront_distribution" "pass_multiple_groups_ordered_behavior" {
   }
 }
 
-// Test 8: PASS - Origin group with three members (exceeds minimum requirement)
+# Test 8: PASS - Origin group with three members (exceeds minimum requirement)
 resource "aws_cloudfront_distribution" "pass_three_members" {
   attrs = {
     enabled = true
@@ -357,7 +357,7 @@ resource "aws_cloudfront_distribution" "pass_three_members" {
   }
 }
 
-// Test 9: FAIL - Origin group with empty origin_id
+# Test 9: FAIL - Origin group with empty origin_id
 resource "aws_cloudfront_distribution" "fail_empty_origin_id" {
   expect_failure = true
   attrs = {
@@ -401,7 +401,7 @@ resource "aws_cloudfront_distribution" "fail_empty_origin_id" {
   }
 }
 
-// Test 10: Filtered out - Distribution with null enabled attribute
+# Test 10: Filtered out - Distribution with null enabled attribute
 resource "aws_cloudfront_distribution" "filtered_null_enabled" {
   attrs = {
     enabled = null

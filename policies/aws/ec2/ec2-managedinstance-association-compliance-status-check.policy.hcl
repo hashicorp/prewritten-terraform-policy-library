@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 // Policy: SSM.3 - Amazon EC2 instances managed by Systems Manager should have an association compliance status of COMPLIANT
+=======
+# Policy: SSM.3 - Amazon EC2 instances managed by Systems Manager should have an association compliance status of COMPLIANT
+>>>>>>> origin/main
 
 policy {}
 
 resource_policy "aws_ssm_association" "association_compliance_check" {
     locals {
+<<<<<<< HEAD
         // Check if document name is specified (required)
         has_document = core::try(attrs.name, "") != ""
         
@@ -15,47 +20,85 @@ resource_policy "aws_ssm_association" "association_compliance_check" {
         has_compliance_severity = core::try(attrs.compliance_severity, "") != ""
         
         // Valid compliance severity values
+=======
+        # Check if document name is specified (required)
+        has_document = core::try(attrs.name, "") != ""
+        
+        # Check if targets are defined (required for association to work)
+        targets_value = core::try(attrs.targets, [])
+        has_targets = core::length(local.targets_value) > 0
+        
+        # Check if compliance severity is set (recommended for better compliance tracking)
+        has_compliance_severity = core::try(attrs.compliance_severity, "") != ""
+        
+        # Valid compliance severity values
+>>>>>>> origin/main
         valid_severities = ["UNSPECIFIED", "LOW", "MEDIUM", "HIGH", "CRITICAL"]
         compliance_severity_value = core::try(attrs.compliance_severity, "UNSPECIFIED")
         is_valid_severity = core::contains(local.valid_severities, local.compliance_severity_value)
         
+<<<<<<< HEAD
         // Check if sync_compliance is configured (recommended for automatic compliance updates)
+=======
+        # Check if sync_compliance is configured (recommended for automatic compliance updates)
+>>>>>>> origin/main
         sync_compliance_value = core::try(attrs.sync_compliance, "")
         has_sync_compliance = local.sync_compliance_value != ""
         is_auto_sync = local.sync_compliance_value == "AUTO"
     }
 
+<<<<<<< HEAD
     // Enforce: Association must have a valid SSM document name
+=======
+    # Enforce: Association must have a valid SSM document name
+>>>>>>> origin/main
     enforce {
         condition = local.has_document
         error_message = "SSM Association must specify a valid SSM document name. The 'name' attribute is required for the association to execute and achieve COMPLIANT status. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-3 for more details."
     }
 
+<<<<<<< HEAD
     // Enforce: Association must have targets defined
+=======
+    # Enforce: Association must have targets defined
+>>>>>>> origin/main
     enforce {
         condition = local.has_targets
         error_message = "SSM Association must have targets defined. Without targets, the association cannot run on any instances and will not have a compliance status. Define targets using instance IDs or tags. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-3 for more details."
     }
 
+<<<<<<< HEAD
     // Enforce: If compliance_severity is set, it must be a valid value
+=======
+    # Enforce: If compliance_severity is set, it must be a valid value
+>>>>>>> origin/main
     enforce {
         condition = !local.has_compliance_severity || local.is_valid_severity
         error_message = "SSM Association has invalid compliance_severity '${local.compliance_severity_value}'. Valid values are: ${core::join(", ", local.valid_severities)}. Proper severity classification helps with compliance tracking and reporting. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-3 for more details."
     }
 
+<<<<<<< HEAD
     // Advisory: Recommend setting compliance_severity for better tracking
+=======
+    # Advisory: Recommend setting compliance_severity for better tracking
+>>>>>>> origin/main
     enforce {
         condition = local.has_compliance_severity
         error_message = "SSM Association should specify a compliance_severity (LOW, MEDIUM, HIGH, or CRITICAL) for better compliance tracking and alignment with AWS Security Hub severity levels. This control has severity: Low. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-3 for more details."
     }
 
+<<<<<<< HEAD
     // Advisory: Recommend AUTO sync_compliance for automatic status updates
+=======
+    # Advisory: Recommend AUTO sync_compliance for automatic status updates
+>>>>>>> origin/main
     enforce {
         condition = local.has_sync_compliance && local.is_auto_sync
         error_message = "SSM Association should set sync_compliance to 'AUTO' for automatic compliance status updates. This ensures the compliance status is kept current after each association execution, which is essential for meeting the SSM.3 control requirement. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-3 for more details."
     }
 }
 
+<<<<<<< HEAD
 // Policy for EC2 instances to ensure they can be managed by Systems Manager
 // This is a prerequisite for association compliance - instances must be SSM-managed
 resource_policy "aws_instance" "ssm_managed_prerequisite" {
@@ -64,18 +107,36 @@ resource_policy "aws_instance" "ssm_managed_prerequisite" {
         has_iam_profile = core::try(attrs.iam_instance_profile, "") != ""
         
         // Check if user_data might install SSM agent (heuristic check)
+=======
+# Policy for EC2 instances to ensure they can be managed by Systems Manager
+# This is a prerequisite for association compliance - instances must be SSM-managed
+resource_policy "aws_instance" "ssm_managed_prerequisite" {
+    locals {
+        # Check if instance has IAM instance profile (required for SSM management)
+        has_iam_profile = core::try(attrs.iam_instance_profile != "", false)
+
+        # Check if user_data might install SSM agent (heuristic check)
+>>>>>>> origin/main
         user_data = core::try(attrs.user_data, "")
         user_data_base64 = core::try(attrs.user_data_base64, "")
         has_user_data = local.user_data != "" || local.user_data_base64 != ""
     }
 
+<<<<<<< HEAD
     // Enforce: Instance must have IAM instance profile for SSM management
+=======
+    # Enforce: Instance must have IAM instance profile for SSM management
+>>>>>>> origin/main
     enforce {
         condition = local.has_iam_profile
         error_message = "EC2 Instance must have an IAM instance profile attached to be managed by AWS Systems Manager. Without proper IAM permissions, the instance cannot be managed by Systems Manager and cannot have association compliance status. Attach an instance profile with the AmazonSSMManagedInstanceCore policy or equivalent permissions. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-3 for more details."
     }
 
+<<<<<<< HEAD
     // Advisory: Recommend user_data for SSM agent installation
+=======
+    # Advisory: Recommend user_data for SSM agent installation
+>>>>>>> origin/main
     enforce {
         condition = local.has_user_data
         error_message = "EC2 Instance should include user_data to ensure SSM agent is installed and running. While some AMIs include the SSM agent by default, explicitly installing it in user_data ensures the instance can be managed by Systems Manager. This is a prerequisite for association compliance status. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-3 for more details."

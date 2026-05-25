@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: PASS - Neptune endpoint with valid IAM role ARN
+# Test 1: PASS - Neptune endpoint with valid IAM role ARN
 resource "aws_dms_endpoint" "neptune_compliant" {
   attrs = {
     endpoint_id          = "neptune-endpoint-compliant"
@@ -17,7 +17,7 @@ resource "aws_dms_endpoint" "neptune_compliant" {
   }
 }
 
-// Test 2: FAIL - Neptune endpoint without service_access_role (null)
+# Test 2: FAIL - Neptune endpoint without service_access_role (null)
 resource "aws_dms_endpoint" "neptune_no_iam" {
   expect_failure = true
   attrs = {
@@ -29,7 +29,7 @@ resource "aws_dms_endpoint" "neptune_no_iam" {
   }
 }
 
-// Test 3: FAIL - Neptune endpoint with empty service_access_role
+# Test 3: FAIL - Neptune endpoint with empty service_access_role
 resource "aws_dms_endpoint" "neptune_empty_role" {
   expect_failure = true
   attrs = {
@@ -42,8 +42,8 @@ resource "aws_dms_endpoint" "neptune_empty_role" {
   }
 }
 
-// Test 4: PASS - Neptune endpoint with any non-empty service_access_role
-// Note: Policy validates presence, not ARN format
+# Test 4: PASS - Neptune endpoint with any non-empty service_access_role
+# Note: Policy validates presence, not ARN format
 resource "aws_dms_endpoint" "neptune_any_role" {
   attrs = {
     endpoint_id          = "neptune-endpoint-any-role"
@@ -55,7 +55,7 @@ resource "aws_dms_endpoint" "neptune_any_role" {
   }
 }
 
-// Test 5: PASS (filtered out) - Non-Neptune endpoint (MySQL)
+# Test 5: PASS (filtered out) - Non-Neptune endpoint (MySQL)
 resource "aws_dms_endpoint" "mysql_endpoint" {
   attrs = {
     endpoint_id   = "mysql-endpoint"
@@ -67,7 +67,7 @@ resource "aws_dms_endpoint" "mysql_endpoint" {
   }
 }
 
-// Test 6: PASS - Neptune endpoint with long valid IAM role ARN
+# Test 6: PASS - Neptune endpoint with long valid IAM role ARN
 resource "aws_dms_endpoint" "neptune_long_arn" {
   attrs = {
     endpoint_id          = "neptune-endpoint-long-arn"

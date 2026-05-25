@@ -1,4 +1,4 @@
-// Policy: DocumentDB.6 - Amazon DocumentDB clusters should be encrypted in transit
+# Policy: DocumentDB.6 - Amazon DocumentDB clusters should be encrypted in transit
 
 policy {}
 

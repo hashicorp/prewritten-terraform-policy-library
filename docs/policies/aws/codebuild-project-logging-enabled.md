@@ -1,0 +1,53 @@
+# CodeBuild project environments should have a logging AWS Configuration
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Logging |
+
+## Description
+
+This control checks whether a CodeBuild project environment has at least one log option, either to S3 or CloudWatch logs enabled. This control fails if a CodeBuild project environment does not have at least one log option enabled.
+
+From a security perspective, logging is an important feature to enable for future forensics efforts in the case of any security incidents. Correlating anomalies in CodeBuild projects with threat detections can increase confidence in the accuracy of those threat detections.
+
+This rule is covered by the [codebuild-project-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/codebuild/codebuild-project-logging-enabled.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # codebuild-project-logging-enabled.policytest.hcl...
+      running
+      # resource.aws_codebuild_project.pass_cloudwatch_explicitly_enabled...
+      running
+      # resource.aws_codebuild_project.pass_cloudwatch_explicitly_enabled...
+      pass
+      # resource.aws_codebuild_project.pass_s3_explicitly_enabled...
+      running
+      # resource.aws_codebuild_project.pass_s3_explicitly_enabled...
+      pass
+      # resource.aws_codebuild_project.pass_both_enabled...
+      running
+      # resource.aws_codebuild_project.pass_both_enabled...
+      pass
+      # resource.aws_codebuild_project.pass_no_logs_config_cloudwatch_default...
+      running
+      # resource.aws_codebuild_project.pass_no_logs_config_cloudwatch_default...
+      pass
+      # resource.aws_codebuild_project.pass_empty_logs_config...
+      running
+      # resource.aws_codebuild_project.pass_empty_logs_config...
+      pass
+      # resource.aws_codebuild_project.fail_both_disabled...
+      running
+      # resource.aws_codebuild_project.fail_both_disabled...
+      pass
+      # resource.aws_codebuild_project.fail_cloudwatch_disabled_s3_not_configured...
+      running
+      # resource.aws_codebuild_project.fail_cloudwatch_disabled_s3_not_configured...
+      pass
+      # codebuild-project-logging-enabled.policytest.hcl...
+      pass
+```
+
+---

@@ -1,16 +1,16 @@
-// Policy: DynamoDB.2 - Point-in-time recovery enabled
+# Policy: DynamoDB.2 - Point-in-time recovery enabled
 
 policy {}
 
 resource_policy "aws_dynamodb_table" "pitr_enabled" {
   locals {
-    // Safely extract the point_in_time_recovery configuration
+    # Safely extract the point_in_time_recovery configuration
     pitr_config = core::try(attrs.point_in_time_recovery, [])
     
-    // Check if PITR block exists and has content
+    # Check if PITR block exists and has content
     has_pitr_block = core::length(local.pitr_config) > 0
     
-    // Extract enabled status (default to false if not specified)
+    # Extract enabled status (default to false if not specified)
     pitr_enabled = local.has_pitr_block ? core::try(local.pitr_config[0].enabled, false) : false
   }
 

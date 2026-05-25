@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: Pass - CloudFront distribution with WAFv2 web ACL ARN configured
+# Test 1: Pass - CloudFront distribution with WAFv2 web ACL ARN configured
 resource "aws_cloudfront_distribution" "pass_with_wafv2_acl" {
   attrs = {
     web_acl_id = "arn:aws:wafv2:us-east-1:123456789012:global/webacl/example/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111"
@@ -36,7 +36,7 @@ resource "aws_cloudfront_distribution" "pass_with_wafv2_acl" {
   }
 }
 
-// Test 2: Pass - CloudFront distribution with WAF Classic web ACL ID configured
+# Test 2: Pass - CloudFront distribution with WAF Classic web ACL ID configured
 resource "aws_cloudfront_distribution" "pass_with_waf_classic_acl" {
   attrs = {
     web_acl_id = "a1b2c3d4-5678-90ab-cdef-EXAMPLE11111"
@@ -68,7 +68,7 @@ resource "aws_cloudfront_distribution" "pass_with_waf_classic_acl" {
   }
 }
 
-// Test 3: Fail - CloudFront distribution without web_acl_id configured
+# Test 3: Fail - CloudFront distribution without web_acl_id configured
 resource "aws_cloudfront_distribution" "fail_without_web_acl_id" {
   expect_failure = true
   attrs = {
@@ -100,7 +100,7 @@ resource "aws_cloudfront_distribution" "fail_without_web_acl_id" {
   }
 }
 
-// Test 4: Fail - CloudFront distribution with empty web_acl_id
+# Test 4: Fail - CloudFront distribution with empty web_acl_id
 resource "aws_cloudfront_distribution" "fail_with_empty_web_acl_id" {
   expect_failure = true
   attrs = {

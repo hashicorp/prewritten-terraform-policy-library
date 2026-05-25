@@ -1,11 +1,11 @@
-// Policy: DMS.1 - Database Migration Service replication instances should not be public
+# Policy: DMS.1 - Database Migration Service replication instances should not be public
 
 policy {}
 
 resource_policy "aws_dms_replication_instance" "not_public" {
     locals {
-        // Safe access to publicly_accessible attribute with default false
-        // (AWS provider default is false when not specified)
+        # Safe access to publicly_accessible attribute with default false
+        # (AWS provider default is false when not specified)
         publicly_accessible = core::try(attrs.publicly_accessible, false)
     }
 

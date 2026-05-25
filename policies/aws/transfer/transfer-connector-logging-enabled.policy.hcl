@@ -1,13 +1,24 @@
+<<<<<<< HEAD
 // Policy: Transfer.3 - Transfer Family connectors should have logging enabled
+=======
+# Policy: Transfer.3 - Transfer Family connectors should have logging enabled
+>>>>>>> origin/main
 
 policy {}
 
 resource_policy "aws_transfer_connector" "logging_enabled" {
     locals {
+<<<<<<< HEAD
         // Safe access to logging_role attribute with null fallback
         logging_role = core::try(attrs.logging_role, null)
         
         // Check if logging_role is configured (not null and not empty string)
+=======
+        # Safe access to logging_role attribute with null fallback
+        logging_role = core::try(attrs.logging_role, null)
+        
+        # Check if logging_role is configured (not null and not empty string)
+>>>>>>> origin/main
         has_logging_role = local.logging_role != null && local.logging_role != ""
     }
 

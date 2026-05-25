@@ -1,10 +1,10 @@
-// Policy: DMS.6 - DMS replication instances should have automatic minor version upgrade enabled
+# Policy: DMS.6 - DMS replication instances should have automatic minor version upgrade enabled
 
 policy {}
 
 resource_policy "aws_dms_replication_instance" "auto_minor_version_upgrade_required" {
     locals {
-        // Safely access auto_minor_version_upgrade attribute with default false
+        # Safely access auto_minor_version_upgrade attribute with default false
         auto_upgrade_enabled = core::try(attrs.auto_minor_version_upgrade, false)
     }
 
