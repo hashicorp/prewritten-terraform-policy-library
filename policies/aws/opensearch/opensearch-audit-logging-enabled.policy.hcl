@@ -1,0 +1,27 @@
+# Opensearch.5 - OpenSearch domains should have audit logging enabled
+
+policy {}
+
+resource_policy "aws_opensearch_domain" "audit_logging_enabled" {
+
+    locals {
+        # Extract all log publishing options
+        log_options = core::try(attrs.log_publishing_options, [])
+        has_log_options = local.log_options != []
+        
+        # Find audit log configurations
+        audit_logs = local.has_log_options ? [
+            for log in local.log_options :
+            log if core::try(log.log_type, "") == "AUDIT_LOGS"
+        ] : []
+        
+        # Check if audit logging exists and is enabled
+        has_audit_logs = core::length(local.audit_logs) > 0
+        audit_enabled = local.has_audit_logs ? core::try(local.audit_logs[0].enabled, false) : false
+    }
+
+    enforce {
+        condition = local.has_log_options && local.has_audit_logs && local.audit_enabled
+        error_message = "OpenSearch domain does not have audit logging enabled. Add log_publishing_options block with log_type = \"AUDIT_LOGS\" and enabled = true. Note: Audit logging requires advanced_security_options.enabled = true. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-5 for more details."
+    }
+}

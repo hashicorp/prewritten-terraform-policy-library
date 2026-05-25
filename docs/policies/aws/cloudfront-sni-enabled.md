@@ -1,0 +1,53 @@
+# CloudFront distributions should use SNI to serve HTTPS requests
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Secure network configuration |
+
+## Description
+
+This control checks if Amazon CloudFront distributions are using a custom SSL/TLS certificate and are configured to use SNI to serve HTTPS requests. This control fails if a custom SSL/TLS certificate is associated but the SSL/TLS support method is a dedicated IP address.
+
+Server Name Indication (SNI) is an extension to the TLS protocol that is supported by browsers and clients released after 2010. If you configure CloudFront to serve HTTPS requests using SNI, CloudFront associates your alternate domain name with an IP address for each edge location. When a viewer submits an HTTPS request for your content, DNS routes the request to the IP address for the correct edge location. The IP address to your domain name is determined during the SSL/TLS handshake negotiation; the IP address isn't dedicated to your distribution.
+
+This rule is covered by the [cloudfront-sni-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-sni-enabled.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # cloudfront-sni-enabled.policytest.hcl...
+      running
+      # resource.aws_cloudfront_distribution.pass_default_certificate...
+      running
+      # resource.aws_cloudfront_distribution.pass_default_certificate...
+      pass
+      # resource.aws_cloudfront_distribution.pass_acm_with_sni...
+      running
+      # resource.aws_cloudfront_distribution.pass_acm_with_sni...
+      pass
+      # resource.aws_cloudfront_distribution.pass_iam_with_sni...
+      running
+      # resource.aws_cloudfront_distribution.pass_iam_with_sni...
+      pass
+      # resource.aws_cloudfront_distribution.fail_acm_with_vip...
+      running
+      # resource.aws_cloudfront_distribution.fail_acm_with_vip...
+      pass
+      # resource.aws_cloudfront_distribution.fail_iam_with_static_ip...
+      running
+      # resource.aws_cloudfront_distribution.fail_iam_with_static_ip...
+      pass
+      # resource.aws_cloudfront_distribution.fail_acm_no_ssl_method...
+      running
+      # resource.aws_cloudfront_distribution.fail_acm_no_ssl_method...
+      pass
+      # resource.aws_cloudfront_distribution.skip_disabled_distribution...
+      running
+      # resource.aws_cloudfront_distribution.skip_disabled_distribution...
+      pass
+      # cloudfront-sni-enabled.policytest.hcl...
+      pass
+```
+
+---

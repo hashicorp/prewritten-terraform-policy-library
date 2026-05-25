@@ -1,0 +1,53 @@
+# Network Firewall logging should be enabled
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Logging |
+
+## Description
+
+This control checks whether logging is enabled for an AWS Network Firewall firewall. The control fails if logging isn't enabled for at least one log type or if the logging destination doesn't exist.
+
+Logging helps you maintain the reliability, availability, and performance of your firewalls. In Network Firewall, logging gives you detailed information about network traffic, including the time that the stateful engine received a packet flow, detailed information about the packet flow, and any stateful rule action taken against the packet flow.
+
+This rule is covered by the [network-firewall-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/networkfirewall/network-firewall-logging-enabled.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # network-firewall-logging-enabled.policytest.hcl...
+      running
+      # resource.aws_networkfirewall_logging_configuration.pass_alert_cloudwatch...
+      running
+      # resource.aws_networkfirewall_logging_configuration.pass_alert_cloudwatch...
+      pass
+      # resource.aws_networkfirewall_logging_configuration.pass_flow_s3...
+      running
+      # resource.aws_networkfirewall_logging_configuration.pass_flow_s3...
+      pass
+      # resource.aws_networkfirewall_logging_configuration.pass_tls_kinesis...
+      running
+      # resource.aws_networkfirewall_logging_configuration.pass_tls_kinesis...
+      pass
+      # resource.aws_networkfirewall_logging_configuration.pass_multiple_log_types...
+      running
+      # resource.aws_networkfirewall_logging_configuration.pass_multiple_log_types...
+      pass
+      # resource.aws_networkfirewall_logging_configuration.fail_no_logging...
+      running
+      # resource.aws_networkfirewall_logging_configuration.fail_no_logging...
+      pass
+      # resource.aws_networkfirewall_logging_configuration.fail_empty_destination...
+      running
+      # resource.aws_networkfirewall_logging_configuration.fail_empty_destination...
+      pass
+      # resource.aws_networkfirewall_logging_configuration.fail_null_destination...
+      running
+      # resource.aws_networkfirewall_logging_configuration.fail_null_destination...
+      pass
+      # network-firewall-logging-enabled.policytest.hcl...
+      pass
+```
+
+---

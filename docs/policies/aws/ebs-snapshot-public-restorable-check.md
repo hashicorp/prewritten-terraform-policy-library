@@ -1,0 +1,53 @@
+# Amazon EBS snapshots should not be configured to be publicly restorable
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Secure network configuration |
+
+## Description
+
+This control checks whether Amazon Elastic Block Store snapshots are configured to be publicly restorable. The control fails if Amazon EBS snapshots are configured to be restorable by all.
+
+EBS snapshots are used to back up the data on your EBS volumes to Amazon S3 at a specific point in time. You can use the snapshots to restore previous states of EBS volumes. It is rarely acceptable to share a snapshot with the public. Typically the decision to share a snapshot publicly was made in error or without a complete understanding of the implications. This check helps ensure that all such sharing was fully planned and intentional.
+
+This rule is covered by the [ebs-snapshot-public-restorable-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ebs/ebs-snapshot-public-restorable-check.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # ebs-snapshot-public-restorable-check.policytest.hcl...
+      running
+      # resource.aws_ebs_snapshot_block_public_access.pass_block_all_sharing...
+      running
+      # resource.aws_ebs_snapshot_block_public_access.pass_block_all_sharing...
+      pass
+      # resource.aws_ebs_snapshot_block_public_access.pass_block_new_sharing...
+      running
+      # resource.aws_ebs_snapshot_block_public_access.pass_block_new_sharing...
+      pass
+      # resource.aws_ebs_snapshot_block_public_access.fail_unblocked_state...
+      running
+      # resource.aws_ebs_snapshot_block_public_access.fail_unblocked_state...
+      pass
+      # resource.aws_ebs_snapshot_block_public_access.fail_empty_state...
+      running
+      # resource.aws_ebs_snapshot_block_public_access.fail_empty_state...
+      pass
+      # resource.aws_ebs_snapshot_block_public_access.fail_invalid_state...
+      running
+      # resource.aws_ebs_snapshot_block_public_access.fail_invalid_state...
+      pass
+      # resource.aws_ebs_snapshot_block_public_access.pass_with_region...
+      running
+      # resource.aws_ebs_snapshot_block_public_access.pass_with_region...
+      pass
+      # resource.aws_ebs_snapshot_block_public_access.pass_block_new_with_region...
+      running
+      # resource.aws_ebs_snapshot_block_public_access.pass_block_new_with_region...
+      pass
+      # ebs-snapshot-public-restorable-check.policytest.hcl...
+      pass
+```
+
+---

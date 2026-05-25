@@ -1,0 +1,53 @@
+# RSA certificates managed by ACM should use a key length of at least 2,048 bits
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Inventory services |
+
+## Description
+
+This control checks whether RSA certificates managed by AWS Certificate Manager use a key length of at least 2,048 bits. The control fails if the key length is smaller than 2,048 bits.
+
+The strength of encryption directly correlates with key size. We recommend key lengths of at least 2,048 bits to protect your AWS resources as computing power becomes less expensive and servers become more advanced.
+
+This rule is covered by the [acm-certificate-rsa-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/acm/acm-certificate-rsa-check.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+	# acm-certificate-rsa-check.policytest.hcl...
+	running
+	# resource.aws_acm_certificate.compliant_2048...
+	running
+	# resource.aws_acm_certificate.compliant_2048...
+	pass
+	# resource.aws_acm_certificate.compliant_3072...
+	running
+	# resource.aws_acm_certificate.compliant_3072...
+	pass
+	# resource.aws_acm_certificate.compliant_4096...
+	running
+	# resource.aws_acm_certificate.compliant_4096...
+	pass
+	# resource.aws_acm_certificate.non_compliant_1024...
+	running
+	# resource.aws_acm_certificate.non_compliant_1024...
+	pass
+	# resource.aws_acm_certificate.ec_cert_prime256...
+	running
+	# resource.aws_acm_certificate.ec_cert_prime256...
+	pass
+	# resource.aws_acm_certificate.ec_cert_secp384...
+	running
+	# resource.aws_acm_certificate.ec_cert_secp384...
+	pass
+	# resource.aws_acm_certificate.ec_cert_secp521...
+	running
+	# resource.aws_acm_certificate.ec_cert_secp521...
+	pass
+	# acm-certificate-rsa-check.policytest.hcl...
+	pass
+```
+
+---

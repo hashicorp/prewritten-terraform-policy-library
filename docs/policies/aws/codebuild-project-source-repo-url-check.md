@@ -1,0 +1,59 @@
+# CodeBuild Bitbucket source repository URLs should not contain sensitive credentials
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Secure development |
+
+## Description
+
+This control checks whether an AWS CodeBuild project Bitbucket source repository URL contains personal access tokens or a user name and password. The control fails if the Bitbucket source repository URL contains personal access tokens or a user name and password.
+
+This control evaluates both the primary source and secondary sources of a CodeBuild build project. For more information about project sources, see Multiple input sources and output artifacts sample in the AWS CodeBuild User Guide.
+
+Sign-in credentials shouldn't be stored or transmitted in clear text or appear in the source repository URL. Instead of personal access tokens or sign-in credentials, you should access your source provider in CodeBuild, and change your source repository URL to contain only the path to the Bitbucket repository location. Using personal access tokens or sign-in credentials could result in unintended data exposure or unauthorized access.
+
+This rule is covered by the [codebuild-project-source-repo-url-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/codebuild/codebuild-project-source-repo-url-check.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # codebuild-project-source-repo-url-check.policytest.hcl...
+      running
+      # resource.aws_codebuild_project.pass_codeconnections...
+      running
+      # resource.aws_codebuild_project.pass_codeconnections...
+      pass
+      # resource.aws_codebuild_project.pass_secrets_manager...
+      running
+      # resource.aws_codebuild_project.pass_secrets_manager...
+      pass
+      # resource.aws_codebuild_project.fail_no_auth...
+      running
+      # resource.aws_codebuild_project.fail_no_auth...
+      pass
+      # resource.aws_codebuild_project.fail_invalid_auth...
+      running
+      # resource.aws_codebuild_project.fail_invalid_auth...
+      pass
+      # resource.aws_codebuild_project.pass_github...
+      running
+      # resource.aws_codebuild_project.pass_github...
+      pass
+      # resource.aws_codebuild_project.pass_multiple_sources...
+      running
+      # resource.aws_codebuild_project.pass_multiple_sources...
+      pass
+      # resource.aws_codebuild_project.fail_secondary_no_auth...
+      running
+      # resource.aws_codebuild_project.fail_secondary_no_auth...
+      pass
+      # resource.aws_codebuild_project.pass_github_primary_bitbucket_secondary...
+      running
+      # resource.aws_codebuild_project.pass_github_primary_bitbucket_secondary...
+      pass
+      # codebuild-project-source-repo-url-check.policytest.hcl...
+      pass
+```
+
+---

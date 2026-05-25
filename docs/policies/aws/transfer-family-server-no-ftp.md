@@ -1,0 +1,53 @@
+# Transfer Family servers should not use FTP protocol for endpoint connection
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Encryption of data-in-transit |
+
+## Description
+
+This control checks whether an AWS Transfer Family server uses a protocol other than FTP for endpoint connection. The control fails if the server uses FTP protocol for a client to connect to the server's endpoint.
+
+FTP (File Transfer Protocol) establishes the endpoint connection through unencrypted channels, leaving data sent over these channels vulnerable to interception. Using SFTP (SSH File Transfer Protocol), FTPS (File Transfer Protocol Secure), or AS2 (Applicability Statement 2) offers an extra layer of security by encrypting your data in transit and can be used to help prevent potential attackers from using person-in-the-middle or similar attacks to eavesdrop on or manipulate network traffic.
+
+This rule is covered by the [transfer-family-server-no-ftp](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/transfer/transfer-family-server-no-ftp.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # transfer-family-server-no-ftp.policytest.hcl...
+      running
+      # resource.aws_transfer_server.pass_default_sftp...
+      running
+      # resource.aws_transfer_server.pass_default_sftp...
+      pass
+      # resource.aws_transfer_server.pass_sftp_only...
+      running
+      # resource.aws_transfer_server.pass_sftp_only...
+      pass
+      # resource.aws_transfer_server.pass_ftps_only...
+      running
+      # resource.aws_transfer_server.pass_ftps_only...
+      pass
+      # resource.aws_transfer_server.pass_as2_only...
+      running
+      # resource.aws_transfer_server.pass_as2_only...
+      pass
+      # resource.aws_transfer_server.pass_multiple_secure...
+      running
+      # resource.aws_transfer_server.pass_multiple_secure...
+      pass
+      # resource.aws_transfer_server.fail_ftp_only...
+      running
+      # resource.aws_transfer_server.fail_ftp_only...
+      pass
+      # resource.aws_transfer_server.fail_ftp_with_secure...
+      running
+      # resource.aws_transfer_server.fail_ftp_with_secure...
+      pass
+      # transfer-family-server-no-ftp.policytest.hcl...
+      pass
+```
+
+---
