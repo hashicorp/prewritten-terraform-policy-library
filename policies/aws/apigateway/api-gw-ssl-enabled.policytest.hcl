@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Pass case: Stage with client certificate configured
+# Pass case: Stage with client certificate configured
 resource "aws_api_gateway_stage" "pass_with_client_certificate" {
   attrs = {
     rest_api_id           = "abc123xyz"
@@ -15,7 +15,7 @@ resource "aws_api_gateway_stage" "pass_with_client_certificate" {
   }
 }
 
-// Fail case: Stage without client certificate (null)
+# Fail case: Stage without client certificate (null)
 resource "aws_api_gateway_stage" "fail_without_client_certificate" {
   expect_failure = true
   attrs = {
@@ -26,7 +26,7 @@ resource "aws_api_gateway_stage" "fail_without_client_certificate" {
   }
 }
 
-// Fail case: Stage with empty client_certificate_id
+# Fail case: Stage with empty client_certificate_id
 resource "aws_api_gateway_stage" "fail_with_empty_certificate_id" {
   expect_failure = true
   attrs = {

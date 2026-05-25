@@ -3,7 +3,7 @@ policytest {
     "autoscaling-launch-config-public-ip-disabled.policy.hcl"
   ]
 }
-// Test 1: Pass - associate_public_ip_address explicitly set to false
+# Test 1: Pass - associate_public_ip_address explicitly set to false
 resource "aws_launch_configuration" "compliant_explicit" {
   attrs = {
     name                        = "compliant-lc-explicit"
@@ -13,7 +13,7 @@ resource "aws_launch_configuration" "compliant_explicit" {
   }
 }
 
-// Test 2: Pass - associate_public_ip_address omitted (defaults to false)
+# Test 2: Pass - associate_public_ip_address omitted (defaults to false)
 resource "aws_launch_configuration" "compliant_omitted" {
   attrs = {
     name          = "compliant-lc-omitted"
@@ -22,7 +22,7 @@ resource "aws_launch_configuration" "compliant_omitted" {
   }
 }
 
-// Test 3: Fail - associate_public_ip_address set to true
+# Test 3: Fail - associate_public_ip_address set to true
 resource "aws_launch_configuration" "non_compliant" {
   expect_failure = true
   attrs = {

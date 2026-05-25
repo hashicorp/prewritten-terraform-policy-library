@@ -3,7 +3,7 @@ policytest {
     "autoscaling-multiple-instance-types.policy.hcl"
   ]
 }
-// PASS: Auto Scaling group with 2 instance types and 2 subnets
+# PASS: Auto Scaling group with 2 instance types and 2 subnets
 resource "aws_autoscaling_group" "pass_two_types_two_subnets" {
   attrs = {
     mixed_instances_policy = [
@@ -35,7 +35,7 @@ resource "aws_autoscaling_group" "pass_two_types_two_subnets" {
   }
 }
 
-// PASS: Auto Scaling group with 3 instance types and 3 availability zones
+# PASS: Auto Scaling group with 3 instance types and 3 availability zones
 resource "aws_autoscaling_group" "pass_three_types_three_azs" {
   attrs = {
     mixed_instances_policy = [
@@ -70,7 +70,7 @@ resource "aws_autoscaling_group" "pass_three_types_three_azs" {
   }
 }
 
-// FAIL: Auto Scaling group using legacy launch_configuration
+# FAIL: Auto Scaling group using legacy launch_configuration
 resource "aws_autoscaling_group" "fail_legacy_launch_configuration" {
   expect_failure = true
   attrs = {
@@ -82,7 +82,7 @@ resource "aws_autoscaling_group" "fail_legacy_launch_configuration" {
   }
 }
 
-// FAIL: Auto Scaling group without mixed_instances_policy
+# FAIL: Auto Scaling group without mixed_instances_policy
 resource "aws_autoscaling_group" "fail_no_mixed_instances_policy" {
   expect_failure = true
   attrs = {
@@ -99,7 +99,7 @@ resource "aws_autoscaling_group" "fail_no_mixed_instances_policy" {
   }
 }
 
-// FAIL: Auto Scaling group with only 1 instance type override
+# FAIL: Auto Scaling group with only 1 instance type override
 resource "aws_autoscaling_group" "fail_single_instance_type" {
   expect_failure = true
   attrs = {
@@ -129,7 +129,7 @@ resource "aws_autoscaling_group" "fail_single_instance_type" {
   }
 }
 
-// FAIL: Auto Scaling group with 2 instance types but only 1 subnet
+# FAIL: Auto Scaling group with 2 instance types but only 1 subnet
 resource "aws_autoscaling_group" "fail_single_subnet" {
   expect_failure = true
   attrs = {
@@ -162,7 +162,7 @@ resource "aws_autoscaling_group" "fail_single_subnet" {
   }
 }
 
-// FAIL: Auto Scaling group with 2 instance types but only 1 availability zone
+# FAIL: Auto Scaling group with 2 instance types but only 1 availability zone
 resource "aws_autoscaling_group" "fail_single_availability_zone" {
   expect_failure = true
   attrs = {
@@ -195,7 +195,7 @@ resource "aws_autoscaling_group" "fail_single_availability_zone" {
   }
 }
 
-// FAIL: Auto Scaling group with 2 instance types but no AZ configuration
+# FAIL: Auto Scaling group with 2 instance types but no AZ configuration
 resource "aws_autoscaling_group" "fail_no_az_configuration" {
   expect_failure = true
   attrs = {

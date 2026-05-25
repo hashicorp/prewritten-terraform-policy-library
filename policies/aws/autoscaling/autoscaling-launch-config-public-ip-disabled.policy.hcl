@@ -1,11 +1,11 @@
-// Policy: Autoscaling.5 - Amazon EC2 instances launched using Auto Scaling group launch configurations should not have Public IP addresses
+# Policy: Autoscaling.5 - Amazon EC2 instances launched using Auto Scaling group launch configurations should not have Public IP addresses
 
 policy {}
 
 resource_policy "aws_launch_configuration" "no_public_ip" {
     locals {
-        // Safely extract the associate_public_ip_address attribute
-        // Default to false if not specified (which is compliant)
+        # Safely extract the associate_public_ip_address attribute
+        # Default to false if not specified (which is compliant)
         has_public_ip = core::try(attrs.associate_public_ip_address, false)
     }
 

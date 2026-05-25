@@ -1,13 +1,13 @@
-// CloudFormation.4: CloudFormation stacks should have associated service roles
+# CloudFormation.4: CloudFormation stacks should have associated service roles
 
 policy {}
 
 resource_policy "aws_cloudformation_stack" "service_role_required" {
     locals {
-        // Safely extract the iam_role_arn attribute
+        # Safely extract the iam_role_arn attribute
         iam_role_arn = core::try(attrs.iam_role_arn, null)
         
-        // Check if service role is configured
+        # Check if service role is configured
         has_service_role = local.iam_role_arn != null && local.iam_role_arn != ""
     }
 

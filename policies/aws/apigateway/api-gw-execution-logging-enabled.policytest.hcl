@@ -52,9 +52,9 @@ resource "aws_api_gateway_stage" "fail_without_destination_arn" {
   }
 }
 
-// ============================================================================
-// Tests for aws_apigatewayv2_stage (WebSocket/HTTP API stages)
-// ============================================================================
+# ============================================================================
+# Tests for aws_apigatewayv2_stage (WebSocket/HTTP API stages)
+# ============================================================================
 
 resource "aws_apigatewayv2_stage" "pass_with_error_logging" {
   attrs = {
@@ -152,9 +152,9 @@ resource "aws_apigatewayv2_stage" "fail_with_empty_access_logging" {
   }
 }
 
-// ============================================================================
-// Tests for aws_api_gateway_method_settings (REST API method settings)
-// ============================================================================
+# ============================================================================
+# Tests for aws_api_gateway_method_settings (REST API method settings)
+# ============================================================================
 
 resource "aws_api_gateway_method_settings" "pass_with_error_logging" {
   attrs = {

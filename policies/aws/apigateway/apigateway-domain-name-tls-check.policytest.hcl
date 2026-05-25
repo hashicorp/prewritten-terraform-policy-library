@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Pass case: SecurityPolicy_TLS13_1_3_2025_09 (latest recommended)
+# Pass case: SecurityPolicy_TLS13_1_3_2025_09 (latest recommended)
 resource "aws_api_gateway_domain_name" "pass_security_policy_tls13_1_3_2025_09" {
   attrs = {
     domain_name = "api5.example.com"
@@ -13,7 +13,7 @@ resource "aws_api_gateway_domain_name" "pass_security_policy_tls13_1_3_2025_09" 
   }
 }
 
-// Fail case: security_policy not set
+# Fail case: security_policy not set
 resource "aws_api_gateway_domain_name" "fail_no_security_policy" {
   expect_failure = true
   attrs = {
@@ -22,7 +22,7 @@ resource "aws_api_gateway_domain_name" "fail_no_security_policy" {
   }
 }
 
-// Fail case: TLS-1-0 (deprecated)
+# Fail case: TLS-1-0 (deprecated)
 resource "aws_api_gateway_domain_name" "fail_tls_1_0_deprecated" {
   expect_failure = true
   attrs = {
@@ -32,7 +32,7 @@ resource "aws_api_gateway_domain_name" "fail_tls_1_0_deprecated" {
   }
 }
 
-// Fail case: TLS_1_0 (deprecated alternative format)
+# Fail case: TLS_1_0 (deprecated alternative format)
 resource "aws_api_gateway_domain_name" "fail_tls_1_0_alt_format" {
   expect_failure = true
   attrs = {
@@ -42,7 +42,7 @@ resource "aws_api_gateway_domain_name" "fail_tls_1_0_alt_format" {
   }
 }
 
-// Fail case: Unknown security policy
+# Fail case: Unknown security policy
 resource "aws_api_gateway_domain_name" "fail_unknown_policy" {
   expect_failure = true
   attrs = {

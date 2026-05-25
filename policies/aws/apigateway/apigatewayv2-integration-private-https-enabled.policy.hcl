@@ -1,21 +1,21 @@
-// Policy: APIGateway.10 - API Gateway V2 integrations should use HTTPS for private connections
+# Policy: APIGateway.10 - API Gateway V2 integrations should use HTTPS for private connections
 
 policy {}
 
 resource_policy "aws_apigatewayv2_integration" "private_https_enabled" {
-    // Only evaluate integrations that use VPC Links (private connections)
-    // INTERNET connections don't need this check as they use public HTTPS
+    # Only evaluate integrations that use VPC Links (private connections)
+    # INTERNET connections don't need this check as they use public HTTPS
     filter = core::try(attrs.connection_type, "") == "VPC_LINK"
 
     locals {
-        // Safe access to connection type
+        # Safe access to connection type
         connection_type = core::try(attrs.connection_type, "")
         
-        // Check if tls_config block exists and is configured
-        // tls_config is a block (list of maps), so we check if it exists and has content
+        # Check if tls_config block exists and is configured
+        # tls_config is a block (list of maps), so we check if it exists and has content
         has_tls_config = core::try(core::length(attrs.tls_config), 0) > 0
         
-        // Get integration URI for better error messages
+        # Get integration URI for better error messages
         integration_uri = core::try(attrs.integration_uri, "unknown")
     }
 

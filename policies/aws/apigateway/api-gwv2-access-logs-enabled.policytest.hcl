@@ -4,7 +4,7 @@ policytest {
     ]
 }
 
-// Test 1: PASS - Complete access_log_settings with both destination_arn and format
+# Test 1: PASS - Complete access_log_settings with both destination_arn and format
 resource "aws_apigatewayv2_stage" "pass_complete_access_log_settings" {
   attrs = {
     api_id = "abc123xyz"
@@ -18,7 +18,7 @@ resource "aws_apigatewayv2_stage" "pass_complete_access_log_settings" {
   }
 }
 
-// Test 2: FAIL - No access_log_settings block
+# Test 2: FAIL - No access_log_settings block
 resource "aws_apigatewayv2_stage" "fail_missing_access_log_settings" {
   expect_failure = true
   attrs = {
@@ -27,7 +27,7 @@ resource "aws_apigatewayv2_stage" "fail_missing_access_log_settings" {
   }
 }
 
-// Test 3: FAIL - access_log_settings exists but missing destination_arn
+# Test 3: FAIL - access_log_settings exists but missing destination_arn
 resource "aws_apigatewayv2_stage" "fail_missing_destination_arn" {
   expect_failure = true
   attrs = {
@@ -41,7 +41,7 @@ resource "aws_apigatewayv2_stage" "fail_missing_destination_arn" {
   }
 }
 
-// Test 4: FAIL - access_log_settings exists but missing format
+# Test 4: FAIL - access_log_settings exists but missing format
 resource "aws_apigatewayv2_stage" "fail_missing_format" {
   expect_failure = true
   attrs = {
@@ -55,7 +55,7 @@ resource "aws_apigatewayv2_stage" "fail_missing_format" {
   }
 }
 
-// Test 5: FAIL - Empty access_log_settings block
+# Test 5: FAIL - Empty access_log_settings block
 resource "aws_apigatewayv2_stage" "fail_empty_access_log_settings" {
   expect_failure = true
   attrs = {
@@ -65,7 +65,7 @@ resource "aws_apigatewayv2_stage" "fail_empty_access_log_settings" {
   }
 }
 
-// Test 6: PASS - HTTP API with complete access logging
+# Test 6: PASS - HTTP API with complete access logging
 resource "aws_apigatewayv2_stage" "pass_http_api_with_logging" {
   attrs = {
     api_id = "http123"
@@ -80,7 +80,7 @@ resource "aws_apigatewayv2_stage" "pass_http_api_with_logging" {
   }
 }
 
-// Test 7: PASS - WebSocket API with complete access logging
+# Test 7: PASS - WebSocket API with complete access logging
 resource "aws_apigatewayv2_stage" "pass_websocket_api_with_logging" {
   attrs = {
     api_id = "ws456"
