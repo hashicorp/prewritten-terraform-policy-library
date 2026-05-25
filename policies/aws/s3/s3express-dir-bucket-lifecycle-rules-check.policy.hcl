@@ -2,7 +2,7 @@
 
 policy {}
 
-input "targetExpirationDays" {
+input "expressTargetExpirationDays" {
   type    = number
   default = 0
 }
@@ -34,18 +34,18 @@ resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
     has_active_rules = core::length(local.enabled_rules) > 0
 
     # Optional expiration-days match.
-    has_target_expiration_days_input   = input.targetExpirationDays > 0
-    valid_target_expiration_days_input = input.targetExpirationDays == 0 || (input.targetExpirationDays >= 1 && input.targetExpirationDays <= 2147483647)
+    has_target_expiration_days_input   = input.expressTargetExpirationDays > 0
+    valid_target_expiration_days_input = input.expressTargetExpirationDays == 0 || (input.expressTargetExpirationDays >= 1 && input.expressTargetExpirationDays <= 2147483647)
 
     has_matching_expiration_days = !local.has_target_expiration_days_input || core::length([
       for rule in local.enabled_rules :
-      rule if core::try(rule.expiration[0].days, 0) == input.targetExpirationDays
+      rule if core::try(rule.expiration[0].days, 0) == input.expressTargetExpirationDays
     ]) > 0
   }
 
   enforce {
     condition     = local.valid_target_expiration_days_input
-    error_message = "input.targetExpirationDays must be between 1 and 2147483647 when set. Current value: ${input.targetExpirationDays}. Use 0 to leave the parameter unset."
+    error_message = "input.expressTargetExpirationDays must be between 1 and 2147483647 when set. Current value: ${input.expressTargetExpirationDays}. Use 0 to leave the parameter unset."
   }
 
   enforce {
@@ -55,6 +55,6 @@ resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
 
   enforce {
     condition     = local.has_matching_expiration_days
-    error_message = "S3 directory bucket '${local.bucket_name}' lifecycle configuration must include an enabled rule with expiration.days = ${input.targetExpirationDays} as required by input.targetExpirationDays. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-25 for more details."
+    error_message = "S3 directory bucket '${local.bucket_name}' lifecycle configuration must include an enabled rule with expiration.days = ${input.expressTargetExpirationDays} as required by input.expressTargetExpirationDays. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-25 for more details."
   }
 }

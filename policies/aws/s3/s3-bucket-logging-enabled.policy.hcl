@@ -7,7 +7,7 @@ input "targetBucket" {
   default = ""
 }
 
-input "targetPrefix" {
+input "loggingTargetPrefix" {
   type    = string
   default = ""
 }
@@ -27,10 +27,10 @@ resource_policy "aws_s3_bucket" "server_access_logging_enabled" {
     target_prefix = core::try(local.logging.target_prefix, "")
 
     has_target_bucket_input = input.targetBucket != ""
-    has_target_prefix_input = input.targetPrefix != ""
+    has_target_prefix_input = input.loggingTargetPrefix != ""
 
     matches_target_bucket = !local.has_target_bucket_input || local.target_bucket == input.targetBucket
-    matches_target_prefix = !local.has_target_prefix_input || local.target_prefix == input.targetPrefix
+    matches_target_prefix = !local.has_target_prefix_input || local.target_prefix == input.loggingTargetPrefix
   }
 
   enforce {
@@ -45,6 +45,6 @@ resource_policy "aws_s3_bucket" "server_access_logging_enabled" {
 
   enforce {
     condition     = local.matches_target_prefix
-    error_message = "S3 bucket '${local.bucket_name}' logging target_prefix '${local.target_prefix}' does not match the required value '${input.targetPrefix}' set via input.targetPrefix. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-9 for more details."
+    error_message = "S3 bucket '${local.bucket_name}' logging target_prefix '${local.target_prefix}' does not match the required value '${input.loggingTargetPrefix}' set via input.loggingTargetPrefix. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-9 for more details."
   }
 }
