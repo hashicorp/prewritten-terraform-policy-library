@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: PASS - Instance with only primary network interface
+# Test 1: PASS - Instance with only primary network interface
 resource "aws_instance" "single_eni_pass" {
   attrs = {
     id = "i-single-eni"
@@ -13,7 +13,7 @@ resource "aws_instance" "single_eni_pass" {
   }
 }
 
-// Test 2: FAIL - Instance with secondary_network_interface block
+# Test 2: FAIL - Instance with secondary_network_interface block
 resource "aws_instance" "secondary_eni_fail" {
   expect_failure = true
   attrs = {
@@ -30,7 +30,7 @@ resource "aws_instance" "secondary_eni_fail" {
   }
 }
 
-// Test 3: FAIL - Instance with deprecated network_interface block
+# Test 3: FAIL - Instance with deprecated network_interface block
 resource "aws_instance" "deprecated_eni_fail" {
   expect_failure = true
   attrs = {
@@ -47,8 +47,8 @@ resource "aws_instance" "deprecated_eni_fail" {
   }
 }
 
-// Test 4: FAIL - Instance with separate ENI attachment
-// Create a network interface attachment that references the instance
+# Test 4: FAIL - Instance with separate ENI attachment
+# Create a network interface attachment that references the instance
 resource "aws_network_interface_attachment" "separate_attachment" {
   skip = true
   attrs = {
@@ -67,7 +67,7 @@ resource "aws_instance" "separate_attachment_fail" {
   }
 }
 
-// Test 5: FAIL - Instance with multiple secondary_network_interface blocks
+# Test 5: FAIL - Instance with multiple secondary_network_interface blocks
 resource "aws_instance" "multiple_secondary_fail" {
   expect_failure = true
   attrs = {
@@ -89,7 +89,7 @@ resource "aws_instance" "multiple_secondary_fail" {
   }
 }
 
-// Test 6: FAIL - Instance with both secondary_network_interface and separate attachment
+# Test 6: FAIL - Instance with both secondary_network_interface and separate attachment
 resource "aws_network_interface_attachment" "combined_attachment" {
   skip = true
   attrs = {

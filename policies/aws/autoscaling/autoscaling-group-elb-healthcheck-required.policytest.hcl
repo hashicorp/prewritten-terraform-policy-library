@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// PASS: Auto Scaling group with Classic Load Balancer and ELB health checks
+# PASS: Auto Scaling group with Classic Load Balancer and ELB health checks
 resource "aws_autoscaling_group" "pass_classic_elb_with_elb_healthcheck" {
   attrs = {
     name                      = "asg-with-classic-elb"
@@ -18,7 +18,7 @@ resource "aws_autoscaling_group" "pass_classic_elb_with_elb_healthcheck" {
   }
 }
 
-// PASS: Auto Scaling group with ALB/NLB target groups and ELB health checks
+# PASS: Auto Scaling group with ALB/NLB target groups and ELB health checks
 resource "aws_autoscaling_group" "pass_target_groups_with_elb_healthcheck" {
   attrs = {
     name                      = "asg-with-target-groups"
@@ -32,7 +32,7 @@ resource "aws_autoscaling_group" "pass_target_groups_with_elb_healthcheck" {
   }
 }
 
-// PASS: Auto Scaling group with both Classic ELB and target groups, using ELB health checks
+# PASS: Auto Scaling group with both Classic ELB and target groups, using ELB health checks
 resource "aws_autoscaling_group" "pass_both_lb_types_with_elb_healthcheck" {
   attrs = {
     name                      = "asg-with-both-lb-types"
@@ -47,7 +47,7 @@ resource "aws_autoscaling_group" "pass_both_lb_types_with_elb_healthcheck" {
   }
 }
 
-// PASS (Not Applicable): Auto Scaling group without any load balancer - should be filtered out
+# PASS (Not Applicable): Auto Scaling group without any load balancer - should be filtered out
 resource "aws_autoscaling_group" "pass_no_load_balancer" {
   attrs = {
     name                      = "asg-without-lb"
@@ -60,7 +60,7 @@ resource "aws_autoscaling_group" "pass_no_load_balancer" {
   }
 }
 
-// PASS (Not Applicable): Auto Scaling group with empty load_balancers list
+# PASS (Not Applicable): Auto Scaling group with empty load_balancers list
 resource "aws_autoscaling_group" "pass_empty_load_balancers" {
   attrs = {
     name                      = "asg-empty-lb-list"
@@ -74,7 +74,7 @@ resource "aws_autoscaling_group" "pass_empty_load_balancers" {
   }
 }
 
-// FAIL: Auto Scaling group with Classic Load Balancer but EC2 health checks
+# FAIL: Auto Scaling group with Classic Load Balancer but EC2 health checks
 resource "aws_autoscaling_group" "fail_classic_elb_with_ec2_healthcheck" {
   expect_failure = true
   attrs = {
@@ -89,7 +89,7 @@ resource "aws_autoscaling_group" "fail_classic_elb_with_ec2_healthcheck" {
   }
 }
 
-// FAIL: Auto Scaling group with target groups but EC2 health checks
+# FAIL: Auto Scaling group with target groups but EC2 health checks
 resource "aws_autoscaling_group" "fail_target_groups_with_ec2_healthcheck" {
   expect_failure = true
   attrs = {
@@ -104,7 +104,7 @@ resource "aws_autoscaling_group" "fail_target_groups_with_ec2_healthcheck" {
   }
 }
 
-// FAIL: Auto Scaling group with Classic Load Balancer but no health_check_type (defaults to EC2)
+# FAIL: Auto Scaling group with Classic Load Balancer but no health_check_type (defaults to EC2)
 resource "aws_autoscaling_group" "fail_classic_elb_default_healthcheck" {
   expect_failure = true
   attrs = {
@@ -118,7 +118,7 @@ resource "aws_autoscaling_group" "fail_classic_elb_default_healthcheck" {
   }
 }
 
-// FAIL: Auto Scaling group with both load balancer types but no health_check_type specified
+# FAIL: Auto Scaling group with both load balancer types but no health_check_type specified
 resource "aws_autoscaling_group" "fail_both_lb_types_default_healthcheck" {
   expect_failure = true
   attrs = {
@@ -133,7 +133,7 @@ resource "aws_autoscaling_group" "fail_both_lb_types_default_healthcheck" {
   }
 }
 
-// FAIL: Auto Scaling group with multiple target groups but EC2 health checks
+# FAIL: Auto Scaling group with multiple target groups but EC2 health checks
 resource "aws_autoscaling_group" "fail_multiple_target_groups_ec2" {
   expect_failure = true
   attrs = {

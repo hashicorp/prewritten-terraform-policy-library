@@ -3,7 +3,7 @@ policytest {
     "cloudfront-distribution-key-group-enabled.policy.hcl"
   ]
 }
-// Pass: No authentication configured
+# Pass: No authentication configured
 resource "aws_cloudfront_distribution" "pass_no_authentication" {
   attrs = {
     default_cache_behavior = [
@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "pass_no_authentication" {
   }
 }
 
-// Pass: Using trusted_key_groups in default_cache_behavior
+# Pass: Using trusted_key_groups in default_cache_behavior
 resource "aws_cloudfront_distribution" "pass_trusted_key_groups_default" {
   attrs = {
     default_cache_behavior = [
@@ -44,7 +44,7 @@ resource "aws_cloudfront_distribution" "pass_trusted_key_groups_default" {
   }
 }
 
-// Pass: Using trusted_key_groups in ordered_cache_behavior
+# Pass: Using trusted_key_groups in ordered_cache_behavior
 resource "aws_cloudfront_distribution" "pass_trusted_key_groups_ordered" {
   attrs = {
     default_cache_behavior = [
@@ -80,7 +80,7 @@ resource "aws_cloudfront_distribution" "pass_trusted_key_groups_ordered" {
   }
 }
 
-// Fail: Using deprecated trusted_signers in default_cache_behavior
+# Fail: Using deprecated trusted_signers in default_cache_behavior
 resource "aws_cloudfront_distribution" "fail_trusted_signers_default" {
   expect_failure = true
   attrs = {
@@ -102,7 +102,7 @@ resource "aws_cloudfront_distribution" "fail_trusted_signers_default" {
   }
 }
 
-// Fail: Using deprecated trusted_signers in ordered_cache_behavior
+# Fail: Using deprecated trusted_signers in ordered_cache_behavior
 resource "aws_cloudfront_distribution" "fail_trusted_signers_ordered" {
   expect_failure = true
   attrs = {
@@ -139,7 +139,7 @@ resource "aws_cloudfront_distribution" "fail_trusted_signers_ordered" {
   }
 }
 
-// Fail: Using both trusted_signers and trusted_key_groups
+# Fail: Using both trusted_signers and trusted_key_groups
 resource "aws_cloudfront_distribution" "fail_both_signers_and_key_groups" {
   expect_failure = true
   attrs = {

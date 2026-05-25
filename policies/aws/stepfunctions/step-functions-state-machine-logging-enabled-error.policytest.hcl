@@ -8,7 +8,7 @@ inputs {
   logLevel = "ERROR"
 }
 
-// Pass case: Required minimum is ERROR; state machine uses ERROR (meets minimum)
+# Pass case: Required minimum is ERROR; state machine uses ERROR (meets minimum)
 resource "aws_sfn_state_machine" "pass_custom_error_level" {
   attrs = {
     name = "example-state-machine-custom-error"
@@ -24,7 +24,7 @@ resource "aws_sfn_state_machine" "pass_custom_error_level" {
   }
 }
 
-// Pass case: Required minimum is ERROR; state machine uses ALL (more verbose, satisfies minimum)
+# Pass case: Required minimum is ERROR; state machine uses ALL (more verbose, satisfies minimum)
 resource "aws_sfn_state_machine" "pass_more_verbose_than_required" {
   attrs = {
     name = "example-state-machine-all-meets-error"
@@ -40,7 +40,7 @@ resource "aws_sfn_state_machine" "pass_more_verbose_than_required" {
   }
 }
 
-// Fail case: Required minimum is ERROR; state machine uses FATAL (less verbose, does not meet minimum)
+# Fail case: Required minimum is ERROR; state machine uses FATAL (less verbose, does not meet minimum)
 resource "aws_sfn_state_machine" "fail_below_required_level" {
   expect_failure = true
   attrs = {
@@ -57,7 +57,7 @@ resource "aws_sfn_state_machine" "fail_below_required_level" {
   }
 }
 
-// Fail case: log_destination missing required ":*" suffix
+# Fail case: log_destination missing required ":*" suffix
 resource "aws_sfn_state_machine" "fail_log_destination_missing_suffix" {
   expect_failure = true
   attrs = {

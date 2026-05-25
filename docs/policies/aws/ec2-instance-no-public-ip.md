@@ -1,0 +1,53 @@
+# Amazon EC2 instances should not have a public IPv4 address
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Resources not publicly accessible |
+
+## Description
+
+This control checks whether EC2 instances have a public IP address. The control fails if the `publicIp` field is present in the EC2 instance configuration item. This control applies to IPv4 addresses only.
+
+A public IPv4 address is an IP address that is reachable from the internet. If you launch your instance with a public IP address, then your EC2 instance is reachable from the internet. A private IPv4 address is an IP address that is not reachable from the internet. You can use private IPv4 addresses for communication between EC2 instances in the same VPC or in your connected private network.
+
+This rule is covered by the [ec2-instance-no-public-ip](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-instance-no-public-ip.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # ec2-instance-no-public-ip.policytest.hcl...
+      running
+      # resource.aws_instance.pass_no_attribute...
+      running
+      # resource.aws_instance.pass_no_attribute...
+      pass
+      # resource.aws_instance.pass_explicit_false...
+      running
+      # resource.aws_instance.pass_explicit_false...
+      pass
+      # resource.aws_instance.fail_explicit_true...
+      running
+      # resource.aws_instance.fail_explicit_true...
+      pass
+      # resource.aws_instance.pass_network_interface_false...
+      running
+      # resource.aws_instance.pass_network_interface_false...
+      pass
+      # resource.aws_instance.fail_network_interface_true...
+      running
+      # resource.aws_instance.fail_network_interface_true...
+      pass
+      # resource.aws_instance.fail_multiple_ni_one_public...
+      running
+      # resource.aws_instance.fail_multiple_ni_one_public...
+      pass
+      # resource.aws_instance.pass_both_configurations...
+      running
+      # resource.aws_instance.pass_both_configurations...
+      pass
+      # ec2-instance-no-public-ip.policytest.hcl...
+      pass
+```
+
+---

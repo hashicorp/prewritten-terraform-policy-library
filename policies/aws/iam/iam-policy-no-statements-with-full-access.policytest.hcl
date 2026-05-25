@@ -2,7 +2,7 @@ policytest {
   targets = ["iam-policy-no-statements-with-full-access.policy.hcl"]
 }
 
-// FAIL - aws_iam_policy with service wildcard action (ec2:*)
+# FAIL - aws_iam_policy with service wildcard action (ec2:*)
 resource "aws_iam_policy" "managed_policy_wildcard_action_fails" {
   expect_failure = true
   attrs = {
@@ -11,7 +11,7 @@ resource "aws_iam_policy" "managed_policy_wildcard_action_fails" {
   }
 }
 
-// FAIL - aws_iam_role_policy with NotAction service wildcard (s3:*)
+# FAIL - aws_iam_role_policy with NotAction service wildcard (s3:*)
 resource "aws_iam_role_policy" "role_policy_notaction_wildcard_fails" {
   expect_failure = true
   attrs = {
@@ -21,7 +21,7 @@ resource "aws_iam_role_policy" "role_policy_notaction_wildcard_fails" {
   }
 }
 
-// PASS - aws_iam_user_policy with a prefixed wildcard (ec2:Describe*) -- not a full service wildcard
+# PASS - aws_iam_user_policy with a prefixed wildcard (ec2:Describe*) -- not a full service wildcard
 resource "aws_iam_user_policy" "user_policy_prefixed_wildcard_passes" {
   attrs = {
     name = "user-policy-describe-prefix"
@@ -30,7 +30,7 @@ resource "aws_iam_user_policy" "user_policy_prefixed_wildcard_passes" {
   }
 }
 
-// PASS - aws_iam_group_policy with specific actions only
+# PASS - aws_iam_group_policy with specific actions only
 resource "aws_iam_group_policy" "group_policy_specific_actions_passes" {
   attrs = {
     name  = "group-policy-specific-actions"
@@ -39,7 +39,7 @@ resource "aws_iam_group_policy" "group_policy_specific_actions_passes" {
   }
 }
 
-// FAIL - aws_iam_user_policy with service wildcard Action (ec2:*)
+# FAIL - aws_iam_user_policy with service wildcard Action (ec2:*)
 resource "aws_iam_user_policy" "user_policy_wildcard_action_fails" {
   expect_failure = true
   attrs = {
@@ -49,7 +49,7 @@ resource "aws_iam_user_policy" "user_policy_wildcard_action_fails" {
   }
 }
 
-// FAIL - aws_iam_user_policy with NotAction service wildcard (s3:*)
+# FAIL - aws_iam_user_policy with NotAction service wildcard (s3:*)
 resource "aws_iam_user_policy" "user_policy_notaction_wildcard_fails" {
   expect_failure = true
   attrs = {
@@ -59,7 +59,7 @@ resource "aws_iam_user_policy" "user_policy_notaction_wildcard_fails" {
   }
 }
 
-// FAIL - aws_iam_group_policy with service wildcard Action (s3:*)
+# FAIL - aws_iam_group_policy with service wildcard Action (s3:*)
 resource "aws_iam_group_policy" "group_policy_wildcard_action_fails" {
   expect_failure = true
   attrs = {
@@ -69,7 +69,7 @@ resource "aws_iam_group_policy" "group_policy_wildcard_action_fails" {
   }
 }
 
-// FAIL - aws_iam_group_policy with NotAction service wildcard (ec2:*)
+# FAIL - aws_iam_group_policy with NotAction service wildcard (ec2:*)
 resource "aws_iam_group_policy" "group_policy_notaction_wildcard_fails" {
   expect_failure = true
   attrs = {

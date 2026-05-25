@@ -3,7 +3,7 @@ policytest {
         "ec2-transit-gateway-auto-vpc-attach-disabled.policy.hcl"
     ]
 }
-// Test 1: PASS - Transit Gateway with auto-accept explicitly disabled
+# Test 1: PASS - Transit Gateway with auto-accept explicitly disabled
 resource "aws_ec2_transit_gateway" "compliant_explicit" {
     attrs = {
         auto_accept_shared_attachments = "disable"
@@ -12,7 +12,7 @@ resource "aws_ec2_transit_gateway" "compliant_explicit" {
     }
 }
 
-// Test 2: PASS - Transit Gateway without auto-accept attribute (uses default)
+# Test 2: PASS - Transit Gateway without auto-accept attribute (uses default)
 resource "aws_ec2_transit_gateway" "compliant_default" {
     attrs = {
         amazon_side_asn = 64512
@@ -20,7 +20,7 @@ resource "aws_ec2_transit_gateway" "compliant_default" {
     }
 }
 
-// Test 3: FAIL - Transit Gateway with auto-accept enabled
+# Test 3: FAIL - Transit Gateway with auto-accept enabled
 resource "aws_ec2_transit_gateway" "non_compliant" {
     expect_failure = true
     attrs = {

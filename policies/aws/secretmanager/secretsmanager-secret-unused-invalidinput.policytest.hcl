@@ -8,7 +8,7 @@ inputs {
   unusedForDays = 366
 }
 
-// FAIL - unusedForDays outside allowed range (1-365)
+# FAIL - unusedForDays outside allowed range (1-365)
 resource "aws_secretsmanager_secret" "invalid_threshold_secret" {
   expect_failure = true
   attrs = {

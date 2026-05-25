@@ -4,10 +4,10 @@ policy {}
 
 resource_policy "aws_cloudfront_distribution" "waf_enabled" {
     locals {
-        // Safely extract web_acl_id attribute
+        # Safely extract web_acl_id attribute
         web_acl_id = core::try(attrs.web_acl_id, "")
         
-        // Check if web_acl_id is configured and not empty
+        # Check if web_acl_id is configured and not empty
         has_waf = local.web_acl_id != ""
     }
 

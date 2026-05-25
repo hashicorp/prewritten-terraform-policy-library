@@ -4,7 +4,7 @@ policytest {
     ]
 }
 
-// PASS: CloudFront distribution with ACM certificate configured
+# PASS: CloudFront distribution with ACM certificate configured
 resource "aws_cloudfront_distribution" "pass_acm_certificate" {
   attrs = {
     viewer_certificate = [
@@ -20,7 +20,7 @@ resource "aws_cloudfront_distribution" "pass_acm_certificate" {
   }
 }
 
-// PASS: CloudFront distribution with IAM certificate configured
+# PASS: CloudFront distribution with IAM certificate configured
 resource "aws_cloudfront_distribution" "pass_iam_certificate" {
   attrs = {
     viewer_certificate = [
@@ -36,7 +36,7 @@ resource "aws_cloudfront_distribution" "pass_iam_certificate" {
   }
 }
 
-// FAIL: CloudFront distribution using default certificate
+# FAIL: CloudFront distribution using default certificate
 resource "aws_cloudfront_distribution" "fail_default_certificate" {
   expect_failure = true
   attrs = {
@@ -50,7 +50,7 @@ resource "aws_cloudfront_distribution" "fail_default_certificate" {
   }
 }
 
-// FAIL: CloudFront distribution with no viewer_certificate block
+# FAIL: CloudFront distribution with no viewer_certificate block
 resource "aws_cloudfront_distribution" "fail_no_viewer_certificate" {
   expect_failure = true
   attrs = {
@@ -58,7 +58,7 @@ resource "aws_cloudfront_distribution" "fail_no_viewer_certificate" {
   }
 }
 
-// FAIL: CloudFront distribution with viewer_certificate but no custom certificate
+# FAIL: CloudFront distribution with viewer_certificate but no custom certificate
 resource "aws_cloudfront_distribution" "fail_no_custom_certificate" {
   expect_failure = true
   attrs = {

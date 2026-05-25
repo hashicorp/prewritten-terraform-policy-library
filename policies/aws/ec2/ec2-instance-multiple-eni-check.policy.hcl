@@ -8,27 +8,27 @@ locals {
 
 resource_policy "aws_instance" "no_multiple_enis" {
     locals {
-        // Count deprecated network_interface blocks (if present)
+        # Count deprecated network_interface blocks (if present)
         deprecated_eni_count = core::try(core::length(attrs.network_interface), 0)
         
-        // Count secondary_network_interface blocks (if present)
+        # Count secondary_network_interface blocks (if present)
         secondary_eni_count = core::try(core::length(attrs.secondary_network_interface), 0)
         
-        // Find separate ENI attachments for this instance
+        # Find separate ENI attachments for this instance
         attached_enis = [
             for attachment in local.all_eni_attachments :
             attachment if attachment.instance_id == attrs.id
         ]
         attached_eni_count = core::length(local.attached_enis)
         
-        // Total ENI count: 1 (primary) + deprecated + secondary + separate attachments
-        // Primary network interface is always present (device_index 0)
+        # Total ENI count: 1 (primary) + deprecated + secondary + separate attachments
+        # Primary network interface is always present (device_index 0)
         total_eni_count = 1 + local.deprecated_eni_count + local.secondary_eni_count + local.attached_eni_count
         
-        // Check if instance has multiple ENIs
+        # Check if instance has multiple ENIs
         has_multiple_enis = local.total_eni_count > 1
         
-        // Build detailed error message
+        # Build detailed error message
         eni_details = local.has_multiple_enis ? "Total ENIs: ${local.total_eni_count} (1 primary + ${local.deprecated_eni_count} deprecated + ${local.secondary_eni_count} secondary + ${local.attached_eni_count} separate attachments)" : ""
     }
     

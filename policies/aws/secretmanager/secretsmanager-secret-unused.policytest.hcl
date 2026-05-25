@@ -4,7 +4,7 @@ policytest {
   targets = ["secretsmanager-secret-unused.policy.hcl"]
 }
 
-// PASS - Secret with LastAccessed tag
+# PASS - Secret with LastAccessed tag
 resource "aws_secretsmanager_secret" "pass_with_last_accessed" {
   attrs = {
     name = "compliant-secret"
@@ -17,7 +17,7 @@ resource "aws_secretsmanager_secret" "pass_with_last_accessed" {
   }
 }
 
-// PASS - Secret with CreatedDate fallback only
+# PASS - Secret with CreatedDate fallback only
 resource "aws_secretsmanager_secret" "pass_with_created_date" {
   attrs = {
     name = "secret-with-created-date"
@@ -29,7 +29,7 @@ resource "aws_secretsmanager_secret" "pass_with_created_date" {
   }
 }
 
-// FAIL - Secret without LastAccessed/CreatedDate tags
+# FAIL - Secret without LastAccessed/CreatedDate tags
 resource "aws_secretsmanager_secret" "fail_without_tracking_tags" {
   expect_failure = true
   attrs = {
@@ -41,7 +41,7 @@ resource "aws_secretsmanager_secret" "fail_without_tracking_tags" {
   }
 }
 
-// FAIL - Secret with empty tags map
+# FAIL - Secret with empty tags map
 resource "aws_secretsmanager_secret" "fail_with_empty_tags" {
   expect_failure = true
   attrs = {

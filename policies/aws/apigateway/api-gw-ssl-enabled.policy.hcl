@@ -3,10 +3,10 @@ policy {}
 
 resource_policy "aws_api_gateway_stage" "ssl_backend_auth_required" {
     locals {
-        // Safely extract client_certificate_id attribute
+        # Safely extract client_certificate_id attribute
         client_cert_id = core::try(attrs.client_certificate_id, null)
         
-        // Check if certificate is configured
+        # Check if certificate is configured
         has_client_certificate = local.client_cert_id != null && local.client_cert_id != ""
     }
 

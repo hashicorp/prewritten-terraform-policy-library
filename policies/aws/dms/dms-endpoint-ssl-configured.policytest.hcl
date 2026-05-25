@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: PASS - ssl_mode set to 'require'
+# Test 1: PASS - ssl_mode set to 'require'
 resource "aws_dms_endpoint" "pass_ssl_mode_require" {
   attrs = {
     endpoint_id   = "test-endpoint-require"
@@ -17,7 +17,7 @@ resource "aws_dms_endpoint" "pass_ssl_mode_require" {
   }
 }
 
-// Test 2: PASS - ssl_mode set to 'verify-ca'
+# Test 2: PASS - ssl_mode set to 'verify-ca'
 resource "aws_dms_endpoint" "pass_ssl_mode_verify_ca" {
   attrs = {
     endpoint_id     = "test-endpoint-verify-ca"
@@ -31,7 +31,7 @@ resource "aws_dms_endpoint" "pass_ssl_mode_verify_ca" {
   }
 }
 
-// Test 3: PASS - ssl_mode set to 'verify-full'
+# Test 3: PASS - ssl_mode set to 'verify-full'
 resource "aws_dms_endpoint" "pass_ssl_mode_verify_full" {
   attrs = {
     endpoint_id     = "test-endpoint-verify-full"
@@ -45,7 +45,7 @@ resource "aws_dms_endpoint" "pass_ssl_mode_verify_full" {
   }
 }
 
-// Test 4: FAIL - ssl_mode explicitly set to 'none'
+# Test 4: FAIL - ssl_mode explicitly set to 'none'
 resource "aws_dms_endpoint" "fail_ssl_mode_none" {
   expect_failure = true
   attrs = {
@@ -59,7 +59,7 @@ resource "aws_dms_endpoint" "fail_ssl_mode_none" {
   }
 }
 
-// Test 5: FAIL - ssl_mode not configured (defaults to 'none')
+# Test 5: FAIL - ssl_mode not configured (defaults to 'none')
 resource "aws_dms_endpoint" "fail_ssl_mode_not_configured" {
   expect_failure = true
   attrs = {

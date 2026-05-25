@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: Pass - Bitbucket primary source with CODECONNECTIONS authentication
+# Test 1: Pass - Bitbucket primary source with CODECONNECTIONS authentication
 resource "aws_codebuild_project" "pass_codeconnections" {
   attrs = {
     name = "test-project-codeconnections"
@@ -19,7 +19,7 @@ resource "aws_codebuild_project" "pass_codeconnections" {
   }
 }
 
-// Test 2: Pass - Bitbucket primary source with SECRETS_MANAGER authentication
+# Test 2: Pass - Bitbucket primary source with SECRETS_MANAGER authentication
 resource "aws_codebuild_project" "pass_secrets_manager" {
   attrs = {
     name = "test-project-secrets-manager"
@@ -34,7 +34,7 @@ resource "aws_codebuild_project" "pass_secrets_manager" {
   }
 }
 
-// Test 3: Fail - Bitbucket primary source without authentication
+# Test 3: Fail - Bitbucket primary source without authentication
 resource "aws_codebuild_project" "fail_no_auth" {
   expect_failure = true
   attrs = {
@@ -46,7 +46,7 @@ resource "aws_codebuild_project" "fail_no_auth" {
   }
 }
 
-// Test 4: Fail - Bitbucket primary source with invalid authentication type
+# Test 4: Fail - Bitbucket primary source with invalid authentication type
 resource "aws_codebuild_project" "fail_invalid_auth" {
   expect_failure = true
   attrs = {
@@ -62,7 +62,7 @@ resource "aws_codebuild_project" "fail_invalid_auth" {
   }
 }
 
-// Test 5: Pass - GitHub primary source (filter excludes non-Bitbucket)
+# Test 5: Pass - GitHub primary source (filter excludes non-Bitbucket)
 resource "aws_codebuild_project" "pass_github" {
   attrs = {
     name = "test-project-github"
@@ -73,7 +73,7 @@ resource "aws_codebuild_project" "pass_github" {
   }
 }
 
-// Test 6: Pass - Bitbucket primary and secondary sources with proper auth
+# Test 6: Pass - Bitbucket primary and secondary sources with proper auth
 resource "aws_codebuild_project" "pass_multiple_sources" {
   attrs = {
     name = "test-project-multiple-sources"
@@ -99,7 +99,7 @@ resource "aws_codebuild_project" "pass_multiple_sources" {
   }
 }
 
-// Test 7: Fail - Bitbucket primary (proper auth) with secondary source without auth
+# Test 7: Fail - Bitbucket primary (proper auth) with secondary source without auth
 resource "aws_codebuild_project" "fail_secondary_no_auth" {
   expect_failure = true
   attrs = {
@@ -122,8 +122,8 @@ resource "aws_codebuild_project" "fail_secondary_no_auth" {
   }
 }
 
-// Test 8: Pass - GitHub primary with Bitbucket secondary (filter excludes)
-// Note: Filter only evaluates projects with Bitbucket PRIMARY source
+# Test 8: Pass - GitHub primary with Bitbucket secondary (filter excludes)
+# Note: Filter only evaluates projects with Bitbucket PRIMARY source
 resource "aws_codebuild_project" "pass_github_primary_bitbucket_secondary" {
   attrs = {
     name = "test-project-github-primary"

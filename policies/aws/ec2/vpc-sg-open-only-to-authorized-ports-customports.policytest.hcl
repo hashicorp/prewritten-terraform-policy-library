@@ -9,7 +9,7 @@ inputs {
   authorizedUdpPorts = "53"
 }
 
-// PASS: Security group allowing custom authorized TCP port 22
+# PASS: Security group allowing custom authorized TCP port 22
 resource "aws_security_group" "pass_custom_tcp_22" {
   attrs = {
     name        = "test-sg-custom"
@@ -27,7 +27,7 @@ resource "aws_security_group" "pass_custom_tcp_22" {
   }
 }
 
-// PASS: Ingress rule allowing custom authorized UDP port 53
+# PASS: Ingress rule allowing custom authorized UDP port 53
 resource "aws_vpc_security_group_ingress_rule" "pass_custom_udp_53" {
   attrs = {
     security_group_id = "sg-12345678"
@@ -39,7 +39,7 @@ resource "aws_vpc_security_group_ingress_rule" "pass_custom_udp_53" {
   }
 }
 
-// FAIL: Ingress rule allowing TCP port 80 when custom inputs authorize only 22 and 443
+# FAIL: Ingress rule allowing TCP port 80 when custom inputs authorize only 22 and 443
 resource "aws_vpc_security_group_ingress_rule" "fail_custom_tcp_80" {
   expect_failure = true
   attrs = {

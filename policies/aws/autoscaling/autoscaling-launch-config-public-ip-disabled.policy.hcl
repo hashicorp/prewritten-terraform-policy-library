@@ -4,8 +4,8 @@ policy {}
 
 resource_policy "aws_launch_configuration" "no_public_ip" {
     locals {
-        // Safely extract the associate_public_ip_address attribute
-        // Default to false if not specified (which is compliant)
+        # Safely extract the associate_public_ip_address attribute
+        # Default to false if not specified (which is compliant)
         has_public_ip = core::try(attrs.associate_public_ip_address, false)
     }
 

@@ -4,14 +4,14 @@ policy {}
 
 resource_policy "aws_ses_configuration_set" "tls_required" {
     locals {
-        // Safe access to delivery_options and tls_policy
+        # Safe access to delivery_options and tls_policy
         delivery_options = core::try(attrs.delivery_options, [])
         has_delivery_options = core::length(local.delivery_options) > 0
         
-        // Extract TLS policy (default is 'Optional' if not specified)
+        # Extract TLS policy (default is 'Optional' if not specified)
         tls_policy = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, "Optional") : "Optional"
         
-        // Check if TLS is required
+        # Check if TLS is required
         is_compliant = local.tls_policy == "Require"
     }
 
@@ -21,17 +21,17 @@ resource_policy "aws_ses_configuration_set" "tls_required" {
     }
 }
 
-// Policy for SES v2 configuration sets
+# Policy for SES v2 configuration sets
 resource_policy "aws_sesv2_configuration_set" "tls_required" {
     locals {
-        // Safe access to delivery_options and tls_policy
+        # Safe access to delivery_options and tls_policy
         delivery_options = core::try(attrs.delivery_options, [])
         has_delivery_options = core::length(local.delivery_options) > 0
         
-        // Extract TLS policy (default is 'OPTIONAL' if not specified)
+        # Extract TLS policy (default is 'OPTIONAL' if not specified)
         tls_policy = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, "OPTIONAL") : "OPTIONAL"
         
-        // Check if TLS is required
+        # Check if TLS is required
         is_compliant = local.tls_policy == "REQUIRE"
     }
 

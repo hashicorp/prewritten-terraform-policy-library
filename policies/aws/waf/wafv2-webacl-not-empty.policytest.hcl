@@ -3,7 +3,7 @@ policytest {
     "wafv2-webacl-not-empty.policy.hcl"
   ]
 }
-// Pass case: Web ACL with single rule
+# Pass case: Web ACL with single rule
 resource "aws_wafv2_web_acl" "pass_with_single_rule" {
   attrs = {
     name  = "compliant-web-acl"
@@ -39,7 +39,7 @@ resource "aws_wafv2_web_acl" "pass_with_single_rule" {
   }
 }
 
-// Pass case: Web ACL with multiple rules
+# Pass case: Web ACL with multiple rules
 resource "aws_wafv2_web_acl" "pass_with_multiple_rules" {
   attrs = {
     name  = "compliant-web-acl-multiple"
@@ -92,7 +92,7 @@ resource "aws_wafv2_web_acl" "pass_with_multiple_rules" {
   }
 }
 
-// Fail case: Web ACL with empty rule list
+# Fail case: Web ACL with empty rule list
 resource "aws_wafv2_web_acl" "fail_with_empty_rules" {
   expect_failure = true
   attrs = {
@@ -110,7 +110,7 @@ resource "aws_wafv2_web_acl" "fail_with_empty_rules" {
   }
 }
 
-// Fail case: Web ACL without rule attribute
+# Fail case: Web ACL without rule attribute
 resource "aws_wafv2_web_acl" "fail_without_rule_attribute" {
   expect_failure = true
   attrs = {

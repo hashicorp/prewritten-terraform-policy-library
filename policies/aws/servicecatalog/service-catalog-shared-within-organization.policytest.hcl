@@ -2,7 +2,7 @@ policytest {
   targets = ["service-catalog-shared-within-organization.policy.hcl"]
 }
 
-// Pass Case 1: ORGANIZATION_MEMBER_ACCOUNT (recommended type)
+# Pass Case 1: ORGANIZATION_MEMBER_ACCOUNT (recommended type)
 resource "aws_servicecatalog_portfolio_share" "pass_organization_member_account" {
   attrs = {
     portfolio_id = "port-12345678"
@@ -12,7 +12,7 @@ resource "aws_servicecatalog_portfolio_share" "pass_organization_member_account"
   }
 }
 
-// Pass Case 2: ORGANIZATIONAL_UNIT
+# Pass Case 2: ORGANIZATIONAL_UNIT
 resource "aws_servicecatalog_portfolio_share" "pass_organizational_unit" {
   attrs = {
     portfolio_id = "port-12345678"
@@ -22,7 +22,7 @@ resource "aws_servicecatalog_portfolio_share" "pass_organizational_unit" {
   }
 }
 
-// Pass Case 3: ORGANIZATION
+# Pass Case 3: ORGANIZATION
 resource "aws_servicecatalog_portfolio_share" "pass_organization" {
   attrs = {
     portfolio_id = "port-12345678"
@@ -32,7 +32,7 @@ resource "aws_servicecatalog_portfolio_share" "pass_organization" {
   }
 }
 
-// Fail Case 1: ACCOUNT (external account sharing - non-compliant)
+# Fail Case 1: ACCOUNT (external account sharing - non-compliant)
 resource "aws_servicecatalog_portfolio_share" "fail_external_account" {
   expect_failure = true
   attrs = {
@@ -43,7 +43,7 @@ resource "aws_servicecatalog_portfolio_share" "fail_external_account" {
   }
 }
 
-// Fail Case 2: Invalid share type
+# Fail Case 2: Invalid share type
 resource "aws_servicecatalog_portfolio_share" "fail_invalid_type" {
   expect_failure = true
   attrs = {
@@ -54,7 +54,7 @@ resource "aws_servicecatalog_portfolio_share" "fail_invalid_type" {
   }
 }
 
-// Fail Case 3: Missing type attribute (empty string from core::try default)
+# Fail Case 3: Missing type attribute (empty string from core::try default)
 resource "aws_servicecatalog_portfolio_share" "fail_missing_type" {
   expect_failure = true
   attrs = {

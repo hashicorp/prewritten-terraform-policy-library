@@ -4,11 +4,11 @@ policytest {
   ]
 }
 
-// NOTE: Due to tfpolicy limitations (no JSON parsing, no string pattern matching),
-// this policy can only validate that replication_task_settings is defined.
-// Full validation requires AWS Config rule or Sentinel policy.
+# NOTE: Due to tfpolicy limitations (no JSON parsing, no string pattern matching),
+# this policy can only validate that replication_task_settings is defined.
+# Full validation requires AWS Config rule or Sentinel policy.
 
-// Pass Case 1: Task with replication_task_settings defined
+# Pass Case 1: Task with replication_task_settings defined
 resource "aws_dms_replication_task" "pass_with_settings" {
   attrs = {
     replication_task_id = "test-task-with-settings"
@@ -21,7 +21,7 @@ resource "aws_dms_replication_task" "pass_with_settings" {
   }
 }
 
-// Pass Case 2: Task with minimal settings (policy cannot validate content)
+# Pass Case 2: Task with minimal settings (policy cannot validate content)
 resource "aws_dms_replication_task" "pass_with_minimal_settings" {
   attrs = {
     replication_task_id = "test-task-minimal"
@@ -34,7 +34,7 @@ resource "aws_dms_replication_task" "pass_with_minimal_settings" {
   }
 }
 
-// Fail Case: Task without replication_task_settings
+# Fail Case: Task without replication_task_settings
 resource "aws_dms_replication_task" "fail_no_settings" {
   expect_failure = true
   attrs = {

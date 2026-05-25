@@ -2,7 +2,7 @@
 
 policy {}
 
-// Validate SSM service settings have non-empty values
+# Validate SSM service settings have non-empty values
 resource_policy "aws_ssm_service_setting" "automation_logging_settings" {
   locals {
     setting_id = core::try(attrs.setting_id, "")
@@ -16,7 +16,7 @@ resource_policy "aws_ssm_service_setting" "automation_logging_settings" {
   }
 }
 
-// Validate that CloudWatch log groups have valid names
+# Validate that CloudWatch log groups have valid names
 resource_policy "aws_cloudwatch_log_group" "log_group_name_required" {
   locals {
     log_group_name = core::try(attrs.name, "")

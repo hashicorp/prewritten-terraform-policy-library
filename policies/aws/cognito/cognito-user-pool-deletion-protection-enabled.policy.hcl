@@ -4,7 +4,7 @@ policy {}
 
 resource_policy "aws_cognito_user_pool" "deletion_protection_enabled" {
     locals {
-        // Safely access deletion_protection attribute with default value "INACTIVE"
+        # Safely access deletion_protection attribute with default value "INACTIVE"
         deletion_protection = core::try(attrs.deletion_protection, "INACTIVE")
     }
 

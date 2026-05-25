@@ -3,7 +3,7 @@ policytest {
     "api-gw-cache-encrypted.policy.hcl"
   ]
 }
-// Test 1: PASS - Caching enabled with encryption
+# Test 1: PASS - Caching enabled with encryption
 resource "aws_api_gateway_method_settings" "pass_caching_enabled_with_encryption" {
   attrs = {
     rest_api_id = "abc123"
@@ -19,7 +19,7 @@ resource "aws_api_gateway_method_settings" "pass_caching_enabled_with_encryption
   }
 }
 
-// Test 2: FAIL - Caching enabled without encryption
+# Test 2: FAIL - Caching enabled without encryption
 resource "aws_api_gateway_method_settings" "fail_caching_enabled_without_encryption" {
   expect_failure = true
   attrs = {
@@ -36,7 +36,7 @@ resource "aws_api_gateway_method_settings" "fail_caching_enabled_without_encrypt
   }
 }
 
-// Test 3: FILTERED OUT - Caching disabled (should not be evaluated)
+# Test 3: FILTERED OUT - Caching disabled (should not be evaluated)
 resource "aws_api_gateway_method_settings" "filtered_caching_disabled" {
   attrs = {
     rest_api_id = "abc123"
@@ -50,7 +50,7 @@ resource "aws_api_gateway_method_settings" "filtered_caching_disabled" {
   }
 }
 
-// Test 4: FAIL - Caching enabled with explicit false for encryption
+# Test 4: FAIL - Caching enabled with explicit false for encryption
 resource "aws_api_gateway_method_settings" "fail_explicit_false_encryption" {
   expect_failure = true
   attrs = {
@@ -67,7 +67,7 @@ resource "aws_api_gateway_method_settings" "fail_explicit_false_encryption" {
   }
 }
 
-// Test 5: FAIL - Caching enabled but cache_data_encrypted not specified (defaults to false)
+# Test 5: FAIL - Caching enabled but cache_data_encrypted not specified (defaults to false)
 resource "aws_api_gateway_method_settings" "fail_encryption_not_specified" {
   expect_failure = true
   attrs = {

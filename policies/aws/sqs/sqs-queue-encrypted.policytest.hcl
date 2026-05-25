@@ -2,7 +2,7 @@ policytest {
   targets = ["sqs-queue-encrypted.policy.hcl"]
 }
 
-// Pass Case 1: SQS queue with SSE-SQS encryption enabled
+# Pass Case 1: SQS queue with SSE-SQS encryption enabled
 resource "aws_sqs_queue" "pass_sqs_managed_sse" {
   attrs = {
     name                       = "encrypted-queue-sqs"
@@ -10,7 +10,7 @@ resource "aws_sqs_queue" "pass_sqs_managed_sse" {
   }
 }
 
-// Pass Case 2: SQS queue with SSE-KMS encryption using KMS key ID
+# Pass Case 2: SQS queue with SSE-KMS encryption using KMS key ID
 resource "aws_sqs_queue" "pass_kms_key_id" {
   attrs = {
     name                       = "encrypted-queue-kms"
@@ -18,7 +18,7 @@ resource "aws_sqs_queue" "pass_kms_key_id" {
   }
 }
 
-// Pass Case 3: SQS queue with SSE-KMS encryption using KMS key alias
+# Pass Case 3: SQS queue with SSE-KMS encryption using KMS key alias
 resource "aws_sqs_queue" "pass_kms_alias" {
   attrs = {
     name                       = "encrypted-queue-alias"
@@ -26,7 +26,7 @@ resource "aws_sqs_queue" "pass_kms_alias" {
   }
 }
 
-// Pass Case 4: SQS queue with both SSE-SQS and SSE-KMS configured
+# Pass Case 4: SQS queue with both SSE-SQS and SSE-KMS configured
 resource "aws_sqs_queue" "pass_both_encryption_methods" {
   attrs = {
     name                       = "encrypted-queue-both"
@@ -35,7 +35,7 @@ resource "aws_sqs_queue" "pass_both_encryption_methods" {
   }
 }
 
-// Fail Case 1: SQS queue without any encryption
+# Fail Case 1: SQS queue without any encryption
 resource "aws_sqs_queue" "fail_no_encryption" {
   expect_failure = true
   attrs = {
@@ -43,7 +43,7 @@ resource "aws_sqs_queue" "fail_no_encryption" {
   }
 }
 
-// Fail Case 2: SQS queue with sqs_managed_sse_enabled explicitly set to false
+# Fail Case 2: SQS queue with sqs_managed_sse_enabled explicitly set to false
 resource "aws_sqs_queue" "fail_sse_disabled" {
   expect_failure = true
   attrs = {
@@ -52,7 +52,7 @@ resource "aws_sqs_queue" "fail_sse_disabled" {
   }
 }
 
-// Fail Case 3: SQS queue with empty kms_master_key_id
+# Fail Case 3: SQS queue with empty kms_master_key_id
 resource "aws_sqs_queue" "fail_empty_kms_key" {
   expect_failure = true
   attrs = {

@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: Pass - publicly_accessible explicitly set to false
+# Test 1: Pass - publicly_accessible explicitly set to false
 resource "aws_dms_replication_instance" "pass_explicit_false" {
   attrs = {
     replication_instance_id    = "test-replication-instance"
@@ -14,7 +14,7 @@ resource "aws_dms_replication_instance" "pass_explicit_false" {
   }
 }
 
-// Test 2: Pass - publicly_accessible not specified (defaults to false)
+# Test 2: Pass - publicly_accessible not specified (defaults to false)
 resource "aws_dms_replication_instance" "pass_default_false" {
   attrs = {
     replication_instance_id    = "test-replication-instance-default"
@@ -23,7 +23,7 @@ resource "aws_dms_replication_instance" "pass_default_false" {
   }
 }
 
-// Test 3: Fail - publicly_accessible set to true
+# Test 3: Fail - publicly_accessible set to true
 resource "aws_dms_replication_instance" "fail_public_instance" {
   expect_failure = true
   attrs = {

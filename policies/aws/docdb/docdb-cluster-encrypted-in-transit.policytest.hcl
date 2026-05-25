@@ -3,7 +3,7 @@ policytest {
     "docdb-cluster-encrypted-in-transit.policy.hcl"
   ]
 }
-// PASS: TLS set to tls1.2+ (secure)
+# PASS: TLS set to tls1.2+ (secure)
 resource "aws_docdb_cluster" "pass_tls_1_2_plus" {
   attrs = {
     cluster_identifier = "secure-docdb-cluster"
@@ -26,7 +26,7 @@ resource "aws_docdb_cluster_parameter_group" "secure_param_group" {
   }
 }
 
-// PASS: TLS set to tls1.3+ (secure)
+# PASS: TLS set to tls1.3+ (secure)
 resource "aws_docdb_cluster" "pass_tls_1_3_plus" {
   attrs = {
     cluster_identifier = "secure-docdb-cluster-v13"
@@ -49,7 +49,7 @@ resource "aws_docdb_cluster_parameter_group" "secure_param_group_v13" {
   }
 }
 
-// PASS: TLS set to fips-140-3 (secure)
+# PASS: TLS set to fips-140-3 (secure)
 resource "aws_docdb_cluster" "pass_fips_140_3" {
   attrs = {
     cluster_identifier = "fips-docdb-cluster"
@@ -72,7 +72,7 @@ resource "aws_docdb_cluster_parameter_group" "fips_param_group" {
   }
 }
 
-// FAIL: TLS set to disabled (insecure)
+# FAIL: TLS set to disabled (insecure)
 resource "aws_docdb_cluster" "fail_tls_disabled" {
   expect_failure = true
   attrs = {
@@ -96,7 +96,7 @@ resource "aws_docdb_cluster_parameter_group" "insecure_param_group" {
   }
 }
 
-// FAIL: TLS set to enabled (insecure - allows non-TLS)
+# FAIL: TLS set to enabled (insecure - allows non-TLS)
 resource "aws_docdb_cluster" "fail_tls_enabled" {
   expect_failure = true
   attrs = {
@@ -120,7 +120,7 @@ resource "aws_docdb_cluster_parameter_group" "weak_param_group" {
   }
 }
 
-// FAIL: TLS parameter not set
+# FAIL: TLS parameter not set
 resource "aws_docdb_cluster" "fail_tls_not_set" {
   expect_failure = true
   attrs = {
@@ -144,7 +144,7 @@ resource "aws_docdb_cluster_parameter_group" "unset_param_group" {
   }
 }
 
-// FAIL: Parameter group does not exist
+# FAIL: Parameter group does not exist
 resource "aws_docdb_cluster" "fail_missing_param_group" {
   expect_failure = true
   attrs = {

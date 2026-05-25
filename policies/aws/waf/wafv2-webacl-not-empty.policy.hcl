@@ -4,10 +4,10 @@ policy {}
 
 resource_policy "aws_wafv2_web_acl" "waf10_webacl_not_empty" {
     locals {
-        // Safely get the rule attribute, defaulting to empty list if not present
+        # Safely get the rule attribute, defaulting to empty list if not present
         rules = core::try(attrs.rule, [])
         
-        // Check if at least one rule exists
+        # Check if at least one rule exists
         has_rules = core::length(local.rules) > 0
     }
 

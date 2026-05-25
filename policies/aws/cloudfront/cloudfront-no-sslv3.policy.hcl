@@ -3,16 +3,16 @@
 policy {}
 
 resource_policy "aws_cloudfront_distribution" "no_deprecated_ssl_protocols" {
-    // Filter to only distributions with custom origins
-    // Skip distributions that only use S3 origins (s3_origin_config)
+    # Filter to only distributions with custom origins
+    # Skip distributions that only use S3 origins (s3_origin_config)
     filter = attrs.origin != null && core::length(attrs.origin) > 0
 
     locals {
-        // Extract all origins from the distribution
+        # Extract all origins from the distribution
         all_origins = core::try(attrs.origin, [])
 
-        // Filter to only custom origins (those with custom_origin_config).
-        // S3 origins use s3_origin_config and are out of scope for CloudFront.10.
+        # Filter to only custom origins (those with custom_origin_config).
+        # S3 origins use s3_origin_config and are out of scope for CloudFront.10.
         custom_origins = [
             for origin in local.all_origins :
             origin if core::try(origin.custom_origin_config, null) != null
@@ -26,10 +26,10 @@ resource_policy "aws_cloudfront_distribution" "no_deprecated_ssl_protocols" {
             )
         ]
 
-        // Compliance check
+        # Compliance check
         has_deprecated_ssl = core::length(local.origins_with_sslv3) > 0
 
-        // Build detailed error message with affected origins
+        # Build detailed error message with affected origins
         affected_origins = [
             for origin in local.origins_with_sslv3 :
             core::try(origin.domain_name, "unknown")

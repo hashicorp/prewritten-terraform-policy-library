@@ -4,7 +4,7 @@ policytest {
     ]
 }
 
-// PASS: VPC_LINK integration with TLS configuration
+# PASS: VPC_LINK integration with TLS configuration
 resource "aws_apigatewayv2_integration" "pass_vpc_link_with_tls" {
   attrs = {
     api_id             = "abc123"
@@ -21,7 +21,7 @@ resource "aws_apigatewayv2_integration" "pass_vpc_link_with_tls" {
   }
 }
 
-// FAIL: VPC_LINK integration without TLS configuration
+# FAIL: VPC_LINK integration without TLS configuration
 resource "aws_apigatewayv2_integration" "fail_vpc_link_without_tls" {
   expect_failure = true
   attrs = {
@@ -34,7 +34,7 @@ resource "aws_apigatewayv2_integration" "fail_vpc_link_without_tls" {
   }
 }
 
-// PASS: INTERNET connection without TLS (filtered out by policy)
+# PASS: INTERNET connection without TLS (filtered out by policy)
 resource "aws_apigatewayv2_integration" "pass_internet_connection" {
   attrs = {
     api_id             = "abc123"
@@ -45,7 +45,7 @@ resource "aws_apigatewayv2_integration" "pass_internet_connection" {
   }
 }
 
-// FAIL: VPC_LINK with empty tls_config
+# FAIL: VPC_LINK with empty tls_config
 resource "aws_apigatewayv2_integration" "fail_vpc_link_empty_tls" {
   expect_failure = true
   attrs = {
@@ -59,7 +59,7 @@ resource "aws_apigatewayv2_integration" "fail_vpc_link_empty_tls" {
   }
 }
 
-// PASS: Default connection_type (INTERNET) without TLS
+# PASS: Default connection_type (INTERNET) without TLS
 resource "aws_apigatewayv2_integration" "pass_default_connection_type" {
   attrs = {
     api_id             = "abc123"

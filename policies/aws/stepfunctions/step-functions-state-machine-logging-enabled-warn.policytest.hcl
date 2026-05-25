@@ -8,7 +8,7 @@ inputs {
   logLevel = "WARN"
 }
 
-// Fail case: Invalid logLevel input ("WARN" is not one of ALL/ERROR/FATAL)
+# Fail case: Invalid logLevel input ("WARN" is not one of ALL/ERROR/FATAL)
 resource "aws_sfn_state_machine" "fail_invalid_log_level_input" {
   expect_failure = true
   attrs = {

@@ -2,7 +2,7 @@ policytest {
   targets = ["elastic-beanstalk-logs-to-cloudwatch.policy.hcl"]
 }
 
-// Test 1: Pass - Environment with CloudWatch Logs streaming enabled
+# Test 1: Pass - Environment with CloudWatch Logs streaming enabled
 resource "aws_elastic_beanstalk_environment" "pass_with_cloudwatch_logs_enabled" {
   attrs = {
     name = "my-environment"
@@ -25,7 +25,7 @@ resource "aws_elastic_beanstalk_environment" "pass_with_cloudwatch_logs_enabled"
   }
 }
 
-// Test 2: Fail - Environment without CloudWatch Logs configuration
+# Test 2: Fail - Environment without CloudWatch Logs configuration
 resource "aws_elastic_beanstalk_environment" "fail_without_cloudwatch_logs_configuration" {
   expect_failure = true
   attrs = {
@@ -43,7 +43,7 @@ resource "aws_elastic_beanstalk_environment" "fail_without_cloudwatch_logs_confi
   }
 }
 
-// Test 3: Fail - Environment with CloudWatch Logs streaming disabled
+# Test 3: Fail - Environment with CloudWatch Logs streaming disabled
 resource "aws_elastic_beanstalk_environment" "fail_with_cloudwatch_logs_disabled" {
   expect_failure = true
   attrs = {
@@ -61,7 +61,7 @@ resource "aws_elastic_beanstalk_environment" "fail_with_cloudwatch_logs_disabled
   }
 }
 
-// Test 4: Pass - Environment with valid retention period
+# Test 4: Pass - Environment with valid retention period
 resource "aws_elastic_beanstalk_environment" "pass_with_valid_retention_period" {
   attrs = {
     name = "my-environment"
@@ -84,7 +84,7 @@ resource "aws_elastic_beanstalk_environment" "pass_with_valid_retention_period" 
   }
 }
 
-// Test 5: Fail - Environment with invalid retention period
+# Test 5: Fail - Environment with invalid retention period
 resource "aws_elastic_beanstalk_environment" "fail_with_invalid_retention_period" {
   expect_failure = true
   attrs = {
@@ -108,7 +108,7 @@ resource "aws_elastic_beanstalk_environment" "fail_with_invalid_retention_period
   }
 }
 
-// Test 6: Fail - Environment with only other settings configured
+# Test 6: Fail - Environment with only other settings configured
 resource "aws_elastic_beanstalk_environment" "fail_with_only_other_settings" {
   expect_failure = true
   attrs = {

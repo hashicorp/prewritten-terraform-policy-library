@@ -3,16 +3,16 @@
 policy {}
 
 resource_policy "aws_sns_topic_policy" "no_public_access" {
-  // Pre-filter: only evaluate when a policy document is present
+  # Pre-filter: only evaluate when a policy document is present
   filter = core::try(attrs.policy, "") != ""
 
   locals {
-    // Safely decode the policy JSON; default to empty doc if malformed.
+    # Safely decode the policy JSON; default to empty doc if malformed.
     policy_doc = core::try(core::jsondecode(attrs.policy), {})
 
     raw_statements = core::try(local.policy_doc.Statement, [])
 
-    // Public statements when Statement is an array.
+    # Public statements when Statement is an array.
     public_statements_from_list = core::try([
       for stmt in local.raw_statements : stmt
       if (
@@ -34,7 +34,7 @@ resource_policy "aws_sns_topic_policy" "no_public_access" {
       )
     ], [])
 
-    // Single-object form: treat as a one-element list when it has an Effect key.
+    # Single-object form: treat as a one-element list when it has an Effect key.
     single_stmt_is_public = core::try(local.raw_statements.Effect, "") == "Allow" && (
       core::try(local.raw_statements.Principal, "") == "*" ||
       core::try(local.raw_statements.Principal.AWS, "") == "*" ||
@@ -55,9 +55,9 @@ resource_policy "aws_sns_topic_policy" "no_public_access" {
   }
 }
 
-// Additional policy to check aws_sns_topic inline policies
+# Additional policy to check aws_sns_topic inline policies
 resource_policy "aws_sns_topic" "no_public_access_inline" {
-  // Only evaluate topics that have an inline policy defined
+  # Only evaluate topics that have an inline policy defined
   filter = core::try(attrs.policy, null) != null && core::try(attrs.policy, "") != ""
 
   locals {

@@ -8,7 +8,7 @@ inputs {
     maxDaysSinceRotation = 181
 }
 
-// FAIL - Invalid maxDaysSinceRotation input outside allowed range (1-180)
+# FAIL - Invalid maxDaysSinceRotation input outside allowed range (1-180)
 resource "aws_secretsmanager_secret_rotation" "invalid_threshold_input" {
   expect_failure = true
   attrs = {

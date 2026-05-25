@@ -3,7 +3,7 @@ policytest {
     "step-functions-state-machine-logging-enabled.policy.hcl"
   ]
 }
-// Pass case: Logging enabled with level ALL and valid log destination
+# Pass case: Logging enabled with level ALL and valid log destination
 resource "aws_sfn_state_machine" "pass_with_all_level" {
   attrs = {
     name = "example-state-machine"
@@ -19,7 +19,7 @@ resource "aws_sfn_state_machine" "pass_with_all_level" {
   }
 }
 
-// Pass case: Logging enabled with level ERROR and valid log destination
+# Pass case: Logging enabled with level ERROR and valid log destination
 resource "aws_sfn_state_machine" "pass_with_error_level" {
   attrs = {
     name = "example-state-machine"
@@ -35,7 +35,7 @@ resource "aws_sfn_state_machine" "pass_with_error_level" {
   }
 }
 
-// Pass case: Logging enabled with level FATAL and valid log destination
+# Pass case: Logging enabled with level FATAL and valid log destination
 resource "aws_sfn_state_machine" "pass_with_fatal_level" {
   attrs = {
     name = "example-state-machine"
@@ -51,7 +51,7 @@ resource "aws_sfn_state_machine" "pass_with_fatal_level" {
   }
 }
 
-// Fail case: Logging level set to OFF
+# Fail case: Logging level set to OFF
 resource "aws_sfn_state_machine" "fail_with_off_level" {
   expect_failure = true
   attrs = {
@@ -68,7 +68,7 @@ resource "aws_sfn_state_machine" "fail_with_off_level" {
   }
 }
 
-// Fail case: Missing log_destination
+# Fail case: Missing log_destination
 resource "aws_sfn_state_machine" "fail_missing_log_destination" {
   expect_failure = true
   attrs = {
@@ -85,7 +85,7 @@ resource "aws_sfn_state_machine" "fail_missing_log_destination" {
   }
 }
 
-// Fail case: No logging_configuration block
+# Fail case: No logging_configuration block
 resource "aws_sfn_state_machine" "fail_no_logging_config" {
   expect_failure = true
   attrs = {
@@ -95,7 +95,7 @@ resource "aws_sfn_state_machine" "fail_no_logging_config" {
   }
 }
 
-// Fail case: Empty logging_configuration block
+# Fail case: Empty logging_configuration block
 resource "aws_sfn_state_machine" "fail_empty_logging_config" {
   expect_failure = true
   attrs = {

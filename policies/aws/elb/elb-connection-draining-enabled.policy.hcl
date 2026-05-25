@@ -4,8 +4,8 @@ policy {}
 
 resource_policy "aws_elb" "connection_draining_enabled" {
     locals {
-        // Safe access to connection_draining attribute with default false
-        // (matches AWS provider default behavior)
+        # Safe access to connection_draining attribute with default false
+        # (matches AWS provider default behavior)
         connection_draining = core::try(attrs.connection_draining, false)
         elb_name = core::try(attrs.name, "Classic Load Balancer")
     }

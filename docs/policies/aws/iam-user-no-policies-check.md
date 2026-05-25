@@ -1,0 +1,53 @@
+# IAM users should not have IAM policies attached
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Secure access management |
+
+## Description
+
+This control checks whether your IAM users have policies attached. The control fails if your IAM users have policies attached. Instead, IAM users must inherit permissions from IAM groups or assume a role.
+
+By default, IAM users, groups, and roles have no access to AWS resources. IAM policies grant privileges to users, groups, or roles. We recommend that you apply IAM policies directly to groups and roles but not to users. Assigning privileges at the group or role level reduces the complexity of access management as the number of users grows. Reducing access management complexity might in turn reduce the opportunity for a principal to inadvertently receive or retain excessive privileges.
+
+This rule is covered by the [iam-user-no-policies-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/iam/iam-user-no-policies-check.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # iam-user-no-policies-check.policytest.hcl...
+      running
+      # resource.aws_iam_user.compliant_user...
+      running
+      # resource.aws_iam_user.compliant_user...
+      pass
+      # resource.aws_iam_user_policy.inline_policy_violation...
+      running
+      # resource.aws_iam_user_policy.inline_policy_violation...
+      pass
+      # resource.aws_iam_user_policy_attachment.managed_policy_violation...
+      running
+      # resource.aws_iam_user_policy_attachment.managed_policy_violation...
+      pass
+      # resource.aws_iam_user_policy.user1_inline_policy...
+      running
+      # resource.aws_iam_user_policy.user1_inline_policy...
+      pass
+      # resource.aws_iam_user_policy.user2_inline_policy...
+      running
+      # resource.aws_iam_user_policy.user2_inline_policy...
+      pass
+      # resource.aws_iam_user_policy_attachment.user1_managed_attachment...
+      running
+      # resource.aws_iam_user_policy_attachment.user1_managed_attachment...
+      pass
+      # resource.aws_iam_user_policy_attachment.user2_managed_attachment...
+      running
+      # resource.aws_iam_user_policy_attachment.user2_managed_attachment...
+      pass
+      # iam-user-no-policies-check.policytest.hcl...
+      pass
+```
+
+---

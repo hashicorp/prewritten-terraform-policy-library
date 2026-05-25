@@ -21,8 +21,8 @@ locals {
     for p in core::split(",", input.authorizedUdpPorts) : core::try(core::jsondecode(core::trimspace(p)), -1)
   ] : []
 
-  // Input validation: lists must contain between 1 and 32 entries (UDP may be empty),
-  // and every entry must have parsed to a non-negative integer.
+  # Input validation: lists must contain between 1 and 32 entries (UDP may be empty),
+  # and every entry must have parsed to a non-negative integer.
   valid_tcp_port_count   = core::length(local.authorized_tcp_ports) >= 1 && core::length(local.authorized_tcp_ports) <= 32
   tcp_ports_all_numeric  = core::length([for p in local.authorized_tcp_ports : p if p == -1]) == 0
   valid_tcp_ports        = local.valid_tcp_port_count && local.tcp_ports_all_numeric
@@ -41,10 +41,10 @@ resource_policy "aws_security_group" "restrict_unrestricted_ingress" {
   locals {
     ingress_rules = core::try(attrs.ingress, [])
 
-    // Ingress rules that allow unrestricted IPv4 or IPv6 access. A rule counts as
-    // "unrestricted" when ANY of its cidr_blocks / ipv6_cidr_blocks entries matches
-    // the broadly-public patterns above (0.0.0.0/0-7 or ::/0-7), not just the
-    // literal /0 strings.
+    # Ingress rules that allow unrestricted IPv4 or IPv6 access. A rule counts as
+    # "unrestricted" when ANY of its cidr_blocks / ipv6_cidr_blocks entries matches
+    # the broadly-public patterns above (0.0.0.0/0-7 or ::/0-7), not just the
+    # literal /0 strings.
     unrestricted_ingress_rules = [
       for rule in local.ingress_rules :
       rule
@@ -58,10 +58,10 @@ resource_policy "aws_security_group" "restrict_unrestricted_ingress" {
       ]) > 0
     ]
 
-    // A rule is compliant when its protocol is TCP or UDP, its port range is a
-    // single port (from_port == to_port), and that port is in the relevant
-    // authorized list. Protocol "-1" (all) is never compliant for an
-    // unrestricted CIDR.
+    # A rule is compliant when its protocol is TCP or UDP, its port range is a
+    # single port (from_port == to_port), and that port is in the relevant
+    # authorized list. Protocol "-1" (all) is never compliant for an
+    # unrestricted CIDR.
     unauthorized_rules = [
       for rule in local.unrestricted_ingress_rules :
       rule
@@ -97,8 +97,8 @@ resource_policy "aws_security_group" "restrict_unrestricted_ingress" {
 }
 
 resource_policy "aws_vpc_security_group_ingress_rule" "restrict_unrestricted_ingress" {
-  // Match any broadly-public CIDR on either IP family, not only the literal
-  // "0.0.0.0/0" / "::/0" strings (see public_ipv4_cidr_pattern above).
+  # Match any broadly-public CIDR on either IP family, not only the literal
+  # "0.0.0.0/0" / "::/0" strings (see public_ipv4_cidr_pattern above).
   filter = (core::length(core::regexall(local.public_ipv4_cidr_pattern, core::try(attrs.cidr_ipv4, ""))) > 0) || (core::length(core::regexall(local.public_ipv6_cidr_pattern, core::try(attrs.cidr_ipv6, ""))) > 0)
 
   locals {

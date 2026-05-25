@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: PASS - Redis endpoint with explicit ssl-encryption
+# Test 1: PASS - Redis endpoint with explicit ssl-encryption
 resource "aws_dms_endpoint" "redis_explicit" {
   attrs = {
     endpoint_id = "redis-endpoint-secure"
@@ -21,7 +21,7 @@ resource "aws_dms_endpoint" "redis_explicit" {
   }
 }
 
-// Test 2: PASS - Redis endpoint with default ssl_security_protocol (defaults to ssl-encryption)
+# Test 2: PASS - Redis endpoint with default ssl_security_protocol (defaults to ssl-encryption)
 resource "aws_dms_endpoint" "redis_default" {
   attrs = {
     endpoint_id = "redis-endpoint-default"
@@ -32,13 +32,13 @@ resource "aws_dms_endpoint" "redis_default" {
         server_name = "redis.example.com"
         port = 6379
         auth_type = "auth-token"
-        // ssl_security_protocol not specified - defaults to "ssl-encryption"
+        # ssl_security_protocol not specified - defaults to "ssl-encryption"
       }
     ]
   }
 }
 
-// Test 3: FAIL - Redis endpoint with plaintext (TLS disabled)
+# Test 3: FAIL - Redis endpoint with plaintext (TLS disabled)
 resource "aws_dms_endpoint" "redis_plaintext" {
   expect_failure = true
   attrs = {
@@ -56,12 +56,12 @@ resource "aws_dms_endpoint" "redis_plaintext" {
   }
 }
 
-// Test 4: Non-Redis endpoint should be filtered out (not evaluated)
+# Test 4: Non-Redis endpoint should be filtered out (not evaluated)
 resource "aws_dms_endpoint" "mysql" {
   attrs = {
     endpoint_id = "mysql-endpoint"
     endpoint_type = "source"
     engine_name = "mysql"
-    // No redis_settings - this is a MySQL endpoint
+    # No redis_settings - this is a MySQL endpoint
   }
 }

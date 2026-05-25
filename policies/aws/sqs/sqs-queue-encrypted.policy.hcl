@@ -4,15 +4,15 @@ policy {}
 
 resource_policy "aws_sqs_queue" "encryption_required" {
     locals {
-        // Safe access to encryption attributes with defaults
+        # Safe access to encryption attributes with defaults
         sqs_managed_sse = core::try(attrs.sqs_managed_sse_enabled, false)
         kms_key_id = core::try(attrs.kms_master_key_id, null)
         
-        // Check if any encryption method is enabled
+        # Check if any encryption method is enabled
         has_sqs_sse = local.sqs_managed_sse == true
         has_kms_sse = local.kms_key_id != null && local.kms_key_id != ""
         
-        // Queue is compliant if either encryption method is enabled
+        # Queue is compliant if either encryption method is enabled
         is_encrypted = local.has_sqs_sse || local.has_kms_sse
     }
 

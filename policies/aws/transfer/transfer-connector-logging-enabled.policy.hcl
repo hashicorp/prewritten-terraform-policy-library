@@ -4,10 +4,10 @@ policy {}
 
 resource_policy "aws_transfer_connector" "logging_enabled" {
     locals {
-        // Safe access to logging_role attribute with null fallback
+        # Safe access to logging_role attribute with null fallback
         logging_role = core::try(attrs.logging_role, null)
         
-        // Check if logging_role is configured (not null and not empty string)
+        # Check if logging_role is configured (not null and not empty string)
         has_logging_role = local.logging_role != null && local.logging_role != ""
     }
 

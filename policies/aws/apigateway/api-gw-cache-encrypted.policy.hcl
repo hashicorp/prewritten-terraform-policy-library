@@ -3,17 +3,17 @@
 policy {}
 
 resource_policy "aws_api_gateway_method_settings" "cache_encryption_required" {
-    // Only evaluate method settings that have caching enabled
+    # Only evaluate method settings that have caching enabled
     filter = core::try(attrs.settings[0].caching_enabled, false) == true
 
     locals {
-        // Safely extract cache encryption setting
+        # Safely extract cache encryption setting
         cache_data_encrypted = core::try(attrs.settings[0].cache_data_encrypted, false)
         
-        // Get method path for error message
+        # Get method path for error message
         method_path = core::try(attrs.method_path, "unknown")
         
-        // Get stage name for error message
+        # Get stage name for error message
         stage_name = core::try(attrs.stage_name, "unknown")
     }
 

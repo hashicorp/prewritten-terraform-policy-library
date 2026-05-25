@@ -8,7 +8,7 @@ inputs {
   excludePermissionBoundaryPolicy = "maybe"
 }
 
-// FAIL - input must be "true" or "false"
+# FAIL - input must be "true" or "false"
 resource "aws_iam_policy" "invalid_exclude_permission_boundary_input" {
   expect_failure = true
   attrs = {

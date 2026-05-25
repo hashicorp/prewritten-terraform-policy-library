@@ -3,7 +3,7 @@ policytest {
     "ec2-instance-managed-by-systems-manager.policy.hcl"
   ]
 }
-// Test 1: Compliant instance with managed_policy_arns
+# Test 1: Compliant instance with managed_policy_arns
 resource "aws_iam_role" "ssm_role" {
   attrs = {
     name = "ec2-ssm-role"
@@ -32,7 +32,7 @@ resource "aws_instance" "compliant" {
   }
 }
 
-// Test 2: Compliant instance with policy attachment
+# Test 2: Compliant instance with policy attachment
 resource "aws_iam_role" "ssm_role_attachment" {
   attrs = {
     name = "ec2-ssm-role-attachment"
@@ -65,7 +65,7 @@ resource "aws_instance" "compliant_attachment" {
   }
 }
 
-// Test 3: Non-compliant instance without instance profile
+# Test 3: Non-compliant instance without instance profile
 resource "aws_instance" "no_profile" {
   expect_failure = true
   attrs = {
@@ -77,8 +77,8 @@ resource "aws_instance" "no_profile" {
   }
 }
 
-// Test 4: Instance with profile (SSM permission validation requires runtime checks)
-// Note: This policy only validates instance profile presence, not SSM permissions
+# Test 4: Instance with profile (SSM permission validation requires runtime checks)
+# Note: This policy only validates instance profile presence, not SSM permissions
 resource "aws_iam_role" "no_ssm_role" {
   attrs = {
     name = "ec2-no-ssm-role"
@@ -107,7 +107,7 @@ resource "aws_instance" "with_profile_no_ssm" {
   }
 }
 
-// Test 5: Excluded disaster recovery instance
+# Test 5: Excluded disaster recovery instance
 resource "aws_instance" "disaster_recovery" {
   attrs = {
     ami = "ami-12345678"
@@ -119,7 +119,7 @@ resource "aws_instance" "disaster_recovery" {
   }
 }
 
-// Test 6: Compliant with both managed policy and attachment
+# Test 6: Compliant with both managed policy and attachment
 resource "aws_iam_role" "ssm_role_both" {
   attrs = {
     name = "ec2-ssm-role-both"
@@ -155,7 +155,7 @@ resource "aws_instance" "compliant_both" {
   }
 }
 
-// Test 7: Alternative disaster recovery tag
+# Test 7: Alternative disaster recovery tag
 resource "aws_instance" "disaster_recovery_alt" {
   attrs = {
     ami = "ami-12345678"

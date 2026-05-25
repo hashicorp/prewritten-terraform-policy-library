@@ -4,14 +4,14 @@ policy {}
 
 resource_policy "aws_transfer_server" "no_ftp_protocol" {
     locals {
-        // Get protocols list, default to empty list if not specified
-        // Note: If protocols is not specified, AWS defaults to SFTP which is compliant
+        # Get protocols list, default to empty list if not specified
+        # Note: If protocols is not specified, AWS defaults to SFTP which is compliant
         protocols = core::try(attrs.protocols, [])
         
-        // Check if FTP is in the protocols list
+        # Check if FTP is in the protocols list
         has_ftp = core::contains(local.protocols, "FTP")
         
-        // Get allowed protocols for error message
+        # Get allowed protocols for error message
         allowed_protocols = ["SFTP", "FTPS", "AS2"]
     }
 

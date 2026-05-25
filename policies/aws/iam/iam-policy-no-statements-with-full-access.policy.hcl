@@ -11,8 +11,8 @@ locals {
     all_iam_roles = core::getresources("aws_iam_role", {})
     all_iam_users = core::getresources("aws_iam_user", {})
 
-    // Centralised input validation so it is enforced even when no aws_iam_policy
-    // resources exist in the plan (every resource_policy block re-uses this).
+    # Centralised input validation so it is enforced even when no aws_iam_policy
+    # resources exist in the plan (every resource_policy block re-uses this).
     valid_exclude_input = input.excludePermissionBoundaryPolicy == "true" || input.excludePermissionBoundaryPolicy == "false"
 }
 

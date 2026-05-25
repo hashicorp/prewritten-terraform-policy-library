@@ -4,10 +4,10 @@ policy {}
 
 resource_policy "aws_ec2_transit_gateway" "auto_accept_disabled" {
     locals {
-        // Safe access to auto_accept_shared_attachments attribute
+        # Safe access to auto_accept_shared_attachments attribute
         auto_accept = core::try(attrs.auto_accept_shared_attachments, "disable")
         
-        // Check if auto-accept is disabled (compliant)
+        # Check if auto-accept is disabled (compliant)
         is_compliant = local.auto_accept == "disable"
     }
 

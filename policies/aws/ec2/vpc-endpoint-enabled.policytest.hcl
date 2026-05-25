@@ -125,10 +125,8 @@ resource "aws_vpc_endpoint" "fail_ecr_dkr_only" {
   }
 }
 
-# Test 8: PASS - Full-form service name in input (com.amazonaws.us-east-1.ecr.api)
-# is matched literally (with region wildcard + optional -fips suffix). Default
-# input.serviceNames = "ecr.api" so this test exercises the same short-form
-# matching as Test 1; full-form matching is covered by Test 9 via an override.
+# Test 8: PASS - Full-form service name (com.amazonaws.<region>.ecr.api) is
+# matched literally (with region wildcard + optional -fips suffix).
 resource "aws_vpc" "pass_full_form_marker" {
   attrs = {
     id         = "vpc-fullform0"

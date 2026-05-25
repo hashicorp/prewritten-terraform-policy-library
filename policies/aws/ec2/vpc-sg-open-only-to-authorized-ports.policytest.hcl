@@ -2,7 +2,7 @@ policytest {
   targets = ["vpc-sg-open-only-to-authorized-ports.policy.hcl"]
 }
 
-// PASS: Security group with no ingress rules
+# PASS: Security group with no ingress rules
 resource "aws_security_group" "pass_no_ingress_rules" {
   attrs = {
     name        = "test-sg"
@@ -12,7 +12,7 @@ resource "aws_security_group" "pass_no_ingress_rules" {
   }
 }
 
-// PASS: Security group allowing 0.0.0.0/0 on TCP port 80 (authorized)
+# PASS: Security group allowing 0.0.0.0/0 on TCP port 80 (authorized)
 resource "aws_security_group" "pass_port_80_ipv4" {
   attrs = {
     name        = "test-sg"
@@ -30,7 +30,7 @@ resource "aws_security_group" "pass_port_80_ipv4" {
   }
 }
 
-// PASS: Security group allowing 0.0.0.0/0 on TCP port 443 (authorized)
+# PASS: Security group allowing 0.0.0.0/0 on TCP port 443 (authorized)
 resource "aws_security_group" "pass_port_443_ipv4" {
   attrs = {
     name        = "test-sg"
@@ -48,7 +48,7 @@ resource "aws_security_group" "pass_port_443_ipv4" {
   }
 }
 
-// PASS: Security group allowing ::/0 on TCP port 80 (authorized IPv6)
+# PASS: Security group allowing ::/0 on TCP port 80 (authorized IPv6)
 resource "aws_security_group" "pass_port_80_ipv6" {
   attrs = {
     name        = "test-sg"
@@ -66,7 +66,7 @@ resource "aws_security_group" "pass_port_80_ipv6" {
   }
 }
 
-// PASS: Security group with restricted CIDR on port 22 (not 0.0.0.0/0)
+# PASS: Security group with restricted CIDR on port 22 (not 0.0.0.0/0)
 resource "aws_security_group" "pass_restricted_cidr_ssh" {
   attrs = {
     name        = "test-sg"
@@ -84,7 +84,7 @@ resource "aws_security_group" "pass_restricted_cidr_ssh" {
   }
 }
 
-// FAIL: Security group allowing 0.0.0.0/0 on TCP port 22 (unauthorized)
+# FAIL: Security group allowing 0.0.0.0/0 on TCP port 22 (unauthorized)
 resource "aws_security_group" "fail_port_22_ssh" {
   expect_failure = true
   attrs = {
@@ -103,7 +103,7 @@ resource "aws_security_group" "fail_port_22_ssh" {
   }
 }
 
-// FAIL: Security group allowing 0.0.0.0/0 on TCP port 3389 (unauthorized)
+# FAIL: Security group allowing 0.0.0.0/0 on TCP port 3389 (unauthorized)
 resource "aws_security_group" "fail_port_3389_rdp" {
   expect_failure = true
   attrs = {
@@ -122,7 +122,7 @@ resource "aws_security_group" "fail_port_3389_rdp" {
   }
 }
 
-// FAIL: Security group allowing ::/0 on TCP port 22 (unauthorized IPv6)
+# FAIL: Security group allowing ::/0 on TCP port 22 (unauthorized IPv6)
 resource "aws_security_group" "fail_port_22_ssh_ipv6" {
   expect_failure = true
   attrs = {
@@ -141,7 +141,7 @@ resource "aws_security_group" "fail_port_22_ssh_ipv6" {
   }
 }
 
-// FAIL: Security group allowing 0.0.0.0/0 on protocol -1 (all protocols)
+# FAIL: Security group allowing 0.0.0.0/0 on protocol -1 (all protocols)
 resource "aws_security_group" "fail_all_protocols" {
   expect_failure = true
   attrs = {
@@ -160,7 +160,7 @@ resource "aws_security_group" "fail_all_protocols" {
   }
 }
 
-// FAIL: Security group with multiple rules including unauthorized port
+# FAIL: Security group with multiple rules including unauthorized port
 resource "aws_security_group" "fail_multiple_rules_with_violation" {
   expect_failure = true
   attrs = {
@@ -186,7 +186,7 @@ resource "aws_security_group" "fail_multiple_rules_with_violation" {
   }
 }
 
-// FAIL: Security group allowing 0.0.0.0/0 on UDP port 53 with no authorizedUdpPorts configured
+# FAIL: Security group allowing 0.0.0.0/0 on UDP port 53 with no authorizedUdpPorts configured
 resource "aws_security_group" "fail_udp_53_by_default" {
   expect_failure = true
   attrs = {
@@ -205,11 +205,11 @@ resource "aws_security_group" "fail_udp_53_by_default" {
   }
 }
 
-// ============================================================================
-// Tests for aws_vpc_security_group_ingress_rule resource
-// ============================================================================
+# ============================================================================
+# Tests for aws_vpc_security_group_ingress_rule resource
+# ============================================================================
 
-// PASS: Ingress rule allowing 0.0.0.0/0 on TCP port 80 (authorized)
+# PASS: Ingress rule allowing 0.0.0.0/0 on TCP port 80 (authorized)
 resource "aws_vpc_security_group_ingress_rule" "pass_ingress_rule_port_80" {
   attrs = {
     security_group_id = "sg-12345678"
@@ -221,7 +221,7 @@ resource "aws_vpc_security_group_ingress_rule" "pass_ingress_rule_port_80" {
   }
 }
 
-// PASS: Ingress rule allowing 0.0.0.0/0 on TCP port 443 (authorized)
+# PASS: Ingress rule allowing 0.0.0.0/0 on TCP port 443 (authorized)
 resource "aws_vpc_security_group_ingress_rule" "pass_ingress_rule_port_443" {
   attrs = {
     security_group_id = "sg-12345678"
@@ -233,7 +233,7 @@ resource "aws_vpc_security_group_ingress_rule" "pass_ingress_rule_port_443" {
   }
 }
 
-// PASS: Ingress rule allowing ::/0 on TCP port 443 (authorized IPv6)
+# PASS: Ingress rule allowing ::/0 on TCP port 443 (authorized IPv6)
 resource "aws_vpc_security_group_ingress_rule" "pass_ingress_rule_port_443_ipv6" {
   attrs = {
     security_group_id = "sg-12345678"
@@ -245,7 +245,7 @@ resource "aws_vpc_security_group_ingress_rule" "pass_ingress_rule_port_443_ipv6"
   }
 }
 
-// PASS: Ingress rule with restricted CIDR on port 22 (not 0.0.0.0/0)
+# PASS: Ingress rule with restricted CIDR on port 22 (not 0.0.0.0/0)
 resource "aws_vpc_security_group_ingress_rule" "pass_ingress_rule_restricted_cidr" {
   attrs = {
     security_group_id = "sg-12345678"
@@ -257,7 +257,7 @@ resource "aws_vpc_security_group_ingress_rule" "pass_ingress_rule_restricted_cid
   }
 }
 
-// FAIL: Ingress rule allowing 0.0.0.0/0 on TCP port 22 (unauthorized)
+# FAIL: Ingress rule allowing 0.0.0.0/0 on TCP port 22 (unauthorized)
 resource "aws_vpc_security_group_ingress_rule" "fail_ingress_rule_port_22" {
   expect_failure = true
   attrs = {
@@ -270,7 +270,7 @@ resource "aws_vpc_security_group_ingress_rule" "fail_ingress_rule_port_22" {
   }
 }
 
-// FAIL: Ingress rule allowing 0.0.0.0/0 on TCP port 3389 (unauthorized)
+# FAIL: Ingress rule allowing 0.0.0.0/0 on TCP port 3389 (unauthorized)
 resource "aws_vpc_security_group_ingress_rule" "fail_ingress_rule_port_3389" {
   expect_failure = true
   attrs = {
@@ -283,7 +283,7 @@ resource "aws_vpc_security_group_ingress_rule" "fail_ingress_rule_port_3389" {
   }
 }
 
-// FAIL: Ingress rule allowing ::/0 on TCP port 3306 (unauthorized IPv6)
+# FAIL: Ingress rule allowing ::/0 on TCP port 3306 (unauthorized IPv6)
 resource "aws_vpc_security_group_ingress_rule" "fail_ingress_rule_port_3306_ipv6" {
   expect_failure = true
   attrs = {
@@ -296,7 +296,7 @@ resource "aws_vpc_security_group_ingress_rule" "fail_ingress_rule_port_3306_ipv6
   }
 }
 
-// FAIL: Ingress rule allowing 0.0.0.0/0 on protocol -1 (all protocols)
+# FAIL: Ingress rule allowing 0.0.0.0/0 on protocol -1 (all protocols)
 resource "aws_vpc_security_group_ingress_rule" "fail_ingress_rule_all_protocols" {
   expect_failure = true
   attrs = {
@@ -307,7 +307,7 @@ resource "aws_vpc_security_group_ingress_rule" "fail_ingress_rule_all_protocols"
   }
 }
 
-// FAIL: Ingress rule allowing 0.0.0.0/0 on UDP port 53 with no authorizedUdpPorts configured
+# FAIL: Ingress rule allowing 0.0.0.0/0 on UDP port 53 with no authorizedUdpPorts configured
 resource "aws_vpc_security_group_ingress_rule" "fail_ingress_rule_udp_53_by_default" {
   expect_failure = true
   attrs = {

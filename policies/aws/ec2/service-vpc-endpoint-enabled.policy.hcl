@@ -1,0 +1,45 @@
+# Policy: EC2.10 - Amazon EC2 should be configured to use VPC endpoints
+
+policy {}
+
+# Validate each VPC has an EC2 interface endpoint.
+resource_policy "aws_vpc" "ec2_service_vpc_endpoint_enabled" {
+    locals {
+        vpc_id = core::try(attrs.id, "")
+        has_known_vpc_id = core::try(attrs.id != "", false)
+
+        service_name = "ec2"
+
+        all_vpc_endpoints = core::getresources("aws_vpc_endpoint", { vpc_id = local.vpc_id })
+
+        matching_endpoints = [
+            for endpoint in local.all_vpc_endpoints :
+            endpoint if (
+                core::try(endpoint.vpc_endpoint_type, "") == "Interface" &&
+                core::length(core::regexall("\\.${local.service_name}(-fips)?$", core::try(endpoint.service_name, ""))) > 0
+            )
+        ]
+
+        has_endpoint = local.has_known_vpc_id && core::try(core::length(local.matching_endpoints) > 0, false)
+
+        valid_endpoints = [
+            for endpoint in local.matching_endpoints :
+            endpoint if (
+                core::length(core::try(endpoint.subnet_ids, [])) > 0 &&
+                core::length(core::try(endpoint.security_group_ids, [])) > 0
+            )
+        ]
+
+        has_valid_endpoint = local.has_known_vpc_id && core::try(core::length(local.valid_endpoints) > 0, false)
+    }
+
+    enforce {
+        condition = !local.has_known_vpc_id || local.has_endpoint
+        error_message = "VPC must have an interface VPC endpoint created for the Amazon EC2 service. Create an aws_vpc_endpoint resource with service_name ending in '.ec2' for VPC id ${attrs.id}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-10 for more details."
+    }
+
+    enforce {
+        condition = !local.has_known_vpc_id || local.has_valid_endpoint
+        error_message = "VPC EC2 interface endpoint must include subnet_ids and security_group_ids for proper connectivity and access control. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-10 for more details."
+    }
+}

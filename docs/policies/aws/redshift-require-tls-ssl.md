@@ -1,0 +1,53 @@
+# Connections to Amazon Redshift clusters should be encrypted in transit
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Encryption of data-in-transit |
+
+## Description
+
+This control checks whether connections to Amazon Redshift clusters are required to use encryption in transit. The check fails if the Amazon Redshift cluster parameter `require_SSL` isn't set to `True`.
+
+TLS can be used to help prevent potential attackers from using person-in-the-middle or similar attacks to eavesdrop on or manipulate network traffic. Only encrypted connections over TLS should be allowed. Encrypting data in transit can affect performance. You should test your application with this feature to understand the performance profile and the impact of TLS.
+
+This rule is covered by the [redshift-require-tls-ssl](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-require-tls-ssl.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # redshift-require-tls-ssl.policytest.hcl...
+      running
+      # resource.aws_redshift_cluster.pass_custom_param_group_with_ssl...
+      running
+      # resource.aws_redshift_cluster.pass_custom_param_group_with_ssl...
+      pass
+      # resource.aws_redshift_parameter_group.custom_with_ssl...
+      running
+      # resource.aws_redshift_parameter_group.custom_with_ssl...
+      pass
+      # resource.aws_redshift_cluster.fail_default_param_group...
+      running
+      # resource.aws_redshift_cluster.fail_default_param_group...
+      pass
+      # resource.aws_redshift_cluster.fail_missing_require_ssl...
+      running
+      # resource.aws_redshift_cluster.fail_missing_require_ssl...
+      pass
+      # resource.aws_redshift_parameter_group.no_ssl_param...
+      running
+      # resource.aws_redshift_parameter_group.no_ssl_param...
+      pass
+      # resource.aws_redshift_cluster.fail_require_ssl_false...
+      running
+      # resource.aws_redshift_cluster.fail_require_ssl_false...
+      pass
+      # resource.aws_redshift_parameter_group.ssl_false_param...
+      running
+      # resource.aws_redshift_parameter_group.ssl_false_param...
+      pass
+      # redshift-require-tls-ssl.policytest.hcl...
+      pass
+```
+
+---

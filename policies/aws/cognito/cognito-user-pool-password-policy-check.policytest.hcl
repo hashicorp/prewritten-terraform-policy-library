@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Pass case: Strong password policy with all requirements met
+# Pass case: Strong password policy with all requirements met
 resource "aws_cognito_user_pool" "pass_strong_password_policy" {
   attrs = {
     name = "compliant-pool"
@@ -21,7 +21,7 @@ resource "aws_cognito_user_pool" "pass_strong_password_policy" {
   }
 }
 
-// Fail case: Minimum length less than 8
+# Fail case: Minimum length less than 8
 resource "aws_cognito_user_pool" "fail_minimum_length_too_short" {
   expect_failure = true
   attrs = {
@@ -39,7 +39,7 @@ resource "aws_cognito_user_pool" "fail_minimum_length_too_short" {
   }
 }
 
-// Fail case: Missing lowercase requirement
+# Fail case: Missing lowercase requirement
 resource "aws_cognito_user_pool" "fail_no_lowercase_requirement" {
   expect_failure = true
   attrs = {
@@ -57,7 +57,7 @@ resource "aws_cognito_user_pool" "fail_no_lowercase_requirement" {
   }
 }
 
-// Fail case: Missing uppercase requirement
+# Fail case: Missing uppercase requirement
 resource "aws_cognito_user_pool" "fail_no_uppercase_requirement" {
   expect_failure = true
   attrs = {
@@ -75,7 +75,7 @@ resource "aws_cognito_user_pool" "fail_no_uppercase_requirement" {
   }
 }
 
-// Fail case: Missing numbers requirement
+# Fail case: Missing numbers requirement
 resource "aws_cognito_user_pool" "fail_no_numbers_requirement" {
   expect_failure = true
   attrs = {
@@ -93,7 +93,7 @@ resource "aws_cognito_user_pool" "fail_no_numbers_requirement" {
   }
 }
 
-// Fail case: Missing symbols requirement
+# Fail case: Missing symbols requirement
 resource "aws_cognito_user_pool" "fail_no_symbols_requirement" {
   expect_failure = true
   attrs = {
@@ -111,7 +111,7 @@ resource "aws_cognito_user_pool" "fail_no_symbols_requirement" {
   }
 }
 
-// Fail case: Multiple violations (no lowercase and no symbols)
+# Fail case: Multiple violations (no lowercase and no symbols)
 resource "aws_cognito_user_pool" "fail_multiple_violations" {
   expect_failure = true
   attrs = {
@@ -129,7 +129,7 @@ resource "aws_cognito_user_pool" "fail_multiple_violations" {
   }
 }
 
-// Pass case: Boundary case with minimum length exactly 8
+# Pass case: Boundary case with minimum length exactly 8
 resource "aws_cognito_user_pool" "pass_minimum_length_exactly_8" {
   attrs = {
     name = "boundary-case-pool"
@@ -146,7 +146,7 @@ resource "aws_cognito_user_pool" "pass_minimum_length_exactly_8" {
   }
 }
 
-// Pass case: Minimum length greater than 8
+# Pass case: Minimum length greater than 8
 resource "aws_cognito_user_pool" "pass_minimum_length_exceeds_requirement" {
   attrs = {
     name = "exceeds-minimum-pool"
@@ -163,7 +163,7 @@ resource "aws_cognito_user_pool" "pass_minimum_length_exceeds_requirement" {
   }
 }
 
-// Fail case: Temporary password validity exceeds default threshold
+# Fail case: Temporary password validity exceeds default threshold
 resource "aws_cognito_user_pool" "fail_temporary_password_validity_too_high" {
   expect_failure = true
   attrs = {
@@ -181,7 +181,7 @@ resource "aws_cognito_user_pool" "fail_temporary_password_validity_too_high" {
   }
 }
 
-// Fail case: Missing password policy block entirely
+# Fail case: Missing password policy block entirely
 resource "aws_cognito_user_pool" "fail_missing_password_policy" {
   expect_failure = true
   attrs = {

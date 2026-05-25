@@ -1,0 +1,20 @@
+# Policy: Kinesis.3 - Kinesis streams should have an adequate data retention period
+
+policy {}
+
+input "minimumBackupRetentionPeriod" {
+    type = number
+    default = 168
+}
+
+resource_policy "aws_kinesis_stream" "kinesis_retention_check" {
+    locals {
+        valid_retention = input.minimumBackupRetentionPeriod >= 24 && input.minimumBackupRetentionPeriod <= 8760
+    }
+
+    enforce {
+        condition     = local.valid_retention && core::try(attrs.retention_period, 24) >= input.minimumBackupRetentionPeriod
+        error_message = "Kinesis stream has an insufficient data retention period (must be between 24 and 8760 hours, inclusive). Update the 'retention_period' argument to meet the minimum required hours to comply with AWS Security Hub Kinesis.3 control. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/kinesis-controls.html#kinesis-3 for more details."
+    }
+}
+

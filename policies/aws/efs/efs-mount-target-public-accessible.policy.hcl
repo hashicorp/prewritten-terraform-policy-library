@@ -1,0 +1,22 @@
+# EFS.6 - EFS mount targets should not be associated with subnets that assign public IP addresses on launch
+
+policy {}
+
+locals {
+    all_subnets = core::getresources("aws_subnet", {})
+}
+
+resource_policy "aws_efs_mount_target" "no_public_subnet" {
+    locals {
+        subnet = core::try(
+            [for s in local.all_subnets : s if s.id == attrs.subnet_id][0],
+            null
+        )
+        map_public_ip_on_launch = core::try(local.subnet.map_public_ip_on_launch, false)
+    }
+
+    enforce {
+        condition     = !local.map_public_ip_on_launch
+        error_message = "EFS mount target is associated with a subnet that assigns public IPv4 addresses on launch (map_public_ip_on_launch=true). Mount targets must only be placed in subnets that do not auto-assign public IPs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/efs-controls.html#efs-6 for more details."
+    }
+}

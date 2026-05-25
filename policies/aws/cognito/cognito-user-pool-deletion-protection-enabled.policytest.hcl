@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test case 1: User pool with deletion_protection set to ACTIVE (should pass)
+# Test case 1: User pool with deletion_protection set to ACTIVE (should pass)
 resource "aws_cognito_user_pool" "compliant" {
   attrs = {
     name = "test-user-pool-compliant"
@@ -12,7 +12,7 @@ resource "aws_cognito_user_pool" "compliant" {
   }
 }
 
-// Test case 2: User pool with deletion_protection set to INACTIVE (should fail)
+# Test case 2: User pool with deletion_protection set to INACTIVE (should fail)
 resource "aws_cognito_user_pool" "non_compliant_inactive" {
   expect_failure = true
   attrs = {
@@ -21,7 +21,7 @@ resource "aws_cognito_user_pool" "non_compliant_inactive" {
   }
 }
 
-// Test case 3: User pool without deletion_protection attribute (should fail, defaults to INACTIVE)
+# Test case 3: User pool without deletion_protection attribute (should fail, defaults to INACTIVE)
 resource "aws_cognito_user_pool" "non_compliant_missing" {
   expect_failure = true
   attrs = {

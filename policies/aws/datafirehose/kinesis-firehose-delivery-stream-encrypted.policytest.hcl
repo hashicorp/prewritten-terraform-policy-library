@@ -5,7 +5,7 @@ policytest {
 }
 
 
-// Test 1: Pass - Firehose delivery stream with server-side encryption enabled
+# Test 1: Pass - Firehose delivery stream with server-side encryption enabled
 resource "aws_kinesis_firehose_delivery_stream" "pass_encryption_enabled" {
   attrs = {
     name = "compliant-stream"
@@ -19,7 +19,7 @@ resource "aws_kinesis_firehose_delivery_stream" "pass_encryption_enabled" {
   }
 }
 
-// Test 2: Fail - Firehose delivery stream without server-side encryption block
+# Test 2: Fail - Firehose delivery stream without server-side encryption block
 resource "aws_kinesis_firehose_delivery_stream" "fail_no_encryption_block" {
   expect_failure = true
   attrs = {
@@ -28,7 +28,7 @@ resource "aws_kinesis_firehose_delivery_stream" "fail_no_encryption_block" {
   }
 }
 
-// Test 3: Fail - Firehose delivery stream with server-side encryption disabled
+# Test 3: Fail - Firehose delivery stream with server-side encryption disabled
 resource "aws_kinesis_firehose_delivery_stream" "fail_encryption_disabled" {
   expect_failure = true
   attrs = {
@@ -42,7 +42,7 @@ resource "aws_kinesis_firehose_delivery_stream" "fail_encryption_disabled" {
   }
 }
 
-// Test 4: Pass - Firehose delivery stream with Kinesis stream as source (exception case)
+# Test 4: Pass - Firehose delivery stream with Kinesis stream as source (exception case)
 resource "aws_kinesis_firehose_delivery_stream" "pass_kinesis_source_exception" {
   attrs = {
     name = "kinesis-source-stream"
@@ -56,7 +56,7 @@ resource "aws_kinesis_firehose_delivery_stream" "pass_kinesis_source_exception" 
   }
 }
 
-// Test 5: Pass - Firehose delivery stream with encryption enabled using AWS_OWNED_CMK
+# Test 5: Pass - Firehose delivery stream with encryption enabled using AWS_OWNED_CMK
 resource "aws_kinesis_firehose_delivery_stream" "pass_aws_owned_cmk" {
   attrs = {
     name = "aws-owned-key-stream"
@@ -70,7 +70,7 @@ resource "aws_kinesis_firehose_delivery_stream" "pass_aws_owned_cmk" {
   }
 }
 
-// Test 6: Pass - Firehose delivery stream with encryption enabled using CUSTOMER_MANAGED_CMK
+# Test 6: Pass - Firehose delivery stream with encryption enabled using CUSTOMER_MANAGED_CMK
 resource "aws_kinesis_firehose_delivery_stream" "pass_customer_managed_cmk" {
   attrs = {
     name = "customer-managed-key-stream"

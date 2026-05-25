@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: PASS - SNS topic policy with specific AWS account principal
+# Test 1: PASS - SNS topic policy with specific AWS account principal
 resource "aws_sns_topic_policy" "pass_specific_account_principal" {
   attrs = {
     arn = "arn:aws:sns:us-east-1:123456789012:my-topic"
@@ -12,7 +12,7 @@ resource "aws_sns_topic_policy" "pass_specific_account_principal" {
   }
 }
 
-// Test 2: FAIL - SNS topic policy with wildcard principal and Allow effect
+# Test 2: FAIL - SNS topic policy with wildcard principal and Allow effect
 resource "aws_sns_topic_policy" "fail_wildcard_principal_string" {
   expect_failure = true
   attrs = {
@@ -21,7 +21,7 @@ resource "aws_sns_topic_policy" "fail_wildcard_principal_string" {
   }
 }
 
-// Test 3: FAIL - SNS topic policy with wildcard AWS principal
+# Test 3: FAIL - SNS topic policy with wildcard AWS principal
 resource "aws_sns_topic_policy" "fail_wildcard_aws_principal" {
   expect_failure = true
   attrs = {
@@ -30,7 +30,7 @@ resource "aws_sns_topic_policy" "fail_wildcard_aws_principal" {
   }
 }
 
-// Test 4: PASS - SNS topic policy with wildcard principal but Deny effect
+# Test 4: PASS - SNS topic policy with wildcard principal but Deny effect
 resource "aws_sns_topic_policy" "pass_wildcard_deny_effect" {
   attrs = {
     arn = "arn:aws:sns:us-east-1:123456789012:my-topic"
@@ -38,7 +38,7 @@ resource "aws_sns_topic_policy" "pass_wildcard_deny_effect" {
   }
 }
 
-// Test 5: PASS - SNS topic policy with wildcard principal but restrictive conditions
+# Test 5: PASS - SNS topic policy with wildcard principal but restrictive conditions
 resource "aws_sns_topic_policy" "pass_wildcard_with_conditions" {
   attrs = {
     arn = "arn:aws:sns:us-east-1:123456789012:my-topic"
@@ -46,7 +46,7 @@ resource "aws_sns_topic_policy" "pass_wildcard_with_conditions" {
   }
 }
 
-// Test 6: FAIL - SNS topic with inline policy containing wildcard principal
+# Test 6: FAIL - SNS topic with inline policy containing wildcard principal
 resource "aws_sns_topic" "fail_inline_wildcard_principal" {
   expect_failure = true
   attrs = {
@@ -55,7 +55,7 @@ resource "aws_sns_topic" "fail_inline_wildcard_principal" {
   }
 }
 
-// Test 7: PASS - SNS topic with inline policy containing specific account principal
+# Test 7: PASS - SNS topic with inline policy containing specific account principal
 resource "aws_sns_topic" "pass_inline_specific_principal" {
   attrs = {
     name = "my-topic"
@@ -63,7 +63,7 @@ resource "aws_sns_topic" "pass_inline_specific_principal" {
   }
 }
 
-// Test 8: PASS - SNS topic without inline policy (filtered out by policy)
+# Test 8: PASS - SNS topic without inline policy (filtered out by policy)
 resource "aws_sns_topic" "pass_no_inline_policy" {
   attrs = {
     name = "my-topic"
@@ -71,7 +71,7 @@ resource "aws_sns_topic" "pass_no_inline_policy" {
   }
 }
 
-// Test 9: FAIL - Wildcard principal in list form: "Principal": {"AWS": ["*"]}
+# Test 9: FAIL - Wildcard principal in list form: "Principal": {"AWS": ["*"]}
 resource "aws_sns_topic_policy" "fail_wildcard_aws_principal_list" {
   expect_failure = true
   attrs = {
@@ -80,7 +80,7 @@ resource "aws_sns_topic_policy" "fail_wildcard_aws_principal_list" {
   }
 }
 
-// Test 10: FAIL - Wildcard principal in mixed list: "Principal": {"AWS": ["arn:...:root", "*"]}
+# Test 10: FAIL - Wildcard principal in mixed list: "Principal": {"AWS": ["arn:...:root", "*"]}
 resource "aws_sns_topic_policy" "fail_wildcard_aws_principal_mixed_list" {
   expect_failure = true
   attrs = {
@@ -89,7 +89,7 @@ resource "aws_sns_topic_policy" "fail_wildcard_aws_principal_mixed_list" {
   }
 }
 
-// Test 11: FAIL - NotPrincipal with Effect: Allow is effectively public
+# Test 11: FAIL - NotPrincipal with Effect: Allow is effectively public
 resource "aws_sns_topic_policy" "fail_not_principal_allow" {
   expect_failure = true
   attrs = {
@@ -98,7 +98,7 @@ resource "aws_sns_topic_policy" "fail_not_principal_allow" {
   }
 }
 
-// Test 12: FAIL - Single-object Statement (not an array) with wildcard principal
+# Test 12: FAIL - Single-object Statement (not an array) with wildcard principal
 resource "aws_sns_topic_policy" "fail_single_object_statement_wildcard" {
   expect_failure = true
   attrs = {
@@ -107,7 +107,7 @@ resource "aws_sns_topic_policy" "fail_single_object_statement_wildcard" {
   }
 }
 
-// Test 13: PASS - Single-object Statement (not an array) with specific principal
+# Test 13: PASS - Single-object Statement (not an array) with specific principal
 resource "aws_sns_topic_policy" "pass_single_object_statement_specific" {
   attrs = {
     arn = "arn:aws:sns:us-east-1:123456789012:my-topic"
@@ -115,7 +115,7 @@ resource "aws_sns_topic_policy" "pass_single_object_statement_specific" {
   }
 }
 
-// Test 14: FAIL - Wildcard Service principal
+# Test 14: FAIL - Wildcard Service principal
 resource "aws_sns_topic_policy" "fail_wildcard_service_principal" {
   expect_failure = true
   attrs = {

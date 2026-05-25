@@ -4,16 +4,16 @@ policy {}
 
 resource_policy "aws_servicecatalog_portfolio_share" "organization_only_sharing" {
     locals {
-        // Extract the share type safely
+        # Extract the share type safely
         share_type = core::try(attrs.type, "")
         
-        // Check if this is an external account share (non-compliant)
+        # Check if this is an external account share (non-compliant)
         is_external_account = local.share_type == "ACCOUNT"
         
-        // Valid organization-based share types
+        # Valid organization-based share types
         valid_org_types = ["ORGANIZATION", "ORGANIZATIONAL_UNIT", "ORGANIZATION_MEMBER_ACCOUNT"]
         
-        // Check if share type is organization-based (compliant)
+        # Check if share type is organization-based (compliant)
         is_org_based = core::contains(local.valid_org_types, local.share_type)
     }
 

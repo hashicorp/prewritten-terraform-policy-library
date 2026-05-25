@@ -3,7 +3,7 @@ policytest {
     "connect-instance-logging-enabled.policy.hcl"
   ]
 }
-// Test 1: PASS - Connect instance with CloudWatch logging enabled
+# Test 1: PASS - Connect instance with CloudWatch logging enabled
 resource "aws_connect_instance" "pass_logging_enabled" {
   attrs = {
     identity_management_type    = "CONNECT_MANAGED"
@@ -14,7 +14,7 @@ resource "aws_connect_instance" "pass_logging_enabled" {
   }
 }
 
-// Test 2: FAIL - Connect instance with CloudWatch logging explicitly disabled
+# Test 2: FAIL - Connect instance with CloudWatch logging explicitly disabled
 resource "aws_connect_instance" "fail_logging_disabled" {
   expect_failure = true
   attrs = {
@@ -26,7 +26,7 @@ resource "aws_connect_instance" "fail_logging_disabled" {
   }
 }
 
-// Test 3: FAIL - Connect instance without contact_flow_logs_enabled attribute
+# Test 3: FAIL - Connect instance without contact_flow_logs_enabled attribute
 resource "aws_connect_instance" "fail_logging_not_specified" {
   expect_failure = true
   attrs = {

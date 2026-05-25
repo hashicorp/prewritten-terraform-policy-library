@@ -3,7 +3,7 @@ policytest {
     "autoscaling-launchconfig-requires-imdsv2.policy.hcl"
   ]
 }
-// Test 1: PASS - Launch configuration with IMDSv2 enabled (http_tokens = "required")
+# Test 1: PASS - Launch configuration with IMDSv2 enabled (http_tokens = "required")
 resource "aws_launch_configuration" "pass_lc_with_imdsv2_required" {
   attrs = {
     name = "compliant-lc"
@@ -19,7 +19,7 @@ resource "aws_launch_configuration" "pass_lc_with_imdsv2_required" {
   }
 }
 
-// Test 2: FAIL - Launch configuration without metadata_options block
+# Test 2: FAIL - Launch configuration without metadata_options block
 resource "aws_launch_configuration" "fail_lc_without_metadata_options" {
   expect_failure = true
   attrs = {
@@ -30,7 +30,7 @@ resource "aws_launch_configuration" "fail_lc_without_metadata_options" {
   }
 }
 
-// Test 3: FAIL - Launch configuration with http_tokens set to "optional"
+# Test 3: FAIL - Launch configuration with http_tokens set to "optional"
 resource "aws_launch_configuration" "fail_lc_with_http_tokens_optional" {
   expect_failure = true
   attrs = {
@@ -49,7 +49,7 @@ resource "aws_launch_configuration" "fail_lc_with_http_tokens_optional" {
 
 
 
-// Test 6: FILTERED - Auto Scaling Group using launch_template (should be filtered out)
+# Test 6: FILTERED - Auto Scaling Group using launch_template (should be filtered out)
 resource "aws_autoscaling_group" "filtered_asg_with_launch_template" {
   attrs = {
     name = "template-asg"
@@ -66,7 +66,7 @@ resource "aws_autoscaling_group" "filtered_asg_with_launch_template" {
   }
 }
 
-// Test 7: PASS - Launch configuration with complete metadata_options
+# Test 7: PASS - Launch configuration with complete metadata_options
 resource "aws_launch_configuration" "pass_lc_with_complete_metadata_options" {
   attrs = {
     name = "complete-lc"
@@ -84,7 +84,7 @@ resource "aws_launch_configuration" "pass_lc_with_complete_metadata_options" {
   }
 }
 
-// Test 8: FAIL - Launch configuration with empty metadata_options list
+# Test 8: FAIL - Launch configuration with empty metadata_options list
 resource "aws_launch_configuration" "fail_lc_with_empty_metadata_options" {
   expect_failure = true
   attrs = {

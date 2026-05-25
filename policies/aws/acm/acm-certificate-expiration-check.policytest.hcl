@@ -4,7 +4,7 @@ policytest {
   ]
 }
 
-// Test 1: Pass - Certificate eligible for automatic renewal
+# Test 1: Pass - Certificate eligible for automatic renewal
 resource "aws_acm_certificate" "pass_eligible_for_renewal" {
   attrs = {
     not_after = "2026-12-31T23:59:59Z"
@@ -16,7 +16,7 @@ resource "aws_acm_certificate" "pass_eligible_for_renewal" {
   }
 }
 
-// Test 2: Pass - Imported certificate (manual renewal required)
+# Test 2: Pass - Imported certificate (manual renewal required)
 resource "aws_acm_certificate" "pass_imported_certificate" {
   attrs = {
     not_after = "2026-12-31T23:59:59Z"
@@ -28,7 +28,7 @@ resource "aws_acm_certificate" "pass_imported_certificate" {
   }
 }
 
-// Test 3: Fail - Certificate needs attention (not eligible, not imported)
+# Test 3: Fail - Certificate needs attention (not eligible, not imported)
 resource "aws_acm_certificate" "fail_needs_attention" {
   expect_failure = true
   attrs = {
@@ -41,7 +41,7 @@ resource "aws_acm_certificate" "fail_needs_attention" {
   }
 }
 
-// Test 4: Fail - Missing expiration date
+# Test 4: Fail - Missing expiration date
 resource "aws_acm_certificate" "fail_missing_expiration" {
   expect_failure = true
   attrs = {
@@ -54,7 +54,7 @@ resource "aws_acm_certificate" "fail_missing_expiration" {
   }
 }
 
-// Test 5: Pass - Pending validation (not yet issued)
+# Test 5: Pass - Pending validation (not yet issued)
 resource "aws_acm_certificate" "pass_pending_validation" {
   attrs = {
     not_after = "2026-12-31T23:59:59Z"
@@ -66,7 +66,7 @@ resource "aws_acm_certificate" "pass_pending_validation" {
   }
 }
 
-// Test 6: Pass - Private CA certificate eligible for renewal
+# Test 6: Pass - Private CA certificate eligible for renewal
 resource "aws_acm_certificate" "pass_private_ca_eligible" {
   attrs = {
     not_after = "2026-12-31T23:59:59Z"

@@ -5,7 +5,7 @@ policytest {
 inputs {
     RetentionInDays = "45"
   }
-// FAIL - Invalid RetentionInDays input value (not in allowed set)
+# FAIL - Invalid RetentionInDays input value (not in allowed set)
 resource "aws_elastic_beanstalk_environment" "fail_with_invalid_retention_input" {
   expect_failure = true
   attrs = {

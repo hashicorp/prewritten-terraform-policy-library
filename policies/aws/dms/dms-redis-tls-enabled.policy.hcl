@@ -3,19 +3,19 @@
 policy {}
 
 resource_policy "aws_dms_endpoint" "redis_tls_enabled" {
-    // Filter to only Redis endpoints
-    // Only evaluate endpoints that have redis_settings configured
+    # Filter to only Redis endpoints
+    # Only evaluate endpoints that have redis_settings configured
     filter = core::try(attrs.redis_settings, null) != null && core::length(core::try(attrs.redis_settings, [])) > 0
 
     locals {
-        // Extract redis_settings (it's a list/block, so we need [0])
+        # Extract redis_settings (it's a list/block, so we need [0])
         redis_config = core::try(attrs.redis_settings[0], null)
         
-        // Get ssl_security_protocol value
-        // Default is "ssl-encryption" if not specified, which is compliant
+        # Get ssl_security_protocol value
+        # Default is "ssl-encryption" if not specified, which is compliant
         ssl_protocol = core::try(local.redis_config.ssl_security_protocol, "ssl-encryption")
         
-        // Check if TLS is enabled (not using plaintext)
+        # Check if TLS is enabled (not using plaintext)
         tls_enabled = local.ssl_protocol == "ssl-encryption"
     }
 

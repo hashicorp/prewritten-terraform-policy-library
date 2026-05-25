@@ -3,7 +3,7 @@ policy {}
 
 resource_policy "aws_api_gateway_stage" "xray_tracing_required" {
     locals {
-        // Safe access to xray_tracing_enabled attribute with default false
+        # Safe access to xray_tracing_enabled attribute with default false
         xray_enabled = core::try(attrs.xray_tracing_enabled, false)
     }
 
