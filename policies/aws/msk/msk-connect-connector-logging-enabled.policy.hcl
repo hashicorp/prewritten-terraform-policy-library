@@ -49,7 +49,7 @@ resource_policy "aws_mskconnect_connector" "logging_enabled" {
 
     # Enforce: Any enabled logging destination must be fully configured
     enforce {
-        condition = local.cloudwatch_valid ||  local.firehose_valid || local.s3_valid
+        condition = local.cloudwatch_valid && local.firehose_valid && local.s3_valid
         error_message = "MSK connector has a logging destination enabled but is missing required configuration (log_group / delivery_stream / bucket). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/msk-controls.html#msk-5 for more details."
     }
 }

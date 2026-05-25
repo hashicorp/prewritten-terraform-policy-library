@@ -2,29 +2,26 @@
 
 policy {}
 
-locals {
-  # Fetch all aws_s3_bucket_acl resources in the plan
-  all_bucket_acls = core::getresources("aws_s3_bucket_acl", {})
-
-  # Build a set of bucket names that have an associated aws_s3_bucket_acl
-  # which configures user access (either via canned 'acl' or 'access_control_policy').
-  buckets_with_acl_access = {
-    for acl in local.all_bucket_acls :
-    core::try(acl.bucket, "") => true
-    if(
-      core::try(acl.acl, "") != "" ||
-      core::length(core::try(acl.access_control_policy, [])) > 0
-    )
-  }
-}
-
 resource_policy "aws_s3_bucket" "acl_prohibited" {
   locals {
     bucket_name = core::try(attrs.bucket, "")
 
-    # An S3 bucket is non-compliant if it has an associated aws_s3_bucket_acl
-    # resource that grants user access via ACL configuration.
-    has_acl_association = core::try(local.buckets_with_acl_access[local.bucket_name], false)
+    # Find aws_s3_bucket_acl resources targeting this bucket.
+    matching_bucket_acls = core::getresources("aws_s3_bucket_acl", {
+      bucket = local.bucket_name
+    })
+
+    # Determine if any of those ACLs configure user access via canned ACL
+    # or access_control_policy grants.
+    prohibited_acl_configs = [
+      for acl in local.matching_bucket_acls :
+      acl if(
+        core::try(acl.acl, "") != "" ||
+        core::length(core::try(acl.access_control_policy, [])) > 0
+      )
+    ]
+
+    has_acl_association = core::length(local.prohibited_acl_configs) > 0
   }
 
   enforce {
