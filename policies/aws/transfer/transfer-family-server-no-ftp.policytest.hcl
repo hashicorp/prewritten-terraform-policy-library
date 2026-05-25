@@ -2,7 +2,11 @@ policytest {
   targets = ["transfer-family-server-no-ftp.policy.hcl"]
 }
 
+<<<<<<< HEAD
+// Test 1: Pass - No protocols specified (defaults to SFTP)
+=======
 # Test 1: Pass - No protocols specified (defaults to SFTP)
+>>>>>>> origin/main
 resource "aws_transfer_server" "pass_default_sftp" {
   attrs = {
     endpoint_type = "PUBLIC"
@@ -10,7 +14,11 @@ resource "aws_transfer_server" "pass_default_sftp" {
   }
 }
 
+<<<<<<< HEAD
+// Test 2: Pass - SFTP protocol only
+=======
 # Test 2: Pass - SFTP protocol only
+>>>>>>> origin/main
 resource "aws_transfer_server" "pass_sftp_only" {
   attrs = {
     protocols = ["SFTP"]
@@ -19,7 +27,11 @@ resource "aws_transfer_server" "pass_sftp_only" {
   }
 }
 
+<<<<<<< HEAD
+// Test 3: Pass - FTPS protocol only
+=======
 # Test 3: Pass - FTPS protocol only
+>>>>>>> origin/main
 resource "aws_transfer_server" "pass_ftps_only" {
   attrs = {
     protocols = ["FTPS"]
@@ -29,7 +41,11 @@ resource "aws_transfer_server" "pass_ftps_only" {
   }
 }
 
+<<<<<<< HEAD
+// Test 4: Pass - AS2 protocol only
+=======
 # Test 4: Pass - AS2 protocol only
+>>>>>>> origin/main
 resource "aws_transfer_server" "pass_as2_only" {
   attrs = {
     protocols = ["AS2"]
@@ -38,7 +54,11 @@ resource "aws_transfer_server" "pass_as2_only" {
   }
 }
 
+<<<<<<< HEAD
+// Test 5: Pass - Multiple secure protocols (SFTP and FTPS)
+=======
 # Test 5: Pass - Multiple secure protocols (SFTP and FTPS)
+>>>>>>> origin/main
 resource "aws_transfer_server" "pass_multiple_secure" {
   attrs = {
     protocols = ["SFTP", "FTPS"]
@@ -48,7 +68,11 @@ resource "aws_transfer_server" "pass_multiple_secure" {
   }
 }
 
+<<<<<<< HEAD
+// Test 6: Fail - FTP protocol only
+=======
 # Test 6: Fail - FTP protocol only
+>>>>>>> origin/main
 resource "aws_transfer_server" "fail_ftp_only" {
   expect_failure = true
   attrs = {
@@ -58,7 +82,11 @@ resource "aws_transfer_server" "fail_ftp_only" {
   }
 }
 
+<<<<<<< HEAD
+// Test 7: Fail - FTP with secure protocols (FTP and SFTP)
+=======
 # Test 7: Fail - FTP with secure protocols (FTP and SFTP)
+>>>>>>> origin/main
 resource "aws_transfer_server" "fail_ftp_with_secure" {
   expect_failure = true
   attrs = {

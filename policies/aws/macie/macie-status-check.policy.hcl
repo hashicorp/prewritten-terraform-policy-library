@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+// Policy : Macie.1 -  Amazon Macie should be enabled
+=======
 # Policy : Macie.1 -  Amazon Macie should be enabled
+>>>>>>> origin/main
 
 policy {}
 

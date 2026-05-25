@@ -2,7 +2,11 @@ policytest {
     targets = ["elastic-beanstalk-managed-updates-enabled.policy.hcl"]
 }
 
+<<<<<<< HEAD
+// Test 1: PASS - Environment with managed updates enabled
+=======
 # Test 1: PASS - Environment with managed updates enabled
+>>>>>>> origin/main
 resource "aws_elastic_beanstalk_environment" "pass_managed_updates_enabled" {
     attrs = {
         name = "test-environment"
@@ -29,7 +33,11 @@ resource "aws_elastic_beanstalk_environment" "pass_managed_updates_enabled" {
     }
 }
 
+<<<<<<< HEAD
+// Test 2: PASS - Environment with managed updates and update level
+=======
 # Test 2: PASS - Environment with managed updates and update level
+>>>>>>> origin/main
 resource "aws_elastic_beanstalk_environment" "pass_managed_updates_with_level" {
     attrs = {
         name = "prod-environment"
@@ -51,7 +59,11 @@ resource "aws_elastic_beanstalk_environment" "pass_managed_updates_with_level" {
     }
 }
 
+<<<<<<< HEAD
+// Test 3: FAIL - Environment without managed updates configuration
+=======
 # Test 3: FAIL - Environment without managed updates configuration
+>>>>>>> origin/main
 resource "aws_elastic_beanstalk_environment" "fail_no_managed_updates" {
     expect_failure = true
     
@@ -70,7 +82,11 @@ resource "aws_elastic_beanstalk_environment" "fail_no_managed_updates" {
     }
 }
 
+<<<<<<< HEAD
+// Test 4: FAIL - Environment with managed updates explicitly disabled
+=======
 # Test 4: FAIL - Environment with managed updates explicitly disabled
+>>>>>>> origin/main
 resource "aws_elastic_beanstalk_environment" "fail_managed_updates_disabled" {
     expect_failure = true
     
@@ -89,7 +105,11 @@ resource "aws_elastic_beanstalk_environment" "fail_managed_updates_disabled" {
     }
 }
 
+<<<<<<< HEAD
+// Test 5: FAIL - Environment with empty settings
+=======
 # Test 5: FAIL - Environment with empty settings
+>>>>>>> origin/main
 resource "aws_elastic_beanstalk_environment" "fail_empty_settings" {
     expect_failure = true
     

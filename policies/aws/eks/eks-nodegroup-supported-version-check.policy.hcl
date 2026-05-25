@@ -8,11 +8,18 @@ resource_policy "aws_eks_node_group" "supported_ng_version" {
             name = attrs.cluster_name
         })[0]
         version = core::try(local.cluster_config.version, "1.33")
+<<<<<<< HEAD
+    }
+
+    enforce {
+        condition = local.version == "" || core::semverconstraint(local.version, ">=1.33")
+=======
         oldest_ng_version_supported = "1.33"
     }
 
     enforce {
         condition = local.version == "" || core::semverconstraint(local.version, ">=${local.oldest_ng_version_supported}")
+>>>>>>> origin/main
         error_message = "EKS node group is either missing required 'version' attribute or is running an unsupported Kubernetes version. The node group must be running a version that is at least '1.33'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/eks-controls.html#eks-9 for more details."
     }
 }

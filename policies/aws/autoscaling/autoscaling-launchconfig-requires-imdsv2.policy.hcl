@@ -23,4 +23,3 @@ resource_policy "aws_launch_configuration" "imdsv2_required" {
     }
 }
 
-
