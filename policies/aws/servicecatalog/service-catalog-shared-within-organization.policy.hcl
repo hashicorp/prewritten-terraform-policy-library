@@ -1,25 +1,9 @@
-<<<<<<< HEAD
-// ServiceCatalog.1 - Service Catalog portfolios should be shared within an AWS organization only
-=======
 # ServiceCatalog.1 - Service Catalog portfolios should be shared within an AWS organization only
->>>>>>> origin/main
 
 policy {}
 
 resource_policy "aws_servicecatalog_portfolio_share" "organization_only_sharing" {
     locals {
-<<<<<<< HEAD
-        // Extract the share type safely
-        share_type = core::try(attrs.type, "")
-        
-        // Check if this is an external account share (non-compliant)
-        is_external_account = local.share_type == "ACCOUNT"
-        
-        // Valid organization-based share types
-        valid_org_types = ["ORGANIZATION", "ORGANIZATIONAL_UNIT", "ORGANIZATION_MEMBER_ACCOUNT"]
-        
-        // Check if share type is organization-based (compliant)
-=======
         # Extract the share type safely
         share_type = core::try(attrs.type, "")
         
@@ -30,7 +14,6 @@ resource_policy "aws_servicecatalog_portfolio_share" "organization_only_sharing"
         valid_org_types = ["ORGANIZATION", "ORGANIZATIONAL_UNIT", "ORGANIZATION_MEMBER_ACCOUNT"]
         
         # Check if share type is organization-based (compliant)
->>>>>>> origin/main
         is_org_based = core::contains(local.valid_org_types, local.share_type)
     }
 

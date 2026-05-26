@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// Policy : WAF.12 - AWS WAF rules should have CloudWatch metrics enabled
-=======
 # Policy : WAF.12 - AWS WAF rules should have CloudWatch metrics enabled
->>>>>>> origin/main
 
 policy {}
 

@@ -4,11 +4,7 @@ policytest {
   ]
 }
 
-<<<<<<< HEAD
-// Test 1: PASS - Self-owned document with no permissions configured
-=======
 # Test 1: PASS - Self-owned document with no permissions configured
->>>>>>> origin/main
 resource "aws_ssm_document" "pass_no_permissions" {
   attrs = {
     name          = "test-document-no-perms"
@@ -19,11 +15,7 @@ resource "aws_ssm_document" "pass_no_permissions" {
   }
 }
 
-<<<<<<< HEAD
-// Test 2: PASS - Self-owned document with specific account IDs (not 'All')
-=======
 # Test 2: PASS - Self-owned document with specific account IDs (not 'All')
->>>>>>> origin/main
 resource "aws_ssm_document" "pass_specific_accounts" {
   attrs = {
     name          = "test-document-specific"
@@ -37,11 +29,7 @@ resource "aws_ssm_document" "pass_specific_accounts" {
   }
 }
 
-<<<<<<< HEAD
-// Test 3: FAIL - Self-owned document with 'All' in account_ids (public)
-=======
 # Test 3: FAIL - Self-owned document with 'All' in account_ids (public)
->>>>>>> origin/main
 resource "aws_ssm_document" "fail_public_document" {
   expect_failure = true
   attrs = {
@@ -56,11 +44,7 @@ resource "aws_ssm_document" "fail_public_document" {
   }
 }
 
-<<<<<<< HEAD
-// Test 4: PASS - Document not owned by Self (filtered out)
-=======
 # Test 4: PASS - Document not owned by Self (filtered out)
->>>>>>> origin/main
 resource "aws_ssm_document" "pass_not_self_owned" {
   attrs = {
     name          = "AWS-RunShellScript"
@@ -74,11 +58,7 @@ resource "aws_ssm_document" "pass_not_self_owned" {
   }
 }
 
-<<<<<<< HEAD
-// Test 5: PASS - Self-owned document with empty account_ids list
-=======
 # Test 5: PASS - Self-owned document with empty account_ids list
->>>>>>> origin/main
 resource "aws_ssm_document" "pass_empty_account_ids" {
   attrs = {
     name          = "test-document-empty"
@@ -92,11 +72,7 @@ resource "aws_ssm_document" "pass_empty_account_ids" {
   }
 }
 
-<<<<<<< HEAD
-// Test 6: FAIL - Self-owned document with 'All' mixed with specific accounts
-=======
 # Test 6: FAIL - Self-owned document with 'All' mixed with specific accounts
->>>>>>> origin/main
 resource "aws_ssm_document" "fail_all_with_specific" {
   expect_failure = true
   attrs = {

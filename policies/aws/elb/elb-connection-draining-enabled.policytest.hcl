@@ -2,11 +2,7 @@ policytest {
   targets = ["elb-connection-draining-enabled.policy.hcl"]
 }
 
-<<<<<<< HEAD
-// Test 1: PASS - Connection draining explicitly enabled
-=======
 # Test 1: PASS - Connection draining explicitly enabled
->>>>>>> origin/main
 resource "aws_elb" "compliant" {
   attrs = {
     name                        = "compliant-elb"
@@ -24,11 +20,7 @@ resource "aws_elb" "compliant" {
   }
 }
 
-<<<<<<< HEAD
-// Test 2: FAIL - Connection draining explicitly disabled
-=======
 # Test 2: FAIL - Connection draining explicitly disabled
->>>>>>> origin/main
 resource "aws_elb" "non_compliant_disabled" {
   expect_failure = true
   attrs = {
@@ -46,11 +38,7 @@ resource "aws_elb" "non_compliant_disabled" {
   }
 }
 
-<<<<<<< HEAD
-// Test 3: FAIL - Connection draining not specified (defaults to false)
-=======
 # Test 3: FAIL - Connection draining not specified (defaults to false)
->>>>>>> origin/main
 resource "aws_elb" "non_compliant_default" {
   expect_failure = true
   attrs = {
@@ -64,10 +52,6 @@ resource "aws_elb" "non_compliant_default" {
         lb_protocol       = "HTTP"
       }
     ]
-<<<<<<< HEAD
-    // connection_draining not specified - defaults to false
-=======
     # connection_draining not specified - defaults to false
->>>>>>> origin/main
   }
 }

@@ -4,11 +4,7 @@ policytest {
     ]
 }
 
-<<<<<<< HEAD
-// Test 1: PASS - Transfer connector with logging_role configured
-=======
 # Test 1: PASS - Transfer connector with logging_role configured
->>>>>>> origin/main
 resource "aws_transfer_connector" "pass_connector_with_logging_role" {
     attrs = {
         access_role  = "arn:aws:iam::123456789012:role/TransferAccessRole"
@@ -24,11 +20,7 @@ resource "aws_transfer_connector" "pass_connector_with_logging_role" {
     }
 }
 
-<<<<<<< HEAD
-// Test 2: FAIL - Transfer connector without logging_role
-=======
 # Test 2: FAIL - Transfer connector without logging_role
->>>>>>> origin/main
 resource "aws_transfer_connector" "fail_connector_without_logging_role" {
     expect_failure = true
     
@@ -45,11 +37,7 @@ resource "aws_transfer_connector" "fail_connector_without_logging_role" {
     }
 }
 
-<<<<<<< HEAD
-// Test 3: FAIL - Transfer connector with empty logging_role
-=======
 # Test 3: FAIL - Transfer connector with empty logging_role
->>>>>>> origin/main
 resource "aws_transfer_connector" "fail_connector_with_empty_logging_role" {
     expect_failure = true
     
@@ -67,11 +55,7 @@ resource "aws_transfer_connector" "fail_connector_with_empty_logging_role" {
     }
 }
 
-<<<<<<< HEAD
-// Test 4: PASS - AS2 connector with logging_role configured
-=======
 # Test 4: PASS - AS2 connector with logging_role configured
->>>>>>> origin/main
 resource "aws_transfer_connector" "pass_as2_connector_with_logging" {
     attrs = {
         access_role  = "arn:aws:iam::123456789012:role/TransferAccessRole"
@@ -89,11 +73,7 @@ resource "aws_transfer_connector" "pass_as2_connector_with_logging" {
     }
 }
 
-<<<<<<< HEAD
-// Test 5: PASS - SFTP connector with logging_role configured
-=======
 # Test 5: PASS - SFTP connector with logging_role configured
->>>>>>> origin/main
 resource "aws_transfer_connector" "pass_sftp_connector_with_logging" {
     attrs = {
         access_role  = "arn:aws:iam::123456789012:role/TransferAccessRole"
