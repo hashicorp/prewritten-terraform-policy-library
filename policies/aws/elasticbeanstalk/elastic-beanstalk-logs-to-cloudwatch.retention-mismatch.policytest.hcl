@@ -6,11 +6,8 @@ policytest {
 inputs {
     RetentionInDays = "14"
   }
-<<<<<<< HEAD
-// FAIL - Environment retention does not match configured input
-=======
+
 # FAIL - Environment retention does not match configured input
->>>>>>> origin/main
 resource "aws_elastic_beanstalk_environment" "fail_with_retention_input_mismatch" {
   expect_failure = true
   attrs = {
