@@ -1,24 +1,14 @@
-<<<<<<< HEAD
-// EC2.23 - Transit Gateway Auto-Accept VPC Attachments
-=======
 # EC2.23 - Transit Gateway Auto-Accept VPC Attachments
->>>>>>> origin/main
 
 policy {}
 
 resource_policy "aws_ec2_transit_gateway" "auto_accept_disabled" {
     locals {
-<<<<<<< HEAD
-        // Safe access to auto_accept_shared_attachments attribute
-        auto_accept = core::try(attrs.auto_accept_shared_attachments, "disable")
-        
-        // Check if auto-accept is disabled (compliant)
-=======
+
         # Safe access to auto_accept_shared_attachments attribute
         auto_accept = core::try(attrs.auto_accept_shared_attachments, "disable")
         
         # Check if auto-accept is disabled (compliant)
->>>>>>> origin/main
         is_compliant = local.auto_accept == "disable"
     }
 
