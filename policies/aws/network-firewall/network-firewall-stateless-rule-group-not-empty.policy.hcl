@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-// Policy : NetworkFirewall.6 - Stateless Network Firewall rule group should not be empty
-=======
 # Policy : NetworkFirewall.6 - Stateless Network Firewall rule group should not be empty
->>>>>>> origin/main
+
 policy {}
 
 resource_policy "aws_networkfirewall_rule_group" "stateless_not_empty" {
