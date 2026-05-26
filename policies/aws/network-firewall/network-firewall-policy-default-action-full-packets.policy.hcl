@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-// Policy : NetworkFirewall.4 -  The default stateless action for Network Firewall policies should be drop or forward for full packets
-=======
 # Policy : NetworkFirewall.4 -  The default stateless action for Network Firewall policies should be drop or forward for full packets
->>>>>>> origin/main
+
 policy {}
 
 input "statelessDefaultActions" {
