@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// Policy : SQS.3 - SQS queue access policies should not allow public access
-=======
 # Policy : SQS.3 - SQS queue access policies should not allow public access
->>>>>>> origin/main
 
 policy {}
 
