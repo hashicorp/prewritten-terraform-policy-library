@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-// Policy : NetworkFirewall.9 - Network Firewall firewalls should have deletion protection enabled
-=======
 # Policy : NetworkFirewall.9 - Network Firewall firewalls should have deletion protection enabled
->>>>>>> origin/main
+
 policy {}
 
 resource_policy "aws_networkfirewall_firewall" "deletion_protection_enabled" {
