@@ -5,11 +5,8 @@ policytest {
 inputs  {
         UpdateLevel = "patch"
 }
-<<<<<<< HEAD
-// FAIL - Managed updates enabled but UpdateLevel does not match configured input
-=======
+
 # FAIL - Managed updates enabled but UpdateLevel does not match configured input
->>>>>>> origin/main
 resource "aws_elastic_beanstalk_environment" "fail_update_level_mismatch" {
     expect_failure = true
 
