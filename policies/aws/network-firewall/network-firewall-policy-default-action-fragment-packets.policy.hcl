@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-// Policy : NetworkFirewall.5 - The default stateless action for Network Firewall policies should be drop or forward for fragmented packets
-=======
 # Policy : NetworkFirewall.5 - The default stateless action for Network Firewall policies should be drop or forward for fragmented packets
->>>>>>> origin/main
+
 policy {}
 
 resource_policy "aws_networkfirewall_firewall_policy" "fragment_default_action" {
