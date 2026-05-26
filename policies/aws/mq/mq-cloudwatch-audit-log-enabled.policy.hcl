@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-// Policy : MQ.2 - ActiveMQ brokers should stream audit logs to CloudWatch
-=======
 # Policy : MQ.2 - ActiveMQ brokers should stream audit logs to CloudWatch
->>>>>>> origin/main
+
 policy {}
 
 resource_policy "aws_mq_broker" "activemq_audit_logs_enabled" {
