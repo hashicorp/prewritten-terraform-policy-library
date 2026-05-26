@@ -3,11 +3,9 @@ policytest {
     "ec2-instance-managed-by-systems-manager.policy.hcl"
   ]
 }
-<<<<<<< HEAD
-// Test 1: Compliant instance with managed_policy_arns
-=======
+
 # Test 1: Compliant instance with managed_policy_arns
->>>>>>> origin/main
+
 resource "aws_iam_role" "ssm_role" {
   attrs = {
     name = "ec2-ssm-role"
@@ -36,11 +34,8 @@ resource "aws_instance" "compliant" {
   }
 }
 
-<<<<<<< HEAD
-// Test 2: Compliant instance with policy attachment
-=======
 # Test 2: Compliant instance with policy attachment
->>>>>>> origin/main
+
 resource "aws_iam_role" "ssm_role_attachment" {
   attrs = {
     name = "ec2-ssm-role-attachment"
@@ -73,9 +68,6 @@ resource "aws_instance" "compliant_attachment" {
   }
 }
 
-<<<<<<< HEAD
-// Test 3: Non-compliant instance without instance profile
-=======
 # Test 3: Non-compliant instance without instance profile
 >>>>>>> origin/main
 resource "aws_instance" "no_profile" {
@@ -89,10 +81,6 @@ resource "aws_instance" "no_profile" {
   }
 }
 
-<<<<<<< HEAD
-// Test 4: Instance with profile (SSM permission validation requires runtime checks)
-// Note: This policy only validates instance profile presence, not SSM permissions
-=======
 # Test 4: Instance with profile (SSM permission validation requires runtime checks)
 # Note: This policy only validates instance profile presence, not SSM permissions
 >>>>>>> origin/main
@@ -124,9 +112,6 @@ resource "aws_instance" "with_profile_no_ssm" {
   }
 }
 
-<<<<<<< HEAD
-// Test 5: Excluded disaster recovery instance
-=======
 # Test 5: Excluded disaster recovery instance
 >>>>>>> origin/main
 resource "aws_instance" "disaster_recovery" {
@@ -140,11 +125,7 @@ resource "aws_instance" "disaster_recovery" {
   }
 }
 
-<<<<<<< HEAD
-// Test 6: Compliant with both managed policy and attachment
-=======
 # Test 6: Compliant with both managed policy and attachment
->>>>>>> origin/main
 resource "aws_iam_role" "ssm_role_both" {
   attrs = {
     name = "ec2-ssm-role-both"
@@ -180,11 +161,7 @@ resource "aws_instance" "compliant_both" {
   }
 }
 
-<<<<<<< HEAD
-// Test 7: Alternative disaster recovery tag
-=======
 # Test 7: Alternative disaster recovery tag
->>>>>>> origin/main
 resource "aws_instance" "disaster_recovery_alt" {
   attrs = {
     ami = "ami-12345678"
