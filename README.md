@@ -1,4 +1,4 @@
-# terraform-policy-library
+# Prewritten Terraform Policy Library
 
 A library of prewritten policies for multiple cloud providers.
 
