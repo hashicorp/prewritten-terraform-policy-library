@@ -4,7 +4,7 @@ A library of prewritten policies for multiple cloud providers.
 
 ## Supported Providers
 
-| Provider | Policy sets | Policies |
+| Provider | Services covered | Policies |
 | -------- | ----------- | -------- |
 | AWS | 58 services | 348 |
 
