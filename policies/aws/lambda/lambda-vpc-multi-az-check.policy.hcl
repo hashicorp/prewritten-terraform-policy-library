@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Lambda.5 - VPC Lambda functions should operate in multiple Availability Zones
 
 policy {}

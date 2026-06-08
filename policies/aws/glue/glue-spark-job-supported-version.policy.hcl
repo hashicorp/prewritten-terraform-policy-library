@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Glue.4 - AWS Glue Spark jobs should run on supported versions
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # WorkSpaces.2 - WorkSpaces root volumes should be encrypted at rest.
 
 policy {}

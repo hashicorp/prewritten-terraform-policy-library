@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Inspector.1 - Amazon Inspector EC2 Scanning Should Be Enabled.
 
 policy {}

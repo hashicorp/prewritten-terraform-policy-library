@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ES.6 - Elasticsearch domains should have at least three data nodes.
 
 policy {}

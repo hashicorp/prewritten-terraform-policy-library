@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : DynamoDB.6 - DynamoDB tables should have deletion protection enabled
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.25 - Amazon EC2 Launch Templates Should Not Assign Public IPs to Network Interfaces.
 
 policy {}

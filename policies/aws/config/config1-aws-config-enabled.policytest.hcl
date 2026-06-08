@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["config1-aws-config-enabled.policy.hcl"]
 }

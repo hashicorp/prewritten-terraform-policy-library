@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "kinesis-firehose-delivery-stream-encrypted.policy.hcl"

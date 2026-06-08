@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Opensearch.5 - OpenSearch domains should have audit logging enabled
 
 policy {}

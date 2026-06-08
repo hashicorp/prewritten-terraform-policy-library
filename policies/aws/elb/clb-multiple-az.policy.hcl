@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.10 - Classic Load Balancer should span multiple Availability Zones.
 
 policy {}

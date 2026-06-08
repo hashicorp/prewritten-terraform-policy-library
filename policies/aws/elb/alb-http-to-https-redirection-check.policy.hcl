@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.1: Application Load Balancer HTTP to HTTPS Redirection
 
 policy {}

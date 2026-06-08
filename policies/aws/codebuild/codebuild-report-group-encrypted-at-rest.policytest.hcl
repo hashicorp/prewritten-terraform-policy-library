@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "codebuild-report-group-encrypted-at-rest.policy.hcl"

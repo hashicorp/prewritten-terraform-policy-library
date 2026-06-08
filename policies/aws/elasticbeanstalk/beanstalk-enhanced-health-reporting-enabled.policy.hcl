@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ElasticBeanstalk.1: Enhanced Health Reporting Required
 
 policy {}

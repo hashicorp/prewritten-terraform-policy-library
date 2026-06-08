@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.6 - VPC Flow Logging Should Be Enabled in All VPCs
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EFS.8 - EFS file systems should be encrypted at rest.
 
 policy {}

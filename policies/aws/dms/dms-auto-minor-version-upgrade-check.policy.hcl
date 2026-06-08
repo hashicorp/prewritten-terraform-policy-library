@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: DMS.6 - DMS replication instances should have automatic minor version upgrade enabled
 
 policy {}

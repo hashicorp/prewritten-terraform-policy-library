@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.3 - EBS Encryption at Rest
 
 policy {}

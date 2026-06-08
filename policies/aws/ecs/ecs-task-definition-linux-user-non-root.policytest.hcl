@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "ecs-task-definition-linux-user-non-root.policy.hcl"

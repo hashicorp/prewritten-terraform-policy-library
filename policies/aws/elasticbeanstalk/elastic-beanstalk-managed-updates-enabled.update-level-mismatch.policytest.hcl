@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = ["elastic-beanstalk-managed-updates-enabled.policy.hcl"]
     

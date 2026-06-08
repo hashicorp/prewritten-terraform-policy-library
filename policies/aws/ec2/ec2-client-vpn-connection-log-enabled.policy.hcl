@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.51 - EC2 Client VPN endpoints should have client connection logging enabled.
 
 policy {}

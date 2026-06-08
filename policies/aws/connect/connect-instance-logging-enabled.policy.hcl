@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Connect.2 - Amazon Connect instances should have CloudWatch logging enabled
 
 policy {}

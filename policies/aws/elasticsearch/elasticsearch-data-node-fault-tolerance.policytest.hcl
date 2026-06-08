@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "elasticsearch-data-node-fault-tolerance.policy.hcl"

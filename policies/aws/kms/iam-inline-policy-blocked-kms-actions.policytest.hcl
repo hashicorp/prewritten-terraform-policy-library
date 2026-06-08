@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "iam-inline-policy-blocked-kms-actions.policy.hcl"

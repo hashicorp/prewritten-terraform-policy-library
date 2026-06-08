@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ElastiCache.7 - ElastiCache clusters should not use the default subnet group.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : NetworkFirewall.9 - Network Firewall firewalls should have deletion protection enabled
 
 policy {}

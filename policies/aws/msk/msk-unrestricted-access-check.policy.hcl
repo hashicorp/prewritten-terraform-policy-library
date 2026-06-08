@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: MSK.6 - MSK clusters should disable unauthenticated access
 
 policy {}

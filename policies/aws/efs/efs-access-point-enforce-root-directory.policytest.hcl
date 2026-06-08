@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "efs-access-point-enforce-root-directory.policy.hcl"

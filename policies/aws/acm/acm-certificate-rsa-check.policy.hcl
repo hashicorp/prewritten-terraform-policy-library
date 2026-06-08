@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : ACM.2 -  RSA certificates managed by ACM should use a key length of at least 2,048 bits
 
 policy {}

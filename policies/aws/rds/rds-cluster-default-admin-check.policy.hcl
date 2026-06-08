@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.24 - RDS Database clusters should use a custom administrator username.
 
 policy {}

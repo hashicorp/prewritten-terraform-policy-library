@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Cognito.6 - Cognito user pools should have deletion protection enabled
 
 policy {}

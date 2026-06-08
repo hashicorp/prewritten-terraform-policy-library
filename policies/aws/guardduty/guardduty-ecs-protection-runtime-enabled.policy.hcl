@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # GuardDuty.12 - GuardDuty ECS Runtime Monitoring should be enabled.
 
 policy {}

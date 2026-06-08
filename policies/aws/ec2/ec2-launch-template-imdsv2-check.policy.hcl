@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.170 - EC2 launch templates should use Instance Metadata Service Version 2 (IMDSv2).
 
 policy {}

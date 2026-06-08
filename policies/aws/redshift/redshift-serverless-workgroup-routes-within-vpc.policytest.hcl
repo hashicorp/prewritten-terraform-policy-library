@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "redshift-serverless-workgroup-routes-within-vpc.policy.hcl"

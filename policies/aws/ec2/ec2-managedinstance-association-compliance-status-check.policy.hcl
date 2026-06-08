@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: SSM.3 - Amazon EC2 instances managed by Systems Manager should have an association compliance status of COMPLIANT
 
 policy {}

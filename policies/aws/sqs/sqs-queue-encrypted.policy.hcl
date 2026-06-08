@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: SQS.1 - Amazon SQS queues should be encrypted at rest
 
 policy {}

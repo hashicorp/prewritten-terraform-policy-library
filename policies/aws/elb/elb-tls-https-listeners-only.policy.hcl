@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ELB.3 - Classic Load Balancer listeners should be configured with HTTPS or TLS termination
 
 policy {}

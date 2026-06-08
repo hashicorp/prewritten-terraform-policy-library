@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: IAM.8 - Unused IAM user credentials should be removed
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ECR.3 - ECR repositories should have at least one lifecycle policy configured
 
 policy {}

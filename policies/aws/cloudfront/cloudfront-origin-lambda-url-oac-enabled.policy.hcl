@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: CloudFront.16 - CloudFront distributions should use origin access control for Lambda function URL origins
 
 policy {}

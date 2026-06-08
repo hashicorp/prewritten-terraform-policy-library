@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # WAF.6 - AWS WAF Classic global rules should have at least one condition.
 
 policy {}

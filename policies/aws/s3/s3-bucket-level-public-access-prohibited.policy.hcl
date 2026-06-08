@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # S3.8 - S3 general purpose buckets should block public access.
 
 policy {}

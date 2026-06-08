@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # FSx.2 - FSx for Lustre file systems should be configured to copy tags to backups.
 
 policy {}

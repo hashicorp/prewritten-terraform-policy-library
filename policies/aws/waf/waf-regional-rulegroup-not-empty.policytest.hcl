@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "waf-regional-rulegroup-not-empty.policy.hcl"

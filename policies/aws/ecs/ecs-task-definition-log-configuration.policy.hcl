@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.9 - ECS task definitions should have a logging configuration.
 
 policy {}

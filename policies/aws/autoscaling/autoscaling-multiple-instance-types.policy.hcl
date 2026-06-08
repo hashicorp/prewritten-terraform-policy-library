@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: AutoScaling.6 - Auto Scaling groups should use multiple instance types in multiple Availability Zones
 
 policy {}

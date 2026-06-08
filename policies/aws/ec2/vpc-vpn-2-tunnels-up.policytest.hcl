@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "vpc-vpn-2-tunnels-up.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "mariadb-publish-logs-to-cloudwatch-logs.policy.hcl"

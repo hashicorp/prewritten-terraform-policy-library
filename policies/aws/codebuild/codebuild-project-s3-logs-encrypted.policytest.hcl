@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "codebuild-project-s3-logs-encrypted.policy.hcl"

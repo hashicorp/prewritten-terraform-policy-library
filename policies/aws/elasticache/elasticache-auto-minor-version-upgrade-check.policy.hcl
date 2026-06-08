@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ElastiCache.2 - ElastiCache clusters should have automatic minor version upgrades enabled.
 
 policy {}

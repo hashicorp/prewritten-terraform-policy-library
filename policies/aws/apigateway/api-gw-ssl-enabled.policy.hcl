@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: APIGateway.2 - API Gateway REST API stages should be configured to use SSL certificates for backend authentication
 policy {}
 

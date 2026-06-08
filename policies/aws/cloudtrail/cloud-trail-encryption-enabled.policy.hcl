@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudTrail.2 - CloudTrail should have encryption at-rest enabled.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : WAF.12 - AWS WAF rules should have CloudWatch metrics enabled
 
 policy {}

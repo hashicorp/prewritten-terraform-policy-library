@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.10 - IAM authentication should be configured for RDS instances.
 
 policy {}

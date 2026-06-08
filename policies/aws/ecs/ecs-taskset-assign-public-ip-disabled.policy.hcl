@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.16 - ECS task sets should not automatically assign public IP addresses
 
 policy {}

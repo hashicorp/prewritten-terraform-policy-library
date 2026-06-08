@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.16 - Unused Network Access Control Lists should be removed
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # WAF.4 - AWS WAF Classic Regional web ACLs should have at least one rule or rule group
 
 policy {}

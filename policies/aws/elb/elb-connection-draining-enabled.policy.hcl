@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ELB.7 - Classic Load Balancers should have connection draining enabled
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # FSx.4 - FSx for NetApp ONTAP file systems should be configured for Multi-AZ deployment.
 
 policy {}

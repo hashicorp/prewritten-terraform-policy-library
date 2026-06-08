@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "sagemaker-notebook-instance-root-access-check.policy.hcl"

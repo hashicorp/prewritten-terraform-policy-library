@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets =[
         "transfer-connector-logging-enabled.policy.hcl"

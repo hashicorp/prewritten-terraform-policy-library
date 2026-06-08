@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # DocumentDB.1 - DocumentDB clusters should be encrypted at rest. This control checks if Amazon DocumentDB clusters are encrypted at rest. The control fails if a DocumentDB cluster isn't encrypted at rest or if the encryption key is different from the provided key in the rule parameter.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ES.4 - Elasticsearch domain error logging to CloudWatch Logs should be enabled.
 
 policy {}

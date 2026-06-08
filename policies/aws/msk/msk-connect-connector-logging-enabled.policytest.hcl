@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "msk-connect-connector-logging-enabled.policy.hcl"

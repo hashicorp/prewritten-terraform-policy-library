@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "msk-in-cluster-node-require-tls.policy.hcl"

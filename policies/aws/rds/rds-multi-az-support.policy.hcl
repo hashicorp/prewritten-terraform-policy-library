@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.5 - RDS DB instances should be configured with multiple Availability Zones.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # DataFirehose.1 - Firehose delivery streams should be encrypted at rest
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: SES.3 - SES configuration sets should have TLS enabled for sending emails
 
 policy {}

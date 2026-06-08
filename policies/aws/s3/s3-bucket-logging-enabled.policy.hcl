@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: S3.9 - S3 general purpose buckets should have server access logging enabled
 
 policy {}

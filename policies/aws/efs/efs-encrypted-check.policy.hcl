@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EFS.1 - Elastic File System Encryption at Rest
 
 policy {}

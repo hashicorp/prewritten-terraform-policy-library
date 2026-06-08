@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.19 - Security groups should not allow unrestricted access to ports with high risk.
 
 policy {}

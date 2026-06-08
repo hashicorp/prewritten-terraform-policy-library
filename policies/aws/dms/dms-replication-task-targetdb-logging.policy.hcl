@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: DMS.7 - DMS replication tasks for the target database should have logging enabled
 
 policy {}

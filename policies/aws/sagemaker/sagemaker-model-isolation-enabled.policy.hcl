@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.5 - SageMaker models should have network isolation enabled.
 
 policy {}

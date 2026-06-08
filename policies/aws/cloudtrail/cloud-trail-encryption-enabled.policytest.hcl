@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "cloud-trail-encryption-enabled.policy.hcl"

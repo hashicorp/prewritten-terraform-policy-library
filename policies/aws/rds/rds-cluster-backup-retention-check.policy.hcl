@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.50 - RDS DB clusters should have enough backup retention period set.
 
 policy {}

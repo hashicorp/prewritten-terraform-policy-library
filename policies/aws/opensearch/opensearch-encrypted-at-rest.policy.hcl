@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Opensearch.1 - OpenSearch domains should have encryption at rest enabled.
 
 policy {}

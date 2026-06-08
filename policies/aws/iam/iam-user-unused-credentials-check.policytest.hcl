@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["iam-user-unused-credentials-check.policy.hcl"]
 }

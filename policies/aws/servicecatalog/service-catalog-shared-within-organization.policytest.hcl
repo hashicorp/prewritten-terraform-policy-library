@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["service-catalog-shared-within-organization.policy.hcl"]
 }

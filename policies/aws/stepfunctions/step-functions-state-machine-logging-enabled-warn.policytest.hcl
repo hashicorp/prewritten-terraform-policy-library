@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "step-functions-state-machine-logging-enabled.policy.hcl"

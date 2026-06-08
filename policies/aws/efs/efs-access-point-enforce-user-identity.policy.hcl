@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EFS.4 - EFS access points should enforce a user identity
 
 policy {}

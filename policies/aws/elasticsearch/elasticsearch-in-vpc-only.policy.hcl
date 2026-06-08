@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ES.2 - Elasticsearch domains should not be publicly accessible.
 
 policy {}

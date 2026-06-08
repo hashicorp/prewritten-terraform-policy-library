@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "rds-aurora-mysql-audit-logging-enabled.policy.hcl"

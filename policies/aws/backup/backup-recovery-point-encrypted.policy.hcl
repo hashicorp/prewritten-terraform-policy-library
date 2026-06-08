@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Backup.1 - AWS Backup recovery points should be encrypted at rest.
 
 policy {}

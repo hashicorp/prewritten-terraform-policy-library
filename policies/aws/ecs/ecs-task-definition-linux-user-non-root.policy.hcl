@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ECS.20 - ECS Task Definitions should configure non-root users in Linux container definitions
 
 policy {}

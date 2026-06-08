@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: S3.25 - S3 directory buckets should have lifecycle configurations
 
 policy {}

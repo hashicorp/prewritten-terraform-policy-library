@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.48 - RDS for MySQL DB clusters should be configured to copy tags to DB snapshots.
 
 policy {}

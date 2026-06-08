@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : MSK.1 - MSK clusters should be encrypted in transit among broker nodes.
 policy {}
 

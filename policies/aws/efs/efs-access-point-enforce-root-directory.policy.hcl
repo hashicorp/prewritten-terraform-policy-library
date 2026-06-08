@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EFS.3 - EFS Access Points Should Enforce a Root Directory.
 
 policy {}

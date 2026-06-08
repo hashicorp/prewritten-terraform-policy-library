@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: KMS.1 - IAM customer managed policies should not allow decryption actions on all KMS keys
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.9 - SageMaker data quality job definitions should have inter-container traffic encryption enabled.
 
 policy {}

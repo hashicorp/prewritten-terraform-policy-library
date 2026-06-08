@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Test cases for ECS.21 - Windows Non-Administrator User Policy
 # Generated from GWT scenarios in gwt.json
 

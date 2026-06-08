@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ElastiCache.1 - ElastiCache (Redis OSS) clusters should have automatic backups enabled. 
 
 policy {}

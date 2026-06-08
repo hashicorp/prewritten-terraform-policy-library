@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ES.3 - Elasticsearch domains should encrypt data sent between nodes.
 
 policy {}

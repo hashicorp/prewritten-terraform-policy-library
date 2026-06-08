@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.171 - EC2 VPN connections should have logging enabled.
 
 policy {}

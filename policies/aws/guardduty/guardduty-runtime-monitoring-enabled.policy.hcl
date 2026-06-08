@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # GuardDuty.11 - GuardDuty Runtime Monitoring should be enabled.
 
 policy {}

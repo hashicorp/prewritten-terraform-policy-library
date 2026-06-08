@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.8 - SageMaker notebook instances should run on supported platforms.
 
 policy {}

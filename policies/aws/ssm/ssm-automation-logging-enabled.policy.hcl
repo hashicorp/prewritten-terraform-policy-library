@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SSM.6 - SSM Automation CloudWatch Logging Required
 
 policy {}

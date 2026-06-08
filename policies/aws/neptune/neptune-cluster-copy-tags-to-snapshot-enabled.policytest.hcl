@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "neptune-cluster-copy-tags-to-snapshot-enabled.policy.hcl"

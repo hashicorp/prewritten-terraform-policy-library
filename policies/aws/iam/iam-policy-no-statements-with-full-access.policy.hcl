@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : IAM.21 -  IAM customer managed policies that you create should not allow wildcard actions for services
 
 policy {}

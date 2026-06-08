@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # AWS Security Hub IAM.7 - Password Policies for IAM Users
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Neptune.2 - Neptune DB clusters should publish audit logs to CloudWatch Logs.
 
 policy {}

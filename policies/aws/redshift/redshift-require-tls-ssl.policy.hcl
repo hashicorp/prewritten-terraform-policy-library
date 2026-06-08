@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Redshift.2 - Connections to Amazon Redshift clusters should be encrypted in transit
 
 policy {}

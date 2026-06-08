@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.24 - Amazon EC2 paravirtual instance types should not be used
 
 

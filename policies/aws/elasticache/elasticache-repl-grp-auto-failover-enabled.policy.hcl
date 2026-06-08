@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ElastiCache.3 - ElastiCache replication groups should have automatic failover enabled.
 
 policy {}

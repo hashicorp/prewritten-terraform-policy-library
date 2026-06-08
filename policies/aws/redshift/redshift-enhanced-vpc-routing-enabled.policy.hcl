@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Redshift.7 - Redshift clusters should use enhanced VPC routing. This control checks whether an Amazon Redshift cluster has EnhancedVpcRouting enabled.
 
 policy {}

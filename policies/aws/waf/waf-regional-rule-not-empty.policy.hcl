@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # WAF.2 - AWS WAF Classic Regional rules should have at least one condition.
 
 policy {}

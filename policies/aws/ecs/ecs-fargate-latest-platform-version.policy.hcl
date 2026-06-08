@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.10 - ECS Fargate services should run on the latest Fargate platform version.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: APIGateway.8 - API Gateway routes should specify an authorization type
 
 policy {}

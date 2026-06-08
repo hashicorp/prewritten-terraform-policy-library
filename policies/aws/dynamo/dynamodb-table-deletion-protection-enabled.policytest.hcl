@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "dynamodb-table-deletion-protection-enabled.policy.hcl"

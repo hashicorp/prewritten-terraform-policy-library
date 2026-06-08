@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudFront.8: CloudFront distributions should use SNI to serve HTTPS requests
 
 policy {}

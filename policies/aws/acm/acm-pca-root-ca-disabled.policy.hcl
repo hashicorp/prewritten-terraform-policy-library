@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 // Policy: PCA.1 - AWS Private CA root certificate authority should be disabled
 
 policy {}

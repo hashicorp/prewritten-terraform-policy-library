@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Opensearch.2 - OpenSearch domains should not be publicly accessible.
 
 policy {}

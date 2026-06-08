@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudFront.17 - CloudFront distributions should use trusted key groups for signed URLs and cookies
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # APIGateway.3: API Gateway REST API stages should have AWS X-Ray tracing enabled
 policy {}
 

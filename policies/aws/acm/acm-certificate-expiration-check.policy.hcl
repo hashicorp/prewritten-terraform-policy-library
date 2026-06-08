@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ACM.1 - Certificate Renewal Check
 
 policy {}

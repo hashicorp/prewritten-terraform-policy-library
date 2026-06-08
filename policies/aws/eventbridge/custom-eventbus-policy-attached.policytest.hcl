@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "custom-eventbus-policy-attached.policy.hcl"

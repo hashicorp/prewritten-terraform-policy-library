@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: S3.12 - ACLs should not be used to manage user access to S3 general purpose buckets
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : RedshiftServerless.6 - Redshift Serverless namespaces should export logs to CloudWatch Logs
 
 policy {}

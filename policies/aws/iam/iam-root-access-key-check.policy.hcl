@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : IAM.4 -  IAM root user access key should not exist
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Route53.2: Route 53 public hosted zones should log DNS queries
 
 policy {}

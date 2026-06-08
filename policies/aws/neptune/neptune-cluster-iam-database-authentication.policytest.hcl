@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "neptune-cluster-iam-database-authentication.policy.hcl"

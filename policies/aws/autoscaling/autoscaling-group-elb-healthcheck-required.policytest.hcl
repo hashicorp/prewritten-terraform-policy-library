@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "autoscaling-group-elb-healthcheck-required.policy.hcl"

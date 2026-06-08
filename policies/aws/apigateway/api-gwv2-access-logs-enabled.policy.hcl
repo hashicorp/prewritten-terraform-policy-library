@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: APIGateway.9 - Access logging should be configured for API Gateway V2 Stages
 
 policy {}

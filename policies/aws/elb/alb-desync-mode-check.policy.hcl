@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.12 - Application Load Balancer Desync Mitigation Mode.
 
 policy {}

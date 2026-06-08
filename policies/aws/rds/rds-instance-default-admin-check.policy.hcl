@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.25 - RDS database instances should use a custom administrator username.
 
 policy {}

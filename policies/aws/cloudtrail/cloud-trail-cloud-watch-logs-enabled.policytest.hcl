@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "cloud-trail-cloud-watch-logs-enabled.policy.hcl"

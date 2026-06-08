@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "network-firewall-policy-rule-group-associated.policy.hcl"

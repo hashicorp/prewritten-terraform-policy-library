@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.4 - ECS containers should run as non-privileged containers
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.13 - RDS automatic minor version upgrades should be enabled
 
 policy {}

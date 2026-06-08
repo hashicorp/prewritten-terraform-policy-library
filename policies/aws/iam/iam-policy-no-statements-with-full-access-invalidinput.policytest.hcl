@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Tests with an invalid excludePermissionBoundaryPolicy input value.
 
 policytest {

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Opensearch.8 - Connections to OpenSearch domains should be encrypted using the latest TLS security policy.
 
 policy {}

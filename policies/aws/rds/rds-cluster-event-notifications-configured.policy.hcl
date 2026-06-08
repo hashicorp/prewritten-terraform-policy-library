@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.19 - Existing RDS event notification subscriptions should be configured for critical cluster events.
 
 policy {}

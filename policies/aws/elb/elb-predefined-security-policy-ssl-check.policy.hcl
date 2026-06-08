@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ELB.8 - Classic Load Balancers with SSL listeners should use predefined security policy
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # DocumentDB.5 - Amazon DocumentDB clusters should have deletion protection enabled.
 
 policy {}

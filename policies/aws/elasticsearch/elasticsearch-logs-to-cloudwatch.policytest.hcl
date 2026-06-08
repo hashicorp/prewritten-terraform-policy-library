@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "elasticsearch-logs-to-cloudwatch.policy.hcl"

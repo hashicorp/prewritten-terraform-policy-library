@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # S3.1 - S3 Block Public Access Settings Enabled. This control checks whether the preceding Amazon S3 block public access settings are configured at the account level for an S3 general purpose bucket. The control fails if one or more of the block public access settings are set to false.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.172 - EC2 VPC Block Public Access settings should block internet gateway traffic
 policy {}
 

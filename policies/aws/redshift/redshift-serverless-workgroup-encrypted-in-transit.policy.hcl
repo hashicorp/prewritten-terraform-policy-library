@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: RedshiftServerless.2 - Require SSL for Redshift Serverless Workgroups
 
 policy {}

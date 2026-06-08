@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : EC2.56 - VPCs should be configured with an interface endpoint for Docker Registry
 
 policy {}

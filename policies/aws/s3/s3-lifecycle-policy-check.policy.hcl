@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # S3.13 - S3 General Purpose Buckets Should Have Lifecycle Configurations
 # AWS Config rule: s3-lifecycle-policy-check
 #

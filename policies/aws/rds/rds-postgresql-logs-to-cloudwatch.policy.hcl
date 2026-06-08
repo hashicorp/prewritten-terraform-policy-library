@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.36 - RDS for PostgreSQL DB instances should publish logs to CloudWatch Logs.
 
 policy {}

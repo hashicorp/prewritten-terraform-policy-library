@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.2 - SageMaker notebook instances should be launched in a custom VPC.
 
 policy {}

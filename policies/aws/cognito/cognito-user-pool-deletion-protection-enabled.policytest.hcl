@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "cognito-user-pool-deletion-protection-enabled.policy.hcl"

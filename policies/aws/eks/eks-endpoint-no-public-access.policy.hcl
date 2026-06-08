@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EKS.1 - EKS cluster endpoints should not be publicly accessible.
 
 policy {}

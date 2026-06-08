@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "sagemaker-monitoring-schedule-isolation.policy.hcl"

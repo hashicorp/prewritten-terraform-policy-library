@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.47 - RDS for PostgreSQL DB clusters should be configured to copy tags to DB snapshots.
 
 policy {}

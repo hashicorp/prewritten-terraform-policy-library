@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : NetworkFirewall.3 -  Network Firewall policies should have at least one rule group associated.
 
 policy {}

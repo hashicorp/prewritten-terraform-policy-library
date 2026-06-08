@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy - CloudFront.12: CloudFront distributions should not point to non-existent S3 origins
 
 policy {}

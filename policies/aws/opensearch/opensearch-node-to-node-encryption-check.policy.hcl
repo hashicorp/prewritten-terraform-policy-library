@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Opensearch.3 - OpenSearch domains should encrypt data sent between nodes
 
 policy {}

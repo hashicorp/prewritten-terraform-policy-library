@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.42 - RDS for MariaDB DB instances should publish logs to CloudWatch Logs.
 
 policy {}

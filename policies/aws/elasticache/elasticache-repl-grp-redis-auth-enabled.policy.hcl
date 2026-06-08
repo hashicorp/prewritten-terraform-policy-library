@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ElastiCache.6 - ElastiCache (Redis OSS) replication groups should have Redis OSS AUTH enabled.
 
 policy {}

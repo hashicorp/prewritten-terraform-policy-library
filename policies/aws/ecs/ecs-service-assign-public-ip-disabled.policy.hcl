@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.2 - ECS services should not have public IP addresses assigned automatically.
 
 policy {}

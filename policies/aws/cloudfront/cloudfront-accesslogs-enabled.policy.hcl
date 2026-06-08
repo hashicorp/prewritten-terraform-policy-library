@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudFront.5: CloudFront distributions should have logging enabled
 
 policy {}

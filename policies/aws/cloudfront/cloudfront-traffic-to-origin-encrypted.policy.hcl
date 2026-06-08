@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : CloudFront.9 - CloudFront distributions should encrypt traffic to custom origins
 
 policy {}

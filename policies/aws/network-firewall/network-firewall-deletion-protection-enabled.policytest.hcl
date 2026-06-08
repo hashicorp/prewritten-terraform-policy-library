@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "network-firewall-deletion-protection-enabled.policy.hcl"

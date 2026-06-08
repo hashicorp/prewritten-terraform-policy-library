@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "acm-pca-root-ca-disabled.policy.hcl"

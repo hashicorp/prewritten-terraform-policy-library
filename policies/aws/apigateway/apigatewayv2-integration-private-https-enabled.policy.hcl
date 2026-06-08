@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: APIGateway.10 - API Gateway V2 integrations should use HTTPS for private connections
 
 policy {}

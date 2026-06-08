@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.3 - ECS task definitions should not share the host's process namespace.
 
 policy {}

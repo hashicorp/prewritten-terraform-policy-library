@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ES.5 - Elasticsearch domains should have audit logging enabled.
 
 policy {}

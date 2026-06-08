@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: DMS.10 - DMS endpoints for Neptune databases should have IAM authorization enabled
 
 policy {}

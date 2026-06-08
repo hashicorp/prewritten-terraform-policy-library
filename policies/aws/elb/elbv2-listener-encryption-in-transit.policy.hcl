@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.18 - Application and Network Load Balancer listeners should use secure protocols.
 
 policy {}

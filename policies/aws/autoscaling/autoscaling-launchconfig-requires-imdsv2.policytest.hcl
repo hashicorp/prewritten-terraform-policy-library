@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "autoscaling-launchconfig-requires-imdsv2.policy.hcl"

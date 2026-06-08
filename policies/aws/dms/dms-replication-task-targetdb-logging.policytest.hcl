@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "dms-replication-task-targetdb-logging.policy.hcl"

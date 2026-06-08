@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ELB.17 - Application and Network Load Balancers with listeners should use recommended security policies
 
 policy {}

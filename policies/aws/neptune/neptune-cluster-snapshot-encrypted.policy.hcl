@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Neptune.6 - Neptune DB cluster snapshots should be encrypted at rest
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "dms-endpoint-ssl-configured.policy.hcl"

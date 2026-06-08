@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.21 - Network ACLs should not allow ingress from 0.0.0.0/0 to port 22 or port 3389.
 
 policy {}

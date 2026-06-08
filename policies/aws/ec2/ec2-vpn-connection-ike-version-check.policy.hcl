@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.183 - EC2 VPN connections should use IKEv2 protocol
 
 policy {}

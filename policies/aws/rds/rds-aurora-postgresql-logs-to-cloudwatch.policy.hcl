@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.37 - Aurora PostgreSQL DB clusters should publish logs to CloudWatch Logs.
 
 policy {}

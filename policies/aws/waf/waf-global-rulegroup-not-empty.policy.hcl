@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # WAF.7 - AWS WAF Classic global rule groups should have at least one rule.
 
 policy {}

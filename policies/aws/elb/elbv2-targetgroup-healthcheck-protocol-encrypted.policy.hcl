@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.21 - Application and Network Load Balancer target groups should use encrypted health check protocols.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.35 - RDS DB clusters should have automatic minor version upgrade enabled.
 
 policy {}

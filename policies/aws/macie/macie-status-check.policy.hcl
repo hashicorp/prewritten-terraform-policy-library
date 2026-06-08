@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : Macie.1 -  Amazon Macie should be enabled
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # DynamoDB.7 - DynamoDB Accelerator clusters should be encrypted in transit
 
 policy {}

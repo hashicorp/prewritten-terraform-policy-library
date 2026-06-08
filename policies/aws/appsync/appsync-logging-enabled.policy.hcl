@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: AppSync.2 - AWS AppSync field-level logging enabled
 policy {}
 

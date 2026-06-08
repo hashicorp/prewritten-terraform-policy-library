@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # DMS.11 - DMS endpoints for MongoDB should have an authentication mechanism enabled
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.7 - EBS Default Encryption Should Be Enabled.
 
 policy {}

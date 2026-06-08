@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "alb-http-to-https-redirection-check.policy.hcl"

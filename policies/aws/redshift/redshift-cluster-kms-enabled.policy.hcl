@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Redshift.10 - Redshift clusters should be encrypted at rest. This control checks if Amazon Redshift clusters are encrypted at rest. The control fails if a Redshift cluster isn't encrypted at rest or if the encryption key is different from the provided key in the rule parameter.
 
 policy {}

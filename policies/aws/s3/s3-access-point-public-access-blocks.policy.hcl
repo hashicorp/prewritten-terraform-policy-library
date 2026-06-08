@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # S3.19 - S3 Access Points Should Have Block Public Access Settings Enabled. This control checks whether an Amazon S3 access point has block public access settings enabled. The control fails if block public access settings aren't enabled for the access point.
 
 policy {}

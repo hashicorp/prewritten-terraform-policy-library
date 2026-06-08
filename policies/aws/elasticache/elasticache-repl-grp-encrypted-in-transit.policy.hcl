@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ElastiCache.5 - ElastiCache replication groups should be encrypted in transit.
 
 policy {}

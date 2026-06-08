@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "opensearch-data-node-fault-tolerance.policy.hcl"

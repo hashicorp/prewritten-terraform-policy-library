@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "redshift-enhanced-vpc-routing-enabled.policy.hcl"

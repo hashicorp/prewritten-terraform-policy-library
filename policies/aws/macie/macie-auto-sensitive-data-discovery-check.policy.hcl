@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Macie.2 - Macie automated sensitive data discovery should be enabled
 
 policy {}

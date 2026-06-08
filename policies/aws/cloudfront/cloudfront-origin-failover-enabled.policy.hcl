@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudFront.4 - CloudFront distributions should have origin failover configured
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ELB.2 - Classic Load Balancers with SSL/HTTPS listeners should use ACM certificates
 
 policy {}

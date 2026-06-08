@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : CloudFront.15 -  CloudFront distributions should use the recommended TLS security policy
 
 policy {}

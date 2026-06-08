@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # GuardDuty.5 - GuardDuty EKS Audit Log Monitoring should be enabled.
 
 policy {}

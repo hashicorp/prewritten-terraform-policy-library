@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["ec2-vpc-ssm-contacts-endpoint.policy.hcl"]
 }

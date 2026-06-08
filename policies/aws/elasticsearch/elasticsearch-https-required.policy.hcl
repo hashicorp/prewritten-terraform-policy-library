@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ES.8 - Elasticsearch Domain TLS Security Policy.
 
 policy {}

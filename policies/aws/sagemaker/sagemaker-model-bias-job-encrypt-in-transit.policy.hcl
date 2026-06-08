@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.15 - SageMaker model bias job definitions should have inter-container traffic encryption enabled.
 
 policy {}

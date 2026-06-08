@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.12 - SageMaker model bias job definitions should have network isolation enabled
 
 policy {}

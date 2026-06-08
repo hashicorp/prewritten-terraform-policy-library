@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: DocumentDB.6 - Amazon DocumentDB clusters should be encrypted in transit
 
 policy {}

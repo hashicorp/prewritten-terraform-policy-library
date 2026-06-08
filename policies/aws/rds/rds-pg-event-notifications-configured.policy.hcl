@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.21 - RDS Event Notifications for Database Parameter Group Events.
 
 policy {}

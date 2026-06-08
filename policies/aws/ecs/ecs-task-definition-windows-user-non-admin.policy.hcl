@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ECS.21 - ECS Task Definitions should configure non-administrator users in Windows container definitions
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Config.1 - AWS Config should be enabled and use the service-linked role
 
 policy {}

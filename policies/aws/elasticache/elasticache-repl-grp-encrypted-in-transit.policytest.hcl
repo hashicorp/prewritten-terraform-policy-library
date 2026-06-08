@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "elasticache-repl-grp-encrypted-in-transit.policy.hcl"

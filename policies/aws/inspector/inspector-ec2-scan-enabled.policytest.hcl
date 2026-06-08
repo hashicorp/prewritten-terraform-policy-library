@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "inspector-ec2-scan-enabled.policy.hcl"

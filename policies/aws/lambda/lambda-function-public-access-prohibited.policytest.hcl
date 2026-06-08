@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "lambda-function-public-access-prohibited.policy.hcl"

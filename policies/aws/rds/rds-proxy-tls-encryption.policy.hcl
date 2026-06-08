@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.43 - RDS DB proxies should require TLS encryption for connections.
 
 policy {}

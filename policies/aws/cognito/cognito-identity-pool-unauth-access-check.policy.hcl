@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : Cognito.2 - Cognito identity pools should not allow unauthenticated identities
 
 policy {}

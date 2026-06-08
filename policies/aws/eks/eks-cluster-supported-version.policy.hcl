@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EKS.2 - EKS clusters should run on a supported Kubernetes version.
 
 policy {}

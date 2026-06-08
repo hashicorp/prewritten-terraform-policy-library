@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: RedshiftServerless.3 - Redshift Serverless workgroups should prohibit public access
 
 policy {}

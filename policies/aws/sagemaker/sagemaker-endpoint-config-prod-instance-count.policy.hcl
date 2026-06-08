@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.4 - Endpoint Production Variants Must Have Instance Count > 1.
 
 policy {}

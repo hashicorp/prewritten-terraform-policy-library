@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.13 - Model Quality Job Definitions Inter-Container Traffic Encryption.
 
 policy {}

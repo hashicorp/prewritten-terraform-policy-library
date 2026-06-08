@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "macie-auto-sensitive-data-discovery-check.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # GuardDuty.9 - GuardDuty RDS Protection should be enabled.
 
 policy {}

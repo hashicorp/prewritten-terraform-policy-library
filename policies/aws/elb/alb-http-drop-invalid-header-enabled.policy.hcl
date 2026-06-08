@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.4 - Application Load Balancer should drop invalid HTTP headers.
 
 policy {}

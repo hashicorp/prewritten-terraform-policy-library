@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "workspaces-root-volume-encryption-enabled.policy.hcl"

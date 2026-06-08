@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ElasticBeanstalk.2: Elastic Beanstalk managed platform updates should be enabled
 
 policy {}

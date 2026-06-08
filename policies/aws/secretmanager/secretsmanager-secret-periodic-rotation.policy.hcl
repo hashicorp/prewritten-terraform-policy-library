@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: SecretsManager.4 - Secrets Manager secrets should be rotated within a specified number of days
 # AWS Config rule: secretsmanager-secret-periodic-rotation
 # AWS rule targets AWS::SecretsManager::Secret and flags secrets not rotated within maxDaysSinceRotation

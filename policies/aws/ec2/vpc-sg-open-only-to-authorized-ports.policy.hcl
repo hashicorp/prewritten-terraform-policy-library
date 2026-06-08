@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.18 - Security groups should only allow unrestricted incoming traffic for authorized ports
 policy {}
 

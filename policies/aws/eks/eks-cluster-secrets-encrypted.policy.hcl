@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EKS.3 - EKS clusters should use encrypted Kubernetes secrets.
 
 policy {}

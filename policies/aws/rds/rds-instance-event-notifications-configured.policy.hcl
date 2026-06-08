@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.20 - Existing RDS event notification subscriptions should be configured for critical database instance events.
 
 policy {}

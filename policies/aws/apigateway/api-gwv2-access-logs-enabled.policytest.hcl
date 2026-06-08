@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "api-gwv2-access-logs-enabled.policy.hcl"
