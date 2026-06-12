@@ -2,6 +2,11 @@
 
 policy {}
 
+input "elb-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "s3_bucket_names" {
     type = string
     default = ""
@@ -15,6 +20,7 @@ locals {
 
 # Check Classic Load Balancers (aws_elb)
 resource_policy "aws_elb" "logging_enabled" {
+    enforcement_level = input.elb-logging-enabled-enforcement-level
     locals {
         access_logs_attr = core::try(attrs.access_logs, null)
         has_access_logs = local.access_logs_attr != null ? core::length(local.access_logs_attr) > 0 : false
@@ -35,6 +41,7 @@ resource_policy "aws_elb" "logging_enabled" {
 }
 
 resource_policy "aws_lb" "logging_enabled" {
+    enforcement_level = input.elb-logging-enabled-enforcement-level
     # Only check Application Load Balancers (not Network or Gateway LBs)
     filter = core::try(attrs.load_balancer_type, "application") == "application"
 

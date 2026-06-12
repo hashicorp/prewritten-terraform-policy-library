@@ -2,7 +2,13 @@
 
 policy {}
 
+input "codebuild-report-group-encrypted-at-rest-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_codebuild_report_group" "encryption_required" {
+    enforcement_level = input.codebuild-report-group-encrypted-at-rest-enforcement-level
     # Filter to only report groups that export to S3
     filter = attrs.export_config != null && core::length(attrs.export_config) > 0 && core::try(attrs.export_config[0].type, "") == "S3"
 

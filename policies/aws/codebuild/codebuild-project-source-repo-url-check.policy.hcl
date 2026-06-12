@@ -2,7 +2,13 @@
 
 policy {}
 
+input "codebuild-project-source-repo-url-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_codebuild_project" "bitbucket_credentials_check" {
+    enforcement_level = input.codebuild-project-source-repo-url-check-enforcement-level
     # Filter to only Bitbucket projects
     filter = core::try(attrs.source[0].type, "") == "BITBUCKET"
 

@@ -2,12 +2,18 @@
 
 policy {}
 
+input "api-gw-associated-with-waf-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Cache all WAF Web ACL associations at top level for performance
 locals {
   all_waf_associations = core::getresources("aws_wafv2_web_acl_association", {})
 }
 
 resource_policy "aws_api_gateway_stage" "waf_association_required" {
+  enforcement_level = input.api-gw-associated-with-waf-enforcement-level
   locals {
     # Construct the stage ARN for lookup
     # Format: arn:aws:apigateway:{region}::/restapis/{rest-api-id}/stages/{stage-name}

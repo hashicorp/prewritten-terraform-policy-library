@@ -2,6 +2,11 @@
 
 policy {}
 
+input "config1-aws-config-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "includeConfigServiceLinkedRoleCheck" {
   type    = bool
   default = true
@@ -9,6 +14,7 @@ input "includeConfigServiceLinkedRoleCheck" {
 
 # Validate Configuration Recorder configuration
 resource_policy "aws_config_configuration_recorder" "recorder_configuration" {
+  enforcement_level = input.config1-aws-config-enabled-enforcement-level
   locals {
     recording_group     = core::try(attrs.recording_group, {})
     has_recording_group = core::length(core::keys(local.recording_group)) > 0
@@ -34,6 +40,7 @@ resource_policy "aws_config_configuration_recorder" "recorder_configuration" {
 
 # Validate Configuration Recorder Status is enabled
 resource_policy "aws_config_configuration_recorder_status" "recorder_enabled" {
+  enforcement_level = input.config1-aws-config-enabled-enforcement-level
   enforce {
     condition     = core::try(attrs.is_enabled, false) == true
     error_message = "AWS Config configuration recorder must be enabled (is_enabled=true). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/config-controls.html#config-1 for more details."
@@ -42,6 +49,7 @@ resource_policy "aws_config_configuration_recorder_status" "recorder_enabled" {
 
 # Validate Delivery Channel has S3 bucket configured
 resource_policy "aws_config_delivery_channel" "delivery_channel_configuration" {
+  enforcement_level = input.config1-aws-config-enabled-enforcement-level
   enforce {
     condition     = core::try(attrs.s3_bucket_name, "") != ""
     error_message = "AWS Config delivery channel must have a non-empty s3_bucket_name configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/config-controls.html#config-1 for more details."

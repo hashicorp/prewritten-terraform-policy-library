@@ -2,7 +2,13 @@
 
 policy {}
 
+input "opensearch-access-control-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_opensearch_domain" "fine_grained_access_control" {
+    enforcement_level = input.opensearch-access-control-enabled-enforcement-level
     locals {
         advanced_security_options = core::try(attrs.advanced_security_options[0], null)
         has_advanced_security_options = local.advanced_security_options != null

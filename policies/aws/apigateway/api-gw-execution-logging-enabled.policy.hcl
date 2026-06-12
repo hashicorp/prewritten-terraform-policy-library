@@ -1,7 +1,13 @@
 # Policy: APIGateway.1 - API Gateway REST and WebSocket API execution logging should be enabled
 policy {}
 
+input "api-gw-execution-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_api_gateway_stage" "access_logging_enabled" {
+    enforcement_level = input.api-gw-execution-logging-enabled-enforcement-level
     locals {
         # Check if access logging is configured
         access_log_settings = core::try(attrs.access_log_settings, null)
@@ -24,6 +30,7 @@ resource_policy "aws_api_gateway_stage" "access_logging_enabled" {
 
 # Policy for API Gateway WebSocket API stages (v2)
 resource_policy "aws_apigatewayv2_stage" "execution_logging_enabled" {
+    enforcement_level = input.api-gw-execution-logging-enabled-enforcement-level
     locals {
         # Check if default route settings exist and have logging configured
         default_route_settings = core::try(attrs.default_route_settings, null)
@@ -65,6 +72,7 @@ resource_policy "aws_apigatewayv2_stage" "execution_logging_enabled" {
 
 # Policy for API Gateway Method Settings (REST API execution logging)
 resource_policy "aws_api_gateway_method_settings" "execution_logging_level" {
+    enforcement_level = input.api-gw-execution-logging-enabled-enforcement-level
     locals {
         # Check if settings block exists
         settings = core::try(attrs.settings, null)

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "alb-http-to-https-redirection-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_lb_listener" "http_to_https_redirect" {
+  enforcement_level = input.alb-http-to-https-redirection-check-enforcement-level
   # Only evaluate HTTP listeners
   filter = core::try(attrs.protocol, "") == "HTTP"
 

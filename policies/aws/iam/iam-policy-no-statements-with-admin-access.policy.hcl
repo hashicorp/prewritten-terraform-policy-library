@@ -2,6 +2,11 @@
 
 policy {}
 
+input "iam-policy-no-statements-with-admin-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "excludePermissionBoundaryPolicy_admin" {
     type    = string
     default = "false"
@@ -13,6 +18,7 @@ locals {
 }
 
 resource_policy "aws_iam_policy" "deny_full_admin_privileges" {
+    enforcement_level = input.iam-policy-no-statements-with-admin-access-enforcement-level
     filter = attrs.policy != null
 
     locals {

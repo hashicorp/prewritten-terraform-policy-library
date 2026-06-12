@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cognito-userpool-cust-auth-threat-full-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cognito_user_pool" "threat_protection_enforced" {
+    enforcement_level = input.cognito-userpool-cust-auth-threat-full-check-enforcement-level
     locals {
         # Check if user_pool_add_ons block exists
         add_ons = core::try(attrs.user_pool_add_ons, [])

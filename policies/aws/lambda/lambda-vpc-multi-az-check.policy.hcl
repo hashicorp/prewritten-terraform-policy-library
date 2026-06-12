@@ -2,6 +2,11 @@
 
 policy {}
 
+input "lambda-vpc-multi-az-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "availabilityZones" {
   type = number
   default = 2
@@ -12,6 +17,7 @@ locals {
 }
 
 resource_policy "aws_lambda_function" "vpc_multi_az_check" {
+  enforcement_level = input.lambda-vpc-multi-az-check-enforcement-level
   # Only evaluate Lambda functions that have VPC configuration
   filter = core::try(attrs.vpc_config, null) != null && core::length(core::try(attrs.vpc_config, [])) > 0
 

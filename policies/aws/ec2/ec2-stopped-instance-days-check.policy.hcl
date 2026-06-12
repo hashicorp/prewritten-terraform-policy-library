@@ -2,12 +2,18 @@
 
 policy {}
 
+input "ec2-stopped-instance-days-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "AllowedDays" {
     type    = number
     default = 30
 }
 
 resource_policy "aws_instance" "stopped_instances_check" {
+    enforcement_level = input.ec2-stopped-instance-days-check-enforcement-level
     locals {
         instance_state   = core::try(attrs.instance_state, "")
         instance_tags    = core::try(attrs.tags, {})

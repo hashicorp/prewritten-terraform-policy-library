@@ -2,7 +2,13 @@
 
 policy {}
 
+input "redshift-cluster-audit-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_redshift_logging" "logging_properly_configured" {
+  enforcement_level = input.redshift-cluster-audit-logging-enabled-enforcement-level
   locals {
     # Get cluster identifier safely
     cluster_id = core::try(attrs.cluster_identifier, "")

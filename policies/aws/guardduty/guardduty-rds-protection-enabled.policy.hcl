@@ -2,7 +2,13 @@
 
 policy {}
 
+input "guardduty-rds-protection-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_guardduty_detector_feature" "rds_feature_validation" {
+  enforcement_level = input.guardduty-rds-protection-enabled-enforcement-level
   filter = attrs.name == "RDS_LOGIN_EVENTS"
 
   enforce {
@@ -12,6 +18,7 @@ resource_policy "aws_guardduty_detector_feature" "rds_feature_validation" {
 }
 
 resource_policy "aws_guardduty_organization_configuration_feature" "rds_feature_org_enabled" {
+    enforcement_level = input.guardduty-rds-protection-enabled-enforcement-level
     filter = attrs.name == "RDS_LOGIN_EVENTS"
 
     enforce {

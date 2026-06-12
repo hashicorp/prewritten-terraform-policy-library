@@ -2,7 +2,13 @@
 
 policy {}
 
+input "docdb-cluster-audit-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_docdb_cluster" "audit-logging-enabled" {
+    enforcement_level = input.docdb-cluster-audit-logging-enabled-enforcement-level
     locals {
         log_enabled = core::try(attrs.enabled_cloudwatch_logs_exports, [])
     }

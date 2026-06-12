@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dms-endpoint-ssl-configured-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dms_endpoint" "dms_endpoint_ssl_configured" {
+    enforcement_level = input.dms-endpoint-ssl-configured-enforcement-level
     locals {
         # Safe access to ssl_mode attribute with default fallback
         ssl_mode = core::try(attrs.ssl_mode, "none")

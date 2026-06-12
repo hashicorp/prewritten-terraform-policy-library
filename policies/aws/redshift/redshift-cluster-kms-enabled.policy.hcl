@@ -2,12 +2,18 @@
 
 policy {}
 
+input "redshift-cluster-kms-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "kms_key_arns" {
     type = string
     default = ""
 }
 
 resource_policy "aws_redshift_cluster" "kms-enabled" {
+    enforcement_level = input.redshift-cluster-kms-enabled-enforcement-level
     locals {
         has_encryption = core::try(attrs.encypted, true)
         kms_key_arn = local.has_encryption ? core::try(attrs.kms_key_id, "") : ""

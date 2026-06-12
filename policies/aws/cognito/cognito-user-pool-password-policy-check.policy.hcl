@@ -2,6 +2,11 @@
 
 policy {}
 
+input "cognito-user-pool-password-policy-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "minLength" {
     type = number
     default = 8
@@ -33,6 +38,7 @@ input "temporaryPasswordValidity" {
 }
 
 resource_policy "aws_cognito_user_pool" "cognito3_password_policy" {
+    enforcement_level = input.cognito-user-pool-password-policy-check-enforcement-level
     locals {
         user_pool_name = core::try(attrs.name, "unknown")
         password_policy = core::try(attrs.password_policy[0], {})

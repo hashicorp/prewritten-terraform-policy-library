@@ -2,7 +2,13 @@
 
 policy {}
 
+input "sqs-queue-no-public-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sqs_queue_policy" "no_public_access" {
+    enforcement_level = input.sqs-queue-no-public-access-enforcement-level
     locals {
         policy_value = core::try(attrs.policy, null)
     }
@@ -16,6 +22,7 @@ resource_policy "aws_sqs_queue_policy" "no_public_access" {
 }
 
 resource_policy "aws_sqs_queue" "no_public_access_inline" {
+    enforcement_level = input.sqs-queue-no-public-access-enforcement-level
     locals {
         policy_value = core::try(attrs.policy, null)
     }

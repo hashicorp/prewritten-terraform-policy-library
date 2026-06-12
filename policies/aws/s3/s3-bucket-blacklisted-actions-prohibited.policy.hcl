@@ -6,12 +6,18 @@
 
 policy {}
 
+input "s3-bucket-blacklisted-actions-prohibited-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "blacklisted_action_pattern" {
     type = string
     default = "s3:DeleteBucketPolicy,s3:PutBucketAcl,s3:PutBucketPolicy,s3:PutEncryptionConfiguration,s3:PutObjectAcl"
 }
 
 resource_policy "aws_s3_bucket_policy" "s3-bucket-blacklisted-actions-prohibited" {
+    enforcement_level = input.s3-bucket-blacklisted-actions-prohibited-enforcement-level
     locals {
         policy_doc = core::jsondecode(attrs.policy)
         blacklisted_actions = core::split(",", input.blacklisted_action_pattern)

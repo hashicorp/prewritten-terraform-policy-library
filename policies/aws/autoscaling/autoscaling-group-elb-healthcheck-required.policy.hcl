@@ -2,7 +2,13 @@
 
 policy {}
 
+input "autoscaling-group-elb-healthcheck-required-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_autoscaling_group" "elb_healthcheck_required" {
+    enforcement_level = input.autoscaling-group-elb-healthcheck-required-enforcement-level
     locals {
         # Safely get attributes with core::try() using empty lists as defaults
         load_balancers_value = core::try(attrs.load_balancers, [])

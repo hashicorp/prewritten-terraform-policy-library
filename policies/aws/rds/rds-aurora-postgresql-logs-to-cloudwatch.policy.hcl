@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-aurora-postgresql-logs-to-cloudwatch-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_rds_cluster" "aurora_postgresql_cloudwatch_logs" {
+    enforcement_level = input.rds-aurora-postgresql-logs-to-cloudwatch-enforcement-level
     filter = attrs.engine == "aurora-postgresql"
 
     locals {

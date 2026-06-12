@@ -2,7 +2,13 @@
 
 policy {}
 
+input "network-firewall-deletion-protection-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_networkfirewall_firewall" "deletion_protection_enabled" {
+    enforcement_level = input.network-firewall-deletion-protection-enabled-enforcement-level
     locals {
         delete_protection = core::try(attrs.delete_protection, false)
     }

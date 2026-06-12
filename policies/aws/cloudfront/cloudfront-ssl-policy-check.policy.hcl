@@ -2,12 +2,18 @@
 
 policy {}
 
+input "cloudfront-ssl-policy-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "securityPolicies" {
   type = string
   default = "TLSv1.2_2021,TLSv1.2_2025,TLSv1.3_2025"
 }
 
 resource_policy "aws_cloudfront_distribution" "recommended_tls_security_policy" {
+  enforcement_level = input.cloudfront-ssl-policy-check-enforcement-level
   locals {
     viewer_certificate = core::try(attrs.viewer_certificate, [])
     has_viewer_certificate = core::length(local.viewer_certificate) > 0

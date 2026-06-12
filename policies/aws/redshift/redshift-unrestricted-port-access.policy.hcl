@@ -3,7 +3,13 @@
 
 policy {}
 
+input "redshift-unrestricted-port-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_redshift_cluster" "unrestricted-port-access" {
+    enforcement_level = input.redshift-unrestricted-port-access-enforcement-level
     locals {
         cluster_sgs = core::try(attrs.vpc_security_group_ids, [])
         

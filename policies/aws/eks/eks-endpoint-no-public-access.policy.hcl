@@ -2,7 +2,13 @@
 
 policy {}
 
+input "eks-endpoint-no-public-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_eks_cluster" "endpoint_no_public_access" {
+    enforcement_level = input.eks-endpoint-no-public-access-enforcement-level
     locals {
         vpc_config = core::try(attrs.vpc_config, []) != [] ? attrs.vpc_config[0] : null
     }

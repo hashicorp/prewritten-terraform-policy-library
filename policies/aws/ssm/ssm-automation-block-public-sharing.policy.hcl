@@ -2,8 +2,14 @@
 
 policy {}
 
+input "ssm-automation-block-public-sharing-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Check account-level block public sharing setting
 resource_policy "aws_ssm_service_setting" "block_public_sharing" {
+    enforcement_level = input.ssm-automation-block-public-sharing-enforcement-level
     locals {
         setting_id = core::try(attrs.setting_id, "")
         setting_value = core::try(attrs.setting_value, "")

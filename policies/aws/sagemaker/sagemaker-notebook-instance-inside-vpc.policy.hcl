@@ -2,7 +2,13 @@
 
 policy {}
 
+input "sagemaker-notebook-instance-inside-vpc-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sagemaker_notebook_instance" "custom_vpc_required" {
+    enforcement_level = input.sagemaker-notebook-instance-inside-vpc-enforcement-level
     locals {
         # Check if subnet_id is configured
         # The presence of subnet_id indicates the notebook is in a custom VPC

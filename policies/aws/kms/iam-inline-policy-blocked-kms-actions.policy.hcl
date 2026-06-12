@@ -6,12 +6,18 @@
 
 policy {}
 
+input "iam-inline-policy-blocked-kms-actions-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "blocked_action_pattern"{
     type = string
     default = "kms:Decrypt,kms:ReEncryptFrom,kms:*"
 }
 
 resource_policy "aws_iam_user_policy" "iam-inline-blocked-kms-actions-user" {
+    enforcement_level = input.iam-inline-policy-blocked-kms-actions-enforcement-level
     locals {
         policy_block = core::jsondecode(attrs.policy)
         statements = core::try(local.policy_block.Statement, [])
@@ -36,6 +42,7 @@ resource_policy "aws_iam_user_policy" "iam-inline-blocked-kms-actions-user" {
 }
 
 resource_policy "aws_iam_role_policy" "iam-inline-blocked-kms-actions-role" {
+    enforcement_level = input.iam-inline-policy-blocked-kms-actions-enforcement-level
     locals {
         policy_block = core::jsondecode(attrs.policy)
         statements = core::try(local.policy_block.Statement, [])
@@ -60,6 +67,7 @@ resource_policy "aws_iam_role_policy" "iam-inline-blocked-kms-actions-role" {
 }
 
 resource_policy "aws_iam_group_policy" "iam-inline-blocked-kms-actions-group" {
+    enforcement_level = input.iam-inline-policy-blocked-kms-actions-enforcement-level
     locals {
         policy_block = core::jsondecode(attrs.policy)
         statements = core::try(local.policy_block.Statement, [])

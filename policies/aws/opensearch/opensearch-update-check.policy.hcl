@@ -2,7 +2,13 @@
 
 policy {}
 
+input "opensearch-update-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_opensearch_domain" "latest_software_update_installed" {
+    enforcement_level = input.opensearch-update-check-enforcement-level
     locals {
         has_software_updates = core::try(attrs.software_update_options, null) != null
         auto_software_update_enabled = local.has_software_updates ? core::try(attrs.software_update_options[0].auto_software_update_enabled, false) : false

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecr-private-lifecycle-policy-configured-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecr_repository" "lifecycle_policy_required" {
+    enforcement_level = input.ecr-private-lifecycle-policy-configured-enforcement-level
     locals {
         # Get the repository name for this resource
         repository_name = core::try(attrs.name, "")

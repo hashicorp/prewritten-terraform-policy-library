@@ -2,12 +2,18 @@
 
 policy {}
 
+input "neptune-cluster-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "kms_key_arns" {
     type = string
     default = ""
 }
 
 resource_policy "aws_neptune_cluster" "encrypted-at-rest" {
+    enforcement_level = input.neptune-cluster-encrypted-enforcement-level
     locals {
         has_encryption = core::try(attrs.storage_encrypted, false)
         kms_key_arn = local.has_encryption ? core::try(attrs.kms_key_arn, "") : ""

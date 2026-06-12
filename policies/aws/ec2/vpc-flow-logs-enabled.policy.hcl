@@ -2,6 +2,11 @@
 
 policy {}
 
+input "vpc-flow-logs-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 locals {
   all_flow_logs = core::getresources("aws_flow_log", {})
 
@@ -9,6 +14,7 @@ locals {
 }
 
 resource_policy "aws_vpc" "flow_logging_enabled" {
+  enforcement_level = input.vpc-flow-logs-enabled-enforcement-level
   locals {
     vpc_id = core::try(attrs.id, "")
     has_known_vpc_id = core::try(attrs.id != "", false)

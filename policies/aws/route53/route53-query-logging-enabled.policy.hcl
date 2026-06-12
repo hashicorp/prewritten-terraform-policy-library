@@ -2,6 +2,11 @@
 
 policy {}
 
+input "route53-query-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 locals {
     all_query_logs = core::getresources("aws_route53_query_log", {})
     
@@ -13,6 +18,7 @@ locals {
 }
 
 resource_policy "aws_route53_zone" "dns_query_logging_enabled" {
+    enforcement_level = input.route53-query-logging-enabled-enforcement-level
     # Only check public hosted zones (private zones have vpc blocks)
     filter = core::try(core::length(attrs.vpc), 0) == 0
     

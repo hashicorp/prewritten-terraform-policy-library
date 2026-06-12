@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-spot-fleet-request-ct-encryption-at-rest-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_spot_fleet_request" "ebs_encryption_required" {
+    enforcement_level = input.ec2-spot-fleet-request-ct-encryption-at-rest-enforcement-level
     locals {
         # Extract all launch specifications
         launch_specs = core::try(attrs.launch_specification, [])

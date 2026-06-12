@@ -2,6 +2,11 @@
 
 policy {}
 
+input "cloudfront-s3-origin-non-existent-bucket-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Cache all S3 buckets once for performance
 locals {
   all_s3_buckets = core::getresources("aws_s3_bucket", {})
@@ -11,6 +16,7 @@ locals {
 }
 
 resource_policy "aws_cloudfront_distribution" "no_nonexistent_s3_origins" {
+  enforcement_level = input.cloudfront-s3-origin-non-existent-bucket-enforcement-level
   
   locals {
     # Extract all origins from the distribution

@@ -2,12 +2,18 @@
 
 policy {}
 
+input "elasticsearch-audit-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "cloudwatch_log_group_arn_list" {
     type = string
     default = ""
 }
 
 resource_policy "aws_elasticsearch_domain" "audit_logging_enabled" {
+    enforcement_level = input.elasticsearch-audit-logging-enabled-enforcement-level
     filter = attrs.log_publishing_options != null && core::length(attrs.log_publishing_options) > 0
 
     locals {

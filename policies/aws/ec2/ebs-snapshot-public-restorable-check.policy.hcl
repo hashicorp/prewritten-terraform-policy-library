@@ -2,8 +2,14 @@
 
 policy {}
 
+input "ebs-snapshot-public-restorable-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Policy to validate the block public access resource configuration
 resource_policy "aws_ebs_snapshot_block_public_access" "validate_state" {
+  enforcement_level = input.ebs-snapshot-public-restorable-check-enforcement-level
   
   locals {
     # Safe access to state attribute

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "waf-global-rulegroup-not-empty-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_waf_rule_group" "has_rules" {
+    enforcement_level = input.waf-global-rulegroup-not-empty-enforcement-level
     locals {
         activated_rules = core::try(attrs.activated_rule, [])
     }

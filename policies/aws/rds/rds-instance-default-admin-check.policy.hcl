@@ -2,12 +2,18 @@
 
 policy {}
 
+input "rds-instance-default-admin-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "valid_instance_admin_usernames" {
     type = string
     default = ""
 }
 
 resource_policy "aws_db_instance" "instance_admin_username_check" {
+    enforcement_level = input.rds-instance-default-admin-check-enforcement-level
     locals {
         has_input = input.valid_instance_admin_usernames != ""
         username = core::try(attrs.username, "")

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "eks-cluster-secrets-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_eks_cluster" "encrypted_secrets" {
+    enforcement_level = input.eks-cluster-secrets-encrypted-enforcement-level
     locals {
         has_encryption_config = core::length(core::try(attrs.encryption_config, [])) > 0
         encryption_config = local.has_encryption_config ? core::try(attrs.encryption_config[0], null) : null

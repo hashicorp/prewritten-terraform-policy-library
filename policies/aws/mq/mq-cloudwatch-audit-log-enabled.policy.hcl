@@ -2,7 +2,13 @@
 
 policy {}
 
+input "mq-cloudwatch-audit-log-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_mq_broker" "activemq_audit_logs_enabled" {
+    enforcement_level = input.mq-cloudwatch-audit-log-enabled-enforcement-level
     filter = core::try(attrs.engine_type, "") == "ActiveMQ"
 
     locals {

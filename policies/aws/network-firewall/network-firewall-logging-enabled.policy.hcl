@@ -2,7 +2,13 @@
 
 policy {}
 
+input "network-firewall-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_networkfirewall_logging_configuration" "logging_enabled" {
+  enforcement_level = input.network-firewall-logging-enabled-enforcement-level
   locals {
     # Extract logging configuration safely (logging_configuration is a block, accessed as list)
     logging_config = core::try(attrs.logging_configuration, [])

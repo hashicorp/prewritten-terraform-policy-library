@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-viewer-policy-https-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "viewer-policy-https" {
+    enforcement_level = input.cloudfront-viewer-policy-https-enforcement-level
     locals {
         default_cache_behavior = core::try(attrs.default_cache_behavior[0].viewer_protocol_policy, "") != "allow-all"
         ordered_cache_behavior = core::try(attrs.ordered_cache_behavior[0].viewer_protocol_policy, "") != "allow-all"

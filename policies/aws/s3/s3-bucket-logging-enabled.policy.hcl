@@ -2,6 +2,11 @@
 
 policy {}
 
+input "s3-bucket-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "targetBucket" {
   type    = string
   default = ""
@@ -13,6 +18,7 @@ input "loggingTargetPrefix" {
 }
 
 resource_policy "aws_s3_bucket" "server_access_logging_enabled" {
+  enforcement_level = input.s3-bucket-logging-enabled-enforcement-level
   locals {
     bucket_name = core::try(attrs.bucket, "")
 

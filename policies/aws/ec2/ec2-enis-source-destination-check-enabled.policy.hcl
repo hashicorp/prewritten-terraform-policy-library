@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-enis-source-destination-check-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_network_interface" "source_dest_check_enabled" {
+    enforcement_level = input.ec2-enis-source-destination-check-enabled-enforcement-level
     locals {
 
         excluded_interface_types = [

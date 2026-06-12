@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-instance-subnet-igw-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_instance" "no_public_subnet_igw" {
+  enforcement_level = input.rds-instance-subnet-igw-check-enforcement-level
   locals {
     # Get the subnet group name - when unset, it will be null/empty
     # AWS will use the default subnet group at apply time, but we cannot evaluate that here

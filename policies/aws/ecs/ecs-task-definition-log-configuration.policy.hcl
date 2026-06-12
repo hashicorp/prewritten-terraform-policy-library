@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-task-definition-log-configuration-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_task_definition" "ecs_task_definition_logging_configured" {
+    enforcement_level = input.ecs-task-definition-log-configuration-enforcement-level
     filter = attrs.container_definitions != null
 
     locals {

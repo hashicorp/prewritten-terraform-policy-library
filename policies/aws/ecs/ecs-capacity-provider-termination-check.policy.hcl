@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-capacity-provider-termination-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_capacity_provider" "managed_termination_protection_enabled" {
+    enforcement_level = input.ecs-capacity-provider-termination-check-enforcement-level
     # Only evaluate capacity providers that use auto_scaling_group_provider
     # (managed_instances_provider doesn't support managed_termination_protection)
     filter = core::try(attrs.auto_scaling_group_provider, null) != null

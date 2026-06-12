@@ -2,7 +2,13 @@
 
 policy {}
 
+input "opensearch-logs-to-cloudwatch-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_opensearch_domain" "error_logging_enabled" {
+    enforcement_level = input.opensearch-logs-to-cloudwatch-enforcement-level
     locals {
         log_options = core::try(attrs.log_publishing_options, [])
         application_log_configs = [

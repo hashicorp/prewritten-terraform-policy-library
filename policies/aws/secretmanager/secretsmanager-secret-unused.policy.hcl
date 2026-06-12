@@ -2,12 +2,18 @@
 
 policy {}
 
+input "secretsmanager-secret-unused-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "unusedForDays" {
   type    = number
   default = 90
 }
 
 resource_policy "aws_secretsmanager_secret" "remove_unused_secrets" {
+  enforcement_level = input.secretsmanager-secret-unused-enforcement-level
   locals {
     tags_value            = core::try(attrs.tags, {})
     last_accessed_raw     = core::try(local.tags_value.LastAccessed, "")

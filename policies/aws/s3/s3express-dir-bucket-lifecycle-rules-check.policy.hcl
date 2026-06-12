@@ -2,12 +2,18 @@
 
 policy {}
 
+input "s3express-dir-bucket-lifecycle-rules-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "expressTargetExpirationDays" {
   type    = number
   default = 0
 }
 
 resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
+  enforcement_level = input.s3express-dir-bucket-lifecycle-rules-check-enforcement-level
   locals {
     bucket_name = core::try(attrs.bucket, "")
 

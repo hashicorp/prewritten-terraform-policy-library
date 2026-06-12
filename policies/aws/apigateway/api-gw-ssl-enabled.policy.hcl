@@ -1,7 +1,13 @@
 # Policy: APIGateway.2 - API Gateway REST API stages should be configured to use SSL certificates for backend authentication
 policy {}
 
+input "api-gw-ssl-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_api_gateway_stage" "ssl_backend_auth_required" {
+    enforcement_level = input.api-gw-ssl-enabled-enforcement-level
     locals {
         # Safely extract client_certificate_id attribute
         client_cert_id = core::try(attrs.client_certificate_id, null)

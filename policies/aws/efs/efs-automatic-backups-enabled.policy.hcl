@@ -2,7 +2,13 @@
 
 policy {}
 
+input "efs-automatic-backups-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_efs_backup_policy" "automatic_backups_enabled" {
+    enforcement_level = input.efs-automatic-backups-enabled-enforcement-level
     locals {
         backup_policy_list = core::try(attrs.backup_policy, [])
         has_backup_policy = core::length(local.backup_policy_list) > 0

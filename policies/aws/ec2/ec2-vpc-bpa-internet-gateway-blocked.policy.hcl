@@ -1,12 +1,18 @@
 # EC2.172 - EC2 VPC Block Public Access settings should block internet gateway traffic
 policy {}
 
+input "ec2-vpc-bpa-internet-gateway-blocked-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "vpcBpaInternetGatewayBlockMode" {
     type = string
     default = ""
 }
 
 resource_policy "aws_vpc_block_public_access_options" "ec2_172_vpc_bpa_igw_block" {
+    enforcement_level = input.ec2-vpc-bpa-internet-gateway-blocked-enforcement-level
     locals {
         # Safe access to internet_gateway_block_mode attribute
         igw_block_mode = core::try(attrs.internet_gateway_block_mode, "off")

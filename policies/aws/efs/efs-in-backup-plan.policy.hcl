@@ -2,7 +2,13 @@
 
 policy {}
 
+input "efs-in-backup-plan-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_efs_file_system" "in_backup_plan" {
+  enforcement_level = input.efs-in-backup-plan-enforcement-level
   locals {
     all_selections = core::getresources("aws_backup_selection", {})
     efs_arn = core::try(attrs.arn, "")

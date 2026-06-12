@@ -2,7 +2,13 @@
 
 policy {}
 
+input "s3-bucket-acl-prohibited-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_s3_bucket" "acl_prohibited" {
+  enforcement_level = input.s3-bucket-acl-prohibited-enforcement-level
   locals {
     bucket_name = core::try(attrs.bucket, "")
 

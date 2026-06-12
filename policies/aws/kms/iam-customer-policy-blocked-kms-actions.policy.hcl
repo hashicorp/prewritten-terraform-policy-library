@@ -2,7 +2,13 @@
 
 policy {}
 
+input "iam-customer-policy-blocked-kms-actions-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_iam_policy" "kms_decrypt_restriction" {
+    enforcement_level = input.iam-customer-policy-blocked-kms-actions-enforcement-level
     filter = attrs.policy != null
 
     locals {

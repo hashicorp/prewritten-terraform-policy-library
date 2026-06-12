@@ -2,7 +2,13 @@
 
 policy {}
 
+input "clb-desync-mode-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elb" "desync_mitigation_mode_check" {
+  enforcement_level = input.clb-desync-mode-check-enforcement-level
   # Ensures Classic Load Balancers are configured with defensive or strictest desync mitigation mode to protect against HTTP Desync attacks
 
   locals {

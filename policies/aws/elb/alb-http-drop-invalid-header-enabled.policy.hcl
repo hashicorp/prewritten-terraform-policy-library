@@ -2,7 +2,13 @@
 
 policy {}
 
+input "alb-http-drop-invalid-header-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_lb" "drop_invalid_header_fields_enabled" {
+    enforcement_level = input.alb-http-drop-invalid-header-enabled-enforcement-level
     filter = core::try(attrs.load_balancer_type, "application") == "application"
 
     locals {

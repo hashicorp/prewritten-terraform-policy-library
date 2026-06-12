@@ -2,9 +2,15 @@
 
 policy {}
 
+input "iam-user-unused-credentials-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Terraform does not expose IAM credential last-used timestamps reliably in plan data,
 # so this policy validates the AWS managed Config rule that performs the periodic check.
 resource_policy "aws_config_config_rule" "iam_unused_credentials_check" {
+  enforcement_level = input.iam-user-unused-credentials-check-enforcement-level
   locals {
     is_iam_unused_creds_rule = core::try(attrs.name, "") == "iam-user-unused-credentials-check"
 

@@ -6,6 +6,11 @@
 
 policy {}
 
+input "s3-lifecycle-policy-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "targetPrefix" {
   type    = string
   default = ""
@@ -43,6 +48,7 @@ locals {
 }
 
 resource_policy "aws_s3_bucket" "lifecycle_policy_check" {
+  enforcement_level = input.s3-lifecycle-policy-check-enforcement-level
   locals {
     bucket_name = core::try(attrs.bucket, "")
 

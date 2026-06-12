@@ -2,12 +2,18 @@
 
 policy {}
 
+input "ecs-no-environment-secrets-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "secret_keys" {
     type = string
     default = "AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,ECS_ENGINE_AUTH_DATA"
 }
 
 resource_policy "aws_ecs_task_definition" "no_environment_secrets" {
+    enforcement_level = input.ecs-no-environment-secrets-enforcement-level
     # Only check task definitions that have container_definitions
     filter = attrs.container_definitions != null
 

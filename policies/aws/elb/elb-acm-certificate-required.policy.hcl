@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elb-acm-certificate-required-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elb" "acm_certificate_required" {
+    enforcement_level = input.elb-acm-certificate-required-enforcement-level
 
     # Filter to only ELBs that have listeners (skip ELBs without listeners)
     filter = attrs.listener != null && core::length(attrs.listener) > 0

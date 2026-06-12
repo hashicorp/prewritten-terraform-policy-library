@@ -2,7 +2,13 @@
 
 policy {}
 
+input "encrypted-volumes-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ebs_volume" "encryption_required" {
+    enforcement_level = input.encrypted-volumes-enforcement-level
     locals {
         encrypted = core::try(attrs.encrypted, false)
     }
@@ -14,6 +20,7 @@ resource_policy "aws_ebs_volume" "encryption_required" {
 }
 
 resource_policy "aws_instance" "ebs_encryption_required" {
+    enforcement_level = input.encrypted-volumes-enforcement-level
     locals {
         # Safely get ebs_block_device attribute
         ebs_devices = core::try(attrs.ebs_block_device, [])
@@ -38,6 +45,7 @@ resource_policy "aws_instance" "ebs_encryption_required" {
 }
 
 resource_policy "aws_instance" "root_encryption_required" {
+    enforcement_level = input.encrypted-volumes-enforcement-level
     locals {
         # Safely get root_block_device attribute
         root_devices = core::try(attrs.root_block_device, [])

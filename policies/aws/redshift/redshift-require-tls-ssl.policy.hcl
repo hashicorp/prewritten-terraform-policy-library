@@ -2,11 +2,17 @@
 
 policy {}
 
+input "redshift-require-tls-ssl-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 locals {
   all_parameter_groups = core::getresources("aws_redshift_parameter_group", {})
 }
 
 resource_policy "aws_redshift_cluster" "encryption_in_transit_required" {
+  enforcement_level = input.redshift-require-tls-ssl-enforcement-level
   locals {
     # Get the parameter group name (custom or default)
     param_group_name = core::try(attrs.cluster_parameter_group_name, "default.redshift-1.0")

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elb-connection-draining-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elb" "connection_draining_enabled" {
+    enforcement_level = input.elb-connection-draining-enabled-enforcement-level
     locals {
 
         # Safe access to connection_draining attribute with default false

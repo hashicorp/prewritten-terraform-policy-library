@@ -2,7 +2,13 @@
 
 policy {}
 
+input "redshift-serverless-workgroup-no-public-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_redshiftserverless_workgroup" "prohibit_public_access" {
+    enforcement_level = input.redshift-serverless-workgroup-no-public-access-enforcement-level
     locals {
         # Safe access to publicly_accessible attribute with default false
         # If attribute is not set, it defaults to false (secure by default)

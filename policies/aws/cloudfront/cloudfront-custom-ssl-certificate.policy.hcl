@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-custom-ssl-certificate-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "custom_ssl_required" {
+  enforcement_level = input.cloudfront-custom-ssl-certificate-enforcement-level
   locals {
     # Safe access to viewer_certificate block (it's a block, so needs [0] index)
     viewer_cert = core::try(attrs.viewer_certificate[0], null)

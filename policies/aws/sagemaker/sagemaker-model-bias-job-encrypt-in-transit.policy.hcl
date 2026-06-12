@@ -2,7 +2,13 @@
 
 policy {}
 
+input "sagemaker-model-bias-job-encrypt-in-transit-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sagemaker_monitoring_schedule" "model_bias_encryption" {
+    enforcement_level = input.sagemaker-model-bias-job-encrypt-in-transit-enforcement-level
     filter = attrs.monitoring_schedule_config != null && core::length(attrs.monitoring_schedule_config) > 0
 
     locals {

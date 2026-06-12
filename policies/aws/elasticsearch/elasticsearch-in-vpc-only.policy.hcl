@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elasticsearch-in-vpc-only-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elasticsearch_domain" "vpc_only" {
+    enforcement_level = input.elasticsearch-in-vpc-only-enforcement-level
     locals {
         vpc_options = core::try(attrs.vpc_options, [])
         has_vpc_options = core::length(local.vpc_options) > 0

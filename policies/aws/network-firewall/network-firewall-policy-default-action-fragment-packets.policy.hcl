@@ -2,7 +2,13 @@
 
 policy {}
 
+input "network-firewall-policy-default-action-fragment-packets-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_networkfirewall_firewall_policy" "fragment_default_action" {
+    enforcement_level = input.network-firewall-policy-default-action-fragment-packets-enforcement-level
     filter = attrs.firewall_policy != null && core::length(attrs.firewall_policy) > 0
 
     locals {

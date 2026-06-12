@@ -7,7 +7,13 @@ input "approved_kms_keys" {
 
 policy {}
 
+input "elasticache-repl-grp-encrypted-at-rest-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elasticache_replication_group" "elasticache-rg-encrypted-at-rest" {
+    enforcement_level = input.elasticache-repl-grp-encrypted-at-rest-enforcement-level
     locals {
         engine = core::try(attrs.engine, "redis")
         at_rest_encryption = (local.engine == "redis" && core::try(attrs.at_rest_encryption_enabled, false)) || (local.engine == "valkey" && core::try(attrs.at_rest_encryption_enabled, true))

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ssm-document-not-public-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ssm_document" "ssm_document_not_public" {
+    enforcement_level = input.ssm-document-not-public-enforcement-level
     locals {
 
         # Get the owner of the document (computed attribute)

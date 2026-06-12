@@ -2,7 +2,13 @@
 
 policy {}
 
+input "redshift-serverless-workgroup-encrypted-in-transit-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_redshiftserverless_workgroup" "require_ssl_encryption" {
+    enforcement_level = input.redshift-serverless-workgroup-encrypted-in-transit-enforcement-level
     locals {
         # Extract config_parameter block (it's a list of maps)
         config_params = core::try(attrs.config_parameter, [])

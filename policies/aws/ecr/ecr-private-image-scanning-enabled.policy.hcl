@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecr-private-image-scanning-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecr_repository" "image_scanning_required" {
+    enforcement_level = input.ecr-private-image-scanning-enabled-enforcement-level
     locals {
         # Safely access image_scanning_configuration block
         # Note: This is a block (not an attribute), so it's a list

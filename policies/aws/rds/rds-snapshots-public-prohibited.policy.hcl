@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-snapshots-public-prohibited-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_snapshot" "no_public_snapshots" {
+    enforcement_level = input.rds-snapshots-public-prohibited-enforcement-level
     locals {
         shared_accounts_list = core::try(attrs.shared_accounts, [])
         has_shared_accounts = local.shared_accounts_list != null && local.shared_accounts_list != []
@@ -16,6 +22,7 @@ resource_policy "aws_db_snapshot" "no_public_snapshots" {
 }
 
 resource_policy "aws_db_cluster_snapshot" "no_public_snapshots" {
+    enforcement_level = input.rds-snapshots-public-prohibited-enforcement-level
     locals {
         shared_accounts_list = core::try(attrs.shared_accounts, [])
         has_shared_accounts = local.shared_accounts_list != null && local.shared_accounts_list != []

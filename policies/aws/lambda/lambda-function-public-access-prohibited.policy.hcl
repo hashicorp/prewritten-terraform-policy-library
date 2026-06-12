@@ -2,7 +2,13 @@
 
 policy {}
 
+input "lambda-function-public-access-prohibited-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_lambda_permission" "prohibit_public_access" {
+    enforcement_level = input.lambda-function-public-access-prohibited-enforcement-level
     locals {
         principal = core::try(attrs.principal, "")
 

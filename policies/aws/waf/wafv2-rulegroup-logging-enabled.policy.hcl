@@ -2,7 +2,13 @@
 
 policy {}
 
+input "wafv2-rulegroup-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_wafv2_rule_group" "waf_rule_group_cloudwatch_metrics_enabled" {
+  enforcement_level = input.wafv2-rulegroup-logging-enabled-enforcement-level
   locals {
     resource_name = core::try(attrs.name, "unknown")
     resource_visibility_config = core::try(attrs.visibility_config, [])
@@ -44,6 +50,7 @@ resource_policy "aws_wafv2_rule_group" "waf_rule_group_cloudwatch_metrics_enable
 }
 
 resource_policy "aws_wafv2_web_acl" "waf_web_acl_cloudwatch_metrics_enabled" {
+  enforcement_level = input.wafv2-rulegroup-logging-enabled-enforcement-level
   locals {
     resource_name = core::try(attrs.name, "unknown")
     resource_visibility_config = core::try(attrs.visibility_config, [])

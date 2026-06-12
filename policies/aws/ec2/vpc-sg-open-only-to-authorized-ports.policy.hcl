@@ -1,6 +1,11 @@
 # Policy: EC2.18 - Security groups should only allow unrestricted incoming traffic for authorized ports
 policy {}
 
+input "vpc-sg-open-only-to-authorized-ports-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "authorizedTcpPorts" {
   type    = string
   default = "80,443"
@@ -36,6 +41,7 @@ locals {
 }
 
 resource_policy "aws_security_group" "restrict_unrestricted_ingress" {
+  enforcement_level = input.vpc-sg-open-only-to-authorized-ports-enforcement-level
   filter = core::length(core::try(attrs.ingress, [])) > 0
 
   locals {
@@ -97,6 +103,7 @@ resource_policy "aws_security_group" "restrict_unrestricted_ingress" {
 }
 
 resource_policy "aws_vpc_security_group_ingress_rule" "restrict_unrestricted_ingress" {
+  enforcement_level = input.vpc-sg-open-only-to-authorized-ports-enforcement-level
   # Match any broadly-public CIDR on either IP family, not only the literal
   # "0.0.0.0/0" / "::/0" strings (see public_ipv4_cidr_pattern above).
   filter = (core::length(core::regexall(local.public_ipv4_cidr_pattern, core::try(attrs.cidr_ipv4, ""))) > 0) || (core::length(core::regexall(local.public_ipv6_cidr_pattern, core::try(attrs.cidr_ipv6, ""))) > 0)

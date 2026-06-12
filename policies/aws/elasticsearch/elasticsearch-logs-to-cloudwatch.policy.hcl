@@ -2,12 +2,18 @@
 
 policy {}
 
+input "elasticsearch-logs-to-cloudwatch-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "es_log_types" {
     type = string
     default = "ES_APPLICATION_LOGS"
 }
 
 resource_policy "aws_elasticsearch_domain" "error_logging_enabled" {
+    enforcement_level = input.elasticsearch-logs-to-cloudwatch-enforcement-level
     filter = core::try(attrs.log_publishing_options, null) != null || core::length(core::try(attrs.log_publishing_options, [])) > 0
 
     locals {

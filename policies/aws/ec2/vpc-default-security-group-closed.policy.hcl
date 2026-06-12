@@ -2,6 +2,11 @@
 
 policy {}
 
+input "vpc-default-security-group-closed-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Cache all security group rules for performance
 locals {
   all_ingress_rules = core::getresources("aws_vpc_security_group_ingress_rule", {})
@@ -10,6 +15,7 @@ locals {
 }
 
 resource_policy "aws_default_security_group" "no_traffic_allowed" {
+  enforcement_level = input.vpc-default-security-group-closed-enforcement-level
   locals {
     # Check if ingress block is present and not empty
     has_ingress_block = core::try(core::length(attrs.ingress), 0) > 0

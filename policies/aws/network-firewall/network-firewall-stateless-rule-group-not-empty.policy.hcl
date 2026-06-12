@@ -2,7 +2,13 @@
 
 policy {}
 
+input "network-firewall-stateless-rule-group-not-empty-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_networkfirewall_rule_group" "stateless_not_empty" {
+    enforcement_level = input.network-firewall-stateless-rule-group-not-empty-enforcement-level
     filter = attrs.type == "STATELESS"
 
     locals {

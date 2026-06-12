@@ -2,7 +2,13 @@
 
 policy {}
 
+input "s3-bucket-ssl-requests-only-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_s3_bucket" "ssl_required" {
+  enforcement_level = input.s3-bucket-ssl-requests-only-enforcement-level
   locals {
     bucket_name = core::try(attrs.bucket, "")
 

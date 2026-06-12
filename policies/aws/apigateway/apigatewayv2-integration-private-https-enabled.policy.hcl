@@ -2,7 +2,13 @@
 
 policy {}
 
+input "apigatewayv2-integration-private-https-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_apigatewayv2_integration" "private_https_enabled" {
+    enforcement_level = input.apigatewayv2-integration-private-https-enabled-enforcement-level
     # Only evaluate integrations that use VPC Links (private connections)
     # INTERNET connections don't need this check as they use public HTTPS
     filter = core::try(attrs.connection_type, "") == "VPC_LINK"

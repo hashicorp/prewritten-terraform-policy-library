@@ -2,7 +2,13 @@
 
 policy {}
 
+input "acm-pca-root-ca-disabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_acmpca_certificate_authority" "root_ca_disabled" {
+    enforcement_level = input.acm-pca-root-ca-disabled-enforcement-level
     // Filter to only evaluate root certificate authorities
     // Only check CAs where type is explicitly set to "ROOT"
     filter = core::try(attrs.type, "SUBORDINATE") == "ROOT"

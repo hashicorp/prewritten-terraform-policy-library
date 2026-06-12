@@ -2,7 +2,13 @@
 
 policy {}
 
+input "sagemaker-endpoint-config-prod-instance-count-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sagemaker_endpoint_configuration" "endpoint_instance_count_check" {
+    enforcement_level = input.sagemaker-endpoint-config-prod-instance-count-enforcement-level
     filter = attrs.production_variants != null && core::length(attrs.production_variants) > 0
 
     locals {

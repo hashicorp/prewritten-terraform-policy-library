@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elbv2-targetgroup-protocol-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_lb_target_group" "encrypted_protocol_required" {
+    enforcement_level = input.elbv2-targetgroup-protocol-encrypted-enforcement-level
     locals {
         target_type = core::try(attrs.target_type, "instance")
         protocol = core::try(attrs.protocol, "")

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dynamodb-pitr-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dynamodb_table" "pitr_enabled" {
+  enforcement_level = input.dynamodb-pitr-enabled-enforcement-level
   locals {
     # Safely extract the point_in_time_recovery configuration
     pitr_config = core::try(attrs.point_in_time_recovery, [])

@@ -2,12 +2,18 @@
 
 policy {}
 
+input "network-firewall-policy-default-action-full-packets-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "statelessDefaultActions" {
     type = string
     default = "aws:drop,aws:forward_to_sfe"
 }
 
 resource_policy "aws_networkfirewall_firewall_policy" "stateless_default_action_check" {
+    enforcement_level = input.network-firewall-policy-default-action-full-packets-enforcement-level
     filter = attrs.firewall_policy != null
 
     locals {

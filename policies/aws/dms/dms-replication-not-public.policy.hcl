@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dms-replication-not-public-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dms_replication_instance" "not_public" {
+    enforcement_level = input.dms-replication-not-public-enforcement-level
     locals {
         # Safe access to publicly_accessible attribute with default false
         # (AWS provider default is false when not specified)

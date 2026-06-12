@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-taskset-assign-public-ip-disabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_task_set" "no_public_ip" {
+    enforcement_level = input.ecs-taskset-assign-public-ip-disabled-enforcement-level
     locals {
         has_network_config = core::length(core::try(attrs.network_configuration, [])) > 0
         assign_public_ip = core::try(attrs.network_configuration[0].assign_public_ip, false)

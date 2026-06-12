@@ -2,7 +2,13 @@
 
 policy {}
 
+input "guardduty-ec2-protection-runtime-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_guardduty_detector_feature" "ec2_runtime_monitoring_enabled" {
+    enforcement_level = input.guardduty-ec2-protection-runtime-enabled-enforcement-level
     filter = core::try(attrs.name, "") == "RUNTIME_MONITORING"
 
     locals {
@@ -30,6 +36,7 @@ resource_policy "aws_guardduty_detector_feature" "ec2_runtime_monitoring_enabled
 }
 
 resource_policy "aws_guardduty_organization_configuration_feature" "ec2_runtime_monitoring_enabled" {
+    enforcement_level = input.guardduty-ec2-protection-runtime-enabled-enforcement-level
     filter = core::try(attrs.name, "") == "RUNTIME_MONITORING"
 
     locals {

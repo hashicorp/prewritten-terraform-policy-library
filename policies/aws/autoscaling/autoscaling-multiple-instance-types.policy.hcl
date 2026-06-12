@@ -2,7 +2,13 @@
 
 policy {}
 
+input "autoscaling-multiple-instance-types-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_autoscaling_group" "multiple_instance_types_and_azs" {
+  enforcement_level = input.autoscaling-multiple-instance-types-enforcement-level
   
   locals {
     # Check if mixed_instances_policy exists

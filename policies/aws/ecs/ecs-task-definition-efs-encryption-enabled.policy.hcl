@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-task-definition-efs-encryption-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_task_definition" "efs_transit_encryption_enabled" {
+    enforcement_level = input.ecs-task-definition-efs-encryption-enabled-enforcement-level
     locals {
         efs_volumes = [
             for vol in core::try(attrs.volume, []) : vol

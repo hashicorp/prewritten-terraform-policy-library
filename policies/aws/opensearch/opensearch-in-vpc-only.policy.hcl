@@ -2,7 +2,13 @@
 
 policy {}
 
+input "opensearch-in-vpc-only-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_opensearch_domain" "vpc_deployment_required" {
+    enforcement_level = input.opensearch-in-vpc-only-enforcement-level
     locals {
         vpc_options = core::try(attrs.vpc_options, null)
         has_vpc_options = local.vpc_options != null

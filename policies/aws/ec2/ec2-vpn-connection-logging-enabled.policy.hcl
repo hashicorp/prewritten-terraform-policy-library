@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-vpn-connection-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_vpn_connection" "vpn_connection_logging_enabled" {
+    enforcement_level = input.ec2-vpn-connection-logging-enabled-enforcement-level
     locals {
         tunnel1_log_enabled = core::try(attrs.tunnel1_log_options[0].cloudwatch_log_options[0].log_enabled, false)
         tunnel2_log_enabled = core::try(attrs.tunnel2_log_options[0].cloudwatch_log_options[0].log_enabled, false)

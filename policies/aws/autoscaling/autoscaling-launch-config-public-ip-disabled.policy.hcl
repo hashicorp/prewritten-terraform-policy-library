@@ -2,7 +2,13 @@
 
 policy {}
 
+input "autoscaling-launch-config-public-ip-disabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_launch_configuration" "no_public_ip" {
+    enforcement_level = input.autoscaling-launch-config-public-ip-disabled-enforcement-level
     locals {
         # Safely extract the associate_public_ip_address attribute
         # Default to false if not specified (which is compliant)

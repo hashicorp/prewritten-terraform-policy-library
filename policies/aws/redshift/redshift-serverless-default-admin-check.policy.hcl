@@ -2,7 +2,13 @@
 
 policy {}
 
+input "redshift-serverless-default-admin-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_redshiftserverless_namespace" "no_default_admin_username" {
+    enforcement_level = input.redshift-serverless-default-admin-check-enforcement-level
     locals {
         # Safely get admin_username, default to "admin" if not specified
         # This matches AWS behavior where omitting admin_username uses "admin" as default

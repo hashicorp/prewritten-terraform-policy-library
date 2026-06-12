@@ -2,7 +2,13 @@
 
 policy {}
 
+input "redshift-serverless-workgroup-routes-within-vpc-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_redshiftserverless_workgroup" "enhanced_vpc_routing_required" {
+    enforcement_level = input.redshift-serverless-workgroup-routes-within-vpc-enforcement-level
     locals {
         # Safely access enhanced_vpc_routing attribute with default false
         enhanced_vpc_routing = core::try(attrs.enhanced_vpc_routing, false)

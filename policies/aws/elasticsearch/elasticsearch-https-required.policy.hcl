@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elasticsearch-https-required-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elasticsearch_domain" "tls_security_policy" {
+    enforcement_level = input.elasticsearch-https-required-enforcement-level
     filter = core::try(attrs.domain_endpoint_options, null) != null || core::length(core::try(attrs.domain_endpoint_options, [])) > 0
 
     locals {

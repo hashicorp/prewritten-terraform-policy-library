@@ -2,7 +2,13 @@
 
 policy {}
 
+input "msk-unrestricted-access-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_msk_cluster" "disable_unauthenticated_access" {
+    enforcement_level = input.msk-unrestricted-access-check-enforcement-level
     locals {
         # Safe access to client_authentication block
         client_auth = core::try(attrs.client_authentication[0], attrs.client_authentication, null)

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "transfer-connector-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_transfer_connector" "logging_enabled" {
+    enforcement_level = input.transfer-connector-logging-enabled-enforcement-level
     locals {
         # Safe access to logging_role attribute with null fallback
         logging_role = core::try(attrs.logging_role, null)

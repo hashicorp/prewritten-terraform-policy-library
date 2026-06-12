@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elasticsearch-data-node-fault-tolerance-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elasticsearch_domain" "three_data_nodes" {
+    enforcement_level = input.elasticsearch-data-node-fault-tolerance-enforcement-level
     filter = core::try(attrs.cluster_config, null) != null || core::length(core::try(attrs.cluster_config, [])) > 0
 
     locals {

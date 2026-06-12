@@ -2,7 +2,13 @@
 
 policy {}
 
+input "inspector-ecr-scan-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_inspector2_enabler" "ecr_scanning_enabled" {
+    enforcement_level = input.inspector-ecr-scan-enabled-enforcement-level
     filter = attrs.resource_types != null
 
     locals {
@@ -16,6 +22,7 @@ resource_policy "aws_inspector2_enabler" "ecr_scanning_enabled" {
 }
 
 resource_policy "aws_inspector2_organization_configuration" "ecr_org_scanning_enabled" {
+    enforcement_level = input.inspector-ecr-scan-enabled-enforcement-level
     filter = core::try(attrs.auto_enable, null) != null && core::length(core::try(attrs.auto_enable, [])) > 0
     enforce {
         condition = core::try(attrs.auto_enable[0].ecr, false) == true

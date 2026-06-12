@@ -2,12 +2,18 @@
 
 policy {}
 
+input "kinesis-stream-backup-retention-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "minimumBackupRetentionPeriod" {
     type = number
     default = 168
 }
 
 resource_policy "aws_kinesis_stream" "kinesis_retention_check" {
+    enforcement_level = input.kinesis-stream-backup-retention-check-enforcement-level
     locals {
         valid_retention = input.minimumBackupRetentionPeriod >= 24 && input.minimumBackupRetentionPeriod <= 8760
     }

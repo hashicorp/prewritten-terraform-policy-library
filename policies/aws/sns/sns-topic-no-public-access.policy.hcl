@@ -2,7 +2,13 @@
 
 policy {}
 
+input "sns-topic-no-public-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sns_topic_policy" "no_public_access" {
+  enforcement_level = input.sns-topic-no-public-access-enforcement-level
   # Pre-filter: only evaluate when a policy document is present
   filter = core::try(attrs.policy, "") != ""
 
@@ -57,6 +63,7 @@ resource_policy "aws_sns_topic_policy" "no_public_access" {
 
 # Additional policy to check aws_sns_topic inline policies
 resource_policy "aws_sns_topic" "no_public_access_inline" {
+  enforcement_level = input.sns-topic-no-public-access-enforcement-level
   # Only evaluate topics that have an inline policy defined
   filter = core::try(attrs.policy, null) != null && core::try(attrs.policy, "") != ""
 

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "apigateway-domain-name-tls-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_api_gateway_domain_name" "recommended_security_policy" {
+    enforcement_level = input.apigateway-domain-name-tls-check-enforcement-level
     locals {
         # Extract security_policy attribute safely
         security_policy = core::try(attrs.security_policy, "")

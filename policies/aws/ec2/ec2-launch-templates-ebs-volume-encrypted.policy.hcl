@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-launch-templates-ebs-volume-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_launch_template" "ebs_encryption_enabled" {
+    enforcement_level = input.ec2-launch-templates-ebs-volume-encrypted-enforcement-level
     filter = core::length(core::try(attrs.block_device_mappings, [])) > 0
 
     locals {

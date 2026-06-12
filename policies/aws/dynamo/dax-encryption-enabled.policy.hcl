@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dax-encryption-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dax_cluster" "encryption_at_rest_required" {
+    enforcement_level = input.dax-encryption-enabled-enforcement-level
     locals {
         # Safely access the server_side_encryption block
         # The server_side_encryption attribute is a list of objects (block)

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "fsx-windows-deployment-type-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_fsx_windows_file_system" "multi_az_deployment" {
+    enforcement_level = input.fsx-windows-deployment-type-check-enforcement-level
     locals {
         deployment_type = core::try(attrs.deployment_type, "SINGLE_AZ_1")
     }

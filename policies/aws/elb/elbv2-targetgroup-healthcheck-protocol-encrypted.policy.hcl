@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elbv2-targetgroup-healthcheck-protocol-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_lb_target_group" "encrypted_health_check" {
+    enforcement_level = input.elbv2-targetgroup-healthcheck-protocol-encrypted-enforcement-level
     filter = attrs.target_type != "lambda"
 
     locals {

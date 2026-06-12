@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-mariadb-instance-encrypted-in-transit-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_instance" "mariadb_encrypted_transit" {
+  enforcement_level = input.rds-mariadb-instance-encrypted-in-transit-enforcement-level
   filter = attrs.engine == "mariadb"
   
   locals {

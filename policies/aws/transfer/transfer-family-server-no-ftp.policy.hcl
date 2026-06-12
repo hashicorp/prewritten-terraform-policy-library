@@ -2,7 +2,13 @@
 
 policy {}
 
+input "transfer-family-server-no-ftp-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_transfer_server" "no_ftp_protocol" {
+    enforcement_level = input.transfer-family-server-no-ftp-enforcement-level
     locals {
 
         # Get protocols list, default to empty list if not specified

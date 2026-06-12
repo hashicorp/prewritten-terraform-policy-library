@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-origin-failover-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "origin_failover_required" {
+    enforcement_level = input.cloudfront-origin-failover-enabled-enforcement-level
     # Only skip distributions explicitly disabled. Treat omitted enabled as true.
     filter = core::try(attrs.enabled, true) == true
 

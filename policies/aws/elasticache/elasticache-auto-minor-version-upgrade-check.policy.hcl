@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elasticache-auto-minor-version-upgrade-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elasticache_cluster" "auto-minor-version-upgrade-check" {
+    enforcement_level = input.elasticache-auto-minor-version-upgrade-check-enforcement-level
     filter = (core::try(attrs.engine, "") == "redis" || core::try(attrs.engine, "") == "valkey")
 
     locals {

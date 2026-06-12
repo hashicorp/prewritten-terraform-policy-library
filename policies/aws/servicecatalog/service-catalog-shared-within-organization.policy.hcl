@@ -2,7 +2,13 @@
 
 policy {}
 
+input "service-catalog-shared-within-organization-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_servicecatalog_portfolio_share" "organization_only_sharing" {
+    enforcement_level = input.service-catalog-shared-within-organization-enforcement-level
     locals {
 
         # Extract the share type safely

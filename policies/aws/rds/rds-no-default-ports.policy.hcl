@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-no-default-ports-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_instance" "no_default_port" {
+    enforcement_level = input.rds-no-default-ports-enforcement-level
     locals {
         engine = core::try(attrs.engine, "")
         configured_port = attrs.port
@@ -38,6 +44,7 @@ resource_policy "aws_db_instance" "no_default_port" {
 
 # Check RDS clusters (Aurora and Multi-AZ)
 resource_policy "aws_rds_cluster" "no_default_port_cluster" {
+    enforcement_level = input.rds-no-default-ports-enforcement-level
     locals {
         engine = core::try(attrs.engine, "")
         configured_port = attrs.port

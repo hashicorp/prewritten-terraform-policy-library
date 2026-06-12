@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dms-mongo-db-authentication-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dms_endpoint" "mongodb_authentication_required" {
+  enforcement_level = input.dms-mongo-db-authentication-enabled-enforcement-level
   # Only evaluate MongoDB endpoints
   filter = attrs.engine_name == "mongodb"
 

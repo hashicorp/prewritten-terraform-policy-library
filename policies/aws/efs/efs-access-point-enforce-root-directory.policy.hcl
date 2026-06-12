@@ -2,7 +2,13 @@
 
 policy {}
 
+input "efs-access-point-enforce-root-directory-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_efs_access_point" "enforce_root_directory" {
+    enforcement_level = input.efs-access-point-enforce-root-directory-enforcement-level
     locals {
         root_directory = core::try(attrs.root_directory, [])
         has_root_directory = core::length(local.root_directory) > 0

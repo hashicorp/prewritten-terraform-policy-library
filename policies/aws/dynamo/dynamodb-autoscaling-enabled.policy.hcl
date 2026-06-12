@@ -2,6 +2,11 @@
 
 policy {}
 
+input "dynamodb-autoscaling-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "minProvisionedReadCapacity" {
   type = number
   default = 0
@@ -23,6 +28,7 @@ input "targetWriteUtilization" {
 }
 
 resource_policy "aws_dynamodb_table" "autoscaling_enabled" {
+  enforcement_level = input.dynamodb-autoscaling-enabled-enforcement-level
   # Skip on-demand (PAY_PER_REQUEST) tables; AWS Security Hub DynamoDB.1 only applies
   # to PROVISIONED tables. On-demand tables scale automatically by design.
   filter = core::try(attrs.billing_mode, "PROVISIONED") == "PROVISIONED"

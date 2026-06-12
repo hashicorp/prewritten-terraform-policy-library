@@ -2,12 +2,18 @@
 
 policy {}
 
+input "rds-cluster-default-admin-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "valid_cluster_admin_usernames" {
     type = string
     default = ""
 }
 
 resource_policy "aws_rds_cluster" "cluster_admin_username_check" {
+    enforcement_level = input.rds-cluster-default-admin-check-enforcement-level
     locals {
         has_input = input.valid_cluster_admin_usernames != ""
         master_username = core::try(attrs.master_username, "")

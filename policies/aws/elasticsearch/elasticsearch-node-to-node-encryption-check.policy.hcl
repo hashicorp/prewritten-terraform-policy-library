@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elasticsearch-node-to-node-encryption-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elasticsearch_domain" "node_to_node_encryption" {
+    enforcement_level = input.elasticsearch-node-to-node-encryption-check-enforcement-level
     locals {
         node_to_node_encryption = core::try(attrs.node_to_node_encryption, null)
         es_version = core::try(attrs.elasticsearch_version, "1.5")

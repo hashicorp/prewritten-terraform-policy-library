@@ -2,8 +2,14 @@
 
 policy {}
 
+input "guardduty-eks-protection-audit-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Check standalone account GuardDuty detector feature configuration
 resource_policy "aws_guardduty_detector_feature" "eks_audit_logs_enabled" {
+    enforcement_level = input.guardduty-eks-protection-audit-enabled-enforcement-level
     filter = attrs.name == "EKS_AUDIT_LOGS"
 
     enforce {
@@ -14,6 +20,7 @@ resource_policy "aws_guardduty_detector_feature" "eks_audit_logs_enabled" {
 
 # Check organization-wide GuardDuty configuration for EKS Audit Logs
 resource_policy "aws_guardduty_organization_configuration_feature" "eks_audit_logs_org_enabled" {
+    enforcement_level = input.guardduty-eks-protection-audit-enabled-enforcement-level
     filter = attrs.name == "EKS_AUDIT_LOGS"
 
     enforce {

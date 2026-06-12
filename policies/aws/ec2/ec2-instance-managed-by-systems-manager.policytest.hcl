@@ -69,7 +69,6 @@ resource "aws_instance" "compliant_attachment" {
 }
 
 # Test 3: Non-compliant instance without instance profile
->>>>>>> origin/main
 resource "aws_instance" "no_profile" {
   expect_failure = true
   attrs = {
@@ -83,7 +82,6 @@ resource "aws_instance" "no_profile" {
 
 # Test 4: Instance with profile (SSM permission validation requires runtime checks)
 # Note: This policy only validates instance profile presence, not SSM permissions
->>>>>>> origin/main
 resource "aws_iam_role" "no_ssm_role" {
   attrs = {
     name = "ec2-no-ssm-role"
@@ -113,7 +111,6 @@ resource "aws_instance" "with_profile_no_ssm" {
 }
 
 # Test 5: Excluded disaster recovery instance
->>>>>>> origin/main
 resource "aws_instance" "disaster_recovery" {
   attrs = {
     ami = "ami-12345678"

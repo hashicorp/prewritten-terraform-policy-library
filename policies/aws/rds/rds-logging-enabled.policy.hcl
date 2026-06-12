@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_instance" "rds_logging_enabled" {
+    enforcement_level = input.rds-logging-enabled-enforcement-level
     locals {
         engine = core::try(attrs.engine, "")
         enabled_logs = core::try(attrs.enabled_cloudwatch_logs_exports, [])

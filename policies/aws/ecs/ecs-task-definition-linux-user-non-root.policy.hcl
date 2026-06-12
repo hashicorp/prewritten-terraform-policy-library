@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-task-definition-linux-user-non-root-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_task_definition" "ecs20_nonroot_user_linux" {
+  enforcement_level = input.ecs-task-definition-linux-user-non-root-enforcement-level
   # Only evaluate Linux task definitions.
   # operatingSystemFamily defaults to LINUX when runtime_platform is not specified,
   # so core::try falls back to "LINUX" if the attribute or nested field is absent.

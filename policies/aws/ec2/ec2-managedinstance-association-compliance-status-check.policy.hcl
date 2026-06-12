@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-managedinstance-association-compliance-status-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ssm_association" "association_compliance_check" {
+    enforcement_level = input.ec2-managedinstance-association-compliance-status-check-enforcement-level
     locals {
 
         # Check if document name is specified (required)
@@ -60,6 +66,7 @@ resource_policy "aws_ssm_association" "association_compliance_check" {
 # Policy for EC2 instances to ensure they can be managed by Systems Manager
 # This is a prerequisite for association compliance - instances must be SSM-managed
 resource_policy "aws_instance" "ssm_managed_prerequisite" {
+    enforcement_level = input.ec2-managedinstance-association-compliance-status-check-enforcement-level
     locals {
         # Check if instance has IAM instance profile (required for SSM management)
         has_iam_profile = core::try(attrs.iam_instance_profile != "", false)

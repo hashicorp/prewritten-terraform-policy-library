@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dms-neptune-iam-authorization-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dms_endpoint" "neptune_iam_authorization_required" {
+    enforcement_level = input.dms-neptune-iam-authorization-enabled-enforcement-level
     # Filter to only Neptune endpoints
     filter = core::try(attrs.engine_name, "") == "neptune"
 

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-instance-no-public-ip-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_instance" "no_public_ipv4" {
+  enforcement_level = input.ec2-instance-no-public-ip-enforcement-level
   locals {
     # Safe access to associate_public_ip_address attribute
     # This attribute explicitly controls public IP assignment

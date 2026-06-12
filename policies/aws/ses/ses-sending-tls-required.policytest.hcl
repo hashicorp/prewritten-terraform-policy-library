@@ -86,7 +86,6 @@ resource "aws_sesv2_configuration_set" "ses_v2_fail_no_delivery_options" {
 }
 
 # Fail case: SES v2 with empty delivery_options (no tls_policy)
->>>>>>> origin/main
 resource "aws_sesv2_configuration_set" "ses_v2_fail_empty_delivery_options" {
   expect_failure = true
   attrs = {

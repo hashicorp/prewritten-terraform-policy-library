@@ -2,12 +2,18 @@
 
 policy {}
 
+input "rds-instance-deletion-protection-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "database_engines" {
     type = string
     default = "mariadb,mysql,custom-oracle-ee,oracle-ee-cdb,oracle-se2-cdb,oracle-ee,oracle-se2,oracle-se1,oracle-se,postgres,sqlserver-ee,sqlserver-se,sqlserver-ex,sqlserver-web"
 }
 
 resource_policy "aws_db_instance" "deletion_protection_enabled" {
+    enforcement_level = input.rds-instance-deletion-protection-enabled-enforcement-level
     locals {
         engine = core::try(attrs.engine, "")
         supported_engine = [for engine in core::split(",", core::trimspace(input.database_engines)) : core::trimspace(engine)]

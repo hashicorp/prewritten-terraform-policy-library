@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-no-sslv3-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "no_deprecated_ssl_protocols" {
+    enforcement_level = input.cloudfront-no-sslv3-enforcement-level
     # Filter to only distributions with custom origins
     # Skip distributions that only use S3 origins (s3_origin_config)
     filter = attrs.origin != null && core::length(attrs.origin) > 0

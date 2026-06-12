@@ -1,7 +1,13 @@
 # Policy : MSK.1 - MSK clusters should be encrypted in transit among broker nodes.
 policy {}
 
+input "msk-in-cluster-node-require-tls-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_msk_cluster" "encryption_in_transit" {
+    enforcement_level = input.msk-in-cluster-node-require-tls-enforcement-level
     locals {
         has_encryption_info = core::try(attrs.encryption_info, null) != null && core::length(core::try(attrs.encryption_info, [])) > 0
         

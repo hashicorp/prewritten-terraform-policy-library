@@ -8,12 +8,18 @@
 
 policy {}
 
+input "secretsmanager-secret-periodic-rotation-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "maxDaysSinceRotation" {
     type    = number
     default = 90
 }
 
 resource_policy "aws_secretsmanager_secret_rotation" "rotation_frequency_check" {
+    enforcement_level = input.secretsmanager-secret-periodic-rotation-enforcement-level
     locals {
         rotation_rules_list      = core::try(attrs.rotation_rules, [])
         has_rotation_rules       = core::length(local.rotation_rules_list) > 0

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elasticsearch-encrypted-at-rest-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elasticsearch_domain" "encrypted_at_rest" {
+    enforcement_level = input.elasticsearch-encrypted-at-rest-enforcement-level
     locals {
         encrypt_at_rest = core::try(attrs.encrypt_at_rest, null)
     }

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "guardduty-eks-protection-runtime-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_guardduty_detector_feature" "eks_runtime_monitoring" {
+    enforcement_level = input.guardduty-eks-protection-runtime-enabled-enforcement-level
     filter = attrs.name == "EKS_RUNTIME_MONITORING"
 
     locals {
@@ -24,6 +30,7 @@ resource_policy "aws_guardduty_detector_feature" "eks_runtime_monitoring" {
 
 
 resource_policy "aws_guardduty_organization_configuration_feature" "eks_runtime_monitoring_org_enabled" {
+    enforcement_level = input.guardduty-eks-protection-runtime-enabled-enforcement-level
     filter = attrs.name == "EKS_RUNTIME_MONITORING"
 
     locals {

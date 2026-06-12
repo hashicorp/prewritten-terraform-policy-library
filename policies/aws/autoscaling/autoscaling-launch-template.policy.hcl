@@ -1,7 +1,13 @@
 # Policy: AutoScaling.9 - Amazon EC2 Auto Scaling groups should use Amazon EC2 launch templates
 policy {}
 
+input "autoscaling-launch-template-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_autoscaling_group" "use_launch_templates" {
+    enforcement_level = input.autoscaling-launch-template-enforcement-level
     locals {
         # Check if launch_template is configured
         has_launch_template = core::try(attrs.launch_template, null) != null

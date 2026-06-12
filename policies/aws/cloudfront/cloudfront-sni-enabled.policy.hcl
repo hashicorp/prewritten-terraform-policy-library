@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-sni-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "sni_required" {
+    enforcement_level = input.cloudfront-sni-enabled-enforcement-level
     # Pre-filter to only check distributions that are enabled
     filter = core::try(attrs.enabled, false) == true
 

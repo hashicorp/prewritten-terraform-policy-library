@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ses-sending-tls-required-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ses_configuration_set" "tls_required" {
+    enforcement_level = input.ses-sending-tls-required-enforcement-level
     locals {
 
         # Safe access to delivery_options and tls_policy
@@ -24,6 +30,7 @@ resource_policy "aws_ses_configuration_set" "tls_required" {
 
 # Policy for SES v2 configuration sets
 resource_policy "aws_sesv2_configuration_set" "tls_required" {
+    enforcement_level = input.ses-sending-tls-required-enforcement-level
     locals {
         # Safe access to delivery_options and tls_policy
         delivery_options = core::try(attrs.delivery_options, [])

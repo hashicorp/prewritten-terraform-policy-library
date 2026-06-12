@@ -2,7 +2,13 @@
 
 policy {}
 
+input "acm-certificate-rsa-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_acm_certificate" "rsa_key_length_check" {
+    enforcement_level = input.acm-certificate-rsa-check-enforcement-level
     # Only evaluate RSA certificates (exclude EC certificates)
     # Filter to certificates that have key_algorithm specified
     filter = attrs.key_algorithm != null

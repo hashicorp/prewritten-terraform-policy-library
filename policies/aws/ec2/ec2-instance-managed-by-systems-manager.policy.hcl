@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-instance-managed-by-systems-manager-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_instance" "ssm_managed_instance" {
+  enforcement_level = input.ec2-instance-managed-by-systems-manager-enforcement-level
   locals {
     # Safe access to IAM instance profile
     instance_profile_name = core::try(attrs.iam_instance_profile, "")
