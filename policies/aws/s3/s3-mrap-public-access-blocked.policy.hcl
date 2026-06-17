@@ -2,7 +2,13 @@
 
 policy {}
 
+input "s3-mrap-public-access-blocked-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_s3control_multi_region_access_point" "block_public_access_enabled" {
+    enforcement_level = input.s3-mrap-public-access-blocked-enforcement-level
     locals {
         # Safe access to public_access_block configuration
         # If not defined, this will be null (which means defaults apply - all true)

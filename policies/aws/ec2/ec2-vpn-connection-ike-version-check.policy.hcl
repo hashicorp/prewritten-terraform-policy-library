@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-vpn-connection-ike-version-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_vpn_connection" "ikev2_only" {
+  enforcement_level = input.ec2-vpn-connection-ike-version-check-enforcement-level
   locals {
     tunnel1_ike_versions = core::try(attrs.tunnel1_ike_versions, [])
     tunnel2_ike_versions = core::try(attrs.tunnel2_ike_versions, [])

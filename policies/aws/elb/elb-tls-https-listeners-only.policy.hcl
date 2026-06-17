@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elb-tls-https-listeners-only-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elb" "https_tls_listeners_required" {
+  enforcement_level = input.elb-tls-https-listeners-only-enforcement-level
   # Filter to only ELBs that have listeners configured
   filter = attrs.listener != null && core::length(attrs.listener) > 0
 

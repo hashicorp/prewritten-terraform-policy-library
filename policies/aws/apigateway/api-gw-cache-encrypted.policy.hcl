@@ -2,7 +2,13 @@
 
 policy {}
 
+input "api-gw-cache-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_api_gateway_method_settings" "cache_encryption_required" {
+    enforcement_level = input.api-gw-cache-encrypted-enforcement-level
     # Only evaluate method settings that have caching enabled
     filter = core::try(attrs.settings[0].caching_enabled, false) == true
 

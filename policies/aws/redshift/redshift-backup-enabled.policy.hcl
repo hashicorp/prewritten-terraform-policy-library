@@ -2,6 +2,11 @@
 
 policy {}
 
+input "redshift-backup-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "min_retention_period" {
     type = number
     default = 1
@@ -13,6 +18,7 @@ input "max_retention_period" {
 }
 
 resource_policy "aws_redshift_cluster" "redshift-backup-enabled" {
+    enforcement_level = input.redshift-backup-enabled-enforcement-level
     locals {
         backup_enabled = core::try(attrs.automated_snapshot_retention_period, 1)
     }

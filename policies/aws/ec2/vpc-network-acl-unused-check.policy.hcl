@@ -2,7 +2,13 @@
 
 policy {}
 
+input "vpc-network-acl-unused-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_network_acl" "unused_nacl_check" {
+  enforcement_level = input.vpc-network-acl-unused-check-enforcement-level
 
   locals {
     # Check if subnet_ids attribute exists and has associations
@@ -20,6 +26,7 @@ resource_policy "aws_network_acl" "unused_nacl_check" {
 
 
 resource_policy "aws_default_network_acl" "allow_default_nacl" {
+  enforcement_level = input.vpc-network-acl-unused-check-enforcement-level
   
   enforce {
     condition     = true

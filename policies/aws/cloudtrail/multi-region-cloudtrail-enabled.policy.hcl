@@ -2,6 +2,11 @@
 
 policy {}
 
+input "multi-region-cloudtrail-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "s3BucketName" {
     type = string
     default = ""
@@ -28,6 +33,7 @@ input "readWriteType" {
 }
 
 resource_policy "aws_cloudtrail" "multi_region_trail_required" {
+    enforcement_level = input.multi-region-cloudtrail-enabled-enforcement-level
     filter = core::try(attrs.s3_bucket_name, "") != ""
 
     locals {

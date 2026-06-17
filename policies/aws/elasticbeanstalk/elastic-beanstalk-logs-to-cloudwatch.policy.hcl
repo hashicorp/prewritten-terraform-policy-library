@@ -2,12 +2,18 @@
 
 policy {}
 
+input "elastic-beanstalk-logs-to-cloudwatch-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "RetentionInDays" {
   type = string
   default = ""
 }
 
 resource_policy "aws_elastic_beanstalk_environment" "logs_to_cloudwatch" {
+  enforcement_level = input.elastic-beanstalk-logs-to-cloudwatch-enforcement-level
   locals {
 
     # Extract all settings from the environment

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elbv2-listener-encryption-in-transit-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_lb_listener" "secure_protocol_check" {
+    enforcement_level = input.elbv2-listener-encryption-in-transit-enforcement-level
     locals {
         # Get all load balancers to determine their types
         all_load_balancers = core::getresources("aws_lb", {})

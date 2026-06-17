@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-default-root-object-configured-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "default-root-object-configured" {
+    enforcement_level = input.cloudfront-default-root-object-configured-enforcement-level
     locals {
         origins = core::try(attrs.origin, [])
         s3_origins = [

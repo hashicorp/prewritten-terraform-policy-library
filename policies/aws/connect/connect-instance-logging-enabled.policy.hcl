@@ -2,7 +2,13 @@
 
 policy {}
 
+input "connect-instance-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_connect_instance" "cloudwatch_logging_enabled" {
+    enforcement_level = input.connect-instance-logging-enabled-enforcement-level
     locals {
         # Safely access the contact_flow_logs_enabled attribute with default false
         contact_flow_logs_enabled = core::try(attrs.contact_flow_logs_enabled, false)

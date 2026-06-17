@@ -2,7 +2,13 @@
 
 policy {}
 
+input "sagemaker-data-quality-job-isolation-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sagemaker_data_quality_job_definition" "data_quality_network_isolation_enabled" {
+    enforcement_level = input.sagemaker-data-quality-job-isolation-enforcement-level
     locals {
         network_config = core::try(attrs.network_config, [])
         has_network_config = core::length(local.network_config) > 0

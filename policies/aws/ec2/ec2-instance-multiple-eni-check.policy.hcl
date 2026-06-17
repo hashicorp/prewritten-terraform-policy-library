@@ -2,11 +2,17 @@
 
 policy {}
 
+input "ec2-instance-multiple-eni-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 locals {
     all_eni_attachments = core::getresources("aws_network_interface_attachment", {})
 }
 
 resource_policy "aws_instance" "no_multiple_enis" {
+    enforcement_level = input.ec2-instance-multiple-eni-check-enforcement-level
     locals {
         # Count deprecated network_interface blocks (if present)
         deprecated_eni_count = core::try(core::length(attrs.network_interface), 0)

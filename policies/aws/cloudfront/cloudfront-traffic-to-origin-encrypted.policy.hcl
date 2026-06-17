@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-traffic-to-origin-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "encrypt_custom_origins" {
+  enforcement_level = input.cloudfront-traffic-to-origin-encrypted-enforcement-level
   filter = attrs.origin != null && core::length(attrs.origin) > 0
 
   locals {

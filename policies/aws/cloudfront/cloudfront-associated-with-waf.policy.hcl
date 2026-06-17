@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-associated-with-waf-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "waf_enabled" {
+    enforcement_level = input.cloudfront-associated-with-waf-enforcement-level
     locals {
         # Safely extract web_acl_id attribute
         web_acl_id = core::try(attrs.web_acl_id, "")

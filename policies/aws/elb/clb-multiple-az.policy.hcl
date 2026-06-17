@@ -2,12 +2,18 @@
 
 policy {}
 
+input "clb-multiple-az-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "clb_min_availability_zones" {
     type = number
     default = 2
 }
 
 resource_policy "aws_elb" "multiple_availability_zones" {
+    enforcement_level = input.clb-multiple-az-enforcement-level
     locals {
         ec2_classic_az_count = core::try(core::length(attrs.availability_zones), 0)
         

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "opensearch-data-node-fault-tolerance-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_opensearch_domain" "data_node_fault_tolerance" {
+    enforcement_level = input.opensearch-data-node-fault-tolerance-enforcement-level
 
     locals {
         cluster_config = core::try(attrs.cluster_config, [])

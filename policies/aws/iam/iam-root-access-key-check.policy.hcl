@@ -2,7 +2,13 @@
 
 policy {}
 
+input "iam-root-access-key-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_iam_access_key" "deny_root_user_access_keys" {
+    enforcement_level = input.iam-root-access-key-check-enforcement-level
     locals {
         username = core::try(attrs.user, "")
         is_root_user = local.username == "root"

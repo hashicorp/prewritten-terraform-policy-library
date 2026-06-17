@@ -2,7 +2,13 @@
 
 policy {}
 
+input "codebuild-project-s3-logs-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_codebuild_project" "s3_logs_encrypted" {
+    enforcement_level = input.codebuild-project-s3-logs-encrypted-enforcement-level
     locals {
         # Safe access to logs_config block (it's a block, so needs [0] if present)
         logs_config = core::try(attrs.logs_config[0], null)

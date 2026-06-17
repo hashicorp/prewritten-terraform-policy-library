@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-instance-iam-authentication-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_instance" "iam_database_authentication_enabled" {
+    enforcement_level = input.rds-instance-iam-authentication-enabled-enforcement-level
     filter = core::contains(["mysql", "postgres", "aurora", "aurora-mysql", "aurora-postgresql", "mariadb"], core::try(attrs.engine, ""))
 
     locals {

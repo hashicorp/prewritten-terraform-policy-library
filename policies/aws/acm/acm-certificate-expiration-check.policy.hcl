@@ -2,12 +2,18 @@
 
 policy {}
 
+input "acm-certificate-expiration-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "daysToExpiration" {
     type = number
     default = 14
 }
 
 resource_policy "aws_acm_certificate" "certificate_renewal_check" {
+    enforcement_level = input.acm-certificate-expiration-check-enforcement-level
     # Configuration: Days before expiration to trigger warning
     # Default: 14 days
     # Allowed range: 14 to 365 days

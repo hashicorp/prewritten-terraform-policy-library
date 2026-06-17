@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-instance-event-notifications-configured-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_event_subscription" "critical_events_configured" {
+    enforcement_level = input.rds-instance-event-notifications-configured-enforcement-level
     filter = core::try(attrs.source_type, "") == "db-instance" || core::try(attrs.source_type, "") == ""
 
     locals {

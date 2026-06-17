@@ -2,6 +2,11 @@
 
 policy {}
 
+input "docdb-cluster-encrypted-in-transit-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "excludeTlsParameters" {
   type = string
   default = "disabled,enabled"
@@ -12,6 +17,7 @@ locals {
 }
 
 resource_policy "aws_docdb_cluster" "tls_encryption_required" {
+  enforcement_level = input.docdb-cluster-encrypted-in-transit-enforcement-level
   filter = core::try(attrs.db_cluster_parameter_group_name, "") != ""
 
   locals {

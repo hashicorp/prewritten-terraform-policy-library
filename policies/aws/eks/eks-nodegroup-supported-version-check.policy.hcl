@@ -2,7 +2,13 @@
 
 policy {}
 
+input "eks-nodegroup-supported-version-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_eks_node_group" "supported_ng_version" {
+    enforcement_level = input.eks-nodegroup-supported-version-check-enforcement-level
     locals {
         cluster_config = core::getresources("aws_eks_cluster", {
             name = attrs.cluster_name

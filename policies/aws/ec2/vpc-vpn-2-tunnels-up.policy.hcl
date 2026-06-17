@@ -2,7 +2,13 @@
 
 policy {}
 
+input "vpc-vpn-2-tunnels-up-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_vpn_connection" "vpn_tunnels_up" {
+    enforcement_level = input.vpc-vpn-2-tunnels-up-enforcement-level
     # Filter to only evaluate VPN connections that have telemetry data
     # Check both null and that array is not empty
     filter = attrs.vgw_telemetry != null && core::length(attrs.vgw_telemetry) > 0

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "kinesis-firehose-delivery-stream-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_kinesis_firehose_delivery_stream" "encryption_at_rest_required" {
+    enforcement_level = input.kinesis-firehose-delivery-stream-encrypted-enforcement-level
     locals {
         # Check if server_side_encryption block exists and is enabled
         sse_block = core::try(attrs.server_side_encryption, null)

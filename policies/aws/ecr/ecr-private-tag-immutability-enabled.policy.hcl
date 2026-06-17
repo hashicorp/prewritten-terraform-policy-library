@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecr-private-tag-immutability-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecr_repository" "tag_immutability_required" {
+  enforcement_level = input.ecr-private-tag-immutability-enabled-enforcement-level
   locals {
     image_tag_mutability = core::try(attrs.image_tag_mutability, "MUTABLE")
   }

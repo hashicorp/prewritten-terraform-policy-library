@@ -2,7 +2,13 @@
 
 policy {}
 
+input "s3-access-point-public-access-blocks-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_s3_access_point" "public_access_blocks" {
+    enforcement_level = input.s3-access-point-public-access-blocks-enforcement-level
     locals {
         public_access_block_configuration = core::length(core::try(attrs.public_access_block_configuration, [])) > 0
         block_public_acls = local.public_access_block_configuration ? core::try(attrs.public_access_block_configuration[0].block_public_acls, true) : true

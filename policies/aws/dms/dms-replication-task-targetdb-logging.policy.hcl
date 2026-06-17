@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dms-replication-task-targetdb-logging-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dms_replication_task" "logging_enabled" {
+  enforcement_level = input.dms-replication-task-targetdb-logging-enforcement-level
   
   locals {
     # Parse the replication_task_settings JSON string

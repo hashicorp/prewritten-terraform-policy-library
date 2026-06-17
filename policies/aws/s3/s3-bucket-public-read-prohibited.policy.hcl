@@ -2,7 +2,13 @@
 
 policy {}
 
+input "s3-bucket-public-read-prohibited-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_s3_bucket_acl" "bucket-public-read-acls-prohibited" {
+    enforcement_level = input.s3-bucket-public-read-prohibited-enforcement-level
     locals {
         invalid_acl_values = ["public-read", "public-read-write"]
         invalid_acl = core::try(attrs.acl, "")
@@ -35,6 +41,7 @@ resource_policy "aws_s3_bucket_acl" "bucket-public-read-acls-prohibited" {
 }
 
 resource_policy "aws_s3_bucket_public_access_block" "bucket-public-read-prohibited" {
+    enforcement_level = input.s3-bucket-public-read-prohibited-enforcement-level
     locals {
         block_public_acls = core::try(attrs.block_public_acls, false)
         block_public_policy = core::try(attrs.block_public_policy, false)

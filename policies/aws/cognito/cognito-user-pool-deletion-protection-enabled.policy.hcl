@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cognito-user-pool-deletion-protection-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cognito_user_pool" "deletion_protection_enabled" {
+    enforcement_level = input.cognito-user-pool-deletion-protection-enabled-enforcement-level
     locals {
         # Safely access deletion_protection attribute with default value "INACTIVE"
         deletion_protection = core::try(attrs.deletion_protection, "INACTIVE")

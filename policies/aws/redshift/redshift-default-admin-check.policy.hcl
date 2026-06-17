@@ -2,12 +2,18 @@
 
 policy {}
 
+input "redshift-default-admin-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "valid_admin_usernames" {
     type = string
     default = "awsuser"
 }
 
 resource_policy "aws_redshift_cluster" "default-admin-check" {
+  enforcement_level = input.redshift-default-admin-check-enforcement-level
   locals {
     username = core::try(attrs.master_username, "awsuser")
     valid_admin_usernames_provided = input.valid_admin_usernames != "awsuser"

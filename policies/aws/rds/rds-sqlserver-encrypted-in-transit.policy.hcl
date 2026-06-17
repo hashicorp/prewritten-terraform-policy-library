@@ -2,8 +2,14 @@
 
 policy {}
 
+input "rds-sqlserver-encrypted-in-transit-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Check SQL Server DB instances for encryption in transit
 resource_policy "aws_db_instance" "sqlserver_ssl_check" {
+  enforcement_level = input.rds-sqlserver-encrypted-in-transit-enforcement-level
   filter = core::contains(["sqlserver-dev-ee", "sqlserver-ee", "sqlserver-se", "sqlserver-ex", "sqlserver-web"], core::try(attrs.engine, ""))
   
   locals {

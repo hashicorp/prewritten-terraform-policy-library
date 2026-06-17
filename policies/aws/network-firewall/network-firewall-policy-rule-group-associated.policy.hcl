@@ -2,7 +2,13 @@
 
 policy {}
 
+input "network-firewall-policy-rule-group-associated-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_networkfirewall_firewall_policy" "rule_group_required" {
+    enforcement_level = input.network-firewall-policy-rule-group-associated-enforcement-level
 
     filter = attrs.firewall_policy != null && core::length(attrs.firewall_policy) > 0
 

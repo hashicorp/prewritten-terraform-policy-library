@@ -2,7 +2,13 @@
 
 policy {}
 
+input "datasync-task-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_datasync_task" "logging_required" {
+  enforcement_level = input.datasync-task-logging-enabled-enforcement-level
   locals {
     # Safe access to cloudwatch_log_group_arn
     log_group_arn = core::try(attrs.cloudwatch_log_group_arn, "")

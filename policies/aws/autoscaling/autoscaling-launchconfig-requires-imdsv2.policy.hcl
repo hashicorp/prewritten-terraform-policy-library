@@ -2,7 +2,13 @@
 
 policy {}
 
+input "autoscaling-launchconfig-requires-imdsv2-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_launch_configuration" "imdsv2_required" {
+    enforcement_level = input.autoscaling-launchconfig-requires-imdsv2-enforcement-level
     locals {
         # Safe access to metadata_options block
         metadata_options = core::try(attrs.metadata_options, [])

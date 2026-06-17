@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-transit-gateway-auto-vpc-attach-disabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ec2_transit_gateway" "auto_accept_disabled" {
+    enforcement_level = input.ec2-transit-gateway-auto-vpc-attach-disabled-enforcement-level
     locals {
 
         # Safe access to auto_accept_shared_attachments attribute

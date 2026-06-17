@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-launch-template-public-ip-disabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_launch_template" "no_public_ip" {
+    enforcement_level = input.ec2-launch-template-public-ip-disabled-enforcement-level
     filter = core::length(core::try(attrs.network_interfaces, [])) > 0
 
     locals {

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "sqs-queue-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sqs_queue" "encryption_required" {
+    enforcement_level = input.sqs-queue-encrypted-enforcement-level
     locals {
 
         # Safe access to encryption attributes with defaults

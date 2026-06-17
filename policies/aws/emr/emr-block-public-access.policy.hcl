@@ -2,7 +2,13 @@
 
 policy {}
 
+input "emr-block-public-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_emr_block_public_access_configuration" "block-public-access" {
+    enforcement_level = input.emr-block-public-access-enforcement-level
     locals {
         block_security_group_enabled = core::try(attrs.block_public_security_group_rules, true)
         is_permitted_range = local.block_security_group_enabled ? (core::try(attrs.permitted_public_security_group_rule_range.min_range, 0) == 22 && core::try(attrs.permitted_public_security_group_rule_range.max_range, 0) == 22) : false

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-fargate-latest-platform-version-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_service" "fargate_latest_platform" {
+    enforcement_level = input.ecs-fargate-latest-platform-version-enforcement-level
     filter = attrs.launch_type == "FARGATE"
 
     locals {

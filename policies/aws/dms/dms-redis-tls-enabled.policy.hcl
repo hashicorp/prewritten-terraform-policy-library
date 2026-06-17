@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dms-redis-tls-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dms_endpoint" "redis_tls_enabled" {
+    enforcement_level = input.dms-redis-tls-enabled-enforcement-level
     # Filter to only Redis endpoints
     # Only evaluate endpoints that have redis_settings configured
     filter = core::try(attrs.redis_settings, null) != null && core::length(core::try(attrs.redis_settings, [])) > 0

@@ -1,6 +1,11 @@
 # Policy: AppSync.2 - AWS AppSync field-level logging enabled
 policy {}
 
+input "appsync-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "fieldLoggingLevel" {
     type = string
     default = ""
@@ -8,6 +13,7 @@ input "fieldLoggingLevel" {
 
 
 resource_policy "aws_appsync_graphql_api" "field_logging_enabled" {
+    enforcement_level = input.appsync-logging-enabled-enforcement-level
     locals {
         # Collapse missing or unknown plan values to definite booleans for enforcement.
         raw_log_config = core::try(attrs.log_config, null)

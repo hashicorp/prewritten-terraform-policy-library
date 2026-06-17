@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-task-definition-windows-user-non-admin-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_task_definition" "windows_non_admin_user" {
+  enforcement_level = input.ecs-task-definition-windows-user-non-admin-enforcement-level
 
   locals {
     os_family = core::try(attrs.runtime_platform[0].operating_system_family, "")

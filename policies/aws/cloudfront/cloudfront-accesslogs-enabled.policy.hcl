@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-accesslogs-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "logging_required" {
+    enforcement_level = input.cloudfront-accesslogs-enabled-enforcement-level
     # Pre-filter to only evaluate enabled distributions
     filter = core::try(attrs.enabled, false) == true
 

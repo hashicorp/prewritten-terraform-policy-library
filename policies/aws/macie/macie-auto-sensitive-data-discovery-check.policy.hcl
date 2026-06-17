@@ -2,7 +2,13 @@
 
 policy {}
 
+input "macie-auto-sensitive-data-discovery-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_macie2_account" "automated_discovery_enabled" {
+    enforcement_level = input.macie-auto-sensitive-data-discovery-check-enforcement-level
     filter = core::try(attrs.status, null) != null
 
     enforce {

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "opensearch-audit-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_opensearch_domain" "audit_logging_enabled" {
+    enforcement_level = input.opensearch-audit-logging-enabled-enforcement-level
 
     locals {
         # Extract all log publishing options

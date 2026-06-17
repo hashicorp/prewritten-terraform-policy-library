@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-container-insights-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_cluster" "container_insights_enabled" {
+    enforcement_level = input.ecs-container-insights-enabled-enforcement-level
     locals {
         cluster_settings = core::try(attrs.setting, [])
         container_insights_settings = [

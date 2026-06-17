@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elasticache-repl-grp-redis-auth-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elasticache_replication_group" "redis-auth-enabled" {
+    enforcement_level = input.elasticache-repl-grp-redis-auth-enabled-enforcement-level
     filter = core::try(attrs.transit_encryption_enabled, false) == true && core::try(attrs.engine, "redis") == "redis"
 
     locals {

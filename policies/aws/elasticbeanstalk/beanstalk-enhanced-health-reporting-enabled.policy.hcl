@@ -2,7 +2,13 @@
 
 policy {}
 
+input "beanstalk-enhanced-health-reporting-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elastic_beanstalk_environment" "enhanced_health_reporting_required" {
+  enforcement_level = input.beanstalk-enhanced-health-reporting-enabled-enforcement-level
   
   locals {
     # Extract all health reporting system type settings

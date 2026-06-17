@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dynamodb-table-deletion-protection-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dynamodb_table" "deletion_protection_enabled" {
+    enforcement_level = input.dynamodb-table-deletion-protection-enabled-enforcement-level
     locals {
         # Safe access to deletion_protection_enabled attribute with default false
         deletion_protection = core::try(attrs.deletion_protection_enabled, false)

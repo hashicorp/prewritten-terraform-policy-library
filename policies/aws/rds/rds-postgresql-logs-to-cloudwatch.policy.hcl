@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-postgresql-logs-to-cloudwatch-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_instance" "postgresql_cloudwatch_logs" {
+    enforcement_level = input.rds-postgresql-logs-to-cloudwatch-enforcement-level
     filter = core::try(attrs.engine, "") == "postgres"
 
     locals {

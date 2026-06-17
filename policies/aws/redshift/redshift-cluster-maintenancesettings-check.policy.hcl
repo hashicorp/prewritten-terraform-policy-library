@@ -2,7 +2,13 @@
 
 policy {}
 
+input "redshift-cluster-maintenancesettings-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_redshift_cluster" "maintenance_settings_check" {
+    enforcement_level = input.redshift-cluster-maintenancesettings-check-enforcement-level
     locals {
         version_upgrade = core::try(attrs.allow_version_upgrade, true)
         preferred_maintenance_window = core::try(attrs.preferred_maintenance_window, "")

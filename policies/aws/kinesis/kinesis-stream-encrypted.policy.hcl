@@ -1,7 +1,13 @@
 # Policy : Kinesis.1 -  Kinesis streams should be encrypted at rest
 policy {}
 
+input "kinesis-stream-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_kinesis_stream" "encryption_at_rest" {
+    enforcement_level = input.kinesis-stream-encrypted-enforcement-level
     locals {
         encryption_type = core::try(attrs.encryption_type, "NONE")
         

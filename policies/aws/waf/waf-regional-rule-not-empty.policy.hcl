@@ -2,7 +2,13 @@
 
 policy {}
 
+input "waf-regional-rule-not-empty-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_wafregional_rule" "requires_at_least_one_predicate" {
+    enforcement_level = input.waf-regional-rule-not-empty-enforcement-level
     locals {
         predicates = core::try(attrs.predicate, [])
     }

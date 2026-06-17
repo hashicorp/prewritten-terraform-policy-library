@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dms-auto-minor-version-upgrade-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dms_replication_instance" "auto_minor_version_upgrade_required" {
+    enforcement_level = input.dms-auto-minor-version-upgrade-check-enforcement-level
     locals {
         # Safely access auto_minor_version_upgrade attribute with default false
         auto_upgrade_enabled = core::try(attrs.auto_minor_version_upgrade, false)

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "msk-cluster-public-access-disabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_msk_cluster" "public_access_disabled" {
+    enforcement_level = input.msk-cluster-public-access-disabled-enforcement-level
     locals {
         # Safe access to connectivity_info with null handling
         connectivity_info = core::try(attrs.broker_node_group_info[0].connectivity_info, null)

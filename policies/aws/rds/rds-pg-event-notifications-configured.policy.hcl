@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-pg-event-notifications-configured-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_event_subscription" "parameter_group_events" {
+    enforcement_level = input.rds-pg-event-notifications-configured-enforcement-level
     filter = core::try(attrs.source_type, "") == "db-parameter-group" || core::try(attrs.source_type, "") == ""
 
     locals {

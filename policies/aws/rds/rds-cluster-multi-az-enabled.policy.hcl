@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-cluster-multi-az-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_rds_cluster" "multi_az_enabled" {
+    enforcement_level = input.rds-cluster-multi-az-enabled-enforcement-level
     locals {
         engine = core::try(attrs.engine, "")
         multi_az_clusters = ["postgres", "mysql"]

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "sagemaker-data-quality-job-encrypt-in-transit-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sagemaker_data_quality_job_definition" "inter_container_encryption" {
+    enforcement_level = input.sagemaker-data-quality-job-encrypt-in-transit-enforcement-level
     filter = core::try(attrs.network_config, null) != null
 
     enforce {

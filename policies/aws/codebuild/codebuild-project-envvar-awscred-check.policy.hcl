@@ -2,7 +2,13 @@
 
 policy {}
 
+input "codebuild-project-envvar-awscred-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_codebuild_project" "no_plaintext_credentials" {
+    enforcement_level = input.codebuild-project-envvar-awscred-check-enforcement-level
     # Filter to only check projects that have environment variables defined
     filter = attrs.environment != null && core::length(attrs.environment) > 0 && core::try(attrs.environment[0].environment_variable, null) != null && core::length(core::try(attrs.environment[0].environment_variable, [])) > 0
 

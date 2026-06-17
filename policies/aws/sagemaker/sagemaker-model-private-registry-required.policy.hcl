@@ -6,7 +6,13 @@
 
 policy {}
 
+input "sagemaker-model-private-registry-required-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sagemaker_model" "private_registry_required" {
+    enforcement_level = input.sagemaker-model-private-registry-required-enforcement-level
     locals {
         # Safe access to primary_container list. Empty list => no primary_container configured.
         primary_container_list = core::try(attrs.primary_container, [])

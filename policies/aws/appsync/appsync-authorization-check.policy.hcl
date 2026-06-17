@@ -2,7 +2,13 @@
 
 policy {}
 
+input "appsync-authorization-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_appsync_graphql_api" "no_api_key_auth" {
+    enforcement_level = input.appsync-authorization-check-enforcement-level
     locals {
         # Allowed authentication types per AWS Security Hub control.
         # This list is fixed by the control and is not customizable.

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "api-gwv2-authorization-type-configured-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_apigatewayv2_route" "authorization_type_configured" {
+  enforcement_level = input.api-gwv2-authorization-type-configured-enforcement-level
   
   locals {
     # Safe access to authorization_type attribute

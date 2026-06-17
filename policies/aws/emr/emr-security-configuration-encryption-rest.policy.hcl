@@ -2,7 +2,13 @@
 
 policy {}
 
+input "emr-security-configuration-encryption-rest-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_emr_security_configuration" "emr-security-configuration-encryption-rest" {
+    enforcement_level = input.emr-security-configuration-encryption-rest-enforcement-level
     locals {
         config = core::jsondecode(attrs.configuration)
     }

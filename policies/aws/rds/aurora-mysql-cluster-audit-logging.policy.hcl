@@ -2,7 +2,13 @@
 
 policy {}
 
+input "aurora-mysql-cluster-audit-logging-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_rds_cluster" "audit_logging_enabled" {
+  enforcement_level = input.aurora-mysql-cluster-audit-logging-enforcement-level
   filter = core::try(attrs.engine, "") == "aurora-mysql"
   
   locals {

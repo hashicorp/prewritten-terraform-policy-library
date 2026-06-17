@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-containers-nonprivileged-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_task_definition" "ecs_non_privileged_containers" {
+    enforcement_level = input.ecs-containers-nonprivileged-enforcement-level
     locals {
         container_def = core::jsondecode(attrs.container_definitions)
         privileged_containers = [

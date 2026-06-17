@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cognito-identity-pool-unauth-access-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cognito_identity_pool" "no_unauthenticated_access" {
+    enforcement_level = input.cognito-identity-pool-unauth-access-check-enforcement-level
     # Safe access to the allow_unauthenticated_identities attribute
     # Default to true (fail-safe) if attribute doesn't exist
     locals {

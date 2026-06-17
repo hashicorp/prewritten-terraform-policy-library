@@ -2,12 +2,18 @@
 
 policy {}
 
+input "fsx-ontap-deployment-type-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "ontap_deployment_types" {
     type = string
     default = "MULTI_AZ_1,MULTI_AZ_2"
 }
 
 resource_policy "aws_fsx_ontap_file_system" "ontap_multi_az_deployment" {
+    enforcement_level = input.fsx-ontap-deployment-type-check-enforcement-level
     locals {
         trimmed_input = core::trimspace(input.ontap_deployment_types)
         inputs = [for split in core::split(",", local.trimmed_input) : core::trimspace(split)]

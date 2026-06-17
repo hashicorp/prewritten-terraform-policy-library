@@ -2,11 +2,17 @@
 
 policy {}
 
+input "rds-sql-server-logs-to-cloudwatch-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 locals {
     valid_engines = ["sqlserver-dev-ee", "sqlserver-ee", "sqlserver-se", "sqlserver-ex", "sqlserver-web"]
 }
 
 resource_policy "aws_db_instance" "sql_cloudwatch_logs" {
+    enforcement_level = input.rds-sql-server-logs-to-cloudwatch-enforcement-level
     filter = core::contains(local.valid_engines, core::try(attrs.engine, ""))
 
     locals {

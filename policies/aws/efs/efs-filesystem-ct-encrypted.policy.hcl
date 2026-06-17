@@ -2,12 +2,18 @@
 
 policy {}
 
+input "efs-filesystem-ct-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "kms_key_arns" {
     type = string
     default = ""
 }
 
 resource_policy "aws_efs_file_system" "encryption_at_rest" {
+    enforcement_level = input.efs-filesystem-ct-encrypted-enforcement-level
     locals {
         is_encrypted = core::try(attrs.encrypted, false)
         kms_key_id = core::try(attrs.kms_key_id, "")

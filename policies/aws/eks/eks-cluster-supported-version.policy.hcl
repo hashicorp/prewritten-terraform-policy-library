@@ -2,7 +2,13 @@
 
 policy {}
 
+input "eks-cluster-supported-version-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_eks_cluster" "supported_version" {
+    enforcement_level = input.eks-cluster-supported-version-enforcement-level
     locals {
         oldest_version_supported = "1.33"
         version = core::try(attrs.version, "1.33")

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "s3-bucket-level-public-access-prohibited-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_s3_bucket" "s3_block_public_access" {
+    enforcement_level = input.s3-bucket-level-public-access-prohibited-enforcement-level
     locals {
         public_access_block = core::getresources("aws_s3_bucket_public_access_block", {
             bucket = attrs.id

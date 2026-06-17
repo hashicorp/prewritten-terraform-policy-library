@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cognito-user-pool-mfa-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cognito_user_pool" "mfa_enabled" {
+    enforcement_level = input.cognito-user-pool-mfa-enabled-enforcement-level
     locals {
         # Extract sign-in policy configuration
         sign_in_policy = core::try(attrs.sign_in_policy, [])

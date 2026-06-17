@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloud-trail-encryption-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudtrail" "encryption-at-rest" {
+    enforcement_level = input.cloud-trail-encryption-enabled-enforcement-level
     enforce {
         condition = core::try(attrs.kms_key_id, "") != ""
         error_message = "CloudTrail is not encrypted at rest. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudtrail-controls.html#cloudtrail-2 for more details."

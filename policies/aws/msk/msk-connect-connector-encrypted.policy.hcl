@@ -2,7 +2,13 @@
 
 policy {}
 
+input "msk-connect-connector-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_mskconnect_connector" "encryption_in_transit_required" {
+    enforcement_level = input.msk-connect-connector-encrypted-enforcement-level
     # Pre-filter to only evaluate connectors that have encryption_in_transit config
     filter = core::try(attrs.kafka_cluster_encryption_in_transit, null) != null && core::length(core::try(attrs.kafka_cluster_encryption_in_transit, [])) > 0
 

@@ -2,6 +2,11 @@
 
 policy {}
 
+input "iam-password-policy-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "RequireUppercaseCharacters" {
     type = string
     default = "true"
@@ -38,6 +43,7 @@ input "MaxPasswordAge" {
 }
 
 resource_policy "aws_iam_account_password_policy" "iam7_password_policy" {
+    enforcement_level = input.iam-password-policy-enforcement-level
     locals {
         account_name = "AWS account password policy"
 

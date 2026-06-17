@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-origin-lambda-url-oac-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "lambda_url_oac_required" {
+    enforcement_level = input.cloudfront-origin-lambda-url-oac-enabled-enforcement-level
     # Filter to only check distributions that have origins
     filter = attrs.origin != null && core::length(attrs.origin) > 0
 

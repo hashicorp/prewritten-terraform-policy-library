@@ -2,6 +2,11 @@
 
 policy {}
 
+input "elbv2-multiple-az-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "minAvailabilityZones" {
     type = string
     default = "2"
@@ -15,6 +20,7 @@ locals {
 }
 
 resource_policy "aws_lb" "multiple_az_required" {
+    enforcement_level = input.elbv2-multiple-az-enforcement-level
     locals {
         allowed_min_az_values = ["2", "3", "4", "5", "6"]
         has_valid_min_az_input = core::contains(local.allowed_min_az_values, input.minAvailabilityZones)

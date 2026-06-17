@@ -2,7 +2,13 @@
 
 policy {}
 
+input "lambda-function-settings-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_lambda_function" "lambda_supported_runtimes" {
+    enforcement_level = input.lambda-function-settings-check-enforcement-level
     filter = core::try(attrs.package_type, "Zip") == "Zip"
 
     locals {

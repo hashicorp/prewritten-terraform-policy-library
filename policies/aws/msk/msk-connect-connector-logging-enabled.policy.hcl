@@ -2,7 +2,13 @@
 
 policy {}
 
+input "msk-connect-connector-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_mskconnect_connector" "logging_enabled" {
+    enforcement_level = input.msk-connect-connector-logging-enabled-enforcement-level
     # Pre-filter: Only evaluate connectors that have log_delivery configured
     filter = core::try(attrs.log_delivery, null) != null && core::length(core::try(attrs.log_delivery, [])) > 0
 

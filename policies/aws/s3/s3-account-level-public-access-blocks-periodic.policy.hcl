@@ -2,7 +2,13 @@
 
 policy {}
 
+input "s3-account-level-public-access-blocks-periodic-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_s3_account_public_access_block" "block-public-access-enabled" {
+    enforcement_level = input.s3-account-level-public-access-blocks-periodic-enforcement-level
     locals {
         block_public_acls = core::try(attrs.block_public_acls, true)
         block_public_policy = core::try(attrs.block_public_policy, true)

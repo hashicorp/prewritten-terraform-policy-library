@@ -2,7 +2,13 @@
 
 policy {}
 
+input "efs-access-point-enforce-user-identity-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_efs_access_point" "enforce_user_identity" {
+    enforcement_level = input.efs-access-point-enforce-user-identity-enforcement-level
     locals {
         posix_user_block = core::try(attrs.posix_user[0], null)
 

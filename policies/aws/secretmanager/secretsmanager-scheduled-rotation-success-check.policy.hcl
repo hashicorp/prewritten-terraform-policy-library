@@ -2,7 +2,13 @@
 
 policy {}
 
+input "secretsmanager-scheduled-rotation-success-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_secretsmanager_secret" "rotation_success_check" {
+  enforcement_level = input.secretsmanager-scheduled-rotation-success-check-enforcement-level
   locals {
     secret_arn  = core::try(attrs.arn, "")
     secret_name = core::try(attrs.name, "")

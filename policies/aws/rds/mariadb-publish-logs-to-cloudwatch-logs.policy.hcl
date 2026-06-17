@@ -2,12 +2,18 @@
 
 policy {}
 
+input "mariadb-publish-logs-to-cloudwatch-logs-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "log_mariadb_types" {
     type = string
     default = "audit,error"
 }
 
 resource_policy "aws_db_instance" "mariadb_cloudwatch_logs" {
+    enforcement_level = input.mariadb-publish-logs-to-cloudwatch-logs-enforcement-level
     filter = attrs.engine == "mariadb"
 
     locals {

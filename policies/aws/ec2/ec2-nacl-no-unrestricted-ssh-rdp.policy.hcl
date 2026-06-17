@@ -2,8 +2,14 @@
 
 policy {}
 
+input "ec2-nacl-no-unrestricted-ssh-rdp-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Check inline ingress rules in aws_network_acl resources
 resource_policy "aws_network_acl" "no_unrestricted_ssh_rdp" {
+    enforcement_level = input.ec2-nacl-no-unrestricted-ssh-rdp-enforcement-level
     filter = core::length(core::try(attrs.ingress, [])) > 0
 
     locals {
@@ -69,6 +75,7 @@ resource_policy "aws_network_acl" "no_unrestricted_ssh_rdp" {
 }
 
 resource_policy "aws_network_acl_rule" "no_unrestricted_ssh_rdp" {
+    enforcement_level = input.ec2-nacl-no-unrestricted-ssh-rdp-enforcement-level
     # Only check ingress rules (egress = false or not set) with allow action
     filter = core::try(attrs.egress, false) == false && attrs.rule_action == "allow"
 

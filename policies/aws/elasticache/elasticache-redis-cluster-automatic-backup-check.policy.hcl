@@ -2,12 +2,18 @@
 
 policy {}
 
+input "elasticache-redis-cluster-automatic-backup-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "snapshot_retention_period" {
     type = number
     default = 15
 }
 
 resource_policy "aws_elasticache_cluster" "backup-check"{
+    enforcement_level = input.elasticache-redis-cluster-automatic-backup-check-enforcement-level
     filter = core::try(attrs.engine, "redis") == "redis"
 
     locals {
@@ -21,6 +27,7 @@ resource_policy "aws_elasticache_cluster" "backup-check"{
 }
 
 resource_policy "aws_elasticache_replication_group" "redis-backup-check"{
+    enforcement_level = input.elasticache-redis-cluster-automatic-backup-check-enforcement-level
     filter = core::try(attrs.engine, "redis") == "redis"
 
     locals {

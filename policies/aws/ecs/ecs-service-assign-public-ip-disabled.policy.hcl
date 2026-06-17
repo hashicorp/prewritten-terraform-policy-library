@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-service-assign-public-ip-disabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_service" "no_public_ip" {
+    enforcement_level = input.ecs-service-assign-public-ip-disabled-enforcement-level
     locals {
         has_network_config = core::try(attrs.network_configuration, null) != null && core::length(core::try(attrs.network_configuration, [])) > 0
     }

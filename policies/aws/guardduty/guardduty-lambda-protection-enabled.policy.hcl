@@ -2,7 +2,13 @@
 
 policy {}
 
+input "guardduty-lambda-protection-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_guardduty_detector_feature" "lambda_protection_enabled" {
+    enforcement_level = input.guardduty-lambda-protection-enabled-enforcement-level
     filter = attrs.name == "LAMBDA_NETWORK_LOGS"
 
     enforce {
@@ -12,6 +18,7 @@ resource_policy "aws_guardduty_detector_feature" "lambda_protection_enabled" {
 }
 
 resource_policy "aws_guardduty_organization_configuration_feature" "lambda_protection_org_enabled" {
+    enforcement_level = input.guardduty-lambda-protection-enabled-enforcement-level
     filter = attrs.name == "LAMBDA_NETWORK_LOGS"
 
     enforce {

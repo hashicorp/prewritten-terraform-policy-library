@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudformation-stack-service-role-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudformation_stack" "service_role_required" {
+    enforcement_level = input.cloudformation-stack-service-role-check-enforcement-level
     locals {
         # Safely extract the iam_role_arn attribute
         iam_role_arn = core::try(attrs.iam_role_arn, null)

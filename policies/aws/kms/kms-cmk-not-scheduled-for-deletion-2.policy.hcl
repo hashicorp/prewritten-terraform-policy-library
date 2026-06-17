@@ -2,12 +2,18 @@
 
 policy {}
 
+input "kms-cmk-not-scheduled-for-deletion-2-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "minimumDeletionWindowInDays" {
     type = number
     default = 30
 }
 
 resource_policy "aws_kms_key" "kms_deletion_window" {
+    enforcement_level = input.kms-cmk-not-scheduled-for-deletion-2-enforcement-level
     locals {
         valid_input = input.minimumDeletionWindowInDays >= 7 && input.minimumDeletionWindowInDays <= 30
     }

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "wafv2-webacl-not-empty-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_wafv2_web_acl" "waf10_webacl_not_empty" {
+    enforcement_level = input.wafv2-webacl-not-empty-enforcement-level
     locals {
 
         # Safely get the rule attribute, defaulting to empty list if not present

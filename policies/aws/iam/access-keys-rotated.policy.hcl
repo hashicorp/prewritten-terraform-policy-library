@@ -2,7 +2,13 @@
 
 policy {}
 
+input "access-keys-rotated-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_config_config_rule" "access_keys_rotated" {
+  enforcement_level = input.access-keys-rotated-enforcement-level
   locals {
     is_access_keys_rotated_rule = core::try(attrs.name, "") == "access-keys-rotated"
 

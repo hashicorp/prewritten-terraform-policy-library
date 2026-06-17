@@ -2,7 +2,13 @@
 
 policy {}
 
+input "waf-classic-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_waf_web_acl" "logging_enabled" {
+  enforcement_level = input.waf-classic-logging-enabled-enforcement-level
   locals {
     has_logging = core::try(attrs.logging_configuration, null) != null
     log_config = core::try(attrs.logging_configuration, [])

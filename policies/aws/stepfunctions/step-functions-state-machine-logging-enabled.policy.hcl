@@ -2,6 +2,11 @@
 
 policy {}
 
+input "step-functions-state-machine-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "logLevel" {
     type = string
     default = ""
@@ -13,6 +18,7 @@ input "cloudWatchLogGroupArns" {
 }
 
 resource_policy "aws_sfn_state_machine" "logging_enabled" {
+    enforcement_level = input.step-functions-state-machine-logging-enabled-enforcement-level
     # Pre-filter: Only evaluate state machines that have logging_configuration defined
     filter = core::try(attrs.logging_configuration, null) != null && core::length(core::try(attrs.logging_configuration, [])) > 0
 
@@ -97,6 +103,7 @@ resource_policy "aws_sfn_state_machine" "logging_enabled" {
 
 # Additional policy to catch state machines without any logging configuration
 resource_policy "aws_sfn_state_machine" "logging_configuration_required" {
+    enforcement_level = input.step-functions-state-machine-logging-enabled-enforcement-level
     # Only evaluate state machines that don't have logging_configuration
     filter = core::try(attrs.logging_configuration, null) == null || core::length(core::try(attrs.logging_configuration, [])) == 0
 

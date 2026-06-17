@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elbv2-predefined-security-policy-ssl-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_lb_listener" "elb17_recommended_ssl_policy" {
+    enforcement_level = input.elbv2-predefined-security-policy-ssl-check-enforcement-level
     # Filter to only HTTPS (ALB) or TLS (NLB) listeners that require SSL policies
     filter = (core::try(attrs.protocol, "") == "HTTPS" || core::try(attrs.protocol, "") == "TLS")
 

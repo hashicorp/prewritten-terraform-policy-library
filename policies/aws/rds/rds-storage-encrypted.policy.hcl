@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-storage-encrypted-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_instance" "storage_encrypted" {
+    enforcement_level = input.rds-storage-encrypted-enforcement-level
     enforce {
         condition = core::try(attrs.storage_encrypted, false) == true
         error_message = "RDS DB instances should have encryption at-rest enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-3 for more details."

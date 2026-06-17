@@ -2,7 +2,13 @@
 
 policy {}
 
+input "sagemaker-notebook-no-direct-internet-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_sagemaker_notebook_instance" "no_direct_internet_access" {
+    enforcement_level = input.sagemaker-notebook-no-direct-internet-access-enforcement-level
     locals {
         internet_access = core::try(attrs.direct_internet_access, "Enabled")
         

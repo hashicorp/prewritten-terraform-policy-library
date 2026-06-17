@@ -2,12 +2,18 @@
 
 policy {}
 
+input "elastic-beanstalk-managed-updates-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "UpdateLevel" {
     type = string
     default = ""
 }
 
 resource_policy "aws_elastic_beanstalk_environment" "managed_updates_enabled" {
+    enforcement_level = input.elastic-beanstalk-managed-updates-enabled-enforcement-level
     locals {
 
         # Extract all settings from the environment configuration

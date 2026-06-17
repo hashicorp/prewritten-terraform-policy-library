@@ -1,7 +1,13 @@
 # Policy : CodeBuild.4 - CodeBuild project environments should have a logging AWS Configuration
 policy {}
 
+input "codebuild-project-logging-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_codebuild_project" "logging_configuration" {
+    enforcement_level = input.codebuild-project-logging-enabled-enforcement-level
     locals {
         # Safe access to logs_config block
         logs_config = core::try(attrs.logs_config, null)

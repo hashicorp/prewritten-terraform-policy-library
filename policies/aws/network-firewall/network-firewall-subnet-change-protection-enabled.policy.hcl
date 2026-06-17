@@ -2,7 +2,13 @@
 
 policy {}
 
+input "network-firewall-subnet-change-protection-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_networkfirewall_firewall" "subnet_change_protection_enabled" {
+    enforcement_level = input.network-firewall-subnet-change-protection-enabled-enforcement-level
     locals {
         # Safe access to subnet_change_protection attribute with default false
         subnet_change_protection = core::try(attrs.subnet_change_protection, false)

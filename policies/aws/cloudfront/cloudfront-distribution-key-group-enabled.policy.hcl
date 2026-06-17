@@ -2,7 +2,13 @@
 
 policy {}
 
+input "cloudfront-distribution-key-group-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_cloudfront_distribution" "trusted_key_groups_required" {
+    enforcement_level = input.cloudfront-distribution-key-group-enabled-enforcement-level
     locals {
         # Check default_cache_behavior for trusted_signers (deprecated)
         default_has_trusted_signers = core::try(

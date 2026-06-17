@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ecs-containers-readonly-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_task_definition" "readonly_root_filesystem" {
+    enforcement_level = input.ecs-containers-readonly-access-enforcement-level
     filter = attrs.container_definitions != null
 
     locals {

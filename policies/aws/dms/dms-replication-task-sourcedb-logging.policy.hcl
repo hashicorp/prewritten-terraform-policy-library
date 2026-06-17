@@ -2,7 +2,13 @@
 
 policy {}
 
+input "dms-replication-task-sourcedb-logging-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_dms_replication_task" "source_logging_enabled" {
+    enforcement_level = input.dms-replication-task-sourcedb-logging-enforcement-level
     locals {
         # Get the replication task settings - use core::try to handle missing attribute
         settings_json = core::try(attrs.replication_task_settings, "")

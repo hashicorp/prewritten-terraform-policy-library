@@ -2,8 +2,14 @@
 
 policy {}
 
+input "service-vpc-endpoint-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Validate each VPC has an EC2 interface endpoint.
 resource_policy "aws_vpc" "ec2_service_vpc_endpoint_enabled" {
+    enforcement_level = input.service-vpc-endpoint-enabled-enforcement-level
     locals {
         vpc_id = core::try(attrs.id, "")
         has_known_vpc_id = core::try(attrs.id != "", false)

@@ -2,12 +2,18 @@
 
 policy {}
 
+input "elb-predefined-security-policy-ssl-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 locals {
     all_lb_policies = core::getresources("aws_load_balancer_policy", {})
     all_listener_policies = core::getresources("aws_load_balancer_listener_policy", {})
 }
 
 resource_policy "aws_elb" "ssl_predefined_security_policy" {
+    enforcement_level = input.elb-predefined-security-policy-ssl-check-enforcement-level
     # Filter to only ELBs that have listeners (skip if no listeners configured)
     filter = attrs.listener != null && core::length(attrs.listener) > 0
 

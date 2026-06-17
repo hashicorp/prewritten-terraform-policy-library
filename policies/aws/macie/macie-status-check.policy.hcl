@@ -2,7 +2,13 @@
 
 policy {}
 
+input "macie-status-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_macie2_account" "macie_enabled" {
+    enforcement_level = input.macie-status-check-enforcement-level
     locals {
         macie_status = core::try(attrs.status, "")
         remediation_text = "Set status = ENABLED in the aws_macie2_account resource to enable Macie and start all Macie activities for the account."

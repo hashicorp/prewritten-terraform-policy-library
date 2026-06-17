@@ -2,7 +2,13 @@
 
 policy {}
 
+input "subnet-auto-assign-public-ip-disabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_subnet" "no_auto_public_ip" {
+    enforcement_level = input.subnet-auto-assign-public-ip-disabled-enforcement-level
     locals {
         # Safe access to map_public_ip_on_launch attribute (defaults to false for non-default subnets)
         map_public_ip_on_launch = core::try(attrs.map_public_ip_on_launch, false)

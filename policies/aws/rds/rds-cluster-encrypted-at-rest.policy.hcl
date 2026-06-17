@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-cluster-encrypted-at-rest-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_rds_cluster" "encrypted_at_rest" {
+    enforcement_level = input.rds-cluster-encrypted-at-rest-enforcement-level
     locals {
         engine_mode = core::try(attrs.engine_mode, "provisioned")
         provisioned_condition = local.engine_mode == "provisioned" && core::try(attrs.storage_encrypted, false)

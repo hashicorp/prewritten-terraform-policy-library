@@ -2,7 +2,13 @@
 
 policy {}
 
+input "opensearch-node-to-node-encryption-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_opensearch_domain" "node_encryption_enabled" {
+    enforcement_level = input.opensearch-node-to-node-encryption-check-enforcement-level
     locals {
         node_encryption = core::try(attrs.node_to_node_encryption, [])
         has_enabled = core::length(local.node_encryption) > 0 ? core::try(local.node_encryption[0].enabled, false) : false

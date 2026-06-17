@@ -2,11 +2,17 @@
 
 policy {}
 
+input "custom-eventbus-policy-attached-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 locals {
     all_event_bus_policies = core::getresources("aws_cloudwatch_event_bus_policy", {})
 }
 
 resource_policy "aws_cloudwatch_event_bus" "custom_bus_policy_required" {
+    enforcement_level = input.custom-eventbus-policy-attached-enforcement-level
     # Only evaluate custom event buses (exclude default bus)
     filter = attrs.name != "default"
 

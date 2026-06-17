@@ -2,6 +2,11 @@
 
 policy {}
 
+input "cloudfront-s3-origin-access-control-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 # Cache all OAC resources for efficient lookup
 locals {
     all_oac_resources = core::getresources("aws_cloudfront_origin_access_control", {})
@@ -9,6 +14,7 @@ locals {
 }
 
 resource_policy "aws_cloudfront_distribution" "oac_required" {
+    enforcement_level = input.cloudfront-s3-origin-access-control-enabled-enforcement-level
     # Only evaluate distributions that have at least one origin
     filter = attrs.origin != null && core::length(attrs.origin) > 0
 
@@ -54,6 +60,7 @@ resource_policy "aws_cloudfront_distribution" "oac_required" {
 }
 
 resource_policy "aws_cloudfront_origin_access_control" "proper_configuration" {
+    enforcement_level = input.cloudfront-s3-origin-access-control-enabled-enforcement-level
     # Only evaluate OACs scoped to S3 origins. Other origin types (lambda,
     # mediastore, mediapackagev2) are out of scope for CloudFront.13 and are
     # covered by their own policies.

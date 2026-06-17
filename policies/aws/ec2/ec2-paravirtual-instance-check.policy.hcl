@@ -3,7 +3,13 @@
 
 policy {}
 
+input "ec2-paravirtual-instance-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_instance" "no_paravirtual_instances" {
+  enforcement_level = input.ec2-paravirtual-instance-check-enforcement-level
   locals {
     instance_ami_id = core::try(attrs.ami, "")
     all_amis = core::getresources("aws_ami", {})

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-pgsql-cluster-copy-tags-to-snapshot-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_rds_cluster" "copy_tags_to_snapshot_enabled" {
+    enforcement_level = input.rds-pgsql-cluster-copy-tags-to-snapshot-check-enforcement-level
     filter = core::contains(["aurora-postgresql"], attrs.engine)
 
     enforce {

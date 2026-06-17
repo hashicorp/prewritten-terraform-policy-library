@@ -2,6 +2,11 @@
 
 policy {}
 
+input "iam-policy-no-statements-with-full-access-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "excludePermissionBoundaryPolicy" {
     type = string
     default = "false"
@@ -17,6 +22,7 @@ locals {
 }
 
 resource_policy "aws_iam_policy" "deny_service_wildcards" {
+    enforcement_level = input.iam-policy-no-statements-with-full-access-enforcement-level
     locals {
         policy_json = core::try(core::jsondecode(attrs.policy), {})
         statements = [for statement in core::try(local.policy_json.Statement, []) : statement]
@@ -81,6 +87,7 @@ resource_policy "aws_iam_policy" "deny_service_wildcards" {
 }
 
 resource_policy "aws_iam_role_policy" "deny_service_wildcards" {
+    enforcement_level = input.iam-policy-no-statements-with-full-access-enforcement-level
     locals {
         policy_json = core::try(core::jsondecode(attrs.policy), {})
         statements = [for statement in core::try(local.policy_json.Statement, []) : statement]
@@ -129,6 +136,7 @@ resource_policy "aws_iam_role_policy" "deny_service_wildcards" {
 }
 
 resource_policy "aws_iam_user_policy" "deny_service_wildcards" {
+    enforcement_level = input.iam-policy-no-statements-with-full-access-enforcement-level
     locals {
         policy_json = core::try(core::jsondecode(attrs.policy), {})
         statements = [for statement in core::try(local.policy_json.Statement, []) : statement]
@@ -177,6 +185,7 @@ resource_policy "aws_iam_user_policy" "deny_service_wildcards" {
 }
 
 resource_policy "aws_iam_group_policy" "deny_service_wildcards" {
+    enforcement_level = input.iam-policy-no-statements-with-full-access-enforcement-level
     locals {
         policy_json = core::try(core::jsondecode(attrs.policy), {})
         statements = [for statement in core::try(local.policy_json.Statement, []) : statement]

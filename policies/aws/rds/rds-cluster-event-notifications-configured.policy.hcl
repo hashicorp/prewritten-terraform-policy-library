@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-cluster-event-notifications-configured-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_event_subscription" "cluster_event_notifications" {
+    enforcement_level = input.rds-cluster-event-notifications-configured-enforcement-level
     filter = core::try(attrs.source_type, "") == "db-cluster" || core::try(attrs.source_type, "") == ""
     locals {
         event_categories = core::try(attrs.event_categories, [])

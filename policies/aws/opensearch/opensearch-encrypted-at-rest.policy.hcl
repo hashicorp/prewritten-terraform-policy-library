@@ -2,7 +2,13 @@
 
 policy {}
 
+input "opensearch-encrypted-at-rest-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_opensearch_domain" "encryption_at_rest_enabled" {
+    enforcement_level = input.opensearch-encrypted-at-rest-enforcement-level
     locals {
         encrypt_at_rest = core::try(attrs.encrypt_at_rest, [])
         has_enabled = core::length(local.encrypt_at_rest) > 0 ? core::try(local.encrypt_at_rest[0].enabled, false) : false

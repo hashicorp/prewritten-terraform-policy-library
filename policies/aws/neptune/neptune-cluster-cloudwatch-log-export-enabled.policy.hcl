@@ -2,7 +2,13 @@
 
 policy {}
 
+input "neptune-cluster-cloudwatch-log-export-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_neptune_cluster" "audit-logging-enabled" {
+    enforcement_level = input.neptune-cluster-cloudwatch-log-export-enabled-enforcement-level
     locals {
         log_enabled = core::try(attrs.enable_cloudwatch_logs_exports, [])
     }

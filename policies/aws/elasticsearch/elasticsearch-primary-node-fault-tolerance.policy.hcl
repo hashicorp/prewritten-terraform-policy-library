@@ -2,7 +2,13 @@
 
 policy {}
 
+input "elasticsearch-primary-node-fault-tolerance-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_elasticsearch_domain" "dedicated_master_nodes" {
+    enforcement_level = input.elasticsearch-primary-node-fault-tolerance-enforcement-level
     locals {
         cluster_config = core::try(attrs.cluster_config, [])
         

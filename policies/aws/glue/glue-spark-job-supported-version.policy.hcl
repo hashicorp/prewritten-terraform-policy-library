@@ -2,7 +2,13 @@
 
 policy {}
 
+input "glue-spark-job-supported-version-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_glue_job" "glue_spark_version_check" {
+  enforcement_level = input.glue-spark-job-supported-version-enforcement-level
  
   filter = attrs.command != null && core::length(attrs.command) > 0
 

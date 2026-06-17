@@ -2,6 +2,11 @@
 
 policy {}
 
+input "secretsmanager-rotation-enabled-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "maximumAllowedRotationFrequency" {
   type    = number
   default = 0
@@ -12,6 +17,7 @@ locals {
 }
 
 resource_policy "aws_secretsmanager_secret" "rotation_enabled_check" {
+  enforcement_level = input.secretsmanager-rotation-enabled-check-enforcement-level
   locals {
     secret_name = core::try(attrs.name, "unnamed")
 

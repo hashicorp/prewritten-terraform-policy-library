@@ -2,12 +2,18 @@
 
 policy {}
 
+input "eks-cluster-log-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 input "eks_log_types" {
     type = string
     default = ""
 }
 
 resource_policy "aws_eks_cluster" "audit_logging_enabled" {
+    enforcement_level = input.eks-cluster-log-enabled-enforcement-level
     locals {
         enabled_log_types = core::try(attrs.enabled_cluster_log_types, [])
         audit_enabled = core::contains(local.enabled_log_types, "audit")

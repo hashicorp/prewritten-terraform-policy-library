@@ -2,7 +2,13 @@
 
 policy {}
 
+input "ec2-vpc-ssm-incidents-endpoint-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_vpc" "ssm_incidents_endpoint_required" {
+  enforcement_level = input.ec2-vpc-ssm-incidents-endpoint-enforcement-level
   // Skip evaluation when the VPC id is unknown (e.g. plan-time computed value).
   // Without this guard, getresources("aws_vpc_endpoint", { vpc_id = null }) returns
   // nothing and every VPC would falsely report "missing endpoint".

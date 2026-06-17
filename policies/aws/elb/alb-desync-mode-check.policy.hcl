@@ -2,7 +2,13 @@
 
 policy {}
 
+input "alb-desync-mode-check-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_lb" "alb_desync_mitigation_mode" {
+    enforcement_level = input.alb-desync-mode-check-enforcement-level
     filter = core::try(attrs.load_balancer_type, "application") == "application"
 
     locals {

@@ -2,7 +2,13 @@
 
 policy {}
 
+input "api-gwv2-access-logs-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_apigatewayv2_stage" "access_logging_required" {
+    enforcement_level = input.api-gwv2-access-logs-enabled-enforcement-level
     # Description: Ensures API Gateway V2 stages have access logging configured
     # with both destination_arn and format specified
 

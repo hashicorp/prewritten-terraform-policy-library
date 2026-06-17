@@ -2,7 +2,13 @@
 
 policy {}
 
+input "rds-automatic-minor-version-upgrade-enabled-enforcement-level" {
+  type = string
+  default = "advisory"
+}
+
 resource_policy "aws_db_instance" "automatic_minor_version_upgrade_enabled" {
+    enforcement_level = input.rds-automatic-minor-version-upgrade-enabled-enforcement-level
     enforce {
         condition = core::try(attrs.auto_minor_version_upgrade, true)
         error_message = "RDS automatic minor version upgrades should be enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-13 for more details."
