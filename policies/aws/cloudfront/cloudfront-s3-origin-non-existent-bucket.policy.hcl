@@ -24,14 +24,15 @@ resource_policy "aws_cloudfront_distribution" "no_nonexistent_s3_origins" {
     # Extract all origins from the distribution
     origins = core::try(attrs.origin, [])
 
-    # Filter to S3 origins only (those with s3_origin_config block).
-    # Per AWS Config rule CLOUDFRONT_S3_ORIGIN_NON_EXISTENT_BUCKET, only
-    # origins using S3OriginConfig are evaluated (S3 buckets with static
-    # website hosting are skipped because they use custom_origin_config).
-    s3_origins = [
+    # Filter to likely S3 origins: those that do NOT have custom_origin_config.
+    # This covers both legacy OAI-style (s3_origin_config present) and modern
+    # OAC-style origins (origin_access_control_id, no s3_origin_config).
+    # Origins with custom_origin_config are custom/HTTP origins (e.g. ALBs,
+    # S3 website endpoints) and are excluded per the AWS Config rule intent.
+    s3_origins = core::try([
       for origin in local.origins :
-      origin if core::try(core::length(origin.s3_origin_config), 0) > 0
-    ]
+      origin if core::try(origin.custom_origin_config, null) == null
+    ], [])
 
     # CloudFront origin.domain_name for S3 origins looks like:
     #   my-bucket.s3.amazonaws.com
