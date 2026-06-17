@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EFS.7 - EFS file systems should have automatic backups enabled.
 
 policy {}

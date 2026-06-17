@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.17 - Amazon EC2 instances should not use multiple ENIs
 
 policy {}

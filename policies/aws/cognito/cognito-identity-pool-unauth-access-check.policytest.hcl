@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "cognito-identity-pool-unauth-access-check.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SecretsManager.2 - Secrets Manager secrets configured with automatic rotation should rotate successfully
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.173 - EC2 Spot Fleet requests with launch parameters should enable encryption for attached EBS volumes
 
 policy {}

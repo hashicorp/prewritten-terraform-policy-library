@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # DynamoDB.1: DynamoDB tables should automatically scale capacity with demand
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["iam-user-no-policies-check.policy.hcl"]
 }

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.6 - Enhanced monitoring should be configured for RDS DB instances
 
 locals {

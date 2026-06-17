@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.5 - Application and Classic Load Balancers logging should be enabled.
 
 policy {}

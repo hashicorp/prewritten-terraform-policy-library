@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : NetworkFirewall.6 - Stateless Network Firewall rule group should not be empty
 
 policy {}

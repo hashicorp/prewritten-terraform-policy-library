@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # FSx.1 - FSx for OpenZFS file systems should be configured to copy tags to backups and volumes
 
 policy {}

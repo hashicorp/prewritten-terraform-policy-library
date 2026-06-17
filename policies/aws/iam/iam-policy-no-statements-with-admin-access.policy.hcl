@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # IAM.1: IAM policies should not allow full "*" administrative privileges
 
 policy {}

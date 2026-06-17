@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "alb-http-drop-invalid-header-enabled.policy.hcl"

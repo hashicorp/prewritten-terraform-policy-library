@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "mq-cloudwatch-audit-log-enabled.policy.hcl"

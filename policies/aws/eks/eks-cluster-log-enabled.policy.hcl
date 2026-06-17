@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EKS.8 - EKS clusters should have audit logging enabled.
 
 policy {}

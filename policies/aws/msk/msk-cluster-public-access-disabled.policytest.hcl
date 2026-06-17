@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "msk-cluster-public-access-disabled.policy.hcl"

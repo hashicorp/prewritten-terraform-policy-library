@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ELB.14 - Classic Load Balancer Desync Mitigation Mode
 
 policy {}

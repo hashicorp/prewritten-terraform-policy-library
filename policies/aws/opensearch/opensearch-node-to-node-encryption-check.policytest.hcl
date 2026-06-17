@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "opensearch-node-to-node-encryption-check.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.34 - Aurora MySQL DB clusters should publish audit logs to CloudWatch Logs.
 
 policy {}

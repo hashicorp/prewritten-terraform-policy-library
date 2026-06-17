@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Redshift.4 - Amazon Redshift clusters should have audit logging enabled
 
 policy {}

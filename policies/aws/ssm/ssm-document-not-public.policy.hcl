@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: SSM.4 - SSM documents should not be public
 
 policy {}

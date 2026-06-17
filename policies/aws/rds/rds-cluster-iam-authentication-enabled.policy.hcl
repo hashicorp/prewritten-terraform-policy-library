@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.12 - IAM Authentication Should Be Configured for RDS Clusters.
 
 policy {}

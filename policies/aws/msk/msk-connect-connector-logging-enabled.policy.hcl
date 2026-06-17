@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: MSK.5 - MSK connectors should have logging enabled
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.22 - ELB target groups should use encrypted transport protocols
 
 policy {}

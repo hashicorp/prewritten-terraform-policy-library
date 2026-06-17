@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ServiceCatalog.1 - Service Catalog portfolios should be shared within an AWS organization only
 
 policy {}

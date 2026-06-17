@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Redshift.8 - Amazon Redshift clusters should not use the default Admin username. This control checks whether an Amazon Redshift cluster has changed the admin username from its default value. This control will fail if the admin username for a Redshift cluster is set to awsuser.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.15 - Amazon EC2 subnets should not automatically assign public IP addresses
 
 policy {}

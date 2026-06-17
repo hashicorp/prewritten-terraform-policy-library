@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "ssm-automation-block-public-sharing.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "elb-tls-https-listeners-only.policy.hcl"

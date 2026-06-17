@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "rds-mariadb-instance-encrypted-in-transit.policy.hcl"

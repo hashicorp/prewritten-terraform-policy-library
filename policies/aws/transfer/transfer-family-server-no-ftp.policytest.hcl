@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["transfer-family-server-no-ftp.policy.hcl"]
 }

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: NetworkFirewall.10 - Network Firewall firewalls should have subnet change protection enabled
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Inspector.2 - Amazon Inspector ECR Scanning Should Be Enabled.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "sagemaker-notebook-no-direct-internet-access.policy.hcl"

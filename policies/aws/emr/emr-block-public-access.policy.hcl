@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EMR.2 - Amazon EMR block public access setting should be enabled.
 
 policy {}

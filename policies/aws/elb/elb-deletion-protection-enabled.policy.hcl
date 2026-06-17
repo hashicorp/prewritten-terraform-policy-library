@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.6 - Application, Gateway, and Network Load Balancers should have deletion protection enabled.
 
 policy {}

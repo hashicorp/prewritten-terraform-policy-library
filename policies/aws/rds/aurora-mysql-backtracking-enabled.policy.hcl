@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.14 - Amazon Aurora clusters should have backtracking enabled.
 
 policy {}

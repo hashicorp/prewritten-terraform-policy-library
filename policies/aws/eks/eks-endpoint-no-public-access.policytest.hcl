@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "eks-endpoint-no-public-access.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.10 - Amazon EC2 should be configured to use VPC endpoints
 
 policy {}

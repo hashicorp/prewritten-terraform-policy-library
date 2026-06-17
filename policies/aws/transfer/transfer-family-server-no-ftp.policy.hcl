@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Transfer.2 - Transfer Family servers should not use FTP protocol
 
 policy {}

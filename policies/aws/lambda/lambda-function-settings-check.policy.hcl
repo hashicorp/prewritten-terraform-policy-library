@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Lambda.2 - Lambda functions should use supported runtimes
 
 policy {}

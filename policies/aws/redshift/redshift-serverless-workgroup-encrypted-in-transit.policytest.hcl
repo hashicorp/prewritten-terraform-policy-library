@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Test cases for RedshiftServerless.2 - Require SSL for Redshift Serverless Workgroups
 
 # Specify which policy to test

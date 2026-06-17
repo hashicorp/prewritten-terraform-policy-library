@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EMR.3 - Amazon EMR security configurations should be encrypted at rest.
 
 policy {}

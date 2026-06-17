@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ECS.19 - ECS capacity providers should have managed termination protection enabled
 
 policy {}

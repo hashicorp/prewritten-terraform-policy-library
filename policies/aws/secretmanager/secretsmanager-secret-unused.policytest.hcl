@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Tests for tag-presence enforcement.
 
 policytest {

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "ec2-enis-source-destination-check-enabled.policy.hcl"

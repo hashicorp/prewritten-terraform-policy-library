@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["vpc-network-acl-unused-check.policy.hcl"]
 }

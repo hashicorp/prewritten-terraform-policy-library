@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: APIGateway.5 - API Gateway REST API cache data should be encrypted at rest
 
 policy {}

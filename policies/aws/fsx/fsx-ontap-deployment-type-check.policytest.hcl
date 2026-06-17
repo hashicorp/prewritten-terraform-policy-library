@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "fsx-ontap-deployment-type-check.policy.hcl"

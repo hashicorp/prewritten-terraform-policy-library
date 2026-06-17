@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.20 - Both VPN tunnels for an AWS Site-to-Site VPN connection should be up
 
 policy {}

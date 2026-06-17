@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: AutoScaling.9 - Amazon EC2 Auto Scaling groups should use Amazon EC2 launch templates
 policy {}
 

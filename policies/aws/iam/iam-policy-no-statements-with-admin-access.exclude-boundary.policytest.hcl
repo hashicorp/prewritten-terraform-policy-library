@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["iam-policy-no-statements-with-admin-access.policy.hcl"]
   

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "rds-mysql-cluster-copy-tags-to-snapshot-check.policy.hcl"

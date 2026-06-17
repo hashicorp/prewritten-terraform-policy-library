@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "ecr-private-image-scanning-enabled.policy.hcl"

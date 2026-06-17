@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Custom authorized TCP/UDP ports input scenario.
 
 policytest {

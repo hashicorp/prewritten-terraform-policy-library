@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Kinesis.3 - Kinesis streams should have an adequate data retention period
 
 policy {}

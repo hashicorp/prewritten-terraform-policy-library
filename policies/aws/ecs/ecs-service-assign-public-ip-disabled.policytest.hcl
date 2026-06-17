@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "ecs-service-assign-public-ip-disabled.policy.hcl"

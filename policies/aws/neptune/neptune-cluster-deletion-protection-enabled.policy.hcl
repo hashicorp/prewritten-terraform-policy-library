@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Neptune.4 - Neptune DB clusters should have deletion protection enabled.
 
 policy {}

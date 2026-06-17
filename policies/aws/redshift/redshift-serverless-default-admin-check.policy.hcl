@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: RedshiftServerless.5 -  Redshift Serverless namespaces should not use the default admin username
 
 policy {}

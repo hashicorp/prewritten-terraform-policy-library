@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "redshift-cluster-audit-logging-enabled.policy.hcl"

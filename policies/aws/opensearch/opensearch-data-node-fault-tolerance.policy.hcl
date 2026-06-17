@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Opensearch.6 - OpenSearch domains should have at least three data nodes.
 
 policy {}

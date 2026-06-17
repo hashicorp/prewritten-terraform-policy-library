@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "rds-cluster-iam-authentication-enabled.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "elasticache-repl-grp-auto-failover-enabled.policy.hcl"

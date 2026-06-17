@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.22 - RDS Event Notifications Subscription for Critical Database Security Group Events.
 
 policy {}

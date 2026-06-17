@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # MSK.3 - MSK Connect connectors should be encrypted in transit
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudTrail.1: CloudTrail should be enabled and configured with at least one multi-Region trail
 
 policy {}

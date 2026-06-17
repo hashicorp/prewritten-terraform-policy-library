@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: SSM.1 - Amazon EC2 instances should be managed by AWS Systems Manager
 
 policy {}

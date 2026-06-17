@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: SecretsManager.3 - Remove unused Secrets Manager secrets
 
 policy {}

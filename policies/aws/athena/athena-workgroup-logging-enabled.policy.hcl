@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Athena.4 - Athena workgroups should have logging enabled.
 
 policy {}

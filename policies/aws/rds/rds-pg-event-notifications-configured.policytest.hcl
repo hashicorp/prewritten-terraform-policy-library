@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "rds-pg-event-notifications-configured.policy.hcl"

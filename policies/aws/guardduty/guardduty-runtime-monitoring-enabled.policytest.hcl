@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "guardduty-runtime-monitoring-enabled.policy.hcl"

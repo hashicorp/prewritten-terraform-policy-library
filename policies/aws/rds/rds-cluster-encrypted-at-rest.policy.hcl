@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.27 - RDS DB clusters should be encrypted at rest.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : Cognito.4 - Cognito user pools should have threat protection activated with full function enforcement mode for custom authentication
 
 policy {}

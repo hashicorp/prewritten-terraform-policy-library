@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "s3-access-point-public-access-blocks.policy.hcl"

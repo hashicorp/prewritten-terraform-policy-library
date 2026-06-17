@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "dms-neptune-iam-authorization-enabled.policy.hcl"

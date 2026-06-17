@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.18 - ECS Task Definitions should use in-transit encryption for EFS volumes.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.4 - RDS cluster snapshots and database snapshots should be encrypted at rest.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # AWS Security Hub IAM.2: IAM users should not have IAM policies attached
 
 policy {}

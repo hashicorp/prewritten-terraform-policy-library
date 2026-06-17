@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "cognito-user-pool-password-policy-check.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Cognito.5 - MFA should be enabled for Cognito user pools
 
 policy {}

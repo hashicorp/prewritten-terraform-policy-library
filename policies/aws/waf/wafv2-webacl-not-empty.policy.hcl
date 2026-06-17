@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: WAF.10 - AWS WAF web ACLs should have at least one rule or rule group
 
 policy {}

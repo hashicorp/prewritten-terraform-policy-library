@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: CodeBuild.3 - CodeBuild S3 logs should be encrypted
 
 policy {}

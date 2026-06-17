@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: CloudFront.10 -  CloudFront distributions should not use deprecated SSL protocols between edge locations and custom origins
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # DocumentDB.4 - Amazon DocumentDB clusters should publish audit logs to CloudWatch Logs.
 
 policy {}

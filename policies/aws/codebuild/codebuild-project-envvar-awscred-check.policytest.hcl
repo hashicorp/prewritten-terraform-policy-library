@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "codebuild-project-envvar-awscred-check.policy.hcl"

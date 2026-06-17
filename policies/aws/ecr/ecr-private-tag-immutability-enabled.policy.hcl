@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : ECR.2 -  ECR private repositories should have tag immutability configured
 
 policy {}

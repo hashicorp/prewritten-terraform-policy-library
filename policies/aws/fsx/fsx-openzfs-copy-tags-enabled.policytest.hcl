@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "fsx-openzfs-copy-tags-enabled.policy.hcl"

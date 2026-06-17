@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.46 - RDS DB instances should not be deployed in public subnets with routes to internet gateways.
 
 policy {}

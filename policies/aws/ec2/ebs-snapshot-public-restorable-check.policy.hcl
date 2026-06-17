@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.1 - Amazon EBS snapshots should not be publicly restorable
 
 policy {}

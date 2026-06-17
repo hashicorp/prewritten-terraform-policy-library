@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EMR.1: Amazon EMR cluster primary nodes should not have public IP addresses
 
 policy {}

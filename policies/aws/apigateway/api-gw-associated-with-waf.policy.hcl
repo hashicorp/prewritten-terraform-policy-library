@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # APIGateway.4 - API Gateway should be associated with a WAF Web ACL
 
 policy {}

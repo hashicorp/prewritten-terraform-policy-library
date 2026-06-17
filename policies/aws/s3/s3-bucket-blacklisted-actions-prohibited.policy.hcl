@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # S3.6 - S3 Bucket Policies Should Restrict Access to Other AWS Accounts. This control checks whether an Amazon S3 general purpose bucket policy prevents principals from other AWS accounts from performing denied actions on resources in the S3 bucket.
 # 
 # NOTE: This policy uses exact string matching for blocked actions. Wildcard patterns (e.g., s3:GetBucket*) are NOT supported.

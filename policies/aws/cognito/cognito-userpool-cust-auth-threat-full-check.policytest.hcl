@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "cognito-userpool-cust-auth-threat-full-check.policy.hcl"

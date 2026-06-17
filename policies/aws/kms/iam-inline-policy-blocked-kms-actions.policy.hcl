@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # KMS.2 - IAM principals should not have IAM inline policies that allow decryption and re-encryption actions on all KMS keys. The control fails if kms:Decrypt or kms:ReEncryptFrom actions are allowed on all KMS keys.
 #
 # NOTE: This policy uses exact string matching for blocked actions. Wildcard patterns (e.g., kms:*) are NOT supported.

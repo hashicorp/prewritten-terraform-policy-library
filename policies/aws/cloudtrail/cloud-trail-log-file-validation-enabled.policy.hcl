@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudTrail.4 - CloudTrail log file validation should be enabled.
 
 policy {}

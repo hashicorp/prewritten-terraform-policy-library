@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SSM.7 - SSM documents should have the block public sharing setting enabled.
 
 policy {}

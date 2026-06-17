@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["glue-spark-job-supported-version.policy.hcl"]
 }

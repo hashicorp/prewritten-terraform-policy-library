@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: CloudFront.6 - CloudFront distributions should have WAF enabled
 
 policy {}

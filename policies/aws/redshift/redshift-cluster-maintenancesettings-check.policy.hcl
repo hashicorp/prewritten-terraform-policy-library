@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Redshift.6 - Amazon Redshift should have automatic upgrades to major versions enabled.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "fsx-lustre-copy-tags-to-backups.policy.hcl"

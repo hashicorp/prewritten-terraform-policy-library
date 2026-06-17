@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "ec2-launch-template-public-ip-disabled.policy.hcl"

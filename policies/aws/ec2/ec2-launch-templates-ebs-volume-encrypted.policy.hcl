@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.181 - EC2 Launch Templates Should Enable Encryption for Attached EBS Volumes.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.4 - Stopped EC2 instances should be removed after a specified time period.
 
 policy {}

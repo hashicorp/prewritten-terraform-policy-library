@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : NetworkFirewall.5 - The default stateless action for Network Firewall policies should be drop or forward for fragmented packets
 
 policy {}

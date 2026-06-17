@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "cloudfront-s3-origin-access-control-enabled.policy.hcl"

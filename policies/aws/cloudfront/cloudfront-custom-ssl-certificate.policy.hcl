@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: CloudFront.7 - CloudFront distributions should use custom SSL/TLS certificates
 
 policy {}

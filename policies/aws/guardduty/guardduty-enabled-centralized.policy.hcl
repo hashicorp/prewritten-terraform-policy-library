@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # GuardDuty.1 - GuardDuty should be enabled.
 
 policy {}

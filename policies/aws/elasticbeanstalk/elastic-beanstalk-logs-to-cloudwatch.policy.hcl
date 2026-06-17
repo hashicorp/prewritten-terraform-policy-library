@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ElasticBeanstalk.3 - Elastic Beanstalk should stream logs to CloudWatch
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EFS.6 - EFS mount targets should not be associated with subnets that assign public IP addresses on launch
 
 policy {}

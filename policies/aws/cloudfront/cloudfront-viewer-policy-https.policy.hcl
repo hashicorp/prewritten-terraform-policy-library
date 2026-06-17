@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudFront.3 - CloudFront distributions should require encryption in transit.
 
 policy {}

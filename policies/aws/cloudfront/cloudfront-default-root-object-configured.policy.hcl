@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudFront.1 - CloudFront distributions should have a default root object configured.
 
 policy {}

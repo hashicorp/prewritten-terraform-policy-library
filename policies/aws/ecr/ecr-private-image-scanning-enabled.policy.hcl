@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: ECR.1 - ECR private repositories should have image scanning configured
 
 policy {}

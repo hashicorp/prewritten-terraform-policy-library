@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : CodeBuild.4 - CodeBuild project environments should have a logging AWS Configuration
 policy {}
 

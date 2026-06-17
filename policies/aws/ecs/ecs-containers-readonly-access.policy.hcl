@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.5 - ECS containers should be limited to read-only access to root filesystems
 
 policy {}

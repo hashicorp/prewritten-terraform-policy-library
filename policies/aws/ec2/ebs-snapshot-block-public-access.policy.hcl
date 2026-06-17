@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.182 - Amazon EBS Snapshots should not be publicly accessible.
 
 policy {}

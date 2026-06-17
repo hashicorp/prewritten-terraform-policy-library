@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: AutoScaling.1 - Auto Scaling groups associated with a load balancer should use ELB health checks
 
 policy {}

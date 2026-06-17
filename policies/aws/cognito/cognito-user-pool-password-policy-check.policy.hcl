@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Cognito.3 - Password policies for Cognito user pools should have strong configurations
 
 policy {}

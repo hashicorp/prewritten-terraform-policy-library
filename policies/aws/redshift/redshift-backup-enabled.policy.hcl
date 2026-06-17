@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Redshift.3 - Amazon Redshift clusters should have automatic snapshots enabled. This control checks whether an Amazon Redshift cluster has automated snapshots enabled, and a retention period greater than or equal to the specified time frame.
 
 policy {}

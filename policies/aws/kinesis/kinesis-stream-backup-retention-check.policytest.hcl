@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "kinesis-stream-backup-retention-check.policy.hcl"

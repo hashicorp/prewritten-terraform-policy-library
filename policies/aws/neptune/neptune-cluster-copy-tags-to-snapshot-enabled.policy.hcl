@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Neptune.8 - Neptune DB clusters should be configured to copy tags to snapshots.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.23 - Transit Gateway Auto-Accept VPC Attachments
 
 policy {}

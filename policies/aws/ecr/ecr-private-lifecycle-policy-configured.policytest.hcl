@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "ecr-private-lifecycle-policy-configured.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Inspector.4 - Amazon Inspector Lambda Scanning Should Be Enabled.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "elbv2-listener-encryption-in-transit.policy.hcl"

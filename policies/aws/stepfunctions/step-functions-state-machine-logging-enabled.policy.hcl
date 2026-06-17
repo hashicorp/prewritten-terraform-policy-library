@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: StepFunctions.1 - Step Functions state machines should have logging turned on
 
 policy {}

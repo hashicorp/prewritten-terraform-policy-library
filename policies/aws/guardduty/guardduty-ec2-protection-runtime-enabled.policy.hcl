@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # GuardDuty.13 - GuardDuty EC2 Runtime Monitoring should be enabled.
 
 policy {}

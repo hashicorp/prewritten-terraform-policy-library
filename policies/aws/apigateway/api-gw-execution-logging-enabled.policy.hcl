@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: APIGateway.1 - API Gateway REST and WebSocket API execution logging should be enabled
 policy {}
 

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.2 - VPC Default Security Groups Traffic Restriction
 
 policy {}

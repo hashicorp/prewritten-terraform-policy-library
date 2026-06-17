@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # WAF.3 - AWS WAF Classic Regional Rule Groups Should Have At Least One Rule
 
 policy {}

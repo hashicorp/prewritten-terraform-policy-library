@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["ebs-snapshot-public-restorable-check.policy.hcl"]
 }

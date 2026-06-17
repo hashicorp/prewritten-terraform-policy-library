@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ES.1 - Elasticsearch domains should have encryption at-rest enabled.
 
 policy {}

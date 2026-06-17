@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "sagemaker-model-quality-job-encrypt-in-transit.policy.hcl"

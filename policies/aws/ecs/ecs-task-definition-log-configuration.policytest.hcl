@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "ecs-task-definition-log-configuration.policy.hcl"

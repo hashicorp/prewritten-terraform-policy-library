@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ES.7 - Elasticsearch domains should be configured with at least three dedicated master nodes
 
 policy {}

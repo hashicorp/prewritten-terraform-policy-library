@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.44 - RDS for MariaDB DB instances should be encrypted in transit.
 
 policy {}

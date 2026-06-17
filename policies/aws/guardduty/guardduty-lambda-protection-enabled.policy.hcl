@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # GuardDuty.6 - GuardDuty Lambda Protection should be enabled.
 
 policy {}

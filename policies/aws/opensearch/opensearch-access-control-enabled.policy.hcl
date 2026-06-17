@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Opensearch.7 - Fine-Grained Access Control.
 
 policy {}

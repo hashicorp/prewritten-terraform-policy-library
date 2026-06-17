@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Neptune.1 - Neptune DB clusters should be encrypted at rest
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "emr-security-configuration-encryption-rest.policy.hcl"

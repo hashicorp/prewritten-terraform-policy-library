@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "s3-lifecycle-policy-check.policy.hcl"

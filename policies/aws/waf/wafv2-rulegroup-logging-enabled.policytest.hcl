@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["wafv2-rulegroup-logging-enabled.policy.hcl"]
 }

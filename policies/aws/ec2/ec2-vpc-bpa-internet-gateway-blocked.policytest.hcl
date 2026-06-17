@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "ec2-vpc-bpa-internet-gateway-blocked.policy.hcl"

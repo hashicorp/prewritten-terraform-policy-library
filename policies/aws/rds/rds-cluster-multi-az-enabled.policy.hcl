@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.15 - RDS DB clusters should be configured for multiple Availability Zones.
 
 policy {}

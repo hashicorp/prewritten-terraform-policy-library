@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : SQS.3 - SQS queue access policies should not allow public access
 
 policy {}

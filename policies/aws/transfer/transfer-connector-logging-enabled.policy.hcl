@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Transfer.3 - Transfer Family connectors should have logging enabled
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EventBridge.3 - EventBridge custom event buses should have a resource-based policy attached
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: DynamoDB.3 - DynamoDB Accelerator (DAX) clusters should be encrypted at rest
 
 policy {}

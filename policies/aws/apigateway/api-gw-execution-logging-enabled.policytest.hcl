@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "api-gw-execution-logging-enabled.policy.hcl"

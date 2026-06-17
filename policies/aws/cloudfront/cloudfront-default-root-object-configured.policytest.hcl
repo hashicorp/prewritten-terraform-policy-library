@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "cloudfront-default-root-object-configured.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.8 - RDS DB instances should have deletion protection enabled.
 
 policy {}

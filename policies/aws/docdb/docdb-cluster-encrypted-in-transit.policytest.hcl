@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "docdb-cluster-encrypted-in-transit.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : MQ.2 - ActiveMQ brokers should stream audit logs to CloudWatch
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.14 - SageMaker monitoring schedules should have network isolation enabled.
 
 policy {}

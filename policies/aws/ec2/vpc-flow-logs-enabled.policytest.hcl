@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "vpc-flow-logs-enabled.policy.hcl"

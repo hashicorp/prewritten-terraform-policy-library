@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: S3.5 - S3 general purpose buckets should require requests to use SSL
 
 policy {}

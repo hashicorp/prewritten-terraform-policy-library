@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CodeBuild.1 - CodeBuild Bitbucket source repository URLs should not contain sensitive credentials
 
 policy {}

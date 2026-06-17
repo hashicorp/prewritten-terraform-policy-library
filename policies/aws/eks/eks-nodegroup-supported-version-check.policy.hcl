@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EKS.9 - EKS node groups should run on a supported Kubernetes version.
 
 policy {}

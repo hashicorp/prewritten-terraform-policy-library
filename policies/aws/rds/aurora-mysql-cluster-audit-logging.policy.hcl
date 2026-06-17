@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.45 - Aurora MySQL DB clusters should have audit logging enabled.
 
 policy {}

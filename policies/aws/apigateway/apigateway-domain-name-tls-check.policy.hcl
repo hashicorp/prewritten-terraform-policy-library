@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: APIGateway.11 - API Gateway domain names should use recommended security policies
 
 policy {}

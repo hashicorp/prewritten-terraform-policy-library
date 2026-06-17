@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: DynamoDB.2 - Point-in-time recovery enabled
 
 policy {}

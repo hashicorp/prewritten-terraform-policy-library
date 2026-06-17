@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "eks-nodegroup-supported-version-check.policy.hcl"

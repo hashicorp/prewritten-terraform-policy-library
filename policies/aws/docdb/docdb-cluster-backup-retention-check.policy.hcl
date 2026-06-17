@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # DocumentDB.2 - Amazon DocumentDB clusters should have an adequate backup retention period.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # GuardDuty.7 - GuardDuty EKS Runtime Monitoring should be enabled.
 
 policy {}

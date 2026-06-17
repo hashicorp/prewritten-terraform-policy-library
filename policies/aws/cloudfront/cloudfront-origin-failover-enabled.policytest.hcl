@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["cloudfront-origin-failover-enabled.policy.hcl"]
 }

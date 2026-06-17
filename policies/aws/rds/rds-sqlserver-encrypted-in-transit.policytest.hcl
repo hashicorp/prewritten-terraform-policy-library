@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "rds-sqlserver-encrypted-in-transit.policy.hcl"

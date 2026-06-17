@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Autoscaling.5 - Amazon EC2 instances launched using Auto Scaling group launch configurations should not have Public IP addresses
 
 policy {}

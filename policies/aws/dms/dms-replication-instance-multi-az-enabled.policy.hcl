@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # DMS.13 - DMS replication instances should be configured to use multiple Availability Zones.
 
 policy {}

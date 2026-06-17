@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "docdb-cluster-deletion-protection-enabled.policy.hcl"

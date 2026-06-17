@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "sagemaker-data-quality-job-isolation.policy.hcl"

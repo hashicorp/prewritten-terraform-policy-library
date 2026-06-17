@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "apigatewayv2-integration-private-https-enabled.policy.hcl"

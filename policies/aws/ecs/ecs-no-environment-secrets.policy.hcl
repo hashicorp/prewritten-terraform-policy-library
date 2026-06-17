@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.8 - Secrets should not be passed as container environment variables.
 
 policy {}

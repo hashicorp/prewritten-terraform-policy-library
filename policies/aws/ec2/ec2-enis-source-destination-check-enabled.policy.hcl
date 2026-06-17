@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.180 - EC2 network interfaces should have source/destination checking enabled
 
 policy {}

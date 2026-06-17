@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["kms-cmk-not-scheduled-for-deletion-2.policy.hcl"]
 }

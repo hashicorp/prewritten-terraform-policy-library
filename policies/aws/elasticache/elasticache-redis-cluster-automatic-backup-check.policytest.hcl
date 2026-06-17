@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "elasticache-redis-cluster-automatic-backup-check.policy.hcl"

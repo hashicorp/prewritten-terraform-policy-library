@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "guardduty-ec2-protection-runtime-enabled.policy.hcl"

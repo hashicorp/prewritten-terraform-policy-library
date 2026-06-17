@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "efs-mount-target-public-accessible.policy.hcl"

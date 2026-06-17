@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy : Kinesis.1 -  Kinesis streams should be encrypted at rest
 policy {}
 

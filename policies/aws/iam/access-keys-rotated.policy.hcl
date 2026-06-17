@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: IAM.3 - IAM users' access keys should be rotated every 90 days or less
 
 policy {}

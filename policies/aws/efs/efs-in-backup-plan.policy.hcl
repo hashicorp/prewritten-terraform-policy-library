@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EFS.2 - Amazon EFS volumes should be in backup plans.
 
 policy {}

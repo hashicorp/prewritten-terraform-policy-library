@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "autoscaling-launch-config-public-ip-disabled.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CodeBuild.7: CodeBuild report group exports should be encrypted at rest
 
 policy {}

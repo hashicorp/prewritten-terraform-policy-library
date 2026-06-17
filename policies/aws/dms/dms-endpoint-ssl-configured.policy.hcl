@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: DMS.9 - DMS endpoints should use SSL
 
 policy {}

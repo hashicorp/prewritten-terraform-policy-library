@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: EC2.9 - Amazon EC2 instances should not have a public IPv4 address
 
 policy {}

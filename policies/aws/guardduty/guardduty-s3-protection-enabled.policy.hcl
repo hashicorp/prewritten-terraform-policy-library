@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # GuardDuty.10 - GuardDuty S3 Protection should be enabled.
 
 policy {}

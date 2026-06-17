@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["elbv2-predefined-security-policy-ssl-check.policy.hcl"]
 }

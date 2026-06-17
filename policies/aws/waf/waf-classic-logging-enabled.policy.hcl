@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # WAF.1 - AWS WAF Classic Global Web ACL logging should be enabled
 
 policy {}

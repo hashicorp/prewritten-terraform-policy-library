@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.17 - RDS DB instances should be configured to copy tags to snapshots.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ECS.12 - ECS clusters should use Container Insights.
 
 policy {}

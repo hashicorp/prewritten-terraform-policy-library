@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.41 - RDS for SQL Server DB instances should be encrypted in transit.
 
 policy {}

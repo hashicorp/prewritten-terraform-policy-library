@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: DMS.12 - DMS endpoints for Redis OSS should have TLS enabled
 
 policy {}

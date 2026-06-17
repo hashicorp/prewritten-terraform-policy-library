@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "fsx-windows-deployment-type-check.policy.hcl"

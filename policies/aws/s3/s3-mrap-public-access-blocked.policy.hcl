@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: S3.24 - S3 Multi-Region Access Points Block Public Access
 
 policy {}

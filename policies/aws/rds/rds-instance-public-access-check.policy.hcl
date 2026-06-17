@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.2 - RDS DB Instances should prohibit public access.
 
 policy {}

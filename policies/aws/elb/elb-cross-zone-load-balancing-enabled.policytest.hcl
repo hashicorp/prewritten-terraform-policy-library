@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "elb-cross-zone-load-balancing-enabled.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: Lambda.1 - Lambda function policies should prohibit public access
 
 policy {}

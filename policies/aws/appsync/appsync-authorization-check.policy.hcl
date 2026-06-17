@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: AppSync.5 - AWS AppSync GraphQL APIs should not be authenticated with API keys
 
 policy {}

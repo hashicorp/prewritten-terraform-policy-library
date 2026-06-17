@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: SNS.4 - SNS topic access policies should not allow public access
 
 policy {}

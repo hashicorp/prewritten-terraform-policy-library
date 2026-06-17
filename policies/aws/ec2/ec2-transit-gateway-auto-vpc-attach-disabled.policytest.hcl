@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "ec2-transit-gateway-auto-vpc-attach-disabled.policy.hcl"

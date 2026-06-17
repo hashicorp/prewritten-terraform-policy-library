@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "rds-instance-copy-tags-to-snapshots-enabled.policy.hcl"

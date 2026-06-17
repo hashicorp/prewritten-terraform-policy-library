@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # FSx.3 - FSx for OpenZFS file systems should be configured for Multi-AZ deployment.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: KMS.3 - AWS KMS keys should not be deleted unintentionally
 
 policy {}

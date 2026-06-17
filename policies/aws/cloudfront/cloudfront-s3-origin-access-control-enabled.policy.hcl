@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudFront.13 - CloudFront distributions should use origin access control
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = ["service-vpc-endpoint-enabled.policy.hcl"]
 }

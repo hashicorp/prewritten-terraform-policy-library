@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.11 - RDS instances should have automatic backups enabled.
 
 policy {}

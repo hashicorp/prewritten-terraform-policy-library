@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "elbv2-targetgroup-protocol-encrypted.policy.hcl"

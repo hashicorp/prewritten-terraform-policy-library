@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # EC2.8 - EC2 instances should use Instance Metadata Service Version 2 (IMDSv2).
 
 policy {}

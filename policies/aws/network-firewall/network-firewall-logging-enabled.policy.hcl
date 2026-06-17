@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # NetworkFirewall.2 - Network Firewall Logging Should Be Enabled
 
 policy {}

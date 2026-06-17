@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: SageMaker.16 - Models should use private registry in VPC for primary containers
 # AWS Config rule: sagemaker-model-private-registry-required
 # NON_COMPLIANT if ImageConfig is missing on the primary_container, or RepositoryAccessMode is "Platform".

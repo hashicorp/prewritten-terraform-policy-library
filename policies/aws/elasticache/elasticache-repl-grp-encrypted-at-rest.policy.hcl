@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ElastiCache.4 - ElastiCache replication groups should be encrypted at rest.
 
 input "approved_kms_keys" {

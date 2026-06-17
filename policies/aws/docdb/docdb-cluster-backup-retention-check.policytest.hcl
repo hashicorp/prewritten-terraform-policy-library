@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "docdb-cluster-backup-retention-check.policy.hcl"

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Opensearch.10 - OpenSearch domains should have the latest software update installed.
 
 policy {}

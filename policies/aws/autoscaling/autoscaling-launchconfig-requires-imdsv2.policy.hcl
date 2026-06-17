@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: AutoScaling.3 - IMDSv2 Required for Launch Configurations
 
 policy {}

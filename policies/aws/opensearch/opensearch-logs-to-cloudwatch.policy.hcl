@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Opensearch.4 - OpenSearch domain error logging to CloudWatch Logs should be enabled.
 
 policy {}

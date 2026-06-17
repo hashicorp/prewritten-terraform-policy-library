@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "guardduty-lambda-protection-enabled.policy.hcl"

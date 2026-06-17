@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RedshiftServerless.1: Amazon Redshift Serverless workgroups should use enhanced VPC routing
 
 policy {}

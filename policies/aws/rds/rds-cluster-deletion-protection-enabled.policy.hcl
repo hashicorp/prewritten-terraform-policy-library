@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # RDS.7 - RDS clusters should have deletion protection enabled.
 
 policy {}

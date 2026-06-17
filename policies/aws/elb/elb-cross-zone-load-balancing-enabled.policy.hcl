@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.9 - Classic Load Balancers should have cross-zone load balancing enabled.
 
 policy {}

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "s3-account-level-public-access-blocks-periodic.policy.hcl"

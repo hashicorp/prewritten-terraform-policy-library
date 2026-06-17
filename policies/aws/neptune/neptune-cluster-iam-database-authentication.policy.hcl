@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Neptune.7 - Neptune DB clusters should have IAM database authentication enabled.
 
 policy {}

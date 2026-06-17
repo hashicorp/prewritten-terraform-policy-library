@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "redshift-serverless-default-admin-check.policy.hcl"

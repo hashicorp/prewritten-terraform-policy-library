@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Redshift.1 - Amazon Redshift clusters should prohibit public access. This control checks whether Amazon Redshift clusters are publicly accessible.
 
 policy {}

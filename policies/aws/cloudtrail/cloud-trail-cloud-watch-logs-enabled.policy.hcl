@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudTrail.5 - CloudTrail trails should be integrated with Amazon CloudWatch Logs.
 
 policy {}

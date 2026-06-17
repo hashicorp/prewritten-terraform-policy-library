@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # FSx.5 - FSx for Windows File Server file systems should be configured for Multi-AZ deployment
 
 policy {}

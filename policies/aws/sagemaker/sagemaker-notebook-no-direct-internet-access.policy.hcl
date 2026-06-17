@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.1 - Amazon SageMaker notebook instances should not have direct internet access.
 
 policy {}

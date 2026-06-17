@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "secretsmanager-secret-periodic-rotation.policy.hcl"

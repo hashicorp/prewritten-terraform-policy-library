@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CloudFormation.4: CloudFormation stacks should have associated service roles
 
 policy {}

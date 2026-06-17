@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Policy: MSK.4 - MSK clusters should have public access disabled
 
 policy {}

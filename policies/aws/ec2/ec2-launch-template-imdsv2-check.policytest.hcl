@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
     targets = [
         "ec2-launch-template-imdsv2-check.policy.hcl"

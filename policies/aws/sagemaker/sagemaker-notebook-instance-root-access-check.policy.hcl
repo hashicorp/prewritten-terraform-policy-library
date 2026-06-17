@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # SageMaker.3 - Users should not have root access to SageMaker notebook instances.
 
 policy {}

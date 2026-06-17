@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # S3.3 - S3 General Purpose Buckets Should Block Public Write Access. This control checks whether an Amazon S3 general purpose bucket permits public write access. It evaluates the block public access settings, the bucket policy, and the bucket access control list (ACL). The control fails if the bucket permits public write access.
 
 policy {}

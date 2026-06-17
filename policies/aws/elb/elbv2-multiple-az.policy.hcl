@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # ELB.13 - Application, Network and Gateway Load Balancers should have registered targets in multiple Availability Zones
 
 policy {}

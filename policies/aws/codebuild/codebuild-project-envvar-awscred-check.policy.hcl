@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # CodeBuild.2: CodeBuild project environment variables should not contain clear text credentials
 
 policy {}
