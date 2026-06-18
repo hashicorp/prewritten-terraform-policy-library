@@ -134,3 +134,36 @@ resource "aws_cloudfront_distribution" "fail_with_empty_web_acl_id" {
     }]
   }
 }
+
+# Test 5: Fail - CloudFront distribution with web_acl_id explicitly set to null
+resource "aws_cloudfront_distribution" "fail_with_null_web_acl_id" {
+  expect_failure = true
+  attrs = {
+    web_acl_id = null
+    enabled = true
+    origin = [{
+      domain_name = "example.com"
+      origin_id = "example"
+    }]
+    default_cache_behavior = [{
+      target_origin_id = "example"
+      viewer_protocol_policy = "redirect-to-https"
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods = ["GET", "HEAD"]
+      forwarded_values = [{
+        query_string = false
+        cookies = [{
+          forward = "none"
+        }]
+      }]
+    }]
+    restrictions = [{
+      geo_restriction = [{
+        restriction_type = "none"
+      }]
+    }]
+    viewer_certificate = [{
+      cloudfront_default_certificate = true
+    }]
+  }
+}

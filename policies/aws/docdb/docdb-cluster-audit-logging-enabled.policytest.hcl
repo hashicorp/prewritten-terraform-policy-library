@@ -67,3 +67,14 @@ resource "aws_docdb_cluster" "fail_missing_logs" {
     engine                            = "docdb"
   }
 }
+
+# Test 7: FAIL - enabled_cloudwatch_logs_exports explicitly set to null
+resource "aws_docdb_cluster" "fail_null_logs" {
+  expect_failure = true
+  attrs = {
+    cluster_identifier                = "docdb-null-logs"
+    enabled_cloudwatch_logs_exports   = null
+    master_username                   = "admin"
+    engine                            = "docdb"
+  }
+}

@@ -12,11 +12,13 @@ input "cloudfront-associated-with-waf-enforcement-level" {
 resource_policy "aws_cloudfront_distribution" "waf_enabled" {
     enforcement_level = input.cloudfront-associated-with-waf-enforcement-level
     locals {
-        # Safely extract web_acl_id attribute
-        web_acl_id = core::try(attrs.web_acl_id, "")
-        
-        # Check if web_acl_id is configured and not empty
-        has_waf = local.web_acl_id != ""
+        # Safely extract web_acl_id attribute.
+        # core::try only catches errors, not explicit nulls, so we must also
+        # guard against null separately using a ternary check.
+        web_acl_id_value = core::try(attrs.web_acl_id, null)
+
+        # Check if web_acl_id is configured, not null, and not empty string
+        has_waf = local.web_acl_id_value != null && local.web_acl_id_value != ""
     }
 
     enforce {
