@@ -204,3 +204,63 @@ resource "aws_cloudfront_distribution" "fail_regional_s3_domain_missing" {
     enabled = true
   }
 }
+
+# Test 9: Fail - Mixed origins where one OAC-style S3 origin points to a non-existent bucket.
+# Previously this would silently PASS because the policy only checked origins with
+# s3_origin_config (OAI-style). OAC-style origins have no s3_origin_config block and were
+# never added to s3_origins, so the filter excluded the distribution entirely.
+resource "aws_s3_bucket" "mixed_existing_bucket" {
+  attrs = {
+    bucket = "mixed-existing-bucket"
+  }
+}
+
+resource "aws_cloudfront_distribution" "multi_origin_mixed" {
+  expect_failure = true
+  attrs = {
+    origin = [
+      {
+        domain_name              = "mixed-existing-bucket.s3.amazonaws.com"
+        origin_id                = "S3-mixed-existing"
+        origin_access_control_id = "E1234567890ABC"
+      },
+      {
+        domain_name              = "mixed-nonexistent-bucket.s3.amazonaws.com"
+        origin_id                = "S3-mixed-nonexistent"
+        origin_access_control_id = "E0987654321XYZ"
+      }
+    ]
+    enabled = true
+  }
+}
+
+# Test 10: Pass - Mixed OAC-style origins where all S3 buckets exist
+resource "aws_s3_bucket" "mixed_bucket_a" {
+  attrs = {
+    bucket = "mixed-bucket-a"
+  }
+}
+
+resource "aws_s3_bucket" "mixed_bucket_b" {
+  attrs = {
+    bucket = "mixed-bucket-b"
+  }
+}
+
+resource "aws_cloudfront_distribution" "pass_multi_origin_mixed_all_exist" {
+  attrs = {
+    origin = [
+      {
+        domain_name              = "mixed-bucket-a.s3.amazonaws.com"
+        origin_id                = "S3-mixed-a"
+        origin_access_control_id = "E1234567890ABC"
+      },
+      {
+        domain_name              = "mixed-bucket-b.s3.amazonaws.com"
+        origin_id                = "S3-mixed-b"
+        origin_access_control_id = "E0987654321XYZ"
+      }
+    ]
+    enabled = true
+  }
+}

@@ -147,5 +147,130 @@ resource "aws_cloudfront_origin_access_control" "pass_oac_non_s3_origin_type" {
 }
 
 # Note: S3 bucket policy tests removed because tfpolicy does not support string pattern matching
-# (no regex, startswith, endswith, or substring matching functions available).
+# (no regex, startswith, endswith, or substring functions available).
 # The policy document is a JSON string that cannot be parsed without these functions.
+
+# Test 11: FAIL - Distribution with null origin list (no origins is a violation)
+resource "aws_cloudfront_distribution" "fail_null_origin" {
+  expect_failure = true
+  attrs = {
+    enabled = true
+    origin  = null
+  }
+}
+
+# Test 12: FAIL - Distribution with empty origin list (no origins is a violation)
+resource "aws_cloudfront_distribution" "fail_empty_origin" {
+  expect_failure = true
+  attrs = {
+    enabled = true
+    origin  = []
+  }
+}
+
+# Test 13: FAIL - S3 origin where origin_access_control_id is explicitly null
+resource "aws_cloudfront_distribution" "fail_s3_origin_oac_id_null" {
+  expect_failure = true
+  attrs = {
+    origin = [
+      {
+        domain_name              = "my-bucket.s3.amazonaws.com"
+        origin_id                = "S3-my-bucket-null-oac"
+        origin_access_control_id = null
+      }
+    ]
+    enabled = true
+  }
+}
+
+# Test 14: FAIL - S3 origin where origin_access_control_id is an empty string
+resource "aws_cloudfront_distribution" "fail_s3_origin_oac_id_empty_string" {
+  expect_failure = true
+  attrs = {
+    origin = [
+      {
+        domain_name              = "my-bucket.s3.amazonaws.com"
+        origin_id                = "S3-my-bucket-empty-oac"
+        origin_access_control_id = ""
+      }
+    ]
+    enabled = true
+  }
+}
+
+# Test 15: PASS - Mixed origins: one custom (non-S3) and one S3 with OAC
+resource "aws_cloudfront_distribution" "pass_mixed_custom_and_s3_with_oac" {
+  attrs = {
+    origin = [
+      {
+        domain_name = "api.example.com"
+        origin_id   = "custom-api"
+        custom_origin_config = {
+          http_port              = 80
+          https_port             = 443
+          origin_protocol_policy = "https-only"
+        }
+      },
+      {
+        domain_name              = "my-bucket.s3.amazonaws.com"
+        origin_id                = "S3-my-bucket"
+        origin_access_control_id = "E1234567890ABC"
+      }
+    ]
+    enabled = true
+  }
+}
+
+# Test 16: FAIL - Mixed origins: one custom (non-S3) and one S3 without OAC
+resource "aws_cloudfront_distribution" "fail_mixed_custom_and_s3_without_oac" {
+  expect_failure = true
+  attrs = {
+    origin = [
+      {
+        domain_name = "api.example.com"
+        origin_id   = "custom-api"
+        custom_origin_config = {
+          http_port              = 80
+          https_port             = 443
+          origin_protocol_policy = "https-only"
+        }
+      },
+      {
+        domain_name = "my-bucket.s3.amazonaws.com"
+        origin_id   = "S3-my-bucket-no-oac"
+      }
+    ]
+    enabled = true
+  }
+}
+
+# Test 17: FAIL - OAC with null signing_behavior
+resource "aws_cloudfront_origin_access_control" "fail_oac_null_signing_behavior" {
+  expect_failure = true
+  attrs = {
+    name                               = "oac-null-signing-behavior"
+    signing_behavior                   = null
+    signing_protocol                   = "sigv4"
+    origin_access_control_origin_type  = "s3"
+  }
+}
+
+# Test 18: FAIL - OAC with null signing_protocol
+resource "aws_cloudfront_origin_access_control" "fail_oac_null_signing_protocol" {
+  expect_failure = true
+  attrs = {
+    name                               = "oac-null-signing-protocol"
+    signing_behavior                   = "always"
+    signing_protocol                   = null
+    origin_access_control_origin_type  = "s3"
+  }
+}
+
+# Test 19: FAIL - OAC with both signing_behavior and signing_protocol missing
+resource "aws_cloudfront_origin_access_control" "fail_oac_missing_both_signing_attrs" {
+  expect_failure = true
+  attrs = {
+    name                               = "oac-missing-signing-attrs"
+    origin_access_control_origin_type  = "s3"
+  }
+}
