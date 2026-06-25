@@ -1,75 +1,109 @@
 # Copyright IBM Corp. 2026
 
 policytest {
-  targets = [
-    "dms-endpoint-ssl-configured.policy.hcl"
-  ]
+  targets = ["dms-endpoint-ssl-configured.policy.hcl"]
 }
 
-# Test 1: PASS - ssl_mode set to 'require'
-resource "aws_dms_endpoint" "pass_ssl_mode_require" {
+# PASS: ssl_mode = "require"
+resource "aws_dms_endpoint" "pass_ssl_require" {
   attrs = {
-    endpoint_id   = "test-endpoint-require"
+    endpoint_id   = "pass-require"
     endpoint_type = "source"
     engine_name   = "mysql"
     ssl_mode      = "require"
-    server_name   = "db.example.com"
-    port          = 3306
-    username      = "admin"
   }
 }
 
-# Test 2: PASS - ssl_mode set to 'verify-ca'
-resource "aws_dms_endpoint" "pass_ssl_mode_verify_ca" {
+# PASS: ssl_mode = "verify-ca"
+resource "aws_dms_endpoint" "pass_ssl_verify_ca" {
   attrs = {
-    endpoint_id     = "test-endpoint-verify-ca"
-    endpoint_type   = "target"
-    engine_name     = "postgres"
-    ssl_mode        = "verify-ca"
-    certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012"
-    server_name     = "db.example.com"
-    port            = 5432
-    username        = "admin"
+    endpoint_id   = "pass-verify-ca"
+    endpoint_type = "target"
+    engine_name   = "postgres"
+    ssl_mode      = "verify-ca"
   }
 }
 
-# Test 3: PASS - ssl_mode set to 'verify-full'
-resource "aws_dms_endpoint" "pass_ssl_mode_verify_full" {
+# PASS: ssl_mode = "verify-full"
+resource "aws_dms_endpoint" "pass_ssl_verify_full" {
   attrs = {
-    endpoint_id     = "test-endpoint-verify-full"
-    endpoint_type   = "source"
-    engine_name     = "oracle"
-    ssl_mode        = "verify-full"
-    certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012"
-    server_name     = "db.example.com"
-    port            = 1521
-    username        = "admin"
+    endpoint_id   = "pass-verify-full"
+    endpoint_type = "source"
+    engine_name   = "oracle"
+    ssl_mode      = "verify-full"
   }
 }
 
-# Test 4: FAIL - ssl_mode explicitly set to 'none'
-resource "aws_dms_endpoint" "fail_ssl_mode_none" {
+# PASS: source endpoint with ssl_mode = "require"
+resource "aws_dms_endpoint" "pass_source_endpoint_ssl" {
+  attrs = {
+    endpoint_id   = "pass-source-ssl"
+    endpoint_type = "source"
+    engine_name   = "mysql"
+    ssl_mode      = "require"
+  }
+}
+
+# PASS: target endpoint with ssl_mode = "verify-full"
+resource "aws_dms_endpoint" "pass_target_endpoint_ssl" {
+  attrs = {
+    endpoint_id   = "pass-target-ssl"
+    endpoint_type = "target"
+    engine_name   = "redshift"
+    ssl_mode      = "verify-full"
+  }
+}
+
+# FAIL: ssl_mode = "none"
+resource "aws_dms_endpoint" "fail_ssl_none" {
   expect_failure = true
   attrs = {
-    endpoint_id   = "test-endpoint-none"
+    endpoint_id   = "fail-none"
     endpoint_type = "source"
     engine_name   = "mysql"
     ssl_mode      = "none"
-    server_name   = "db.example.com"
-    port          = 3306
-    username      = "admin"
   }
 }
 
-# Test 5: FAIL - ssl_mode not configured (defaults to 'none')
-resource "aws_dms_endpoint" "fail_ssl_mode_not_configured" {
+# FAIL: ssl_mode = null
+resource "aws_dms_endpoint" "fail_ssl_null" {
   expect_failure = true
   attrs = {
-    endpoint_id   = "test-endpoint-default"
+    endpoint_id   = "fail-null"
+    endpoint_type = "source"
+    engine_name   = "mysql"
+    ssl_mode      = null
+  }
+}
+
+# FAIL: ssl_mode omitted
+resource "aws_dms_endpoint" "fail_ssl_missing" {
+  expect_failure = true
+  attrs = {
+    endpoint_id   = "fail-missing"
     endpoint_type = "target"
     engine_name   = "postgres"
-    server_name   = "db.example.com"
-    port          = 5432
-    username      = "admin"
+  }
+}
+
+# FAIL: ssl_mode = ""
+resource "aws_dms_endpoint" "fail_ssl_empty_string" {
+  expect_failure = true
+  attrs = {
+    endpoint_id   = "fail-empty"
+    endpoint_type = "source"
+    engine_name   = "mysql"
+    ssl_mode      = ""
+  }
+}
+
+# FAIL: ssl_mode = "ssl-enabled" (invalid value)
+resource "aws_dms_endpoint" "fail_ssl_invalid_value" {
+  expect_failure = true
+  attrs = {
+    endpoint_id   = "fail-invalid"
+    endpoint_type = "source"
+    engine_name   = "sqlserver"
+    ssl_mode      = "ssl-enabled"
   }
 }

@@ -6,7 +6,7 @@ policytest {
   ]
 }
 
-# Test 1: PASS - HTTP listener with proper redirect to HTTPS:443
+# PASS: HTTP listener with proper redirect to HTTPS:443
 resource "aws_lb_listener" "http_redirect" {
   attrs = {
     protocol          = "HTTP"
@@ -25,7 +25,7 @@ resource "aws_lb_listener" "http_redirect" {
   }
 }
 
-# Test 2: FAIL - HTTP listener without redirect action (forwards to target group)
+# FAIL: HTTP listener without redirect action (forwards to target group)
 resource "aws_lb_listener" "http_no_redirect" {
   expect_failure = true
   attrs = {
@@ -41,7 +41,7 @@ resource "aws_lb_listener" "http_no_redirect" {
   }
 }
 
-# Test 3: FAIL - HTTP listener with redirect to HTTP (not HTTPS)
+# FAIL: HTTP listener with redirect to HTTP (not HTTPS)
 resource "aws_lb_listener" "http_to_http" {
   expect_failure = true
   attrs = {
@@ -61,8 +61,7 @@ resource "aws_lb_listener" "http_to_http" {
   }
 }
 
-# Test 4: PASS - HTTP listener with redirect to HTTPS on a non-standard port
-# (the AWS Config rule requires HTTPS redirect, not specifically port 443)
+# PASS: HTTP listener with redirect to HTTPS on a non-standard port
 resource "aws_lb_listener" "http_redirect_alt_port" {
   attrs = {
     protocol          = "HTTP"
@@ -81,7 +80,7 @@ resource "aws_lb_listener" "http_redirect_alt_port" {
   }
 }
 
-# Test 5: SKIP - HTTPS listener (not evaluated due to filter)
+# PASS: HTTPS listener (not evaluated due to filter)
 resource "aws_lb_listener" "https" {
   attrs = {
     protocol          = "HTTPS"
@@ -97,8 +96,7 @@ resource "aws_lb_listener" "https" {
   }
 }
 
-# Test 6: FAIL - HTTP listener on a non-standard port without redirect
-# (ELB.1 covers HTTP listeners regardless of port)
+# FAIL: HTTP listener on a non-standard port without redirect
 resource "aws_lb_listener" "http_8080_no_redirect" {
   expect_failure = true
   attrs = {

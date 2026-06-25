@@ -1,65 +1,69 @@
 # Copyright IBM Corp. 2026
 
 policytest {
-    targets = [
-        "elasticsearch-in-vpc-only.policy.hcl"
-    ]
+  targets = ["elasticsearch-in-vpc-only.policy.hcl"]
 }
 
-# Test 1: PASS - Elasticsearch domain with vpc_options and single subnet
-resource "aws_elasticsearch_domain" "compliant_single" {
+# PASS: Domain with vpc_options block and one subnet ID
+resource "aws_elasticsearch_domain" "pass_with_vpc_single_subnet" {
   attrs = {
-    domain_name = "compliant-domain-single"
+    domain_name           = "vpc-domain-single-subnet"
     elasticsearch_version = "7.10"
-    vpc_options = [
-      {
-        subnet_ids = ["subnet-12345678"]
-        security_group_ids = ["sg-12345678"]
-      }
-    ]
+    vpc_options = [{
+      subnet_ids         = ["subnet-12345678"]
+      security_group_ids = ["sg-12345678"]
+    }]
   }
 }
 
-# Test 2: PASS - Elasticsearch domain with vpc_options and multiple subnets
-resource "aws_elasticsearch_domain" "compliant_multi" {
+# PASS: Domain with vpc_options block and multiple subnet IDs
+resource "aws_elasticsearch_domain" "pass_with_vpc_multiple_subnets" {
   attrs = {
-    domain_name = "compliant-domain-multi"
+    domain_name           = "vpc-domain-multi-subnet"
     elasticsearch_version = "7.10"
-    vpc_options = [
-      {
-        subnet_ids = ["subnet-12345678", "subnet-87654321", "subnet-11111111"]
-        security_group_ids = ["sg-12345678", "sg-87654321"]
-      }
-    ]
+    vpc_options = [{
+      subnet_ids         = ["subnet-11111111", "subnet-22222222"]
+      security_group_ids = ["sg-12345678"]
+    }]
   }
 }
 
-# Test 3: FAIL - Elasticsearch domain without vpc_options
-resource "aws_elasticsearch_domain" "non_compliant_no_vpc" {
+# FAIL: Domain without vpc_options block
+resource "aws_elasticsearch_domain" "fail_no_vpc_options" {
   expect_failure = true
   attrs = {
-    domain_name = "non-compliant-domain"
+    domain_name           = "public-domain-no-vpc"
     elasticsearch_version = "7.10"
-    cluster_config = [
-      {
-        instance_type = "t3.small.elasticsearch"
-        instance_count = 1
-      }
-    ]
   }
 }
 
-# Test 4: FAIL - Elasticsearch domain with vpc_options but empty subnet_ids
-resource "aws_elasticsearch_domain" "non_compliant_empty_subnets" {
+# FAIL: Domain with vpc_options block but empty subnet_ids list
+resource "aws_elasticsearch_domain" "fail_empty_subnet_ids" {
   expect_failure = true
   attrs = {
-    domain_name = "non-compliant-empty-subnets"
+    domain_name           = "vpc-domain-empty-subnets"
     elasticsearch_version = "7.10"
-    vpc_options = [
-      {
-        subnet_ids = []
-        security_group_ids = ["sg-12345678"]
-      }
-    ]
+    vpc_options = [{
+      subnet_ids         = []
+      security_group_ids = ["sg-12345678"]
+    }]
+  }
+}
+
+# FAIL: Domain with vpc_options set to null
+resource "aws_elasticsearch_domain" "fail_vpc_options_null" {
+  expect_failure = true
+  attrs = {
+    domain_name           = "domain-vpc-null"
+    elasticsearch_version = "7.10"
+    vpc_options           = null
+  }
+}
+
+# FAIL: Domain where vpc_options attribute is entirely omitted
+resource "aws_elasticsearch_domain" "fail_vpc_options_omitted" {
+  expect_failure = true
+  attrs = {
+    domain_name = "domain-vpc-omitted"
   }
 }

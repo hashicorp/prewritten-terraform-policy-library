@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ELB.1: Application Load Balancer HTTP to HTTPS Redirection
+# Policy: ELB.1 - Application Load Balancer should be configured to redirect all HTTP requests to HTTPS
 
 policy {}
 
@@ -11,13 +11,11 @@ input "alb-http-to-https-redirection-check-enforcement-level" {
 
 resource_policy "aws_lb_listener" "http_to_https_redirect" {
   enforcement_level = input.alb-http-to-https-redirection-check-enforcement-level
-  # Only evaluate HTTP listeners
   filter = core::try(attrs.protocol, "") == "HTTP"
 
   locals {
     default_actions = core::try(attrs.default_action, [])
 
-    # A compliant default_action has type == "redirect" AND targets HTTPS protocol.
     https_redirect_actions = [
       for action in local.default_actions :
       action
