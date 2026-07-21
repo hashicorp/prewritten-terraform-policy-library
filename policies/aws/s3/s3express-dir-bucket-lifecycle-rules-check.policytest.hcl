@@ -183,3 +183,34 @@ resource "aws_s3_directory_bucket" "fail_no_lifecycle_bucket" {
   expect_failure = true
   attrs = { bucket = "no-lifecycle-bucket--usw2-az1--x-s3" }
 }
+
+# Additional: PASS - one qualifying lifecycle among multiple candidates
+resource "aws_s3_bucket_lifecycle_configuration" "multi_candidate_disabled" {
+  attrs = {
+    bucket = "multi-candidate-bucket--usw2-az1--x-s3"
+    rule = [{
+      id     = "disabled"
+      status = "Disabled"
+      expiration = [{
+        days = 30
+      }]
+    }]
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "multi_candidate_enabled" {
+  attrs = {
+    bucket = "multi-candidate-bucket--usw2-az1--x-s3"
+    rule = [{
+      id     = "enabled"
+      status = "Enabled"
+      expiration = [{
+        days = 30
+      }]
+    }]
+  }
+}
+
+resource "aws_s3_directory_bucket" "pass_multi_candidate_bucket" {
+  attrs = { bucket = "multi-candidate-bucket--usw2-az1--x-s3" }
+}

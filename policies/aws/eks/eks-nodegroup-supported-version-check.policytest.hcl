@@ -57,3 +57,12 @@ resource "aws_eks_cluster" "example_cluster_higher" {
         version = "1.35"
     }
 }
+
+# Test 4: PASS - Preserve the existing fallback when the cluster is unresolved
+resource "aws_eks_node_group" "pass_ng_unresolved_cluster" {
+    attrs = {
+        cluster_name = "unresolved-cluster"
+        node_group_name = "example"
+        node_role_arn = "arn:aws:iam::123456789012:role/eks-cluster-role"
+    }
+}

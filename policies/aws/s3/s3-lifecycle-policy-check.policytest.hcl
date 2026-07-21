@@ -390,3 +390,36 @@ resource "aws_s3_bucket" "no_lifecycle_bucket" {
   expect_failure = true
   attrs = { bucket = "no-lifecycle-bucket" }
 }
+
+# Additional: PASS - one qualifying lifecycle among multiple candidates
+resource "aws_s3_bucket_lifecycle_configuration" "multi_candidate_invalid" {
+  attrs = {
+    bucket = "multi-candidate-bucket"
+    rule = [{
+      id     = "invalid-storage-class"
+      status = "Enabled"
+      transition = [{
+        days          = 30
+        storage_class = "INVALID_CLASS"
+      }]
+    }]
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "multi_candidate_valid" {
+  attrs = {
+    bucket = "multi-candidate-bucket"
+    rule = [{
+      id     = "valid-storage-class"
+      status = "Enabled"
+      transition = [{
+        days          = 30
+        storage_class = "STANDARD_IA"
+      }]
+    }]
+  }
+}
+
+resource "aws_s3_bucket" "pass_multi_candidate_bucket" {
+  attrs = { bucket = "multi-candidate-bucket" }
+}

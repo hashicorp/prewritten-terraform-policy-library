@@ -83,3 +83,24 @@ resource "aws_cloudwatch_event_bus" "non_compliant_bus" {
     name = "non-compliant-bus"
   }
 }
+
+# Test 7: PASS - At least one related policy candidate has a document
+resource "aws_cloudwatch_event_bus" "bus_with_multiple_policies" {
+  attrs = {
+    name = "multiple-policy-bus"
+  }
+}
+
+resource "aws_cloudwatch_event_bus_policy" "multiple_empty_policy" {
+  attrs = {
+    event_bus_name = "multiple-policy-bus"
+    policy = ""
+  }
+}
+
+resource "aws_cloudwatch_event_bus_policy" "multiple_valid_policy" {
+  attrs = {
+    event_bus_name = "multiple-policy-bus"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
+  }
+}

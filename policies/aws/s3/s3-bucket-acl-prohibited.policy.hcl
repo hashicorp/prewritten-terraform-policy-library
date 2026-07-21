@@ -12,17 +12,16 @@ input "s3-bucket-acl-prohibited-enforcement-level" {
 resource_policy "aws_s3_bucket" "acl_prohibited" {
   enforcement_level = input.s3-bucket-acl-prohibited-enforcement-level
   connected "aws_s3_bucket_acl" {
+    max_instances = 0
+
     connection {
       subject   = "bucket"
       connected = "bucket"
     }
 
-    enforce {
-      condition = (
-        core::try(connected.aws_s3_bucket_acl.acl, "") == "" &&
-        core::length(core::try(connected.aws_s3_bucket_acl.access_control_policy, [])) == 0
-      )
-      error_message = "S3 bucket must not be managed by an aws_s3_bucket_acl resource. Remove the associated aws_s3_bucket_acl (its 'acl' / 'access_control_policy' configuration) and use a bucket policy or IAM policy instead. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-12 for more details."
-    }
+    filter = (
+      core::try(connected.aws_s3_bucket_acl.acl, "") != "" ||
+      core::length(core::try(connected.aws_s3_bucket_acl.access_control_policy, [])) > 0
+    )
   }
 }

@@ -9,10 +9,6 @@ input "redshift-require-tls-ssl-enforcement-level" {
   default = "advisory"
 }
 
-locals {
-  all_parameter_groups = core::getresources("aws_redshift_parameter_group", {})
-}
-
 resource_policy "aws_redshift_cluster" "encryption_in_transit_required" {
   enforcement_level = input.redshift-require-tls-ssl-enforcement-level
   locals {
@@ -21,30 +17,20 @@ resource_policy "aws_redshift_cluster" "encryption_in_transit_required" {
     
     # Check if using default parameter group
     is_default_param_group = local.param_group_name == "default.redshift-1.0"
-    
-    # Find matching custom parameter group
-    matching_param_groups = [
-      for pg in local.all_parameter_groups :
-      pg if pg.name == local.param_group_name
-    ]
-    
-    has_custom_param_group = core::length(local.matching_param_groups) > 0
-    
-    # Check require_ssl parameter in custom parameter group
-    require_ssl_count = local.has_custom_param_group ? core::length([
-      for pg in local.matching_param_groups :
-      pg if core::length([
-        for param in core::try(pg.parameter, []) :
-        param if param.name == "require_ssl" && param.value == "true"
-      ]) > 0
-    ]) : 0
-    
-    require_ssl_enabled = local.require_ssl_count > 0
   }
 
-  # Enforce: Cluster must use a custom parameter group with require_ssl = true
-  enforce {
-    condition = !local.is_default_param_group && local.require_ssl_enabled
-    error_message = "Redshift cluster must use a custom parameter group with require_ssl parameter set to 'true' to encrypt connections in transit. Current parameter group: '${local.param_group_name}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshift-controls.html#redshift-2 for more details."
+  connected "aws_redshift_parameter_group" {
+    min_instances = 1
+
+    connection {
+      subject   = "cluster_parameter_group_name"
+      connected = "name"
+    }
+
+    # A cluster needs at least one matching custom group with require_ssl enabled.
+    filter = !local.is_default_param_group && core::length([
+        for param in core::try(connected.aws_redshift_parameter_group.parameter, []) :
+        param if param.name == "require_ssl" && param.value == "true"
+      ]) > 0
   }
 }
