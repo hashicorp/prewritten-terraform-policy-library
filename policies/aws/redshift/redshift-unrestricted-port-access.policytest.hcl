@@ -398,3 +398,17 @@ resource "aws_vpc_security_group_ingress_rule" "with_rules_restricted" {
     cidr_ipv4 = "10.0.0.0/16"
   }
 }
+
+# Test 17: FAIL - List membership still finds a resolved unrestricted rule when
+# another security-group ID is unresolved.
+resource "aws_redshift_cluster" "fail_mixed_resolved_and_unresolved_security_groups" {
+  expect_failure = true
+  attrs = {
+    cluster_identifier     = "test-cluster-mixed-sgs"
+    node_type              = "dc2.large"
+    master_username        = "admin"
+    database_name          = "mydb"
+    vpc_security_group_ids = ["sg-not-in-configuration", "sg-unrestricted-ipv4"]
+    port                   = 5439
+  }
+}

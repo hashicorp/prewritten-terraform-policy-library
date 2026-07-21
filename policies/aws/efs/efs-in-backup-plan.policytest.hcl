@@ -130,3 +130,51 @@ resource "aws_efs_backup_policy" "backup_policy_disabled" {
     }
   }
 }
+
+# Test 6: PASS - Backup tag is a fallback when a related policy is disabled
+resource "aws_efs_file_system" "tag_fallback" {
+  attrs = {
+    id  = "fs-tag-fallback"
+    arn = "arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-tag-fallback"
+    tags = {
+      Backup = "true"
+    }
+  }
+}
+
+resource "aws_efs_backup_policy" "tag_fallback_disabled" {
+  skip = true
+  attrs = {
+    file_system_id = "fs-tag-fallback"
+    backup_policy = {
+      status = "DISABLED"
+    }
+  }
+}
+
+# Test 7: PASS - Explicit selection is a fallback when a related policy is disabled
+resource "aws_efs_file_system" "selection_fallback" {
+  attrs = {
+    id  = "fs-selection-fallback"
+    arn = "arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-selection-fallback"
+  }
+}
+
+resource "aws_backup_selection" "selection_fallback" {
+  skip = true
+  attrs = {
+    resources = [
+      "arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-selection-fallback"
+    ]
+  }
+}
+
+resource "aws_efs_backup_policy" "selection_fallback_disabled" {
+  skip = true
+  attrs = {
+    file_system_id = "fs-selection-fallback"
+    backup_policy = {
+      status = "DISABLED"
+    }
+  }
+}

@@ -129,3 +129,22 @@ resource "aws_lb" "alb_tls_fail" {
     internal = false
   }
 }
+
+# Test 7: PASS - A listener without a matching load balancer defaults to ALB behavior
+resource "aws_lb_listener" "orphan_https_pass" {
+  attrs = {
+    load_balancer_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/orphan-https/1"
+    port              = 443
+    protocol          = "HTTPS"
+  }
+}
+
+# Test 8: FAIL - The same missing relationship does not make TLS secure
+resource "aws_lb_listener" "orphan_tls_fail" {
+  expect_failure = true
+  attrs = {
+    load_balancer_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/net/orphan-tls/1"
+    port              = 443
+    protocol          = "TLS"
+  }
+}

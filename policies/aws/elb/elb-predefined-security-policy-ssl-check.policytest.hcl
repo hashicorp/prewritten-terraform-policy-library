@@ -197,3 +197,26 @@ resource "aws_load_balancer_listener_policy" "attach_443" {
     policy_names       = ["good-policy"]
   }
 }
+
+# Test 7: FAIL - Listener policy references an undeclared load balancer policy
+resource "aws_elb" "missing_policy_resource" {
+  expect_failure = true
+  attrs = {
+    name = "missing-policy-resource-elb"
+    listener = [{
+      instance_port       = 443
+      instance_protocol   = "HTTPS"
+      lb_port             = 443
+      lb_protocol         = "HTTPS"
+      ssl_certificate_id = "arn:aws:iam::123456789012:server-certificate/test-cert"
+    }]
+  }
+}
+
+resource "aws_load_balancer_listener_policy" "missing_policy_resource" {
+  attrs = {
+    load_balancer_name = "missing-policy-resource-elb"
+    load_balancer_port = 443
+    policy_names       = ["undeclared-policy"]
+  }
+}

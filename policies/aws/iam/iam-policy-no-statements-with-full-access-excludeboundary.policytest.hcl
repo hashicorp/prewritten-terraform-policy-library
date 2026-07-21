@@ -38,3 +38,18 @@ resource "aws_iam_policy" "regular_policy_still_fails_under_exclude_input" {
     policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"WildcardAction\",\"Effect\":\"Allow\",\"Action\":\"ec2:*\",\"Resource\":\"*\"}]}"
   }
 }
+
+# PASS - A role-only permission boundary exercises the other side of the OR.
+resource "aws_iam_policy" "role_boundary_full_access_excluded" {
+  attrs = {
+    arn    = "arn:aws:iam::123456789012:policy/role-boundary-full-access-excluded"
+    name   = "role-boundary-full-access-excluded"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"s3:*\",\"Resource\":\"*\"}]}"
+  }
+}
+
+resource "aws_iam_role" "role_with_permission_boundary_excluded" {
+  attrs = {
+    permissions_boundary = "arn:aws:iam::123456789012:policy/role-boundary-full-access-excluded"
+  }
+}

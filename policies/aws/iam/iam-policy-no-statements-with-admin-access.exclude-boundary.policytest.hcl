@@ -34,3 +34,19 @@ resource "aws_iam_policy" "managed_policy_admin_still_fails" {
     policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"*\",\"Resource\":\"*\"}]}"
   }
 }
+
+# PASS - A user-only permission boundary exercises the other side of the OR.
+resource "aws_iam_policy" "user_boundary_admin_excluded" {
+  attrs = {
+    arn    = "arn:aws:iam::123456789012:policy/user-boundary-admin-excluded"
+    name   = "user-boundary-admin-excluded"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"*\",\"Resource\":\"*\"}]}"
+  }
+}
+
+resource "aws_iam_user" "user_with_boundary_excluded" {
+  attrs = {
+    name                 = "user-with-boundary-excluded"
+    permissions_boundary = "arn:aws:iam::123456789012:policy/user-boundary-admin-excluded"
+  }
+}
