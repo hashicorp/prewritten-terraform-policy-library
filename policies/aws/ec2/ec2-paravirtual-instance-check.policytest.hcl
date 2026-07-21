@@ -60,3 +60,17 @@ resource "aws_instance" "hvm_instance_2" {
     instance_type = "t3.large"
   }
 }
+
+# Test 5: PASS - A matched AMI without a virtualization type cannot be validated
+resource "aws_ami" "ami_without_virtualization_type" {
+  attrs = {
+    id = "ami-22222222"
+  }
+}
+
+resource "aws_instance" "instance_without_virtualization_type" {
+  attrs = {
+    ami           = "ami-22222222"
+    instance_type = "t3.micro"
+  }
+}
