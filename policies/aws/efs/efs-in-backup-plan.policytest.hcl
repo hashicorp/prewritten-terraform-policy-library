@@ -63,6 +63,7 @@ resource "aws_backup_selection" "tag_selection" {
 resource "aws_efs_file_system" "unprotected" {
   expect_failure = true
   attrs = {
+    id = "fs-99999999"
     arn = "arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-99999999"
     encrypted = true
     tags = {
@@ -103,6 +104,16 @@ resource "aws_efs_backup_policy" "backup_policy_enabled" {
     file_system_id = "fs-backup-policy-enabled"
     backup_policy = {
       status = "ENABLED"
+    }
+  }
+}
+
+resource "aws_efs_backup_policy" "backup_policy_disabled_alongside_enabled" {
+  skip = true
+  attrs = {
+    file_system_id = "fs-backup-policy-enabled"
+    backup_policy = {
+      status = "DISABLED"
     }
   }
 }
