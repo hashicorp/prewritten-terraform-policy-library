@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 6.57.0, < 7.0.0"
+      version = ">= 6.32.0, < 7.0.0"
     }
   }
 }
