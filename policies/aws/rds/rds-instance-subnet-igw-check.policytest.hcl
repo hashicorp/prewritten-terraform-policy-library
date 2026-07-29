@@ -11,7 +11,7 @@ resource "aws_db_subnet_group" "private_subnet_group" {
   skip = true
   attrs = {
     name = "private-subnet-group"
-    subnet_ids = ["subnet-private-1", "subnet-private-2"]
+    subnet_ids = core::toset(["subnet-private-1", "subnet-private-2"])
   }
 }
 
@@ -61,7 +61,7 @@ resource "aws_db_subnet_group" "public_subnet_group" {
   skip = true
   attrs = {
     name = "public-subnet-group"
-    subnet_ids = ["subnet-public-1", "subnet-public-2"]
+    subnet_ids = core::toset(["subnet-public-1", "subnet-public-2"])
   }
 }
 
@@ -108,7 +108,7 @@ resource "aws_db_subnet_group" "nat_subnet_group" {
   skip = true
   attrs = {
     name = "nat-subnet-group"
-    subnet_ids = ["subnet-nat-1", "subnet-nat-2"]
+    subnet_ids = core::toset(["subnet-nat-1", "subnet-nat-2"])
   }
 }
 
@@ -154,7 +154,7 @@ resource "aws_db_subnet_group" "mixed_subnet_group" {
   skip = true
   attrs = {
     name = "mixed-subnet-group"
-    subnet_ids = ["subnet-mixed-1", "subnet-mixed-2"]
+    subnet_ids = core::toset(["subnet-mixed-1", "subnet-mixed-2"])
   }
 }
 
@@ -215,7 +215,7 @@ resource "aws_db_subnet_group" "empty_routes_subnet_group" {
   skip = true
   attrs = {
     name = "empty-routes-subnet-group"
-    subnet_ids = ["subnet-empty-1"]
+    subnet_ids = core::toset(["subnet-empty-1"])
   }
 }
 
@@ -248,7 +248,7 @@ resource "aws_db_subnet_group" "igw_non_public_subnet_group" {
   skip = true
   attrs = {
     name = "igw-non-public-subnet-group"
-    subnet_ids = ["subnet-igw-non-public-1"]
+    subnet_ids = core::toset(["subnet-igw-non-public-1"])
   }
 }
 
@@ -286,7 +286,7 @@ resource "aws_db_subnet_group" "ipv6_public_subnet_group" {
   skip = true
   attrs = {
     name = "ipv6-public-subnet-group"
-    subnet_ids = ["subnet-ipv6-public-1"]
+    subnet_ids = core::toset(["subnet-ipv6-public-1"])
   }
 }
 
@@ -327,8 +327,8 @@ resource "aws_db_instance" "fail_ipv6_public_subnet" {
 resource "aws_db_instance" "fail_unset_subnet_group" {
   expect_failure = true
   attrs = {
-    identifier = "test-db-unset-group"
-    # db_subnet_group_name is intentionally omitted
+    identifier           = "test-db-unset-group"
+    db_subnet_group_name = ""
   }
 }
 
@@ -338,7 +338,7 @@ resource "aws_db_subnet_group" "main_route_table_subnet_group" {
   skip = true
   attrs = {
     name = "main-route-table-subnet-group"
-    subnet_ids = ["subnet-main-rt-1", "subnet-main-rt-2"]
+    subnet_ids = core::toset(["subnet-main-rt-1", "subnet-main-rt-2"])
   }
 }
 
@@ -398,7 +398,7 @@ resource "aws_db_subnet_group" "main_route_table_private_subnet_group" {
   skip = true
   attrs = {
     name = "main-route-table-private-subnet-group"
-    subnet_ids = ["subnet-main-rt-private-1"]
+    subnet_ids = core::toset(["subnet-main-rt-private-1"])
   }
 }
 
@@ -454,7 +454,7 @@ resource "aws_db_subnet_group" "mixed_explicit_main_subnet_group" {
   skip = true
   attrs = {
     name = "mixed-explicit-main-subnet-group"
-    subnet_ids = ["subnet-mixed-explicit", "subnet-mixed-main"]
+    subnet_ids = core::toset(["subnet-mixed-explicit", "subnet-mixed-main"])
   }
 }
 
@@ -528,5 +528,160 @@ resource "aws_db_instance" "fail_mixed_explicit_main" {
   attrs = {
     db_subnet_group_name = "mixed-explicit-main-subnet-group"
     identifier = "test-db-mixed-explicit-main"
+  }
+}
+
+# Managed subnet tuples carry the VPC context needed by association fallbacks.
+resource "aws_subnet" "private_1" {
+  skip  = true
+  attrs = { id = "subnet-private-1", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "private_2" {
+  skip  = true
+  attrs = { id = "subnet-private-2", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "public_1" {
+  skip  = true
+  attrs = { id = "subnet-public-1", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "public_2" {
+  skip  = true
+  attrs = { id = "subnet-public-2", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "nat_1" {
+  skip  = true
+  attrs = { id = "subnet-nat-1", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "nat_2" {
+  skip  = true
+  attrs = { id = "subnet-nat-2", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "mixed_1" {
+  skip  = true
+  attrs = { id = "subnet-mixed-1", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "mixed_2" {
+  skip  = true
+  attrs = { id = "subnet-mixed-2", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "empty" {
+  skip  = true
+  attrs = { id = "subnet-empty-1", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "igw_non_public" {
+  skip  = true
+  attrs = { id = "subnet-igw-non-public-1", vpc_id = "vpc-123" }
+}
+
+resource "aws_subnet" "ipv6_public" {
+  skip  = true
+  attrs = { id = "subnet-ipv6-public-1", vpc_id = "vpc-123" }
+}
+
+data "aws_route_table" "main_public" {
+  attrs = {
+    vpc_id = "vpc-main-123"
+    filter = core::toset([{
+      name   = "association.main"
+      values = core::toset(["true"])
+    }])
+    routes = [{ cidr_block = "0.0.0.0/0", gateway_id = "igw-main-123" }]
+  }
+}
+
+data "aws_route_table" "main_private" {
+  attrs = {
+    vpc_id = "vpc-main-private-123"
+    filter = core::toset([{
+      name   = "association.main"
+      values = core::toset(["true"])
+    }])
+    routes = [{ cidr_block = "0.0.0.0/0", nat_gateway_id = "nat-main-123" }]
+  }
+}
+
+data "aws_route_table" "mixed_main_public" {
+  attrs = {
+    vpc_id = "vpc-mixed-123"
+    filter = core::toset([{
+      name   = "association.main"
+      values = core::toset(["true"])
+    }])
+    routes = [{ cidr_block = "0.0.0.0/0", gateway_id = "igw-mixed-123" }]
+  }
+}
+
+# Test 13: FAIL - Explicit association exists outside this Terraform configuration.
+resource "aws_db_subnet_group" "external_explicit_subnet_group" {
+  skip = true
+  attrs = {
+    name       = "external-explicit-subnet-group"
+    subnet_ids = core::toset(["subnet-external-explicit"])
+  }
+}
+
+resource "aws_subnet" "external_explicit" {
+  skip  = true
+  attrs = { id = "subnet-external-explicit", vpc_id = "vpc-external-explicit" }
+}
+
+data "aws_route_table" "external_explicit" {
+  attrs = {
+    subnet_id = "subnet-external-explicit"
+    routes    = [{ cidr_block = "0.0.0.0/0", gateway_id = "igw-external-explicit" }]
+  }
+}
+
+resource "aws_db_instance" "fail_external_explicit_association" {
+  expect_failure = true
+  attrs = {
+    db_subnet_group_name = "external-explicit-subnet-group"
+    identifier           = "test-db-external-explicit"
+  }
+}
+
+# Test 14: FAIL - Managed association points to an external route table.
+resource "aws_db_subnet_group" "external_route_table_subnet_group" {
+  skip = true
+  attrs = {
+    name       = "external-route-table-subnet-group"
+    subnet_ids = core::toset(["subnet-external-route-table"])
+  }
+}
+
+resource "aws_subnet" "external_route_table" {
+  skip  = true
+  attrs = { id = "subnet-external-route-table", vpc_id = "vpc-external-route-table" }
+}
+
+resource "aws_route_table_association" "external_route_table" {
+  skip = true
+  attrs = {
+    subnet_id     = "subnet-external-route-table"
+    route_table_id = "rtb-external"
+  }
+}
+
+data "aws_route_table" "external_route_table" {
+  attrs = {
+    route_table_id = "rtb-external"
+    routes          = [{ ipv6_cidr_block = "::/0", gateway_id = "igw-external-route-table" }]
+  }
+}
+
+resource "aws_db_instance" "fail_external_route_table" {
+  expect_failure = true
+  attrs = {
+    db_subnet_group_name = "external-route-table-subnet-group"
+    identifier           = "test-db-external-route-table"
   }
 }
