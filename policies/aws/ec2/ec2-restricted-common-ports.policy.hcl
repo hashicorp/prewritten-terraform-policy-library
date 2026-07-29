@@ -2,7 +2,14 @@
 
 # EC2.19 - Security groups should not allow unrestricted access to ports with high risk.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-restricted-common-ports-enforcement-level" {
   type = string

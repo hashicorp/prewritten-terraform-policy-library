@@ -2,7 +2,14 @@
 
 # Opensearch.4 - OpenSearch domain error logging to CloudWatch Logs should be enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-logs-to-cloudwatch-enforcement-level" {
   type = string

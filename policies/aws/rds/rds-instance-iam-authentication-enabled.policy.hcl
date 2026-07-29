@@ -2,7 +2,14 @@
 
 # RDS.10 - IAM authentication should be configured for RDS instances.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-iam-authentication-enabled-enforcement-level" {
   type = string

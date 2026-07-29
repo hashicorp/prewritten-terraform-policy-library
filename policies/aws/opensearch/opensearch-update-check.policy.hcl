@@ -2,7 +2,14 @@
 
 # Opensearch.10 - OpenSearch domains should have the latest software update installed.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-update-check-enforcement-level" {
   type = string

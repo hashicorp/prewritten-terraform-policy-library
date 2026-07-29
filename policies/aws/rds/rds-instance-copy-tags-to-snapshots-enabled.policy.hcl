@@ -2,7 +2,14 @@
 
 # RDS.17 - RDS DB instances should be configured to copy tags to snapshots.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-copy-tags-to-snapshots-enabled-enforcement-level" {
   type = string

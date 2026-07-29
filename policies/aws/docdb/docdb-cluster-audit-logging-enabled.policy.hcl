@@ -2,7 +2,14 @@
 
 # DocumentDB.4 - Amazon DocumentDB clusters should publish audit logs to CloudWatch Logs.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "docdb-cluster-audit-logging-enabled-enforcement-level" {
   type = string

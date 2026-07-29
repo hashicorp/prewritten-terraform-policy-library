@@ -2,7 +2,14 @@
 
 # FSx.2 - FSx for Lustre file systems should be configured to copy tags to backups.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "fsx-lustre-copy-tags-to-backups-enforcement-level" {
   type = string

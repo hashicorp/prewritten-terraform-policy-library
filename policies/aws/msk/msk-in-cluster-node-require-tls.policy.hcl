@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # Policy : MSK.1 - MSK clusters should be encrypted in transit among broker nodes.
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "msk-in-cluster-node-require-tls-enforcement-level" {
   type = string

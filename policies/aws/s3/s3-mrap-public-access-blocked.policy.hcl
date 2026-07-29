@@ -2,7 +2,14 @@
 
 # Policy: S3.24 - S3 Multi-Region Access Points Block Public Access
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-mrap-public-access-blocked-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # EC2.51 - EC2 Client VPN endpoints should have client connection logging enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-client-vpn-connection-log-enabled-enforcement-level" {
   type = string

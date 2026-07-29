@@ -2,7 +2,14 @@
 
 # Policy: ELB.8 - Classic Load Balancers with SSL listeners should use predefined security policy
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elb-predefined-security-policy-ssl-check-enforcement-level" {
   type = string

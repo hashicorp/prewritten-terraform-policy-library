@@ -7,7 +7,14 @@ input "approved_kms_keys" {
     default = ""
 }
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticache-repl-grp-encrypted-at-rest-enforcement-level" {
   type = string

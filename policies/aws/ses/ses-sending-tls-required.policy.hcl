@@ -2,7 +2,14 @@
 
 # Policy: SES.3 - SES configuration sets should have TLS enabled for sending emails
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ses-sending-tls-required-enforcement-level" {
   type = string

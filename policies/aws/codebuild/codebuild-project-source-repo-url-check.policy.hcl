@@ -2,7 +2,14 @@
 
 # CodeBuild.1 - CodeBuild Bitbucket source repository URLs should not contain sensitive credentials
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "codebuild-project-source-repo-url-check-enforcement-level" {
   type = string

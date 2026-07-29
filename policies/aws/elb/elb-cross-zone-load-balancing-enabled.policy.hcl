@@ -2,7 +2,14 @@
 
 # ELB.9 - Classic Load Balancers should have cross-zone load balancing enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elb-cross-zone-load-balancing-enabled-enforcement-level" {
   type = string

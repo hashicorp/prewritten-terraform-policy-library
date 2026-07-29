@@ -2,7 +2,14 @@
 
 # Policy: APIGateway.10 - API Gateway V2 integrations should use HTTPS for private connections
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "apigatewayv2-integration-private-https-enabled-enforcement-level" {
   type = string

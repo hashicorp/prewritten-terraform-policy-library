@@ -2,7 +2,14 @@
 
 # SageMaker.5 - SageMaker models should have network isolation enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-model-isolation-enabled-enforcement-level" {
   type = string

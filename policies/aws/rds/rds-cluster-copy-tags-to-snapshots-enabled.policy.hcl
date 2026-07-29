@@ -2,7 +2,14 @@
 
 # RDS.16 - Aurora DB clusters should be configured to copy tags to DB snapshots.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-copy-tags-to-snapshots-enabled-enforcement-level" {
   type = string

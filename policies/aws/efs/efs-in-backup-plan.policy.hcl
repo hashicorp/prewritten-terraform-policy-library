@@ -2,7 +2,14 @@
 
 # EFS.2 - Amazon EFS volumes should be in backup plans.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "efs-in-backup-plan-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy: AutoScaling.1 - Auto Scaling groups associated with a load balancer should use ELB health checks
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "autoscaling-group-elb-healthcheck-required-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # EventBridge.3 - EventBridge custom event buses should have a resource-based policy attached
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "custom-eventbus-policy-attached-enforcement-level" {
   type = string

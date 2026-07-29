@@ -8,7 +8,14 @@
 # as the plan-time proxy: a secret cannot be rotated less frequently than its configured interval.
 # Secrets with no aws_secretsmanager_secret_rotation are out of scope here (covered by SecretsManager.1).
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "secretsmanager-secret-periodic-rotation-enforcement-level" {
   type = string

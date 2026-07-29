@@ -2,7 +2,14 @@
 
 # RDS.48 - RDS for MySQL DB clusters should be configured to copy tags to DB snapshots.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-mysql-cluster-copy-tags-to-snapshot-check-enforcement-level" {
   type = string

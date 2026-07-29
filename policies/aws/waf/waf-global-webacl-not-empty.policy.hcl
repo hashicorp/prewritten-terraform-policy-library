@@ -2,7 +2,14 @@
 
 # WAF.8 - AWS WAF Classic global web ACLs should have at least one rule or rule group.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "waf-global-webacl-not-empty-enforcement-level" {
   type = string

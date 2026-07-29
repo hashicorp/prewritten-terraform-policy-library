@@ -2,7 +2,14 @@
 
 # ES.4 - Elasticsearch domain error logging to CloudWatch Logs should be enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-logs-to-cloudwatch-enforcement-level" {
   type = string

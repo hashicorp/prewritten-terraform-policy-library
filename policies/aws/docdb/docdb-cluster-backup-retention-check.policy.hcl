@@ -2,7 +2,14 @@
 
 # DocumentDB.2 - Amazon DocumentDB clusters should have an adequate backup retention period.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "docdb-cluster-backup-retention-check-enforcement-level" {
   type = string

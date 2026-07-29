@@ -2,7 +2,14 @@
 
 # Policy: RedshiftServerless.5 -  Redshift Serverless namespaces should not use the default admin username
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-serverless-default-admin-check-enforcement-level" {
   type = string

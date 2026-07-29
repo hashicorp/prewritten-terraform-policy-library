@@ -2,7 +2,14 @@
 
 # EKS.2 - EKS clusters should run on a supported Kubernetes version.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "eks-cluster-supported-version-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Neptune.2 - Neptune DB clusters should publish audit logs to CloudWatch Logs.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "neptune-cluster-cloudwatch-log-export-enabled-enforcement-level" {
   type = string

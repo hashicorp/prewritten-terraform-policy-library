@@ -2,7 +2,14 @@
 
 # ElastiCache.2 - ElastiCache clusters should have automatic minor version upgrades enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticache-auto-minor-version-upgrade-check-enforcement-level" {
   type = string

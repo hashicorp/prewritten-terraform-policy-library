@@ -2,7 +2,14 @@
 
 # Policy : ECR.2 -  ECR private repositories should have tag immutability configured
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecr-private-tag-immutability-enabled-enforcement-level" {
   type = string

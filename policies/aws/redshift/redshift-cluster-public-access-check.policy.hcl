@@ -2,7 +2,14 @@
 
 # Redshift.1 - Amazon Redshift clusters should prohibit public access. This control checks whether Amazon Redshift clusters are publicly accessible.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-cluster-public-access-check-enforcement-level" {
   type = string

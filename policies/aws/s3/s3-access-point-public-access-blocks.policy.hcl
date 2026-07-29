@@ -2,7 +2,14 @@
 
 # S3.19 - S3 Access Points Should Have Block Public Access Settings Enabled. This control checks whether an Amazon S3 access point has block public access settings enabled. The control fails if block public access settings aren't enabled for the access point.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-access-point-public-access-blocks-enforcement-level" {
   type = string

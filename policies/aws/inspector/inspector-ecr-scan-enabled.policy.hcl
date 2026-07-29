@@ -2,7 +2,14 @@
 
 # Inspector.2 - Amazon Inspector ECR Scanning Should Be Enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "inspector-ecr-scan-enabled-enforcement-level" {
   type = string

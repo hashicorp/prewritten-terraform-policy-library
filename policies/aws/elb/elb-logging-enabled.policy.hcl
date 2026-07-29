@@ -2,7 +2,14 @@
 
 # ELB.5 - Application and Classic Load Balancers logging should be enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elb-logging-enabled-enforcement-level" {
   type = string

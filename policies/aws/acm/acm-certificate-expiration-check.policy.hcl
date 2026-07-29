@@ -2,7 +2,14 @@
 
 # Policy: ACM.1 - Certificate Renewal Check
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "acm-certificate-expiration-check-enforcement-level" {
   type = string

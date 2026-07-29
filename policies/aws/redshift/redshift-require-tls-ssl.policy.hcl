@@ -2,7 +2,14 @@
 
 # Policy: Redshift.2 - Connections to Amazon Redshift clusters should be encrypted in transit
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-require-tls-ssl-enforcement-level" {
   type = string

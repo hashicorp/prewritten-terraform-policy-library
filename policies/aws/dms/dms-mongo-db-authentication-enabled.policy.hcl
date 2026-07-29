@@ -2,7 +2,14 @@
 
 # DMS.11 - DMS endpoints for MongoDB should have an authentication mechanism enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-mongo-db-authentication-enabled-enforcement-level" {
   type = string

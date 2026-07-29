@@ -2,7 +2,14 @@
 
 # Policy: StepFunctions.1 - Step Functions state machines should have logging turned on
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "step-functions-state-machine-logging-enabled-enforcement-level" {
   type = string

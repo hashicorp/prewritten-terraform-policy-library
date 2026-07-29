@@ -2,7 +2,14 @@
 
 # Policy: CloudFront.10 -  CloudFront distributions should not use deprecated SSL protocols between edge locations and custom origins
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-no-deprecated-ssl-protocols-enforcement-level" {
   type = string

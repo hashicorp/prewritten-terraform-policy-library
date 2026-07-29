@@ -2,7 +2,14 @@
 
 # RDS.46 - RDS DB instances should not be deployed in public subnets with routes to internet gateways.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-subnet-igw-check-enforcement-level" {
   type = string

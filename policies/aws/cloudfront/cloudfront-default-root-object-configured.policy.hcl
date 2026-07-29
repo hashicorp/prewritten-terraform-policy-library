@@ -2,7 +2,14 @@
 
 # CloudFront.1 - CloudFront distributions should have a default root object configured.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-default-root-object-configured-enforcement-level" {
   type = string

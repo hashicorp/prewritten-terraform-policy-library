@@ -2,7 +2,14 @@
 
 # GuardDuty.12 - GuardDuty ECS Runtime Monitoring should be enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "guardduty-ecs-protection-runtime-enabled-enforcement-level" {
   type = string

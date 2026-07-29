@@ -2,7 +2,14 @@
 
 # SageMaker.8 - SageMaker notebook instances should run on supported platforms.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-notebook-instance-platform-version-enforcement-level" {
   type = string

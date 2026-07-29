@@ -2,7 +2,14 @@
 
 # Policy: ElasticBeanstalk.3 - Elastic Beanstalk should stream logs to CloudWatch
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elastic-beanstalk-logs-to-cloudwatch-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy: EC2.1 - Amazon EBS snapshots should not be publicly restorable
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ebs-snapshot-public-restorable-check-enforcement-level" {
   type = string

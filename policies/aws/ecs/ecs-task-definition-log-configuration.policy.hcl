@@ -2,7 +2,14 @@
 
 # ECS.9 - ECS task definitions should have a logging configuration.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-task-definition-log-configuration-enforcement-level" {
   type = string

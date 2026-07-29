@@ -2,7 +2,14 @@
 
 # ECS.10 - ECS Fargate services should run on the latest Fargate platform version.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-fargate-latest-platform-version-enforcement-level" {
   type = string

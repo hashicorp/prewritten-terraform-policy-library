@@ -2,7 +2,14 @@
 
 # Policy: DynamoDB.2 - Point-in-time recovery enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dynamodb-pitr-enabled-enforcement-level" {
   type = string

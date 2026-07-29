@@ -2,7 +2,14 @@
 
 # Policy: RedshiftServerless.3 - Redshift Serverless workgroups should prohibit public access
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-serverless-workgroup-no-public-access-enforcement-level" {
   type = string

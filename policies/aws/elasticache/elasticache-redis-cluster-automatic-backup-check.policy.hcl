@@ -2,7 +2,14 @@
 
 # ElastiCache.1 - ElastiCache (Redis OSS) clusters should have automatic backups enabled. 
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticache-redis-cluster-automatic-backup-check-enforcement-level" {
   type = string

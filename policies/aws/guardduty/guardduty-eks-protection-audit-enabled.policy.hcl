@@ -2,7 +2,14 @@
 
 # GuardDuty.5 - GuardDuty EKS Audit Log Monitoring should be enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "guardduty-eks-protection-audit-enabled-enforcement-level" {
   type = string

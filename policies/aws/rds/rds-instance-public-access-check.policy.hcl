@@ -2,7 +2,14 @@
 
 # RDS.2 - RDS DB Instances should prohibit public access.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-public-access-check-enforcement-level" {
   type = string

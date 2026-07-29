@@ -2,7 +2,14 @@
 
 # RDS.20 - Existing RDS event notification subscriptions should be configured for critical database instance events.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-event-notifications-configured-enforcement-level" {
   type = string

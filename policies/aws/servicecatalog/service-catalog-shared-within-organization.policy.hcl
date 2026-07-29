@@ -2,7 +2,14 @@
 
 # ServiceCatalog.1 - Service Catalog portfolios should be shared within an AWS organization only
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "service-catalog-shared-within-organization-enforcement-level" {
   type = string

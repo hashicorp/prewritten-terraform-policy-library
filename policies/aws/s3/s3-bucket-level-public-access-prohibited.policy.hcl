@@ -2,7 +2,14 @@
 
 # S3.8 - S3 general purpose buckets should block public access.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-level-public-access-prohibited-enforcement-level" {
   type = string

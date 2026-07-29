@@ -2,7 +2,14 @@
 
 # RDS.14 - Amazon Aurora clusters should have backtracking enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "aurora-mysql-backtracking-enabled-enforcement-level" {
   type = string

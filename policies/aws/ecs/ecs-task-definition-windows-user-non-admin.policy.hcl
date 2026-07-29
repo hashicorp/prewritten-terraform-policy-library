@@ -2,7 +2,14 @@
 
 # Policy: ECS.21 - ECS Task Definitions should configure non-administrator users in Windows container definitions
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-task-definition-windows-user-non-admin-enforcement-level" {
   type = string

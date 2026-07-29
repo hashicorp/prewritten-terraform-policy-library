@@ -2,7 +2,14 @@
 
 # ElastiCache.6 - ElastiCache (Redis OSS) replication groups should have Redis OSS AUTH enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticache-repl-grp-redis-auth-enabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # DocumentDB.1 - DocumentDB clusters should be encrypted at rest. This control checks if Amazon DocumentDB clusters are encrypted at rest. The control fails if a DocumentDB cluster isn't encrypted at rest or if the encryption key is different from the provided key in the rule parameter.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "docdb-cluster-encrypted-enforcement-level" {
   type = string

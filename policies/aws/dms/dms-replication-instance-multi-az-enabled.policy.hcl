@@ -2,7 +2,14 @@
 
 # DMS.13 - DMS replication instances should be configured to use multiple Availability Zones.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-replication-instance-multi-az-enabled-enforcement-level" {
   type = string

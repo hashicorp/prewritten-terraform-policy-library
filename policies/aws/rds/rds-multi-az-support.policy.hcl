@@ -2,7 +2,14 @@
 
 # RDS.5 - RDS DB instances should be configured with multiple Availability Zones.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-multi-az-support-enforcement-level" {
   type = string

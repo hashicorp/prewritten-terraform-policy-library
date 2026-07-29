@@ -2,7 +2,14 @@
 
 # Policy: Autoscaling.5 - Amazon EC2 instances launched using Auto Scaling group launch configurations should not have Public IP addresses
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "autoscaling-launch-config-public-ip-disabled-enforcement-level" {
   type = string

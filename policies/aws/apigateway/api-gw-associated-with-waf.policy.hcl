@@ -2,7 +2,14 @@
 
 # APIGateway.4 - API Gateway should be associated with a WAF Web ACL
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "api-gw-associated-with-waf-enforcement-level" {
   type = string

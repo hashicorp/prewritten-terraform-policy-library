@@ -2,7 +2,14 @@
 
 # AWS Security Hub IAM.2: IAM users should not have IAM policies attached
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-user-no-policies-check-enforcement-level" {
   type = string

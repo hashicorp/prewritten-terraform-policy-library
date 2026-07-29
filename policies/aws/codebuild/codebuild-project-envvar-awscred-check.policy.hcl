@@ -2,7 +2,14 @@
 
 # CodeBuild.2: CodeBuild project environment variables should not contain clear text credentials
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "codebuild-project-envvar-awscred-check-enforcement-level" {
   type = string

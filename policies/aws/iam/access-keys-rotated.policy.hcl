@@ -2,7 +2,14 @@
 
 # Policy: IAM.3 - IAM users' access keys should be rotated every 90 days or less
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "access-keys-rotated-enforcement-level" {
   type = string

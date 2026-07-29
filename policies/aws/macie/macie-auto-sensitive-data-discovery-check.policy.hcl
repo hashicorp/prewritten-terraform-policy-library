@@ -2,7 +2,14 @@
 
 # Policy: Macie.2 - Macie automated sensitive data discovery should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "macie-auto-sensitive-data-discovery-check-enforcement-level" {
   type = string

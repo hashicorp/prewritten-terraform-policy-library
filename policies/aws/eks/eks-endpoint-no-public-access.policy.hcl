@@ -2,7 +2,14 @@
 
 # EKS.1 - EKS cluster endpoints should not be publicly accessible.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "eks-endpoint-no-public-access-enforcement-level" {
   type = string

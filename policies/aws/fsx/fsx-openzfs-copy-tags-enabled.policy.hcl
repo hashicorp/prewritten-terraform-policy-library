@@ -2,7 +2,14 @@
 
 # FSx.1 - FSx for OpenZFS file systems should be configured to copy tags to backups and volumes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "fsx-openzfs-copy-tags-enabled-enforcement-level" {
   type = string

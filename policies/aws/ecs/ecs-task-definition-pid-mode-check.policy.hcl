@@ -2,7 +2,14 @@
 
 # ECS.3 - ECS task definitions should not share the host's process namespace.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-task-definition-pid-mode-check-enforcement-level" {
   type = string

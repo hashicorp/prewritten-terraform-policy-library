@@ -2,7 +2,14 @@
 
 # Policy: AutoScaling.3 - IMDSv2 Required for Launch Configurations
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "autoscaling-launchconfig-requires-imdsv2-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # EC2.23 - Transit Gateway Auto-Accept VPC Attachments
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-transit-gateway-auto-vpc-attach-disabled-enforcement-level" {
   type = string

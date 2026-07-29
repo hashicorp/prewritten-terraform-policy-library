@@ -2,7 +2,14 @@
 
 # WAF.6 - AWS WAF Classic global rules should have at least one condition.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "waf-global-rule-not-empty-enforcement-level" {
   type = string

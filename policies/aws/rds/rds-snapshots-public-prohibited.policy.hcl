@@ -2,7 +2,14 @@
 
 # RDS.1 - RDS snapshot should be private.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-snapshots-public-prohibited-enforcement-level" {
   type = string

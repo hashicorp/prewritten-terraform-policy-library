@@ -2,7 +2,14 @@
 
 # Policy: EC2.9 - Amazon EC2 instances should not have a public IPv4 address
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-instance-no-public-ip-enforcement-level" {
   type = string

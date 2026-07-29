@@ -2,7 +2,14 @@
 
 # Policy: EC2.180 - EC2 network interfaces should have source/destination checking enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-enis-source-destination-check-enabled-enforcement-level" {
   type = string

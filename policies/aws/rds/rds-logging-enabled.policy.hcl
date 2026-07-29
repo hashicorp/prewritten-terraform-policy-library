@@ -2,7 +2,14 @@
 
 # RDS.9 - RDS DB instances should publish logs to CloudWatch Logs.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-logging-enabled-enforcement-level" {
   type = string

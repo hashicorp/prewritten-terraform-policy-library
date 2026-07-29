@@ -2,7 +2,14 @@
 
 # CloudFront.4 - CloudFront distributions should have origin failover configured
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-origin-failover-enabled-enforcement-level" {
   type = string

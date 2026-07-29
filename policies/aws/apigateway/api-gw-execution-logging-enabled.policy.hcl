@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # Policy: APIGateway.1 - API Gateway REST and WebSocket API execution logging should be enabled
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "api-gw-execution-logging-enabled-enforcement-level" {
   type = string

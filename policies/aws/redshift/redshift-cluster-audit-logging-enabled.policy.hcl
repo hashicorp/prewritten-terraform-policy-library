@@ -2,7 +2,14 @@
 
 # Policy: Redshift.4 - Amazon Redshift clusters should have audit logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-cluster-audit-logging-enabled-enforcement-level" {
   type = string

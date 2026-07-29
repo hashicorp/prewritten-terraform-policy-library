@@ -2,7 +2,14 @@
 
 # Policy: ELB.14 - Classic Load Balancer Desync Mitigation Mode
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "clb-desync-mode-check-enforcement-level" {
   type = string

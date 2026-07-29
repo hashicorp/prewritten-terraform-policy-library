@@ -2,7 +2,14 @@
 
 # CloudFront.3 - CloudFront distributions should require encryption in transit.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-viewer-policy-https-enforcement-level" {
   type = string

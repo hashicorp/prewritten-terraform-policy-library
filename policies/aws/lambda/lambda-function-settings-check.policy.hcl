@@ -2,7 +2,14 @@
 
 # Policy: Lambda.2 - Lambda functions should use supported runtimes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "lambda-function-settings-check-enforcement-level" {
   type = string

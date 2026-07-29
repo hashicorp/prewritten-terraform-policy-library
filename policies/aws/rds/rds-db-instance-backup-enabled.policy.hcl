@@ -2,7 +2,14 @@
 
 # RDS.11 - RDS instances should have automatic backups enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-db-instance-backup-enabled-enforcement-level" {
   type = string

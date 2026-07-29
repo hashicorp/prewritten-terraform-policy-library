@@ -2,7 +2,14 @@
 
 # EMR.4 - Amazon EMR security configurations should be encrypted in transit.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "emr-security-configuration-encryption-transit-enforcement-level" {
   type = string

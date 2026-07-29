@@ -2,7 +2,14 @@
 
 # ECS.12 - ECS clusters should use Container Insights.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-container-insights-enabled-enforcement-level" {
   type = string

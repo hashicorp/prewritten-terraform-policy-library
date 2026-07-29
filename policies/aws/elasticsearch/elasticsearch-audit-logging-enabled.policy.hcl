@@ -2,7 +2,14 @@
 
 # ES.5 - Elasticsearch domains should have audit logging enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-audit-logging-enabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy: CodeBuild.3 - CodeBuild S3 logs should be encrypted
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "codebuild-project-s3-logs-encrypted-enforcement-level" {
   type = string

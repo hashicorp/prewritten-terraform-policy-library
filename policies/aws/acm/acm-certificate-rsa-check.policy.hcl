@@ -2,7 +2,14 @@
 
 # Policy : ACM.2 -  RSA certificates managed by ACM should use a key length of at least 2,048 bits
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "acm-certificate-rsa-check-enforcement-level" {
   type = string

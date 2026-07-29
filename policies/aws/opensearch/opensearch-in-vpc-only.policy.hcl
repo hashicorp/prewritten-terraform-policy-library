@@ -2,7 +2,14 @@
 
 # Opensearch.2 - OpenSearch domains should not be publicly accessible.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-in-vpc-only-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # CodeBuild.7: CodeBuild report group exports should be encrypted at rest
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "codebuild-report-group-encrypted-at-rest-enforcement-level" {
   type = string

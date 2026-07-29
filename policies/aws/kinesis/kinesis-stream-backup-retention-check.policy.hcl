@@ -2,7 +2,14 @@
 
 # Policy: Kinesis.3 - Kinesis streams should have an adequate data retention period
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "kinesis-stream-backup-retention-check-enforcement-level" {
   type = string

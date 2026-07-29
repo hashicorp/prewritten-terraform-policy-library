@@ -2,7 +2,14 @@
 
 # ECS.18 - ECS Task Definitions should use in-transit encryption for EFS volumes.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-task-definition-efs-encryption-enabled-enforcement-level" {
   type = string

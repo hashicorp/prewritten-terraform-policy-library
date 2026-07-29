@@ -2,7 +2,14 @@
 
 # Route53.2: Route 53 public hosted zones should log DNS queries
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "route53-query-logging-enabled-enforcement-level" {
   type = string

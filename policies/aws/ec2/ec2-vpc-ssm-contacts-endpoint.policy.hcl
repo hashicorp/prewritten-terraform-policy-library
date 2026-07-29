@@ -2,7 +2,14 @@
 
 # Policy: EC2.58 - VPCs should be configured with an interface endpoint for Systems Manager Incident Manager Contacts
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-vpc-ssm-contacts-endpoint-enforcement-level" {
   type = string

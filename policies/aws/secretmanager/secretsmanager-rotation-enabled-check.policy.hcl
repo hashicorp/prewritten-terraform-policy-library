@@ -2,7 +2,14 @@
 
 # Policy: SecretsManager.1 - Secrets Manager secrets should have automatic rotation enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "secretsmanager-rotation-enabled-check-enforcement-level" {
   type = string

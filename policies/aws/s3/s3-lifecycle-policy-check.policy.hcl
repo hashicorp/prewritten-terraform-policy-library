@@ -6,7 +6,14 @@
 # NON_COMPLIANT if there is no active lifecycle configuration rule or the
 # configuration does not match the optional parameter values.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-lifecycle-policy-check-enforcement-level" {
   type = string

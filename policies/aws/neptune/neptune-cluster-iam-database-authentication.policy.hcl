@@ -2,7 +2,14 @@
 
 # Neptune.7 - Neptune DB clusters should have IAM database authentication enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "neptune-cluster-iam-database-authentication-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy: Cognito.3 - Password policies for Cognito user pools should have strong configurations
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cognito-user-pool-password-policy-check-enforcement-level" {
   type = string

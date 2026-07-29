@@ -2,7 +2,14 @@
 
 # EC2.2 - VPC Default Security Groups Traffic Restriction
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "vpc-default-security-group-closed-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy : Cognito.4 - Cognito user pools should have threat protection activated with full function enforcement mode for custom authentication
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cognito-userpool-cust-auth-threat-full-check-enforcement-level" {
   type = string

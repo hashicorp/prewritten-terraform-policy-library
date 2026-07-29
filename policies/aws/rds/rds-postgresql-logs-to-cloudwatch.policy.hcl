@@ -2,7 +2,14 @@
 
 # RDS.36 - RDS for PostgreSQL DB instances should publish logs to CloudWatch Logs.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-postgresql-logs-to-cloudwatch-enforcement-level" {
   type = string

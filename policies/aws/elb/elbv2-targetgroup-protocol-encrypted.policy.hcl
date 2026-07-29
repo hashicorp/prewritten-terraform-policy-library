@@ -2,7 +2,14 @@
 
 # ELB.22 - ELB target groups should use encrypted transport protocols
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elbv2-targetgroup-protocol-encrypted-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # ES.8 - Elasticsearch Domain TLS Security Policy.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-https-required-enforcement-level" {
   type = string

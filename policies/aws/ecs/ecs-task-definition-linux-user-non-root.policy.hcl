@@ -2,7 +2,14 @@
 
 # Policy: ECS.20 - ECS Task Definitions should configure non-root users in Linux container definitions
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-task-definition-linux-user-non-root-enforcement-level" {
   type = string

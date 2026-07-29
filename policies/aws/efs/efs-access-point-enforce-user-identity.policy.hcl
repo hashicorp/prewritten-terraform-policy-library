@@ -2,7 +2,14 @@
 
 # Policy: EFS.4 - EFS access points should enforce a user identity
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "efs-access-point-enforce-user-identity-enforcement-level" {
   type = string

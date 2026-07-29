@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # Policy : Kinesis.1 -  Kinesis streams should be encrypted at rest
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "kinesis-stream-encrypted-enforcement-level" {
   type = string

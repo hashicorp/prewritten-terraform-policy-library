@@ -2,7 +2,14 @@
 
 # RDS.37 - Aurora PostgreSQL DB clusters should publish logs to CloudWatch Logs.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-aurora-postgresql-logs-to-cloudwatch-enforcement-level" {
   type = string

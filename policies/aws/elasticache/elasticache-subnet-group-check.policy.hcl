@@ -2,7 +2,14 @@
 
 # ElastiCache.7 - ElastiCache clusters should not use the default subnet group.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticache-subnet-group-check-enforcement-level" {
   type = string

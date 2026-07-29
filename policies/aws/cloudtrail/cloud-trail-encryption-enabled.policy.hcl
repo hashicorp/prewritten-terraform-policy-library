@@ -2,7 +2,14 @@
 
 # CloudTrail.2 - CloudTrail should have encryption at-rest enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloud-trail-encryption-enabled-enforcement-level" {
   type = string

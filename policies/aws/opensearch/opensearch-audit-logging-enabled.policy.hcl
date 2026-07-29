@@ -2,7 +2,14 @@
 
 # Opensearch.5 - OpenSearch domains should have audit logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-audit-logging-enabled-enforcement-level" {
   type = string

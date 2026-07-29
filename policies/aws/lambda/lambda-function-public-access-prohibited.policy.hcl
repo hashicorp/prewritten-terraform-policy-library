@@ -2,7 +2,14 @@
 
 # Policy: Lambda.1 - Lambda function policies should prohibit public access
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "lambda-function-public-access-prohibited-enforcement-level" {
   type = string

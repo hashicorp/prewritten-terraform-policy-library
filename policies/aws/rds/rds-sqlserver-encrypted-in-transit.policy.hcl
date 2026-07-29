@@ -2,7 +2,14 @@
 
 # RDS.41 - RDS for SQL Server DB instances should be encrypted in transit.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-sqlserver-encrypted-in-transit-enforcement-level" {
   type = string

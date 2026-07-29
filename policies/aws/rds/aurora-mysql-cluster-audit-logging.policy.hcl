@@ -2,7 +2,14 @@
 
 # RDS.45 - Aurora MySQL DB clusters should have audit logging enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "aurora-mysql-cluster-audit-logging-enforcement-level" {
   type = string

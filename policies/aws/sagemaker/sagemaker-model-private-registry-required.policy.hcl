@@ -6,7 +6,14 @@
 # Multi-container inference pipelines (using `container` instead of `primary_container`) are out of scope
 # for this control and are covered by SageMaker.19.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-model-private-registry-required-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # GuardDuty.7 - GuardDuty EKS Runtime Monitoring should be enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "guardduty-eks-protection-runtime-enabled-enforcement-level" {
   type = string

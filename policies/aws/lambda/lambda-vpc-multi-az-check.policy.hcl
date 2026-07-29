@@ -2,7 +2,14 @@
 
 # Lambda.5 - VPC Lambda functions should operate in multiple Availability Zones
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "lambda-vpc-multi-az-check-enforcement-level" {
   type = string

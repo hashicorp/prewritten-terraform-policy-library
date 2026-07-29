@@ -2,7 +2,14 @@
 
 # ELB.10 - Classic Load Balancer should span multiple Availability Zones.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "clb-multiple-az-enforcement-level" {
   type = string

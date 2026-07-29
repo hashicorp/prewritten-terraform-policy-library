@@ -2,7 +2,14 @@
 
 # GuardDuty.11 - GuardDuty Runtime Monitoring should be enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "guardduty-runtime-monitoring-enabled-enforcement-level" {
   type = string

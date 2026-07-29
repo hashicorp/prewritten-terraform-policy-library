@@ -2,7 +2,14 @@
 
 # RDS.25 - RDS database instances should use a custom administrator username.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-default-admin-check-enforcement-level" {
   type = string

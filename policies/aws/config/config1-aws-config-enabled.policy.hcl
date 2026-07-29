@@ -2,7 +2,14 @@
 
 # Policy: Config.1 - AWS Config should be enabled and use the service-linked role
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "config1-aws-config-enabled-enforcement-level" {
   type = string

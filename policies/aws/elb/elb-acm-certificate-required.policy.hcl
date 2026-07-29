@@ -2,7 +2,14 @@
 
 # Policy: ELB.2 - Classic Load Balancers with SSL/HTTPS listeners should use ACM certificates
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elb-acm-certificate-required-enforcement-level" {
   type = string

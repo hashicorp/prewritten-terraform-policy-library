@@ -2,7 +2,14 @@
 
 # DocumentDB.5 - Amazon DocumentDB clusters should have deletion protection enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "docdb-cluster-deletion-protection-enabled-enforcement-level" {
   type = string

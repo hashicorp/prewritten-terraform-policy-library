@@ -2,7 +2,14 @@
 
 # RDS.43 - RDS DB proxies should require TLS encryption for connections.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-proxy-tls-encryption-enforcement-level" {
   type = string

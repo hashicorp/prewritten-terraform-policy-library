@@ -2,7 +2,14 @@
 
 # Policy: CloudFront.6 - CloudFront distributions should have WAF enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-associated-with-waf-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Inspector.1 - Amazon Inspector EC2 Scanning Should Be Enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "inspector-ec2-scan-enabled-enforcement-level" {
   type = string

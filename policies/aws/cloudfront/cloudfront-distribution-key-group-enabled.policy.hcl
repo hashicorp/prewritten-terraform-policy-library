@@ -2,7 +2,14 @@
 
 # CloudFront.17 - CloudFront distributions should use trusted key groups for signed URLs and cookies
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-distribution-key-group-enabled-enforcement-level" {
   type = string

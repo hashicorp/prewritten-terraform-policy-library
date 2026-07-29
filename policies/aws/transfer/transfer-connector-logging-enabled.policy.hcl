@@ -2,7 +2,14 @@
 
 # Policy: Transfer.3 - Transfer Family connectors should have logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "transfer-connector-logging-enabled-enforcement-level" {
   type = string

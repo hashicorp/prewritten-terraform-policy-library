@@ -2,7 +2,14 @@
 
 # ECS.4 - ECS containers should run as non-privileged containers
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-containers-nonprivileged-enforcement-level" {
   type = string

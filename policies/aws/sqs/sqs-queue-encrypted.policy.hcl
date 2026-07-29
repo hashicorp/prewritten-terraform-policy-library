@@ -2,7 +2,14 @@
 
 # Policy: SQS.1 - Amazon SQS queues should be encrypted at rest
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "sqs-queue-encrypted-enforcement-level" {
   type = string

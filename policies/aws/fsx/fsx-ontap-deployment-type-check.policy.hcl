@@ -2,7 +2,14 @@
 
 # FSx.4 - FSx for NetApp ONTAP file systems should be configured for Multi-AZ deployment.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "fsx-ontap-deployment-type-check-enforcement-level" {
   type = string

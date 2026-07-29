@@ -2,7 +2,14 @@
 
 # RDS.35 - RDS DB clusters should have automatic minor version upgrade enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-auto-minor-version-upgrade-enable-enforcement-level" {
   type = string

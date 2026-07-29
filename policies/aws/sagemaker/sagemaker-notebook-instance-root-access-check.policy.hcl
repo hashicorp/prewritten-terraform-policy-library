@@ -2,7 +2,14 @@
 
 # SageMaker.3 - Users should not have root access to SageMaker notebook instances.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-notebook-instance-root-access-check-enforcement-level" {
   type = string

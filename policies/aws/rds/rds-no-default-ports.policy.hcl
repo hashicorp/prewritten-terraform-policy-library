@@ -2,7 +2,14 @@
 
 # RDS.23 - RDS instances should not use a database engine default port.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-no-default-ports-enforcement-level" {
   type = string

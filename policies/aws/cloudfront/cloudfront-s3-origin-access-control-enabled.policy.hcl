@@ -2,7 +2,14 @@
 
 # CloudFront.13 - CloudFront distributions should use origin access control
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-s3-origin-access-control-enabled-enforcement-level" {
   type = string

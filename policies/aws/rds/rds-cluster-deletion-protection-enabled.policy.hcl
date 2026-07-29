@@ -2,7 +2,14 @@
 
 # RDS.7 - RDS clusters should have deletion protection enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-deletion-protection-enabled-enforcement-level" {
   type = string

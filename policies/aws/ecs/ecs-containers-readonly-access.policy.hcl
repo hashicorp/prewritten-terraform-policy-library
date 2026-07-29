@@ -2,7 +2,14 @@
 
 # ECS.5 - ECS containers should be limited to read-only access to root filesystems
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-containers-readonly-access-enforcement-level" {
   type = string

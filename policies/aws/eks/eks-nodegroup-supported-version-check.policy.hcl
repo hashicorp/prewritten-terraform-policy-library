@@ -2,7 +2,14 @@
 
 # EKS.9 - EKS node groups should run on a supported Kubernetes version.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "eks-nodegroup-supported-version-check-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy : NetworkFirewall.4 -  The default stateless action for Network Firewall policies should be drop or forward for full packets
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "network-firewall-policy-default-action-full-packets-enforcement-level" {
   type = string

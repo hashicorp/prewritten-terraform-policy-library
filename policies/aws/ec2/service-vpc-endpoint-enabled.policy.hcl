@@ -2,7 +2,14 @@
 
 # Policy: EC2.10 - Amazon EC2 should be configured to use VPC endpoints
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "service-vpc-endpoint-enabled-enforcement-level" {
   type = string

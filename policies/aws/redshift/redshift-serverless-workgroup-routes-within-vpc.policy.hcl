@@ -2,7 +2,14 @@
 
 # RedshiftServerless.1: Amazon Redshift Serverless workgroups should use enhanced VPC routing
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-serverless-workgroup-routes-within-vpc-enforcement-level" {
   type = string

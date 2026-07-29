@@ -2,7 +2,14 @@
 
 # RDS.50 - RDS DB clusters should have enough backup retention period set.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-backup-retention-check-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Opensearch.3 - OpenSearch domains should encrypt data sent between nodes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-node-to-node-encryption-check-enforcement-level" {
   type = string

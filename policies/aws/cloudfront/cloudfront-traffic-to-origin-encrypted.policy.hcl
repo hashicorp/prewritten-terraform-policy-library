@@ -2,7 +2,14 @@
 
 # Policy : CloudFront.9 - CloudFront distributions should encrypt traffic to custom origins
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-traffic-to-origin-encrypted-enforcement-level" {
   type = string

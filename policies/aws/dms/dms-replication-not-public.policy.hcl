@@ -2,7 +2,14 @@
 
 # Policy: DMS.1 - Database Migration Service replication instances should not be public
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-replication-not-public-enforcement-level" {
   type = string

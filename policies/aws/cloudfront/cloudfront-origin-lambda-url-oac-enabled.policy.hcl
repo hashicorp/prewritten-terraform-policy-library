@@ -2,7 +2,14 @@
 
 # Policy: CloudFront.16 - CloudFront distributions should use origin access control for Lambda function URL origins
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-origin-lambda-url-oac-enabled-enforcement-level" {
   type = string
