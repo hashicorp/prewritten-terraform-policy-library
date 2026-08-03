@@ -2,7 +2,14 @@
 
 # SageMaker.12 - SageMaker model bias job definitions should have network isolation enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.63.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-model-bias-job-isolation-enforcement-level" {
   type = string

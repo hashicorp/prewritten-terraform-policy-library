@@ -2,7 +2,14 @@
 
 # Policy: IAM.8 - Unused IAM user credentials should be removed
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-user-unused-credentials-check-enforcement-level" {
   type = string

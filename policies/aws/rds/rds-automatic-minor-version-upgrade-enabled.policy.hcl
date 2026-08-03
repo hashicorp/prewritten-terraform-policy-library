@@ -2,7 +2,14 @@
 
 # RDS.13 - RDS automatic minor version upgrades should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-automatic-minor-version-upgrade-enabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy: ECR.3 - ECR repositories should have at least one lifecycle policy configured
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecr-private-lifecycle-policy-configured-enforcement-level" {
   type = string

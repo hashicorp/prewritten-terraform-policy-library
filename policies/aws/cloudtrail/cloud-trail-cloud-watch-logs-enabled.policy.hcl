@@ -2,7 +2,14 @@
 
 # CloudTrail.5 - CloudTrail trails should be integrated with Amazon CloudWatch Logs.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloud-trail-cloud-watch-logs-enabled-enforcement-level" {
   type = string

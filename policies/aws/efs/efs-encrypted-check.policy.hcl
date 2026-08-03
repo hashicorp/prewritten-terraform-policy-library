@@ -2,7 +2,14 @@
 
 # EFS.1 - Elastic File System Encryption at Rest
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "efs-encrypted-check-enforcement-level" {
   type = string

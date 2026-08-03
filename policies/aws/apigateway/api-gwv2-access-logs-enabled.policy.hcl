@@ -2,7 +2,14 @@
 
 # Policy: APIGateway.9 - Access logging should be configured for API Gateway V2 Stages
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "api-gwv2-access-logs-enabled-enforcement-level" {
   type = string

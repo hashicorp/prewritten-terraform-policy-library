@@ -2,7 +2,14 @@
 
 # ES.7 - Elasticsearch domains should be configured with at least three dedicated master nodes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-primary-node-fault-tolerance-enforcement-level" {
   type = string

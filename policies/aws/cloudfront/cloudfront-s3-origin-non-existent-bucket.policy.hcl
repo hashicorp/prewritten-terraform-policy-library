@@ -2,7 +2,14 @@
 
 # Policy - CloudFront.12: CloudFront distributions should not point to non-existent S3 origins
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-s3-origin-non-existent-bucket-enforcement-level" {
   type = string

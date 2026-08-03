@@ -2,7 +2,14 @@
 
 # EC2.7 - EBS Default Encryption Should Be Enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-ebs-encryption-by-default-enforcement-level" {
   type = string

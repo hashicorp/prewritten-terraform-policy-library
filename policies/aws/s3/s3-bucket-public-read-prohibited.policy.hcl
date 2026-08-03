@@ -2,7 +2,14 @@
 
 # S3.2 - S3 General Purpose Buckets Should Block Public Read Access. This control checks whether an Amazon S3 general purpose bucket permits public read access. It evaluates the block public access settings, the bucket policy, and the bucket access control list (ACL). The control fails if the bucket permits public read access.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-public-read-prohibited-enforcement-level" {
   type = string

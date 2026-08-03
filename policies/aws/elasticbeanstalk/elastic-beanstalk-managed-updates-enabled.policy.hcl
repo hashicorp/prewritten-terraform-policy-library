@@ -2,7 +2,14 @@
 
 # ElasticBeanstalk.2: Elastic Beanstalk managed platform updates should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elastic-beanstalk-managed-updates-enabled-enforcement-level" {
   type = string

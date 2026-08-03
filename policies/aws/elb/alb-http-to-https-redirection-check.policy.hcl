@@ -2,7 +2,14 @@
 
 # ELB.1: Application Load Balancer HTTP to HTTPS Redirection
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "alb-http-to-https-redirection-check-enforcement-level" {
   type = string

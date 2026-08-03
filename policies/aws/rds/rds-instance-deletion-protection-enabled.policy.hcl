@@ -2,7 +2,14 @@
 
 # RDS.8 - RDS DB instances should have deletion protection enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-deletion-protection-enabled-enforcement-level" {
   type = string

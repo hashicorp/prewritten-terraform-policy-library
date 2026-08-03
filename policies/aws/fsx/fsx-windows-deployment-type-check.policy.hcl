@@ -2,7 +2,14 @@
 
 # FSx.5 - FSx for Windows File Server file systems should be configured for Multi-AZ deployment
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "fsx-windows-deployment-type-check-enforcement-level" {
   type = string

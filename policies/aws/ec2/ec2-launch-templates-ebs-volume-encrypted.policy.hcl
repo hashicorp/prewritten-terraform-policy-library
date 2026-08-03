@@ -2,7 +2,14 @@
 
 # EC2.181 - EC2 Launch Templates Should Enable Encryption for Attached EBS Volumes.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-launch-templates-ebs-volume-encrypted-enforcement-level" {
   type = string

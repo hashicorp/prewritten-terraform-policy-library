@@ -2,7 +2,14 @@
 
 # WAF.7 - AWS WAF Classic global rule groups should have at least one rule.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "waf-global-rulegroup-not-empty-enforcement-level" {
   type = string

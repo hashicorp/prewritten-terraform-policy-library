@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # Policy: AppSync.2 - AWS AppSync field-level logging enabled
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "appsync-logging-enabled-enforcement-level" {
   type = string

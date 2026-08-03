@@ -2,7 +2,14 @@
 
 # Neptune.8 - Neptune DB clusters should be configured to copy tags to snapshots.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "neptune-cluster-copy-tags-to-snapshot-enabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy : MQ.2 - ActiveMQ brokers should stream audit logs to CloudWatch
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "mq-cloudwatch-audit-log-enabled-enforcement-level" {
   type = string

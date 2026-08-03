@@ -2,7 +2,14 @@
 
 # DataSync.1 - DataSync tasks should have logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "datasync-task-logging-enabled-enforcement-level" {
   type = string

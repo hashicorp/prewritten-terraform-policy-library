@@ -2,7 +2,14 @@
 
 # RDS.24 - RDS Database clusters should use a custom administrator username.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-default-admin-check-enforcement-level" {
   type = string

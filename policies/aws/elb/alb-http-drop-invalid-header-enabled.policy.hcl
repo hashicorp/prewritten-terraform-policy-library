@@ -2,7 +2,14 @@
 
 # ELB.4 - Application Load Balancer should drop invalid HTTP headers.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "alb-http-drop-invalid-header-enabled-enforcement-level" {
   type = string

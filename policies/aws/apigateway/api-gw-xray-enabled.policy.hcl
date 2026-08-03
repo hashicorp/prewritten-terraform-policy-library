@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # APIGateway.3: API Gateway REST API stages should have AWS X-Ray tracing enabled
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "api-gw-xray-enabled-enforcement-level" {
   type = string

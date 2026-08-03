@@ -2,7 +2,14 @@
 
 # RDS.4 - RDS cluster snapshots and database snapshots should be encrypted at rest.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-snapshot-encrypted-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # EKS.3 - EKS clusters should use encrypted Kubernetes secrets.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "eks-cluster-secrets-encrypted-enforcement-level" {
   type = string

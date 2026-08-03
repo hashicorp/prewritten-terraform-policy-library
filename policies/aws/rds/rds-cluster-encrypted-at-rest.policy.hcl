@@ -2,7 +2,14 @@
 
 # RDS.27 - RDS DB clusters should be encrypted at rest.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-encrypted-at-rest-enforcement-level" {
   type = string

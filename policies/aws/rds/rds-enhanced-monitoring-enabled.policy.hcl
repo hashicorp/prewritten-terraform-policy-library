@@ -2,6 +2,15 @@
 
 # RDS.6 - Enhanced monitoring should be configured for RDS DB instances
 
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
+
 locals {
     valid_monitoring_intervals = [1, 5, 10, 15, 30, 60]
 }

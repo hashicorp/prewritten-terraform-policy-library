@@ -2,7 +2,14 @@
 
 # Policy: Glue.4 - AWS Glue Spark jobs should run on supported versions
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "glue-spark-job-supported-version-enforcement-level" {
   type = string

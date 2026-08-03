@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # Policy: AutoScaling.9 - Amazon EC2 Auto Scaling groups should use Amazon EC2 launch templates
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "autoscaling-launch-template-enforcement-level" {
   type = string

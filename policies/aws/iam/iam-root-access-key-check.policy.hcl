@@ -2,7 +2,14 @@
 
 # Policy : IAM.4 -  IAM root user access key should not exist
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-root-access-key-check-enforcement-level" {
   type = string

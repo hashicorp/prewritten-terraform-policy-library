@@ -2,7 +2,14 @@
 
 # Policy : NetworkFirewall.5 - The default stateless action for Network Firewall policies should be drop or forward for fragmented packets
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "network-firewall-policy-default-action-fragment-packets-enforcement-level" {
   type = string

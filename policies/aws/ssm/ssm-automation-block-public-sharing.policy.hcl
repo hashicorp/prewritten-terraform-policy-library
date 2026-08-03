@@ -2,7 +2,14 @@
 
 # SSM.7 - SSM documents should have the block public sharing setting enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.24.0, < 7.0.0"
+    }
+  }
+}
 
 input "ssm-automation-block-public-sharing-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # ElastiCache.3 - ElastiCache replication groups should have automatic failover enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticache-repl-grp-auto-failover-enabled-enforcement-level" {
   type = string
@@ -12,7 +19,7 @@ input "elasticache-repl-grp-auto-failover-enabled-enforcement-level" {
 resource_policy "aws_elasticache_replication_group" "auto-failover-enabled" {
     enforcement_level = input.elasticache-repl-grp-auto-failover-enabled-enforcement-level
     enforce {
-        condition = core::try(attrs.auto_failover_enabled, false) == true ? core::try(attrs.num_cache_clusters, 1) >= 2 : false
+        condition = core::try(attrs.automatic_failover_enabled, false) == true ? core::try(attrs.num_cache_clusters, 1) >= 2 : false
         error_message = "ElastiCache replication groups should have automatic failover enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticache-controls.html#elasticache-3 for more details."
     }
 }

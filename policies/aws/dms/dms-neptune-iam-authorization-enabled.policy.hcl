@@ -2,7 +2,14 @@
 
 # Policy: DMS.10 - DMS endpoints for Neptune databases should have IAM authorization enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-neptune-iam-authorization-enabled-enforcement-level" {
   type = string

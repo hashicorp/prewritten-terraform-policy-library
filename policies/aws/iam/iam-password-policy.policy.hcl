@@ -2,7 +2,14 @@
 
 # AWS Security Hub IAM.7 - Password Policies for IAM Users
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-password-policy-enforcement-level" {
   type = string

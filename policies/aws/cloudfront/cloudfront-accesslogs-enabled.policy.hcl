@@ -2,7 +2,14 @@
 
 # CloudFront.5: CloudFront distributions should have logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-accesslogs-enabled-enforcement-level" {
   type = string

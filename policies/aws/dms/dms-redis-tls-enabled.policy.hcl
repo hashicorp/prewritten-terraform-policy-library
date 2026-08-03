@@ -2,7 +2,14 @@
 
 # Policy: DMS.12 - DMS endpoints for Redis OSS should have TLS enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.29.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-redis-tls-enabled-enforcement-level" {
   type = string

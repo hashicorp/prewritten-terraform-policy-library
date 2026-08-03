@@ -2,7 +2,14 @@
 
 # Policy: MSK.4 - MSK clusters should have public access disabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.13.0, < 7.0.0"
+    }
+  }
+}
 
 input "msk-cluster-public-access-disabled-enforcement-level" {
   type = string

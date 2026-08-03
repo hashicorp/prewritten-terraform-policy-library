@@ -2,7 +2,14 @@
 
 # Policy: KMS.3 - AWS KMS keys should not be deleted unintentionally
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "kms-cmk-not-scheduled-for-deletion-2-enforcement-level" {
   type = string

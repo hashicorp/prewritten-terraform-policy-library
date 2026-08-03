@@ -2,7 +2,14 @@
 
 # RDS.3 - RDS DB instances should have encryption at-rest enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-storage-encrypted-enforcement-level" {
   type = string

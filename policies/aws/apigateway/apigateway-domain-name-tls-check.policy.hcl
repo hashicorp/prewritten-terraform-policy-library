@@ -2,7 +2,14 @@
 
 # Policy: APIGateway.11 - API Gateway domain names should use recommended security policies
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "apigateway-domain-name-tls-check-enforcement-level" {
   type = string

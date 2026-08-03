@@ -2,7 +2,14 @@
 
 # Policy: S3.25 - S3 directory buckets should have lifecycle configurations
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.28.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3express-dir-bucket-lifecycle-rules-check-enforcement-level" {
   type = string

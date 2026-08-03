@@ -2,7 +2,14 @@
 
 # EFS.8 - EFS file systems should be encrypted at rest.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "efs-filesystem-ct-encrypted-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # WAF.3 - AWS WAF Classic Regional Rule Groups Should Have At Least One Rule
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "waf-regional-rulegroup-not-empty-enforcement-level" {
   type = string

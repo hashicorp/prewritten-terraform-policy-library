@@ -2,7 +2,14 @@
 
 # Policy: AppSync.5 - AWS AppSync GraphQL APIs should not be authenticated with API keys
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "appsync-authorization-check-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy: EC2.183 - EC2 VPN connections should use IKEv2 protocol
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-vpn-connection-ike-version-check-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # SSM.6 - SSM Automation CloudWatch Logging Required
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.24.0, < 7.0.0"
+    }
+  }
+}
 
 input "ssm-automation-logging-enabled-enforcement-level" {
   type = string

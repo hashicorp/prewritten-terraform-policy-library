@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # Policy: APIGateway.2 - API Gateway REST API stages should be configured to use SSL certificates for backend authentication
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "api-gw-ssl-enabled-enforcement-level" {
   type = string

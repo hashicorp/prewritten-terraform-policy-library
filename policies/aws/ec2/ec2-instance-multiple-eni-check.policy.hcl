@@ -2,7 +2,14 @@
 
 # Policy: EC2.17 - Amazon EC2 instances should not use multiple ENIs
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.32.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-instance-multiple-eni-check-enforcement-level" {
   type = string

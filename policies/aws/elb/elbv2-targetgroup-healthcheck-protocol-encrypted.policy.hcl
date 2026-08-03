@@ -2,7 +2,14 @@
 
 # ELB.21 - Application and Network Load Balancer target groups should use encrypted health check protocols.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elbv2-targetgroup-healthcheck-protocol-encrypted-enforcement-level" {
   type = string

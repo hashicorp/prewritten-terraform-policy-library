@@ -2,7 +2,14 @@
 
 # Policy : Cognito.2 - Cognito identity pools should not allow unauthenticated identities
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cognito-identity-pool-unauth-access-check-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy: ECS.19 - ECS capacity providers should have managed termination protection enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-capacity-provider-termination-check-enforcement-level" {
   type = string

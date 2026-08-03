@@ -2,7 +2,14 @@
 
 # Policy: APIGateway.5 - API Gateway REST API cache data should be encrypted at rest
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "api-gw-cache-encrypted-enforcement-level" {
   type = string

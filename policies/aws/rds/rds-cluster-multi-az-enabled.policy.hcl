@@ -2,7 +2,14 @@
 
 # RDS.15 - RDS DB clusters should be configured for multiple Availability Zones.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-multi-az-enabled-enforcement-level" {
   type = string

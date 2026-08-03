@@ -2,7 +2,14 @@
 
 # Opensearch.6 - OpenSearch domains should have at least three data nodes.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.9.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-data-node-fault-tolerance-enforcement-level" {
   type = string

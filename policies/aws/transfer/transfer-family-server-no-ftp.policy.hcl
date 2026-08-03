@@ -2,7 +2,14 @@
 
 # Policy: Transfer.2 - Transfer Family servers should not use FTP protocol
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "transfer-family-server-no-ftp-enforcement-level" {
   type = string

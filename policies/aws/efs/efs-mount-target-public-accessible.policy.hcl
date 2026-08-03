@@ -2,7 +2,14 @@
 
 # EFS.6 - EFS mount targets should not be associated with subnets that assign public IP addresses on launch
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "efs-mount-target-public-accessible-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # ELB.18 - Application and Network Load Balancer listeners should use secure protocols.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elbv2-listener-encryption-in-transit-enforcement-level" {
   type = string

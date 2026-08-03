@@ -2,7 +2,14 @@
 
 # Redshift.3 - Amazon Redshift clusters should have automatic snapshots enabled. This control checks whether an Amazon Redshift cluster has automated snapshots enabled, and a retention period greater than or equal to the specified time frame.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-backup-enabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # RDS.21 - RDS Event Notifications for Database Parameter Group Events.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-pg-event-notifications-configured-enforcement-level" {
   type = string

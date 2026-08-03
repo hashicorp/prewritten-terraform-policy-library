@@ -2,7 +2,14 @@
 
 # EC2.182 - Amazon EBS Snapshots should not be publicly accessible.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.62.0, < 7.0.0"
+    }
+  }
+}
 
 input "ebs-snapshot-block-public-access-enforcement-level" {
   type = string

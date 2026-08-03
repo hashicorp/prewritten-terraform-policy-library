@@ -2,7 +2,14 @@
 
 # RDS.44 - RDS for MariaDB DB instances should be encrypted in transit.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-mariadb-instance-encrypted-in-transit-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy: SSM.4 - SSM documents should not be public
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ssm-document-not-public-enforcement-level" {
   type = string

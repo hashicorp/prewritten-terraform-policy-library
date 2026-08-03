@@ -2,7 +2,14 @@
 
 # Opensearch.1 - OpenSearch domains should have encryption at rest enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.9.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-encrypted-at-rest-enforcement-level" {
   type = string

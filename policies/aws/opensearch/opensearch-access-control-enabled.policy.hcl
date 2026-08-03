@@ -2,7 +2,14 @@
 
 # Opensearch.7 - Fine-Grained Access Control.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.9.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-access-control-enabled-enforcement-level" {
   type = string

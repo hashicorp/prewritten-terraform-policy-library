@@ -2,7 +2,14 @@
 
 # WorkSpaces.1 - WorkSpaces user volumes should be encrypted at rest.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "workspaces-user-volume-encryption-enabled-enforcement-level" {
   type = string

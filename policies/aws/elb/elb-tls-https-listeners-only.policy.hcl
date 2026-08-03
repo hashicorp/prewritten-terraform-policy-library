@@ -2,7 +2,14 @@
 
 # Policy: ELB.3 - Classic Load Balancer listeners should be configured with HTTPS or TLS termination
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elb-tls-https-listeners-only-enforcement-level" {
   type = string

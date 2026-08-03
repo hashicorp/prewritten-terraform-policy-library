@@ -2,7 +2,14 @@
 
 # Policy : WAF.12 - AWS WAF rules should have CloudWatch metrics enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "wafv2-rulegroup-logging-enabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # SageMaker.2 - SageMaker notebook instances should be launched in a custom VPC.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-notebook-instance-inside-vpc-enforcement-level" {
   type = string

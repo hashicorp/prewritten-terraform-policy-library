@@ -2,7 +2,14 @@
 
 # WAF.1 - AWS WAF Classic Global Web ACL logging should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "waf-classic-logging-enabled-enforcement-level" {
   type = string

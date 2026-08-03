@@ -2,7 +2,14 @@
 
 # EMR.1: Amazon EMR cluster primary nodes should not have public IP addresses
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "emr-master-no-public-ip-enforcement-level" {
   type = string

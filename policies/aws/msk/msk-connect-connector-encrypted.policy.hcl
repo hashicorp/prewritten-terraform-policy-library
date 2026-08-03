@@ -2,7 +2,14 @@
 
 # MSK.3 - MSK Connect connectors should be encrypted in transit
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.8.0, < 7.0.0"
+    }
+  }
+}
 
 input "msk-connect-connector-encrypted-enforcement-level" {
   type = string

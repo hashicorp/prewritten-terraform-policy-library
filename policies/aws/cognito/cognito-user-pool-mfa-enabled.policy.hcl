@@ -2,7 +2,14 @@
 
 # Policy: Cognito.5 - MFA should be enabled for Cognito user pools
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.83.0, < 7.0.0"
+    }
+  }
+}
 
 input "cognito-user-pool-mfa-enabled-enforcement-level" {
   type = string

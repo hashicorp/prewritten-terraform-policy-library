@@ -2,7 +2,14 @@
 
 # Policy: DMS.6 - DMS replication instances should have automatic minor version upgrade enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-auto-minor-version-upgrade-check-enforcement-level" {
   type = string

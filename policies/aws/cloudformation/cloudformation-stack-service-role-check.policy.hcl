@@ -2,7 +2,14 @@
 
 # CloudFormation.4: CloudFormation stacks should have associated service roles
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudformation-stack-service-role-check-enforcement-level" {
   type = string

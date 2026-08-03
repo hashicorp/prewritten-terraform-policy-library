@@ -2,7 +2,14 @@
 
 # Policy: SNS.4 - SNS topic access policies should not allow public access
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "sns-topic-no-public-access-enforcement-level" {
   type = string

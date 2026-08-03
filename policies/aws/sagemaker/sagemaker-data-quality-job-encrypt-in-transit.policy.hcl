@@ -2,7 +2,14 @@
 
 # SageMaker.9 - SageMaker data quality job definitions should have inter-container traffic encryption enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.63.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-data-quality-job-encrypt-in-transit-enforcement-level" {
   type = string

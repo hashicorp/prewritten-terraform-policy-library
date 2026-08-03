@@ -2,7 +2,14 @@
 
 # Policy : EC2.55 - VPCs should be configured with an interface endpoint for the services
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "vpc-endpoint-enabled-enforcement-level" {
   type = string

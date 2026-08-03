@@ -2,7 +2,14 @@
 
 # Policy: S3.5 - S3 general purpose buckets should require requests to use SSL
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-ssl-requests-only-enforcement-level" {
   type = string

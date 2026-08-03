@@ -2,7 +2,14 @@
 
 # Policy : RedshiftServerless.6 - Redshift Serverless namespaces should export logs to CloudWatch Logs
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.23.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-serverless-publish-logs-to-cloudwatch-enforcement-level" {
   type = string

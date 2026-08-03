@@ -2,7 +2,14 @@
 
 # Policy: AutoScaling.6 - Auto Scaling groups should use multiple instance types in multiple Availability Zones
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "autoscaling-multiple-instance-types-enforcement-level" {
   type = string

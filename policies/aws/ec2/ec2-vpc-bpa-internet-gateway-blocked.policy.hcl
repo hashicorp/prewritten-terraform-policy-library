@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # EC2.172 - EC2 VPC Block Public Access settings should block internet gateway traffic
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.79.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-vpc-bpa-internet-gateway-blocked-enforcement-level" {
   type = string

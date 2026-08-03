@@ -2,7 +2,14 @@
 
 # EC2.4 - Stopped EC2 instances should be removed after a specified time period.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-stopped-instance-days-check-enforcement-level" {
   type = string

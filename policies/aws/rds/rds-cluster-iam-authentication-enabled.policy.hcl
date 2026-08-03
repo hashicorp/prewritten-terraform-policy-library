@@ -2,7 +2,14 @@
 
 # RDS.12 - IAM Authentication Should Be Configured for RDS Clusters.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-iam-authentication-enabled-enforcement-level" {
   type = string

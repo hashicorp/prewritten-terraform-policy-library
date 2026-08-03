@@ -2,7 +2,14 @@
 
 # Neptune.6 - Neptune DB cluster snapshots should be encrypted at rest
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "neptune-cluster-snapshot-encrypted-enforcement-level" {
   type = string

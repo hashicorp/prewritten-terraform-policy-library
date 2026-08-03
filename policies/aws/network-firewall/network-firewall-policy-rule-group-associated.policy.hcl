@@ -2,7 +2,14 @@
 
 # Policy : NetworkFirewall.3 -  Network Firewall policies should have at least one rule group associated.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "network-firewall-policy-rule-group-associated-enforcement-level" {
   type = string

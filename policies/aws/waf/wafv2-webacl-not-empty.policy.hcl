@@ -2,7 +2,14 @@
 
 # Policy: WAF.10 - AWS WAF web ACLs should have at least one rule or rule group
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "wafv2-webacl-not-empty-enforcement-level" {
   type = string

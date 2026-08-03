@@ -2,7 +2,14 @@
 
 # Redshift.7 - Redshift clusters should use enhanced VPC routing. This control checks whether an Amazon Redshift cluster has EnhancedVpcRouting enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-enhanced-vpc-routing-enabled-enforcement-level" {
   type = string

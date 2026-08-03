@@ -2,7 +2,14 @@
 
 # ECS.2 - ECS services should not have public IP addresses assigned automatically.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-service-assign-public-ip-disabled-enforcement-level" {
   type = string

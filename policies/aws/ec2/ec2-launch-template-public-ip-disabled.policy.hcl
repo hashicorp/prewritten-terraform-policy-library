@@ -2,7 +2,14 @@
 
 # EC2.25 - Amazon EC2 Launch Templates Should Not Assign Public IPs to Network Interfaces.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-launch-template-public-ip-disabled-enforcement-level" {
   type = string

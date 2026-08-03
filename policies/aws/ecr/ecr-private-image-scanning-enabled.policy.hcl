@@ -2,7 +2,14 @@
 
 # Policy: ECR.1 - ECR private repositories should have image scanning configured
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecr-private-image-scanning-enabled-enforcement-level" {
   type = string

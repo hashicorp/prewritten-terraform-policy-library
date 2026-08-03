@@ -2,7 +2,14 @@
 
 # DynamoDB.1: DynamoDB tables should automatically scale capacity with demand
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dynamodb-autoscaling-enabled-enforcement-level" {
   type = string

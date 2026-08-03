@@ -6,7 +6,14 @@
 # Users must explicitly list all blocked actions in the CSV format.
 # Example: "kms:Decrypt,kms:ReEncryptFrom,kms:ReEncryptTo,kms:*"
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-inline-policy-blocked-kms-actions-enforcement-level" {
   type = string

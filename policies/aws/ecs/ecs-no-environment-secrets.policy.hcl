@@ -2,7 +2,14 @@
 
 # ECS.8 - Secrets should not be passed as container environment variables.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-no-environment-secrets-enforcement-level" {
   type = string

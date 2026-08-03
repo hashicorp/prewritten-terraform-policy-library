@@ -10,7 +10,7 @@ policytest {
 resource "aws_elasticache_replication_group" "pass_auto_failover_2_clusters" {
   attrs = {
     replication_group_id      = "redis-auto-failover-2"
-    auto_failover_enabled     = true
+    automatic_failover_enabled = true
     num_cache_clusters        = 2
   }
 }
@@ -19,7 +19,7 @@ resource "aws_elasticache_replication_group" "pass_auto_failover_2_clusters" {
 resource "aws_elasticache_replication_group" "pass_auto_failover_3_clusters" {
   attrs = {
     replication_group_id      = "redis-auto-failover-3"
-    auto_failover_enabled     = true
+    automatic_failover_enabled = true
     num_cache_clusters        = 3
   }
 }
@@ -29,7 +29,7 @@ resource "aws_elasticache_replication_group" "fail_auto_failover_1_cluster" {
   expect_failure = true
   attrs = {
     replication_group_id      = "redis-auto-failover-1"
-    auto_failover_enabled     = true
+    automatic_failover_enabled = true
     num_cache_clusters        = 1
   }
 }
@@ -39,7 +39,7 @@ resource "aws_elasticache_replication_group" "fail_auto_failover_disabled_2_clus
   expect_failure = true
   attrs = {
     replication_group_id      = "redis-no-auto-failover-2"
-    auto_failover_enabled     = false
+    automatic_failover_enabled = false
     num_cache_clusters        = 2
   }
 }
@@ -49,7 +49,7 @@ resource "aws_elasticache_replication_group" "fail_auto_failover_disabled_1_clus
   expect_failure = true
   attrs = {
     replication_group_id      = "redis-no-auto-failover-1"
-    auto_failover_enabled     = false
+    automatic_failover_enabled = false
     num_cache_clusters        = 1
   }
 }
@@ -68,7 +68,7 @@ resource "aws_elasticache_replication_group" "fail_auto_failover_missing_num_clu
   expect_failure = true
   attrs = {
     replication_group_id      = "redis-auto-failover-missing-num"
-    auto_failover_enabled     = true
+    automatic_failover_enabled = true
   }
 }
 
@@ -85,7 +85,7 @@ resource "aws_elasticache_replication_group" "fail_auto_failover_0_clusters" {
   expect_failure = true
   attrs = {
     replication_group_id      = "redis-auto-failover-0"
-    auto_failover_enabled     = true
+    automatic_failover_enabled = true
     num_cache_clusters        = 0
   }
 }

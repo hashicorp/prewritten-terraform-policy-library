@@ -2,7 +2,14 @@
 
 # EC2.16 - Unused Network Access Control Lists should be removed
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "vpc-network-acl-unused-check-enforcement-level" {
   type = string

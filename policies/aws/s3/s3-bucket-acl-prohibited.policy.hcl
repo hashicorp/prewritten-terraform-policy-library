@@ -2,7 +2,14 @@
 
 # Policy: S3.12 - ACLs should not be used to manage user access to S3 general purpose buckets
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-acl-prohibited-enforcement-level" {
   type = string

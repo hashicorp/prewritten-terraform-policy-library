@@ -2,7 +2,14 @@
 
 # Policy: DMS.7 - DMS replication tasks for the target database should have logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-replication-task-targetdb-logging-enforcement-level" {
   type = string

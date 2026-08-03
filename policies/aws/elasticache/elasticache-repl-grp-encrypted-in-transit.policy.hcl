@@ -2,7 +2,14 @@
 
 # ElastiCache.5 - ElastiCache replication groups should be encrypted in transit.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticache-repl-grp-encrypted-in-transit-enforcement-level" {
   type = string

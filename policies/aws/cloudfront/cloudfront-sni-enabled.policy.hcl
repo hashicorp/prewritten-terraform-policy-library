@@ -2,7 +2,14 @@
 
 # CloudFront.8: CloudFront distributions should use SNI to serve HTTPS requests
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-sni-enabled-enforcement-level" {
   type = string

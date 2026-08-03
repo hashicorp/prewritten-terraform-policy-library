@@ -2,7 +2,14 @@
 
 # RDS.42 - RDS for MariaDB DB instances should publish logs to CloudWatch Logs.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "mariadb-publish-logs-to-cloudwatch-logs-enforcement-level" {
   type = string

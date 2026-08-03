@@ -2,7 +2,14 @@
 
 # DynamoDB.7 - DynamoDB Accelerator clusters should be encrypted in transit
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dax-tls-endpoint-encryption-enforcement-level" {
   type = string

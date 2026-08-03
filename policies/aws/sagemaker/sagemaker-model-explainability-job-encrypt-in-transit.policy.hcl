@@ -2,7 +2,14 @@
 
 # SageMaker.10 - Model Explainability Job Definitions Inter-Container Traffic Encryption.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.63.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-model-explainability-job-encrypt-in-transit-enforcement-level" {
   type = string

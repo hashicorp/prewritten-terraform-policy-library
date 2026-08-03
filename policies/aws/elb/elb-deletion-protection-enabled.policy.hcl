@@ -2,7 +2,14 @@
 
 # ELB.6 - Application, Gateway, and Network Load Balancers should have deletion protection enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elb-deletion-protection-enabled-enforcement-level" {
   type = string

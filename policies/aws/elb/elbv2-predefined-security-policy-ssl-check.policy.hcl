@@ -2,7 +2,14 @@
 
 # Policy: ELB.17 - Application and Network Load Balancers with listeners should use recommended security policies
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elbv2-predefined-security-policy-ssl-check-enforcement-level" {
   type = string

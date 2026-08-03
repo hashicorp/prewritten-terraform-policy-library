@@ -2,7 +2,14 @@
 
 # Inspector.3 - Amazon Inspector Lambda Code Scanning Should Be Enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.25.0, < 7.0.0"
+    }
+  }
+}
 
 input "inspector-lambda-code-scan-enabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # RDS.47 - RDS for PostgreSQL DB clusters should be configured to copy tags to DB snapshots.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-pgsql-cluster-copy-tags-to-snapshot-check-enforcement-level" {
   type = string

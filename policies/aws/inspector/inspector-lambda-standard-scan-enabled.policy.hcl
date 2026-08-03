@@ -2,7 +2,14 @@
 
 # Inspector.4 - Amazon Inspector Lambda Scanning Should Be Enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.59.0, < 7.0.0"
+    }
+  }
+}
 
 input "inspector-lambda-standard-scan-enabled-enforcement-level" {
   type = string

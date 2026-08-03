@@ -2,7 +2,14 @@
 
 # IAM.1: IAM policies should not allow full "*" administrative privileges
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-policy-no-statements-with-admin-access-enforcement-level" {
   type = string

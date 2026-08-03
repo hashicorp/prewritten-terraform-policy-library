@@ -2,7 +2,14 @@
 
 # ES.6 - Elasticsearch domains should have at least three data nodes.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-data-node-fault-tolerance-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Policy: SSM.1 - Amazon EC2 instances should be managed by AWS Systems Manager
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-instance-managed-by-systems-manager-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 // Policy: PCA.1 - AWS Private CA root certificate authority should be disabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "acm-pca-root-ca-disabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # ELB.13 - Application, Network and Gateway Load Balancers should have registered targets in multiple Availability Zones
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elbv2-multiple-az-enforcement-level" {
   type = string

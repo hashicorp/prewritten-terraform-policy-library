@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # Policy: EC2.18 - Security groups should only allow unrestricted incoming traffic for authorized ports
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.56.0, < 7.0.0"
+    }
+  }
+}
 
 input "vpc-sg-open-only-to-authorized-ports-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # Opensearch.8 - Connections to OpenSearch domains should be encrypted using the latest TLS security policy.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.9.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-https-required-enforcement-level" {
   type = string

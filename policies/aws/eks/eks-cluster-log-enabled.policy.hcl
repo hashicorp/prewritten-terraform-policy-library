@@ -2,7 +2,14 @@
 
 # EKS.8 - EKS clusters should have audit logging enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "eks-cluster-log-enabled-enforcement-level" {
   type = string

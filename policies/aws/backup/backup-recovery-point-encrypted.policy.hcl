@@ -2,7 +2,14 @@
 
 # Backup.1 - AWS Backup recovery points should be encrypted at rest.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.1.0, < 7.0.0"
+    }
+  }
+}
 
 input "backup-recovery-point-encrypted-enforcement-level" {
   type = string

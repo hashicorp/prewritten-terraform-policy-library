@@ -2,7 +2,14 @@
 
 # Policy : CloudFront.15 -  CloudFront distributions should use the recommended TLS security policy
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-ssl-policy-check-enforcement-level" {
   type = string

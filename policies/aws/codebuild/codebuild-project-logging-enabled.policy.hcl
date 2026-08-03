@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
 # Policy : CodeBuild.4 - CodeBuild project environments should have a logging AWS Configuration
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "codebuild-project-logging-enabled-enforcement-level" {
   type = string

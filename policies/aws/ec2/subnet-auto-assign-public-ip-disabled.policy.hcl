@@ -2,7 +2,14 @@
 
 # Policy: EC2.15 - Amazon EC2 subnets should not automatically assign public IP addresses
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "subnet-auto-assign-public-ip-disabled-enforcement-level" {
   type = string

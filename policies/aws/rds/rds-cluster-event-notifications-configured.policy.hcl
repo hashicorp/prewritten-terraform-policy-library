@@ -2,7 +2,14 @@
 
 # RDS.19 - Existing RDS event notification subscriptions should be configured for critical cluster events.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-event-notifications-configured-enforcement-level" {
   type = string

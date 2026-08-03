@@ -2,7 +2,14 @@
 
 # RDS.40 - RDS for SQL Server DB instances should publish logs to CloudWatch Logs.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-sql-server-logs-to-cloudwatch-enforcement-level" {
   type = string

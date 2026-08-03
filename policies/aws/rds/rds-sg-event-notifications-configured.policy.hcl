@@ -2,7 +2,14 @@
 
 # RDS.22 - RDS Event Notifications Subscription for Critical Database Security Group Events.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-sg-event-notifications-configured-enforcement-level" {
   type = string

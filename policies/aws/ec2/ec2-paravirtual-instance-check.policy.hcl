@@ -3,7 +3,14 @@
 # Policy: EC2.24 - Amazon EC2 paravirtual instance types should not be used
 
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-paravirtual-instance-check-enforcement-level" {
   type = string

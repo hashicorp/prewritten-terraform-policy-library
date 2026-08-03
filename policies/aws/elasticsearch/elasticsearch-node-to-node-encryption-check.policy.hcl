@@ -2,7 +2,14 @@
 
 # ES.3 - Elasticsearch domains should encrypt data sent between nodes.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-node-to-node-encryption-check-enforcement-level" {
   type = string

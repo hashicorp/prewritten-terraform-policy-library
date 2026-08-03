@@ -2,7 +2,14 @@
 
 # Policy: KMS.1 - IAM customer managed policies should not allow decryption actions on all KMS keys
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-customer-policy-blocked-kms-actions-enforcement-level" {
   type = string

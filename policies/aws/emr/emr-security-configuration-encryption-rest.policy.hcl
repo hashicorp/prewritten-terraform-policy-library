@@ -2,7 +2,14 @@
 
 # EMR.3 - Amazon EMR security configurations should be encrypted at rest.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "emr-security-configuration-encryption-rest-enforcement-level" {
   type = string

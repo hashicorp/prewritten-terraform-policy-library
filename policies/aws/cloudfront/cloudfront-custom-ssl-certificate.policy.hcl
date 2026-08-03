@@ -2,7 +2,14 @@
 
 # Policy: CloudFront.7 - CloudFront distributions should use custom SSL/TLS certificates
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-custom-ssl-certificate-enforcement-level" {
   type = string

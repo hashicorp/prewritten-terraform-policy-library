@@ -2,7 +2,14 @@
 
 # Policy: S3.9 - S3 general purpose buckets should have server access logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-logging-enabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # ElasticBeanstalk.1: Enhanced Health Reporting Required
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "beanstalk-enhanced-health-reporting-enabled-enforcement-level" {
   type = string

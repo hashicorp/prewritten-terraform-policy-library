@@ -2,7 +2,14 @@
 
 # Policy: EC2.20 - Both VPN tunnels for an AWS Site-to-Site VPN connection should be up
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "vpc-vpn-2-tunnels-up-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # EC2.173 - EC2 Spot Fleet requests with launch parameters should enable encryption for attached EBS volumes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-spot-fleet-request-ct-encryption-at-rest-enforcement-level" {
   type = string

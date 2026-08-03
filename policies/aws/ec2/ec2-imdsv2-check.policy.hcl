@@ -2,7 +2,14 @@
 
 # EC2.8 - EC2 instances should use Instance Metadata Service Version 2 (IMDSv2).
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.43.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-imdsv2-check-enforcement-level" {
   type = string

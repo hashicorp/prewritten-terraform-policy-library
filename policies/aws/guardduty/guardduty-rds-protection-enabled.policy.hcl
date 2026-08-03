@@ -2,7 +2,14 @@
 
 # GuardDuty.9 - GuardDuty RDS Protection should be enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.21.0, < 7.0.0"
+    }
+  }
+}
 
 input "guardduty-rds-protection-enabled-enforcement-level" {
   type = string

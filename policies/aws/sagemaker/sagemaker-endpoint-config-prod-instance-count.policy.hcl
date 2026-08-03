@@ -2,7 +2,14 @@
 
 # SageMaker.4 - Endpoint Production Variants Must Have Instance Count > 1.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.47.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-endpoint-config-prod-instance-count-enforcement-level" {
   type = string

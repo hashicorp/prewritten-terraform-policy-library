@@ -2,7 +2,14 @@
 
 # Policy: ELB.7 - Classic Load Balancers should have connection draining enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elb-connection-draining-enabled-enforcement-level" {
   type = string

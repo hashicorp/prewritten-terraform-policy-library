@@ -2,7 +2,14 @@
 
 # Policy : Macie.1 -  Amazon Macie should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "macie-status-check-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # EC2.21 - Network ACLs should not allow ingress from 0.0.0.0/0 to port 22 or port 3389.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-nacl-no-unrestricted-ssh-rdp-enforcement-level" {
   type = string

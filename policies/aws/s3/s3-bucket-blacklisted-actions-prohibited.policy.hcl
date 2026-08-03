@@ -6,7 +6,14 @@
 # Users must explicitly list all blocked actions in the CSV format.
 # Example: "s3:DeleteBucketPolicy,s3:PutBucketAcl,s3:PutBucketPolicy,s3:PutEncryptionConfiguration,s3:PutObjectAcl"
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-blacklisted-actions-prohibited-enforcement-level" {
   type = string

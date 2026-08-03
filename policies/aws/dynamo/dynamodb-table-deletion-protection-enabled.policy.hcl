@@ -2,7 +2,14 @@
 
 # Policy : DynamoDB.6 - DynamoDB tables should have deletion protection enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.59.0, < 7.0.0"
+    }
+  }
+}
 
 input "dynamodb-table-deletion-protection-enabled-enforcement-level" {
   type = string

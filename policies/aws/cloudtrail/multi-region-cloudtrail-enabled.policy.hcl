@@ -2,7 +2,14 @@
 
 # CloudTrail.1: CloudTrail should be enabled and configured with at least one multi-Region trail
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "multi-region-cloudtrail-enabled-enforcement-level" {
   type = string

@@ -2,7 +2,14 @@
 
 # GuardDuty.6 - GuardDuty Lambda Protection should be enabled.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.21.0, < 7.0.0"
+    }
+  }
+}
 
 input "guardduty-lambda-protection-enabled-enforcement-level" {
   type = string
