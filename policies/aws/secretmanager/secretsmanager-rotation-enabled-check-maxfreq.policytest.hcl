@@ -70,3 +70,34 @@ resource "aws_secretsmanager_secret_rotation" "at_limit_secret" {
     ]
   }
 }
+
+# Test: PASS - At least one related rotation candidate meets the maximum frequency
+resource "aws_secretsmanager_secret" "multiple_rotation_secret" {
+  attrs = {
+    arn  = "arn:aws:secretsmanager:us-east-1:123456789012:secret:multiple-rotation"
+    name = "multiple-rotation-secret"
+    id   = "multiple-rotation-secret-id"
+  }
+}
+
+resource "aws_secretsmanager_secret_rotation" "multiple_rotation_slow" {
+  attrs = {
+    secret_id = "multiple-rotation-secret"
+    rotation_rules = [
+      {
+        automatically_after_days = 120
+      }
+    ]
+  }
+}
+
+resource "aws_secretsmanager_secret_rotation" "multiple_rotation_fast" {
+  attrs = {
+    secret_id = "multiple-rotation-secret"
+    rotation_rules = [
+      {
+        automatically_after_days = 30
+      }
+    ]
+  }
+}

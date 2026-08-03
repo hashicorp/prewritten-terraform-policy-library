@@ -78,3 +78,25 @@ resource "aws_s3_bucket_acl" "pass_acl_resource_without_grants_acl" {
     acl    = ""
   }
 }
+
+# Test 6: FAIL - a prohibited ACL is found after a benign candidate
+resource "aws_s3_bucket_acl" "multi_candidate_benign" {
+  attrs = {
+    bucket = "legacy-bucket-multi"
+    acl    = ""
+  }
+}
+
+resource "aws_s3_bucket_acl" "multi_candidate_prohibited" {
+  attrs = {
+    bucket = "legacy-bucket-multi"
+    acl    = "private"
+  }
+}
+
+resource "aws_s3_bucket" "fail_multi_candidate" {
+  expect_failure = true
+  attrs = {
+    bucket = "legacy-bucket-multi"
+  }
+}

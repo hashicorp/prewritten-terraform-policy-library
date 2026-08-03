@@ -16,42 +16,18 @@ input "vpc-flow-logs-enabled-enforcement-level" {
   default = "advisory"
 }
 
-locals {
-  all_flow_logs = core::getresources("aws_flow_log", {})
-
-  required_traffic_type = "REJECT"
-}
-
 resource_policy "aws_vpc" "flow_logging_enabled" {
   enforcement_level = input.vpc-flow-logs-enabled-enforcement-level
-  locals {
-    vpc_id = core::try(attrs.id, "")
-    has_known_vpc_id = core::try(attrs.id != "", false)
-    # Find flow logs associated with this VPC
-    vpc_flow_logs = [
-      for log in local.all_flow_logs :
-      log if core::try(log.vpc_id == local.vpc_id, false)
-    ]
-    
-    # Check if any flow log exists for this VPC
-    has_flow_log = local.has_known_vpc_id && core::try(core::length(local.vpc_flow_logs) > 0, false)
+  filter            = core::try(attrs.id, "") != ""
 
-    # Check if any flow log has traffic_type set to the required non-customizable value
-    reject_logs = [
-      for log in local.vpc_flow_logs :
-      log if core::try(log.traffic_type, "") == local.required_traffic_type
-    ]
-    
-    has_reject_logging = local.has_known_vpc_id && core::try(core::length(local.reject_logs) > 0, false)
-  }
+  connected "aws_flow_log" {
+    min_instances = 1
 
-  enforce {
-    condition     = !local.has_known_vpc_id || local.has_flow_log
-    error_message = "VPC must have VPC Flow Logs enabled. Create an aws_flow_log resource with vpc_id = ${attrs.id}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-6 for more details."
-  }
+    connection {
+      subject   = "id"
+      connected = "vpc_id"
+    }
 
-  enforce {
-    condition     = !local.has_known_vpc_id || local.has_reject_logging
-    error_message = "VPC must have VPC Flow Logs with traffic_type set to '${local.required_traffic_type}'. Current flow logs do not capture the required rejected traffic. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-6 for more details."
+    filter = core::try(connected.aws_flow_log.traffic_type, "") == "REJECT"
   }
 }

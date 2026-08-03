@@ -18,27 +18,24 @@ input "s3-bucket-ssl-requests-only-enforcement-level" {
 
 resource_policy "aws_s3_bucket" "ssl_required" {
   enforcement_level = input.s3-bucket-ssl-requests-only-enforcement-level
-  locals {
-    bucket_name = core::try(attrs.bucket, "")
+  connected "aws_s3_bucket_policy" {
+    min_instances = 1
 
-    # Look up the aws_s3_bucket_policy resource attached to this bucket.
-    matching_policies = core::getresources("aws_s3_bucket_policy", {
-      bucket = local.bucket_name
-    })
+    connection {
+      subject   = "bucket"
+      connected = "bucket"
+    }
 
-    has_policy_resource = core::length(local.matching_policies) > 0
-    bucket_policy       = local.has_policy_resource ? local.matching_policies[0] : null
-    policy_document     = core::try(local.bucket_policy.policy, "")
-
-    # Statement may be a list OR a single object. Normalize to a list.
-    raw_stmts      = core::try(core::jsondecode(local.policy_document).Statement, [])
-    list_stmts     = core::try([for s in local.raw_stmts : s if core::try(s.Effect, "") != ""], [])
-    single_wrapped = core::try(local.raw_stmts.Effect, "") != "" ? [local.raw_stmts] : []
-    statements     = core::concat(local.list_stmts, local.single_wrapped)
-
-    ssl_only_statements = [
-      for stmt in local.statements :
-      stmt if (
+    # Statement may be either a list or a single object.
+    filter = core::try(connected.aws_s3_bucket_policy.policy, "") != "" && core::length([
+      for stmt in core::concat(
+        core::try([
+          for statement in core::jsondecode(connected.aws_s3_bucket_policy.policy).Statement :
+          statement if core::try(statement.Effect, "") != ""
+        ], []),
+        core::try(core::jsondecode(connected.aws_s3_bucket_policy.policy).Statement.Effect, "") != "" ?
+        core::try([core::jsondecode(connected.aws_s3_bucket_policy.policy).Statement], []) : []
+      ) : stmt if (
         core::try(stmt.Effect, "") == "Deny" &&
         (
           core::try(stmt.Principal, "") == "*" ||
@@ -46,7 +43,6 @@ resource_policy "aws_s3_bucket" "ssl_required" {
           core::try(stmt.Principal.AWS[0], "") == "*"
         ) &&
         (
-          # Action may be a string "s3:*" or a list containing "s3:*"
           core::try(stmt.Action, "") == "s3:*" ||
           core::try(core::contains(stmt.Action, "s3:*"), false)
         ) &&
@@ -55,18 +51,6 @@ resource_policy "aws_s3_bucket" "ssl_required" {
           core::try(stmt.Condition.Bool["aws:SecureTransport"], true) == false
         )
       )
-    ]
-
-    has_ssl_only_statement = core::length(local.ssl_only_statements) > 0
-  }
-
-  enforce {
-    condition     = local.has_policy_resource && local.policy_document != ""
-    error_message = "S3 bucket '${local.bucket_name}' must have an associated 'aws_s3_bucket_policy' with a non-empty 'policy' document that denies non-HTTPS requests. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-5 for more details."
-  }
-
-  enforce {
-    condition     = !local.has_policy_resource || local.policy_document == "" || local.has_ssl_only_statement
-    error_message = "S3 bucket '${local.bucket_name}' policy must include a statement that denies non-HTTPS requests, e.g.: {\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:*\",\"Resource\":[\"arn:aws:s3:::<bucket>\",\"arn:aws:s3:::<bucket>/*\"],\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-5 for more details."
+    ]) > 0
   }
 }

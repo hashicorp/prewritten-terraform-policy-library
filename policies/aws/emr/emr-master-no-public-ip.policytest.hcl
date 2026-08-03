@@ -169,3 +169,16 @@ resource "aws_subnet" "mixed_public_subnet" {
     map_public_ip_on_launch = true
   }
 }
+
+# Pass case: unresolved IDs in subnet_ids do not match public subnet resources.
+resource "aws_emr_cluster" "pass_unresolved_subnet_ids" {
+  attrs = {
+    name          = "unresolved-subnets-cluster"
+    release_label = "emr-6.10.0"
+    service_role  = "arn:aws:iam::123456789012:role/EMR_DefaultRole"
+    ec2_attributes = {
+      subnet_ids       = ["subnet-not-in-configuration-1", "subnet-not-in-configuration-2"]
+      instance_profile = "arn:aws:iam::123456789012:instance-profile/EMR_EC2_DefaultRole"
+    }
+  }
+}

@@ -72,3 +72,24 @@ resource "aws_s3_bucket" "fail_empty_target" {
     bucket = "fail-empty-target"
   }
 }
+
+# Test 6: PASS - one qualifying logging resource among multiple candidates
+resource "aws_s3_bucket_logging" "multi_candidate_empty_target" {
+  attrs = {
+    bucket        = "multi-logging-bucket"
+    target_bucket = ""
+  }
+}
+
+resource "aws_s3_bucket_logging" "multi_candidate_valid_target" {
+  attrs = {
+    bucket        = "multi-logging-bucket"
+    target_bucket = "my-log-bucket"
+  }
+}
+
+resource "aws_s3_bucket" "pass_multi_candidate" {
+  attrs = {
+    bucket = "multi-logging-bucket"
+  }
+}

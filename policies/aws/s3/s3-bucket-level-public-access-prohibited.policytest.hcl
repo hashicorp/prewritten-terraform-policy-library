@@ -169,3 +169,33 @@ resource "aws_s3_bucket_public_access_block" "fail_multiple_false" {
     restrict_public_buckets = true
   }
 }
+
+# Test 10: PASS - one qualifying configuration among multiple candidates
+resource "aws_s3_bucket_public_access_block" "multi_candidate_nonqualifying" {
+  skip = true
+  attrs = {
+    bucket                  = "bucket-multi-candidate"
+    block_public_acls       = false
+    block_public_policy     = true
+    ignore_public_acls      = true
+    restrict_public_buckets = true
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "multi_candidate_qualifying" {
+  skip = true
+  attrs = {
+    bucket                  = "bucket-multi-candidate"
+    block_public_acls       = true
+    block_public_policy     = true
+    ignore_public_acls      = true
+    restrict_public_buckets = true
+  }
+}
+
+resource "aws_s3_bucket" "pass_multi_candidate" {
+  attrs = {
+    id     = "bucket-multi-candidate"
+    bucket = "bucket-multi-candidate"
+  }
+}

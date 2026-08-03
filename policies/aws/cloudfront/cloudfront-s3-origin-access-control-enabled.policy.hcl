@@ -16,12 +16,6 @@ input "cloudfront-s3-origin-access-control-enabled-enforcement-level" {
   default = "advisory"
 }
 
-# Cache all OAC resources for efficient lookup
-locals {
-    all_oac_resources = core::getresources("aws_cloudfront_origin_access_control", {})
-    all_bucket_policies = core::getresources("aws_s3_bucket_policy", {})
-}
-
 resource_policy "aws_cloudfront_distribution" "oac_required" {
     enforcement_level = input.cloudfront-s3-origin-access-control-enabled-enforcement-level
 
@@ -111,4 +105,3 @@ resource_policy "aws_cloudfront_origin_access_control" "proper_configuration" {
         error_message = "Origin Access Control must have signing_protocol set to 'sigv4' (current: '${local.signing_protocol}'). SigV4 is required for secure authentication with S3. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-13 for more details."
     }
 }
-

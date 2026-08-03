@@ -8,15 +8,15 @@ policytest {
 
 resource "aws_secretsmanager_secret" "secret_auto_days" {
   attrs = {
-    name = "my-secret"
-    arn  = "my-secret"
+    name = "my-secret-name"
+    arn  = "arn:aws:secretsmanager:us-east-1:123456789012:secret:my-secret"
   }
 }
 
 resource "aws_secretsmanager_secret" "secret_schedule_expr" {
   attrs = {
     name = "my-scheduled-secret"
-    arn  = "my-scheduled-secret"
+    arn  = "arn:aws:secretsmanager:us-east-1:123456789012:secret:my-scheduled-secret"
   }
 }
 
@@ -65,7 +65,7 @@ resource "aws_secretsmanager_secret" "secret_no_rotation" {
 # Test 1: PASS - automatically_after_days within limit; secret exists
 resource "aws_secretsmanager_secret_rotation" "pass_auto_days" {
   attrs = {
-    secret_id           = "my-secret"
+    secret_id           = "my-secret-name"
     rotation_lambda_arn = "arn:aws:lambda:us-east-1:123456789012:function:rotation-function"
     rotation_rules = [
       {
@@ -79,7 +79,7 @@ resource "aws_secretsmanager_secret_rotation" "pass_auto_days" {
 # Test 2: PASS - schedule_expression configured; secret exists
 resource "aws_secretsmanager_secret_rotation" "pass_schedule_expr" {
   attrs = {
-    secret_id           = "my-scheduled-secret"
+    secret_id           = "arn:aws:secretsmanager:us-east-1:123456789012:secret:my-scheduled-secret"
     rotation_lambda_arn = "arn:aws:lambda:us-east-1:123456789012:function:rotation-function"
     rotation_rules = [
       {
@@ -149,6 +149,39 @@ resource "aws_secretsmanager_secret_rotation" "fail_too_long_window" {
     rotation_rules = [
       {
         automatically_after_days = 180
+        schedule_expression      = null
+      }
+    ]
+  }
+}
+
+# Test 8: FAIL - ARN match takes precedence over a valid name fallback
+resource "aws_secretsmanager_secret" "secret_invalid_arn_precedes_name" {
+  expect_failure = true
+  attrs = {
+    name = "precedence-name-valid"
+    arn  = "precedence-arn-invalid"
+  }
+}
+
+resource "aws_secretsmanager_secret_rotation" "invalid_arn_precedence" {
+  attrs = {
+    secret_id = "precedence-arn-invalid"
+    rotation_rules = [
+      {
+        automatically_after_days = 180
+        schedule_expression      = null
+      }
+    ]
+  }
+}
+
+resource "aws_secretsmanager_secret_rotation" "valid_name_fallback_ignored" {
+  attrs = {
+    secret_id = "precedence-name-valid"
+    rotation_rules = [
+      {
+        automatically_after_days = 30
         schedule_expression      = null
       }
     ]

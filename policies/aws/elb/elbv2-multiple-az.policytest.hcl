@@ -175,3 +175,104 @@ resource "aws_lb_target_group_attachment" "alb_single_attachment" {
     target_id        = "i-alb-single"
   }
 }
+
+# Fail Case 2: Distinct targets in the same AZ count as one Availability Zone
+resource "aws_lb" "duplicate_az" {
+  expect_failure = true
+  attrs = {
+    arn  = "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/duplicate-az/123"
+    name = "duplicate-az"
+  }
+}
+
+resource "aws_lb_listener" "duplicate_az" {
+  attrs = {
+    load_balancer_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/duplicate-az/123"
+    default_action = [{
+      target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/duplicate-az/123"
+    }]
+  }
+}
+
+resource "aws_instance" "duplicate_az_a" {
+  attrs = {
+    id        = "i-duplicate-az-a"
+    subnet_id = "subnet-11111111"
+  }
+}
+
+resource "aws_instance" "duplicate_az_b" {
+  attrs = {
+    id        = "i-duplicate-az-b"
+    subnet_id = "subnet-11111111"
+  }
+}
+
+resource "aws_lb_target_group_attachment" "duplicate_az_a" {
+  attrs = {
+    target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/duplicate-az/123"
+    target_id        = "i-duplicate-az-a"
+  }
+}
+
+resource "aws_lb_target_group_attachment" "duplicate_az_b" {
+  attrs = {
+    target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/duplicate-az/123"
+    target_id        = "i-duplicate-az-b"
+  }
+}
+
+# Pass Case 3: Distinct target groups on separate listener branches combine
+# their target AZs for the load balancer.
+resource "aws_lb" "branched_target_groups" {
+  attrs = {
+    arn  = "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/branched/123"
+    name = "branched"
+  }
+}
+
+resource "aws_lb_listener" "branched_a" {
+  attrs = {
+    load_balancer_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/branched/123"
+    default_action = [{
+      target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/branched-a/123"
+    }]
+  }
+}
+
+resource "aws_lb_listener" "branched_b" {
+  attrs = {
+    load_balancer_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/branched/123"
+    default_action = [{
+      target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/branched-b/123"
+    }]
+  }
+}
+
+resource "aws_instance" "branched_a" {
+  attrs = {
+    id        = "i-branched-a"
+    subnet_id = "subnet-11111111"
+  }
+}
+
+resource "aws_instance" "branched_b" {
+  attrs = {
+    id        = "i-branched-b"
+    subnet_id = "subnet-22222222"
+  }
+}
+
+resource "aws_lb_target_group_attachment" "branched_a" {
+  attrs = {
+    target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/branched-a/123"
+    target_id        = "i-branched-a"
+  }
+}
+
+resource "aws_lb_target_group_attachment" "branched_b" {
+  attrs = {
+    target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/branched-b/123"
+    target_id        = "i-branched-b"
+  }
+}

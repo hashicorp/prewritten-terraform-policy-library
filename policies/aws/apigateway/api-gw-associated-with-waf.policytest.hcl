@@ -16,6 +16,7 @@ resource "aws_wafv2_web_acl_association" "stage_with_waf" {
 
 resource "aws_api_gateway_stage" "stage_with_waf_association" {
   attrs = {
+    arn = "arn:aws:apigateway:*::/restapis/abc123/stages/prod"
     rest_api_id = "abc123"
     stage_name = "prod"
     deployment_id = "dep123"
@@ -26,6 +27,7 @@ resource "aws_api_gateway_stage" "stage_with_waf_association" {
 resource "aws_api_gateway_stage" "stage_without_waf" {
   expect_failure = true
   attrs = {
+    arn = "arn:aws:apigateway:*::/restapis/xyz789/stages/dev"
     rest_api_id = "xyz789"
     stage_name = "dev"
     deployment_id = "dep456"
@@ -35,6 +37,7 @@ resource "aws_api_gateway_stage" "stage_without_waf" {
 # Test 3: API Gateway stage with web_acl_arn attribute set - PASS
 resource "aws_api_gateway_stage" "stage_with_web_acl_arn" {
   attrs = {
+    arn = "arn:aws:apigateway:*::/restapis/def456/stages/staging"
     rest_api_id = "def456"
     stage_name = "staging"
     deployment_id = "dep789"
@@ -53,6 +56,7 @@ resource "aws_wafv2_web_acl_association" "multi_stage_waf" {
 
 resource "aws_api_gateway_stage" "multi_stage_protected" {
   attrs = {
+    arn = "arn:aws:apigateway:*::/restapis/mno345/stages/production"
     rest_api_id = "mno345"
     stage_name = "production"
     deployment_id = "dep999"
@@ -62,6 +66,7 @@ resource "aws_api_gateway_stage" "multi_stage_protected" {
 resource "aws_api_gateway_stage" "multi_stage_unprotected" {
   expect_failure = true
   attrs = {
+    arn = "arn:aws:apigateway:*::/restapis/mno345/stages/test"
     rest_api_id = "mno345"
     stage_name = "test"
     deployment_id = "dep888"

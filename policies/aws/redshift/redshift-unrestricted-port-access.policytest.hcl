@@ -23,7 +23,7 @@ resource "aws_redshift_cluster" "pass_restricted_access" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-restricted"]
+    vpc_security_group_ids = core::toset(["sg-restricted"])
     port = 5439
   }
 }
@@ -46,7 +46,7 @@ resource "aws_redshift_cluster" "pass_restricted_ipv6" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-restricted-ipv6"]
+    vpc_security_group_ids = core::toset(["sg-restricted-ipv6"])
     port = 5439
   }
 }
@@ -69,7 +69,7 @@ resource "aws_redshift_cluster" "pass_different_port" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-diff-port"]
+    vpc_security_group_ids = core::toset(["sg-diff-port"])
     port = 5439
   }
 }
@@ -92,7 +92,7 @@ resource "aws_redshift_cluster" "pass_custom_port_restricted" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-custom-port"]
+    vpc_security_group_ids = core::toset(["sg-custom-port"])
     port = 6439
   }
 }
@@ -116,7 +116,7 @@ resource "aws_redshift_cluster" "fail_unrestricted_ipv4" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-unrestricted-ipv4"]
+    vpc_security_group_ids = core::toset(["sg-unrestricted-ipv4"])
     port = 5439
   }
 }
@@ -140,7 +140,7 @@ resource "aws_redshift_cluster" "fail_unrestricted_ipv6" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-unrestricted-ipv6"]
+    vpc_security_group_ids = core::toset(["sg-unrestricted-ipv6"])
     port = 5439
   }
 }
@@ -164,7 +164,7 @@ resource "aws_redshift_cluster" "fail_port_range_unrestricted" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-port-range"]
+    vpc_security_group_ids = core::toset(["sg-port-range"])
     port = 5439
   }
 }
@@ -188,7 +188,7 @@ resource "aws_redshift_cluster" "fail_all_protocols_unrestricted" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-all-protocols"]
+    vpc_security_group_ids = core::toset(["sg-all-protocols"])
     port = 5439
   }
 }
@@ -210,7 +210,7 @@ resource "aws_redshift_cluster" "fail_custom_port_unrestricted" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-custom-unrestricted"]
+    vpc_security_group_ids = core::toset(["sg-custom-unrestricted"])
     port = 7439
   }
 }
@@ -234,7 +234,7 @@ resource "aws_redshift_cluster" "fail_multiple_sgs_one_unrestricted" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-restricted-multi", "sg-unrestricted-multi"]
+    vpc_security_group_ids = core::toset(["sg-restricted-multi", "sg-unrestricted-multi"])
     port = 5439
   }
 }
@@ -268,7 +268,7 @@ resource "aws_redshift_cluster" "pass_multiple_sgs_all_restricted" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-restricted-1", "sg-restricted-2"]
+    vpc_security_group_ids = core::toset(["sg-restricted-1", "sg-restricted-2"])
     port = 5439
   }
 }
@@ -303,7 +303,7 @@ resource "aws_redshift_cluster" "fail_sg_multiple_rules_one_unrestricted" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-multi-rules"]
+    vpc_security_group_ids = core::toset(["sg-multi-rules"])
     port = 5439
   }
 }
@@ -337,7 +337,7 @@ resource "aws_redshift_cluster" "pass_default_port_restricted" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-default-port"]
+    vpc_security_group_ids = core::toset(["sg-default-port"])
   }
 }
 
@@ -360,7 +360,7 @@ resource "aws_redshift_cluster" "fail_wide_port_range_unrestricted" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-wide-range"]
+    vpc_security_group_ids = core::toset(["sg-wide-range"])
     port = 5439
   }
 }
@@ -383,7 +383,7 @@ resource "aws_redshift_cluster" "pass_multiple_sgs_partial_rules_defined" {
     node_type = "dc2.large"
     master_username = "admin"
     database_name = "mydb"
-    vpc_security_group_ids = ["sg-with-rules", "sg-without-rules", "sg-another-without-rules"]
+    vpc_security_group_ids = core::toset(["sg-with-rules", "sg-without-rules", "sg-another-without-rules"])
     port = 5439
   }
 }
@@ -396,5 +396,19 @@ resource "aws_vpc_security_group_ingress_rule" "with_rules_restricted" {
     from_port = 5439
     to_port = 5439
     cidr_ipv4 = "10.0.0.0/16"
+  }
+}
+
+# Test 17: FAIL - List membership still finds a resolved unrestricted rule when
+# another security-group ID is unresolved.
+resource "aws_redshift_cluster" "fail_mixed_resolved_and_unresolved_security_groups" {
+  expect_failure = true
+  attrs = {
+    cluster_identifier     = "test-cluster-mixed-sgs"
+    node_type              = "dc2.large"
+    master_username        = "admin"
+    database_name          = "mydb"
+    vpc_security_group_ids = core::toset(["sg-not-in-configuration", "sg-unrestricted-ipv4"])
+    port                   = 5439
   }
 }
