@@ -27,7 +27,7 @@ resource_policy "aws_fsx_ontap_file_system" "ontap_multi_az_deployment" {
         trimmed_input = core::trimspace(input.ontap_deployment_types)
         inputs = [for split in core::split(",", local.trimmed_input) : core::trimspace(split)]
         has_invalid_input = core::contains([
-            for input in local.inputs: input == "MULTI_AZ_1" || input == "MULTI_AZ_2"
+            for deployment_value in local.inputs: deployment_value == "MULTI_AZ_1" || deployment_value == "MULTI_AZ_2"
         ], false)
         deployment_type = core::try(attrs.deployment_type, "SINGLE_AZ_1")
     }
