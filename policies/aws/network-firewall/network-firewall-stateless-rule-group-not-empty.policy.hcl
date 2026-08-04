@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy : NetworkFirewall.6 - Stateless Network Firewall rule group should not be empty
+# Stateless Network Firewall rule group should not be empty
 
 policy {
   required_providers {
@@ -28,6 +28,6 @@ resource_policy "aws_networkfirewall_rule_group" "stateless_not_empty" {
 
     enforce {
         condition = local.has_rules
-        error_message = "Stateless Network Firewall rule group does not contain any rules. Add at least one stateless_rule block to rule_group.rules_source.stateless_rules_and_custom_actions to ensure the rule group processes traffic as intended. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-6 for more details."
+        error_message = "Stateless Network Firewall rule group does not contain any rules. Add at least one stateless_rule block to rule_group.rules_source.stateless_rules_and_custom_actions to ensure the rule group processes traffic as intended"
     }
 }

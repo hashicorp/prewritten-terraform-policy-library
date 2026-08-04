@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# CloudFront.13 - CloudFront distributions should use origin access control
+# CloudFront distributions should use origin access control
 
 policy {
   required_providers {
@@ -72,13 +72,13 @@ resource_policy "aws_cloudfront_distribution" "oac_required" {
     # Enforce: Distribution must have at least one origin configured
     enforce {
         condition = local.has_origins
-        error_message = "CloudFront distribution has no origins configured (origin is null or empty). At least one origin must be defined. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-13 for more details."
+        error_message = "CloudFront distribution has no origins configured (origin is null or empty). At least one origin must be defined"
     }
 
     # Enforce: All S3 origins (those without custom_origin_config) must have OAC configured
     enforce {
         condition = !local.has_likely_s3_origins || local.all_s3_origins_have_oac
-        error_message = "CloudFront distribution has origins without origin access control (OAC). Origins missing OAC: ${core::join(", ", local.missing_oac_origin_ids)}. Configure origin_access_control_id for all S3 origins to restrict access through CloudFront only. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-13 for more details."
+        error_message = "CloudFront distribution has origins without origin access control (OAC). Origins missing OAC: ${core::join(", ", local.missing_oac_origin_ids)}. Configure origin_access_control_id for all S3 origins to restrict access through CloudFront only"
     }
 }
 
@@ -102,13 +102,13 @@ resource_policy "aws_cloudfront_origin_access_control" "proper_configuration" {
     # Enforce: OAC must have signing_behavior set to "always"
     enforce {
         condition = local.has_valid_signing_behavior
-        error_message = "Origin Access Control must have signing_behavior set to 'always' (current: '${local.signing_behavior}'). This ensures CloudFront always signs requests to the S3 origin. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-13 for more details."
+        error_message = "Origin Access Control must have signing_behavior set to 'always' (current: '${local.signing_behavior}'). This ensures CloudFront always signs requests to the S3 origin"
     }
 
     # Enforce: OAC must have signing_protocol set to "sigv4"
     enforce {
         condition = local.has_valid_signing_protocol
-        error_message = "Origin Access Control must have signing_protocol set to 'sigv4' (current: '${local.signing_protocol}'). SigV4 is required for secure authentication with S3. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-13 for more details."
+        error_message = "Origin Access Control must have signing_protocol set to 'sigv4' (current: '${local.signing_protocol}'). SigV4 is required for secure authentication with S3"
     }
 }
 

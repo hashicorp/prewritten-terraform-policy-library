@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy : NetworkFirewall.3 -  Network Firewall policies should have at least one rule group associated.
+# Network Firewall policies should have at least one rule group associated
 
 policy {
   required_providers {
@@ -35,6 +35,6 @@ resource_policy "aws_networkfirewall_firewall_policy" "rule_group_required" {
 
     enforce {
         condition = local.has_rule_groups
-        error_message = "Network Firewall policy does not have any rule groups associated. The policy must have at least one stateful_rule_group_reference or stateless_rule_group_reference configured. Add rule groups to define traffic filtering behavior. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-3 for more details."
+        error_message = "Network Firewall policy does not have any rule groups associated. The policy must have at least one stateful_rule_group_reference or stateless_rule_group_reference configured. Add rule groups to define traffic filtering behavior"
     }
 }

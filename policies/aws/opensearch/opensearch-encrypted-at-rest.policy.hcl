@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Opensearch.1 - OpenSearch domains should have encryption at rest enabled.
+# OpenSearch domains should have encryption at rest enabled
 
 policy {
   required_providers {
@@ -32,6 +32,6 @@ resource_policy "aws_opensearch_domain" "encryption_at_rest_enabled" {
 
     enforce {
         condition = local.has_enabled
-        error_message = "OpenSearch domains should have encryption at rest enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-1 for more details."
+        error_message = "OpenSearch domains should have encryption at rest enabled"
     }
 }

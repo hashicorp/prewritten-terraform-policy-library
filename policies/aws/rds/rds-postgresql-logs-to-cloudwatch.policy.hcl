@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.36 - RDS for PostgreSQL DB instances should publish logs to CloudWatch Logs.
+# RDS for PostgreSQL DB instances should publish logs to CloudWatch Logs
 
 policy {
   required_providers {
@@ -28,6 +28,6 @@ resource_policy "aws_db_instance" "postgresql_cloudwatch_logs" {
 
     enforce {
         condition = local.postgresql_logging_enabled && local.upgrade_logging_enabled
-        error_message = "RDS PostgreSQL instance does not have CloudWatch Logs export enabled for both 'postgresql' and 'upgrade' logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-36 for more details."
+        error_message = "RDS PostgreSQL instance does not have CloudWatch Logs export enabled for both 'postgresql' and 'upgrade' logs"
     }
 }

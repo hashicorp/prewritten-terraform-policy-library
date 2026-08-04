@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy : Kinesis.1 -  Kinesis streams should be encrypted at rest
+# Kinesis streams should be encrypted at rest
 policy {
   required_providers {
     aws = {
@@ -28,11 +28,11 @@ resource_policy "aws_kinesis_stream" "encryption_at_rest" {
 
     enforce {
         condition = local.is_encrypted
-        error_message = "Kinesis stream does not have encryption enabled. The 'encryption_type' must be set to 'KMS' (currently: '${local.encryption_type}'). Server-side encryption protects data at rest using AWS KMS keys. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/kinesis-controls.html#kinesis-1 for more details."
+        error_message = "Kinesis stream does not have encryption enabled. The 'encryption_type' must be set to 'KMS' (currently: '${local.encryption_type}'). Server-side encryption protects data at rest using AWS KMS keys"
     }
 
     enforce {
         condition = !local.is_encrypted || local.has_kms_key
-        error_message = "Kinesis stream has encryption_type set to 'KMS' but 'kms_key_id' is not specified. You must provide a KMS key ID or use the alias 'alias/aws/kinesis' for the Kinesis-owned master key. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/kinesis-controls.html#kinesis-1 for more details."
+        error_message = "Kinesis stream has encryption_type set to 'KMS' but 'kms_key_id' is not specified. You must provide a KMS key ID or use the alias 'alias/aws/kinesis' for the Kinesis-owned master key"
     }
 }

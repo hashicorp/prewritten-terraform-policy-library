@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EC2.172 - EC2 VPC Block Public Access settings should block internet gateway traffic
+# EC2 VPC Block Public Access settings should block internet gateway traffic
 policy {
   required_providers {
     aws = {
@@ -44,11 +44,11 @@ resource_policy "aws_vpc_block_public_access_options" "ec2_172_vpc_bpa_igw_block
 
     enforce {
         condition = local.is_compliant
-        error_message = "VPC Block Public Access settings must have InternetGatewayBlockMode set to 'block-bidirectional' or 'block-ingress'. Current mode: '${local.igw_block_mode}'. Configuring VPC BPA settings blocks resources in VPCs and subnets from reaching or being reached from the internet through internet gateways and egress-only internet gateways. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-172 for more details."
+        error_message = "VPC Block Public Access settings must have InternetGatewayBlockMode set to 'block-bidirectional' or 'block-ingress'. Current mode: '${local.igw_block_mode}'. Configuring VPC BPA settings blocks resources in VPCs and subnets from reaching or being reached from the internet through internet gateways and egress-only internet gateways"
     }
 
     enforce {
         condition = local.matches_target_mode
-        error_message = "VPC Block Public Access settings must have InternetGatewayBlockMode set to '${input.vpcBpaInternetGatewayBlockMode}' when input.vpcBpaInternetGatewayBlockMode is provided. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-172 for more details."
+        error_message = "VPC Block Public Access settings must have InternetGatewayBlockMode set to '${input.vpcBpaInternetGatewayBlockMode}' when input.vpcBpaInternetGatewayBlockMode is provided"
     }
 }

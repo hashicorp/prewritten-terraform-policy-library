@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.8 - RDS DB instances should have deletion protection enabled.
+# RDS DB instances should have deletion protection enabled
 
 policy {
   required_providers {
@@ -30,6 +30,6 @@ resource_policy "aws_db_instance" "deletion_protection_enabled" {
     }
     enforce {
         condition = local.is_supported_engine && core::try(attrs.deletion_protection, false) == true
-        error_message = "RDS DB instances should have deletion protection enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-8 for more details."
+        error_message = "RDS DB instances should have deletion protection enabled"
     }
 }

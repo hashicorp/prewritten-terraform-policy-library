@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EMR.2 - Amazon EMR block public access setting should be enabled.
+# Amazon EMR block public access setting should be enabled
 
 policy {
   required_providers {
@@ -25,6 +25,6 @@ resource_policy "aws_emr_block_public_access_configuration" "block-public-access
 
     enforce {
         condition = local.block_security_group_enabled && local.is_permitted_range
-        error_message = "The EMR block public access configuration does not have the correct settings. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/emr-controls.html#emr-2 for more details."
+        error_message = "The EMR block public access configuration does not have the correct settings"
     }
 }

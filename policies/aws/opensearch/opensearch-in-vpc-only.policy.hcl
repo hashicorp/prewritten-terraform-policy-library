@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Opensearch.2 - OpenSearch domains should not be publicly accessible.
+# OpenSearch domains should not be publicly accessible
 
 policy {
   required_providers {
@@ -26,6 +26,6 @@ resource_policy "aws_opensearch_domain" "vpc_deployment_required" {
 
     enforce {
         condition = local.has_vpc_options && local.has_subnet_ids
-        error_message = "OpenSearch domain must be deployed within a VPC. Configure 'vpc_options' block with 'subnet_ids' to deploy the domain in a VPC. Note: Public domains cannot be migrated to VPC - you must create a new domain. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-2 for more details."
+        error_message = "OpenSearch domain must be deployed within a VPC. Configure 'vpc_options' block with 'subnet_ids' to deploy the domain in a VPC. Note: Public domains cannot be migrated to VPC - you must create a new domain"
     }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.3 - EBS Encryption at Rest
+# Attached Amazon EBS volumes should be encrypted at-rest
 
 policy {
   required_providers {
@@ -24,7 +24,7 @@ resource_policy "aws_ebs_volume" "encryption_required" {
 
     enforce {
         condition = local.encrypted == true
-        error_message = "EBS volume must have encryption enabled. Set 'encrypted = true' in the resource configuration. Note: This control only applies to attached volumes at runtime. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-3 for more details."
+        error_message = "EBS volume must have encryption enabled. Set 'encrypted = true' in the resource configuration. Note: This control only applies to attached volumes at runtime"
     }
 }
 
@@ -49,7 +49,7 @@ resource_policy "aws_instance" "ebs_encryption_required" {
 
     enforce {
         condition = local.all_ebs_encrypted
-        error_message = "EC2 instance has ${core::length(local.unencrypted_ebs_devices)} unencrypted EBS block device(s). All EBS block devices must have 'encrypted = true'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-3 for more details."
+        error_message = "EC2 instance has ${core::length(local.unencrypted_ebs_devices)} unencrypted EBS block device(s). All EBS block devices must have 'encrypted = true'"
     }
 }
 
@@ -70,6 +70,6 @@ resource_policy "aws_instance" "root_encryption_required" {
 
     enforce {
         condition = local.root_encrypted == true
-        error_message = "EC2 instance has an unencrypted root block device. Set 'encrypted = true' in the root_block_device configuration. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-3 for more details."
+        error_message = "EC2 instance has an unencrypted root block device. Set 'encrypted = true' in the root_block_device configuration"
     }
 }

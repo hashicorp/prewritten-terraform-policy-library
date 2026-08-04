@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ELB.4 - Application Load Balancer should drop invalid HTTP headers.
+# Application Load Balancer should be configured to drop invalid http headers
 
 policy {
   required_providers {
@@ -26,6 +26,6 @@ resource_policy "aws_lb" "drop_invalid_header_fields_enabled" {
 
     enforce {
         condition = local.drop_invalid_header_fields_enabled == true
-        error_message = "Application Load Balancer must set drop_invalid_header_fields = true to drop invalid HTTP headers. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-4 for more details."
+        error_message = "Application Load Balancer must set drop_invalid_header_fields = true to drop invalid HTTP headers"
     }
 }

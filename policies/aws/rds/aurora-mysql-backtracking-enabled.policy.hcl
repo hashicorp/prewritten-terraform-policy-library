@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.14 - Amazon Aurora clusters should have backtracking enabled.
+# Amazon Aurora clusters should have backtracking enabled
 
 policy {
   required_providers {
@@ -24,6 +24,6 @@ resource_policy "aws_rds_cluster" "backtracking_enabled" {
     }
     enforce {
         condition = local.backtrack_window > 0 && local.backtrack_window <= 259200
-        error_message = "Amazon Aurora clusters should have backtracking enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-14 for more details."
+        error_message = "Amazon Aurora clusters should have backtracking enabled"
     }
 }

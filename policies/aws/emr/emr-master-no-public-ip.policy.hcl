@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EMR.1: Amazon EMR cluster primary nodes should not have public IP addresses
+# Amazon EMR cluster primary nodes should not have public IP addresses
 
 policy {
   required_providers {
@@ -47,11 +47,11 @@ resource_policy "aws_emr_cluster" "emr_master_no_public_ip" {
 
   enforce {
     condition = core::length(local.candidate_subnets) > 0
-    error_message = "EMR cluster must be launched in a VPC subnet. Configure ec2_attributes with subnet_id or subnet_ids. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/emr-controls.html#emr-1 for more details."
+    error_message = "EMR cluster must be launched in a VPC subnet. Configure ec2_attributes with subnet_id or subnet_ids"
   }
 
   enforce {
     condition = !local.any_subnet_assigns_public_ip
-    error_message = "EMR cluster master nodes must not have public IP addresses. One or more subnets configured in ec2_attributes have map_public_ip_on_launch enabled. Launch the cluster only in private subnets with map_public_ip_on_launch set to false. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/emr-controls.html#emr-1 for more details."
+    error_message = "EMR cluster master nodes must not have public IP addresses. One or more subnets configured in ec2_attributes have map_public_ip_on_launch enabled. Launch the cluster only in private subnets with map_public_ip_on_launch set to false"
   }
 }

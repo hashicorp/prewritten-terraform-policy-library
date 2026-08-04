@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# WorkSpaces.2 - WorkSpaces root volumes should be encrypted at rest.
+# WorkSpaces root volumes should be encrypted at rest
 
 policy {
   required_providers {
@@ -20,6 +20,6 @@ resource_policy "aws_workspaces_workspace" "root-volume-encrypted" {
     enforcement_level = input.workspaces-root-volume-encryption-enabled-enforcement-level
     enforce {
         condition = core::try(attrs.root_volume_encryption_enabled, false)
-        error_message = "The WorkSpaces root volume is not encrypted at rest. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/workspaces-controls.html#workspaces-2 for more details."
+        error_message = "The WorkSpaces root volume is not encrypted at rest"
     }
 }

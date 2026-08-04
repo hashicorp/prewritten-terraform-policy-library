@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.44 - RDS for MariaDB DB instances should be encrypted in transit.
+# RDS for MariaDB DB instances should be encrypted in transit
 
 policy {
   required_providers {
@@ -38,6 +38,6 @@ resource_policy "aws_db_instance" "mariadb_encrypted_transit" {
   
   enforce {
     condition = !local.is_valid_version || (local.has_param && local.is_enabled)
-    error_message = "RDS MariaDB instance must have require_secure_transport enabled in parameter group. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-44 for more details."
+    error_message = "RDS MariaDB instance must have require_secure_transport enabled in parameter group"
   }
 }

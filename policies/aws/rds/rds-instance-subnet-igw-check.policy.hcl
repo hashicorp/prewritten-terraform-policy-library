@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.46 - RDS DB instances should not be deployed in public subnets with routes to internet gateways.
+# RDS DB instances should not be deployed in public subnets with routes to internet gateways
 
 policy {
   required_providers {
@@ -110,6 +110,6 @@ resource_policy "aws_db_instance" "no_public_subnet_igw" {
   enforce {
     # Fail closed: if subnet group cannot be resolved, treat as noncompliant
     condition = local.can_evaluate && !local.has_igw_route
-    error_message = "RDS DB instance must use a resolvable DB subnet group whose subnets do not have default routes to an Internet Gateway. Unresolved subnet groups and public subnet routing are noncompliant. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-46 for more details."
+    error_message = "RDS DB instance must use a resolvable DB subnet group whose subnets do not have default routes to an Internet Gateway. Unresolved subnet groups and public subnet routing are noncompliant"
   }
 }

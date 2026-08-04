@@ -34,6 +34,6 @@ resource_policy "aws_api_gateway_domain_name" "recommended_security_policy" {
 
     enforce {
         condition = local.has_security_policy && local.uses_recommended_policy
-        error_message = "API Gateway domain name must have security_policy explicitly configured. Set security_policy to one of the allowed values (SecurityPolicy_TLS13_1_3_2025_09, SecurityPolicy_TLS13_1_3_FIPS_2025_09, SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09, SecurityPolicy_TLS13_2025_EDGE, SecurityPolicy_TLS12_PFS_2025_EDGE). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-11 for more details."
+        error_message = "API Gateway domain name must have security_policy explicitly configured. Set security_policy to one of the allowed values (SecurityPolicy_TLS13_1_3_2025_09, SecurityPolicy_TLS13_1_3_FIPS_2025_09, SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09, SecurityPolicy_TLS13_2025_EDGE, SecurityPolicy_TLS12_PFS_2025_EDGE)"
     }
 }

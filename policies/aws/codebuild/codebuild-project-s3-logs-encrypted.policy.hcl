@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: CodeBuild.3 - CodeBuild S3 logs should be encrypted
+# CodeBuild S3 logs should be encrypted
 
 policy {
   required_providers {
@@ -39,6 +39,6 @@ resource_policy "aws_codebuild_project" "s3_logs_encrypted" {
 
     enforce {
         condition = local.is_compliant
-        error_message = "CodeBuild project has S3 logging enabled but encryption is disabled. Set 'encryption_disabled = false' or remove the attribute to enable encryption (default behavior). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/codebuild-controls.html#codebuild-3 for more details."
+        error_message = "CodeBuild project has S3 logging enabled but encryption is disabled. Set 'encryption_disabled = false' or remove the attribute to enable encryption (default behavior)"
     }
 }

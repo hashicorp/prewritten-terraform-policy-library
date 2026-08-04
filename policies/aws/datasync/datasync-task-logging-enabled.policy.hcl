@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# DataSync.1 - DataSync tasks should have logging enabled
+# DataSync tasks should have logging enabled
 
 policy {
   required_providers {
@@ -36,11 +36,11 @@ resource_policy "aws_datasync_task" "logging_required" {
 
   enforce {
     condition = local.has_log_group
-    error_message = "DataSync task must have cloudwatch_log_group_arn configured. Configure a CloudWatch Log Group ARN to enable logging. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/datasync-controls.html#datasync-1 for more details."
+    error_message = "DataSync task must have cloudwatch_log_group_arn configured. Configure a CloudWatch Log Group ARN to enable logging"
   }
 
   enforce {
     condition = local.log_level != "OFF"
-    error_message = "DataSync task has logging disabled (log_level = '${local.log_level}'). Set options.log_level to 'BASIC' or 'TRANSFER' to enable logging. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/datasync-controls.html#datasync-1 for more details."
+    error_message = "DataSync task has logging disabled (log_level = '${local.log_level}'). Set options.log_level to 'BASIC' or 'TRANSFER' to enable logging"
   }
 }

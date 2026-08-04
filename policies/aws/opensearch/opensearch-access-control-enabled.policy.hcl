@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Opensearch.7 - Fine-Grained Access Control.
+# OpenSearch domains should have fine-grained access control enabled
 
 policy {
   required_providers {
@@ -26,6 +26,6 @@ resource_policy "aws_opensearch_domain" "fine_grained_access_control" {
 
     enforce {
         condition = local.has_advanced_security_options && local.fgac_enabled == true
-        error_message = "OpenSearch domain does not have fine-grained access control properly configured. Required: 'advanced_security_options { enabled = true }'. Ensure the advanced_security_options block exists and enabled is set to true to comply with AWS Security Hub control Opensearch.7. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-7 for more details."
+        error_message = "OpenSearch domain does not have fine-grained access control properly configured. Required: 'advanced_security_options { enabled = true }'. Ensure the advanced_security_options block exists and enabled is set to true to comply with AWS Security Hub control Opensearch.7"
     }
 }

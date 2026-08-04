@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# CloudTrail.1: CloudTrail should be enabled and configured with at least one multi-Region trail
+# multi-region-cloudtrail-enabled
 
 policy {
   required_providers {
@@ -87,12 +87,12 @@ resource_policy "aws_cloudtrail" "multi_region_trail_required" {
 
     enforce {
         condition = local.is_multi_region == true
-        error_message = "CloudTrail trail '${local.trail_name}' must be configured as a multi-region trail. Set 'is_multi_region_trail = true' to capture events across all AWS regions. Refer to https://docs.aws.amazon.com/config/latest/developerguide/multi-region-cloudtrail-enabled.html for more details."
+        error_message = "CloudTrail trail '${local.trail_name}' must be configured as a multi-region trail. Set 'is_multi_region_trail = true' to capture events across all AWS regions"
     }
 
     enforce {
         condition = local.logging_enabled == true
-        error_message = "CloudTrail trail '${local.trail_name}' must have logging enabled. Set 'enable_logging = true' to record AWS API calls. Refer to https://docs.aws.amazon.com/config/latest/developerguide/multi-region-cloudtrail-enabled.html for more details."
+        error_message = "CloudTrail trail '${local.trail_name}' must have logging enabled. Set 'enable_logging = true' to record AWS API calls"
     }
 
     enforce {

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: S3.24 - S3 Multi-Region Access Points Block Public Access
+# S3 Multi-Region Access Points should have block public access settings enabled
 
 policy {
   required_providers {
@@ -34,6 +34,6 @@ resource_policy "aws_s3control_multi_region_access_point" "block_public_access_e
     # Enforce: all public access block settings must be true
     enforce {
         condition = local.block_public_acls && local.block_public_policy && local.ignore_public_acls && local.restrict_public_buckets
-        error_message = "S3 Multi-Region Access Point must have all Block Public Access settings enabled. Set all details.public_access_block fields to true or omit them to use the secure defaults. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-24 for more details."
+        error_message = "S3 Multi-Region Access Point must have all Block Public Access settings enabled. Set all details.public_access_block fields to true or omit them to use the secure defaults"
     }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# SecretsManager.2 - Secrets Manager secrets configured with automatic rotation should rotate successfully
+# Secrets Manager secrets configured with automatic rotation should rotate successfully
 
 policy {
   required_providers {
@@ -54,21 +54,21 @@ resource_policy "aws_secretsmanager_secret" "rotation_success_check" {
 
   enforce {
     condition     = local.has_rotation_resource
-    error_message = "Secrets Manager secret '${local.secret_name}' must have an associated 'aws_secretsmanager_secret_rotation' resource configured for automatic rotation. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/secretsmanager-controls.html#secretsmanager-2 for more details."
+    error_message = "Secrets Manager secret '${local.secret_name}' must have an associated 'aws_secretsmanager_secret_rotation' resource configured for automatic rotation"
   }
 
   enforce {
     condition     = !local.has_rotation_resource || local.has_rotation_rules
-    error_message = "Secrets Manager secret '${local.secret_name}' rotation must define rotation_rules so that rotation occurs as scheduled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/secretsmanager-controls.html#secretsmanager-2 for more details."
+    error_message = "Secrets Manager secret '${local.secret_name}' rotation must define rotation_rules so that rotation occurs as scheduled"
   }
 
   enforce {
     condition     = !local.has_rotation_rules || local.has_schedule
-    error_message = "Secrets Manager secret '${local.secret_name}' rotation_rules must set either 'automatically_after_days' or 'schedule_expression' so that rotation occurs as scheduled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/secretsmanager-controls.html#secretsmanager-2 for more details."
+    error_message = "Secrets Manager secret '${local.secret_name}' rotation_rules must set either 'automatically_after_days' or 'schedule_expression' so that rotation occurs as scheduled"
   }
 
   enforce {
     condition     = local.auto_days_within_limit
-    error_message = "Secrets Manager secret '${local.secret_name}' rotation 'automatically_after_days' must be 90 or less so the secret rotates frequently enough to satisfy the scheduled-rotation requirement. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/secretsmanager-controls.html#secretsmanager-2 for more details."
+    error_message = "Secrets Manager secret '${local.secret_name}' rotation 'automatically_after_days' must be 90 or less so the secret rotates frequently enough to satisfy the scheduled-rotation requirement"
   }
 }

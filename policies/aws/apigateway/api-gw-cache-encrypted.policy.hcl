@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: APIGateway.5 - API Gateway REST API cache data should be encrypted at rest
+# API Gateway REST API cache data should be encrypted at rest
 
 policy {
   required_providers {
@@ -34,6 +34,6 @@ resource_policy "aws_api_gateway_method_settings" "cache_encryption_required" {
 
     enforce {
         condition = local.cache_data_encrypted == true
-        error_message = "API Gateway method '${local.method_path}' in stage '${local.stage_name}' has caching enabled but cache data is not encrypted. Enable cache encryption by setting cache_data_encrypted = true in the method settings. Refer this https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-5 for more details."
+        error_message = "API Gateway method '${local.method_path}' in stage '${local.stage_name}' has caching enabled but cache data is not encrypted. Enable cache encryption by setting cache_data_encrypted = true in the method settings"
     }
 }

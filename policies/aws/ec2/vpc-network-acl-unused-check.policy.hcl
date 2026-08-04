@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EC2.16 - Unused Network Access Control Lists should be removed
+# Unused Network Access Control Lists should be removed
 
 policy {
   required_providers {
@@ -29,7 +29,7 @@ resource_policy "aws_network_acl" "unused_nacl_check" {
 
   enforce {
     condition     = local.has_direct_subnet_associations
-    error_message = "Network ACL is unused and should be removed. Non-default network ACLs must be associated with at least one subnet via the subnet_ids attribute. Unused network ACLs should be deleted to maintain a clean infrastructure. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-16 for more details."
+    error_message = "Network ACL is unused and should be removed. Non-default network ACLs must be associated with at least one subnet via the subnet_ids attribute. Unused network ACLs should be deleted to maintain a clean infrastructure"
   }
 }
 
@@ -39,6 +39,6 @@ resource_policy "aws_default_network_acl" "allow_default_nacl" {
   
   enforce {
     condition     = true
-    error_message = "This should never fail - default network ACLs are always compliant. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-16 for more details."
+    error_message = "This should never fail - default network ACLs are always compliant"
   }
 }

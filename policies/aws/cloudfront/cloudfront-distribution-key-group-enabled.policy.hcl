@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# CloudFront.17 - CloudFront distributions should use trusted key groups for signed URLs and cookies
+# CloudFront distributions should use trusted key groups for signed URLs and cookies
 
 policy {
   required_providers {
@@ -58,12 +58,12 @@ resource_policy "aws_cloudfront_distribution" "trusted_key_groups_required" {
     # Rule A: the deprecated trusted_signers attribute must not be used anywhere.
     enforce {
         condition     = !local.uses_trusted_signers
-        error_message = "CloudFront distribution uses the deprecated 'trusted_signers' attribute on one or more cache behaviors. Migrate to 'trusted_key_groups' for signed URLs/cookies. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-17 for more details."
+        error_message = "CloudFront distribution uses the deprecated 'trusted_signers' attribute on one or more cache behaviors. Migrate to 'trusted_key_groups' for signed URLs/cookies"
     }
 
     # Rule B: if any cache behavior configures authentication, it must use trusted_key_groups.
     enforce {
         condition     = !local.uses_authentication || local.uses_trusted_key_groups
-        error_message = "CloudFront distribution configures signed-URL/cookie authentication but does not use 'trusted_key_groups' on any cache behavior. Configure trusted_key_groups on the relevant default/ordered cache behaviors. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-17 for more details."
+        error_message = "CloudFront distribution configures signed-URL/cookie authentication but does not use 'trusted_key_groups' on any cache behavior. Configure trusted_key_groups on the relevant default/ordered cache behaviors"
     }
 }

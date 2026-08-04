@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# GuardDuty.11 - GuardDuty Runtime Monitoring should be enabled.
+# GuardDuty Runtime Monitoring should be enabled
 
 policy {
   required_providers {
@@ -31,12 +31,12 @@ resource_policy "aws_guardduty_detector_feature" "runtime_monitoring_enabled" {
 
     enforce {
         condition = core::try(attrs.status, "DISABLED") == "ENABLED"
-        error_message = "GuardDuty Runtime Monitoring feature must have status 'ENABLED'. Enable Runtime Monitoring to detect threats in AWS workloads. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-11 for more details."
+        error_message = "GuardDuty Runtime Monitoring feature must have status 'ENABLED'. Enable Runtime Monitoring to detect threats in AWS workloads"
     }
 
     enforce {
         condition = local.addon_management_enabled == true
-        error_message = "GuardDuty Runtime Monitoring feature must enable at least one agent management configuration (EC2_AGENT_MANAGEMENT, ECS_FARGATE_AGENT_MANAGEMENT, or EKS_ADDON_MANAGEMENT) with status 'ENABLED'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-11 for more details."
+        error_message = "GuardDuty Runtime Monitoring feature must enable at least one agent management configuration (EC2_AGENT_MANAGEMENT, ECS_FARGATE_AGENT_MANAGEMENT, or EKS_ADDON_MANAGEMENT) with status 'ENABLED'"
     }
 }
 
@@ -55,11 +55,11 @@ resource_policy "aws_guardduty_organization_configuration_feature" "runtime_moni
 
     enforce {
         condition = core::try(attrs.auto_enable, "NONE") == "ALL"
-        error_message = "GuardDuty organization configuration feature does not have RUNTIME_MONITORING properly configured for member accounts. Set auto_enable = 'ALL' to enable for all existing and new member accounts. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-11 for more details."
+        error_message = "GuardDuty organization configuration feature does not have RUNTIME_MONITORING properly configured for member accounts. Set auto_enable = 'ALL' to enable for all existing and new member accounts"
     }
 
     enforce {
         condition = local.addon_management_enabled == true
-        error_message = "GuardDuty organization configuration feature must have EC2_AGENT_MANAGEMENT, ECS_FARGATE_AGENT_MANAGEMENT, or EKS_ADDON_MANAGEMENT enabled for automated agent management for member accounts. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-11 for more details."
+        error_message = "GuardDuty organization configuration feature must have EC2_AGENT_MANAGEMENT, ECS_FARGATE_AGENT_MANAGEMENT, or EKS_ADDON_MANAGEMENT enabled for automated agent management for member accounts"
     }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: MSK.6 - MSK clusters should disable unauthenticated access
+# MSK clusters should disable unauthenticated access
 
 policy {
   required_providers {
@@ -45,11 +45,11 @@ resource_policy "aws_msk_cluster" "disable_unauthenticated_access" {
     
     enforce {
         condition = !local.unauthenticated_enabled
-        error_message = "MSK cluster must not have unauthenticated access enabled. Set client_authentication.unauthenticated to false or omit it entirely. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/msk-controls.html#msk-6 for more details."
+        error_message = "MSK cluster must not have unauthenticated access enabled. Set client_authentication.unauthenticated to false or omit it entirely"
     }
     
     enforce {
         condition = local.has_auth_mechanism
-        error_message = "MSK cluster must have at least one authentication mechanism enabled (IAM, SASL/SCRAM, or TLS). Configure client_authentication.sasl.iam, client_authentication.sasl.scram, or client_authentication.tls. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/msk-controls.html#msk-6 for more details."
+        error_message = "MSK cluster must have at least one authentication mechanism enabled (IAM, SASL/SCRAM, or TLS). Configure client_authentication.sasl.iam, client_authentication.sasl.scram, or client_authentication.tls"
     }
 }

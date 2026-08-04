@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# CodeBuild.1 - CodeBuild Bitbucket source repository URLs should not contain sensitive credentials
+# CodeBuild Bitbucket source repository URLs should not contain sensitive credentials
 
 policy {
   required_providers {
@@ -54,12 +54,12 @@ resource_policy "aws_codebuild_project" "bitbucket_credentials_check" {
     # Check primary source has proper authentication
     enforce {
         condition = local.primary_has_proper_auth
-        error_message = "CodeBuild project must use CODECONNECTIONS or SECRETS_MANAGER authentication for Bitbucket source. Current auth type: '${local.primary_auth_type}'. Configure OAuth or AWS CodeStar Connections for secure authentication.Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/codebuild-controls.html#codebuild-1 for more details."
+        error_message = "CodeBuild project must use CODECONNECTIONS or SECRETS_MANAGER authentication for Bitbucket source. Current auth type: '${local.primary_auth_type}'. Configure OAuth or AWS CodeStar Connections for secure authentication"
     }
 
     # Check secondary sources have proper authentication
     enforce {
         condition = local.secondary_compliant
-        error_message = "CodeBuild project has ${core::length(local.secondary_auth_violations)} secondary Bitbucket source(s) without proper authentication. Configure CODECONNECTIONS or SECRETS_MANAGER authentication for all secondary sources. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/codebuild-controls.html#codebuild-1 for more details. "
+        error_message = "CodeBuild project has ${core::length(local.secondary_auth_violations)} secondary Bitbucket source(s) without proper authentication. Configure CODECONNECTIONS or SECRETS_MANAGER authentication for all secondary sources"
     }
 }

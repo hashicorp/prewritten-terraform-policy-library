@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ECS.19 - ECS capacity providers should have managed termination protection enabled
+# ECS capacity providers should have managed termination protection enabled
 
 policy {
   required_providers {
@@ -40,12 +40,12 @@ resource_policy "aws_ecs_capacity_provider" "managed_termination_protection_enab
     # Enforce that managed_termination_protection is ENABLED
     enforce {
         condition = local.termination_protection == "ENABLED"
-        error_message = "ECS capacity provider must have managed_termination_protection set to 'ENABLED'. This protects instances with running tasks from being terminated during scale-in operations. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-19 for more details."
+        error_message = "ECS capacity provider must have managed_termination_protection set to 'ENABLED'. This protects instances with running tasks from being terminated during scale-in operations"
     }
 
     # Enforce that managed_scaling is also enabled (required for termination protection)
     enforce {
         condition = local.managed_scaling_status == "ENABLED"
-        error_message = "ECS capacity provider must have managed_scaling.status set to 'ENABLED' for managed_termination_protection to work properly. Managed termination protection requires managed scaling to be enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-19 for more details."
+        error_message = "ECS capacity provider must have managed_scaling.status set to 'ENABLED' for managed_termination_protection to work properly. Managed termination protection requires managed scaling to be enabled"
     }
 }

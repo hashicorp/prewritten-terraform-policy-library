@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.27 - RDS DB clusters should be encrypted at rest.
+# RDS DB clusters should be encrypted at rest
 
 policy {
   required_providers {
@@ -26,6 +26,6 @@ resource_policy "aws_rds_cluster" "encrypted_at_rest" {
 
     enforce {
         condition = local.provisioned_condition || local.serverless_condition
-        error_message = "RDS DB clusters should be encrypted at rest. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-27 for more details."
+        error_message = "RDS DB clusters should be encrypted at rest"
     }
 }

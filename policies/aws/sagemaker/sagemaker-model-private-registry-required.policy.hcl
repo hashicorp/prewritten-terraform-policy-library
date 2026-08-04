@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: SageMaker.16 - Models should use private registry in VPC for primary containers
+# SageMaker models should use private registry in VPC for primary containers
 # AWS Config rule: sagemaker-model-private-registry-required
 # NON_COMPLIANT if ImageConfig is missing on the primary_container, or RepositoryAccessMode is "Platform".
 # Multi-container inference pipelines (using `container` instead of `primary_container`) are out of scope
@@ -55,18 +55,18 @@ resource_policy "aws_sagemaker_model" "private_registry_required" {
     # Enforce: image_config must be configured on the primary container.
     enforce {
         condition     = local.has_image_config
-        error_message = "SageMaker model must have image_config configured in primary_container. Configure image_config with repository_access_mode set to 'Vpc' to use a private Docker registry in VPC. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-16 for more details."
+        error_message = "SageMaker model must have image_config configured in primary_container. Configure image_config with repository_access_mode set to 'Vpc' to use a private Docker registry in VPC"
     }
 
     # Enforce: repository_access_mode must be "Vpc" (not "Platform" or empty).
     enforce {
         condition     = local.is_vpc_mode
-        error_message = "SageMaker model must use repository_access_mode 'Vpc' (currently: '${local.repository_access_mode}'). Set repository_access_mode to 'Vpc' to pull container images from a private registry within your VPC instead of the public platform. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-16 for more details."
+        error_message = "SageMaker model must use repository_access_mode 'Vpc' (currently: '${local.repository_access_mode}'). Set repository_access_mode to 'Vpc' to pull container images from a private registry within your VPC instead of the public platform"
     }
 
     # Enforce: if repository_auth_config is provided, its credentials_provider_arn must be set.
     enforce {
         condition     = local.valid_credentials
-        error_message = "SageMaker model primary_container uses VPC mode with repository_auth_config but repository_credentials_provider_arn is empty. Provide the ARN of an AWS Lambda function that supplies credentials for the private Docker registry. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-16 for more details."
+        error_message = "SageMaker model primary_container uses VPC mode with repository_auth_config but repository_credentials_provider_arn is empty. Provide the ARN of an AWS Lambda function that supplies credentials for the private Docker registry"
     }
 }

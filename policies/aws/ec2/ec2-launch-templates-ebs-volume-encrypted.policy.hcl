@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EC2.181 - EC2 Launch Templates Should Enable Encryption for Attached EBS Volumes.
+# EC2 launch templates should enable encryption for attached EBS volumes
 
 policy {
   required_providers {
@@ -30,6 +30,6 @@ resource_policy "aws_launch_template" "ebs_encryption_enabled" {
 
     enforce {
         condition = core::length(local.unencrypted_devices) == 0
-        error_message = "Launch template has EBS volume(s) without encryption enabled. Set 'block_device_mappings.ebs.encrypted = true' for all EBS volumes. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-181 for more details."
+        error_message = "Launch template has EBS volume(s) without encryption enabled. Set 'block_device_mappings.ebs.encrypted = true' for all EBS volumes"
     }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: DynamoDB.2 - Point-in-time recovery enabled
+# dynamodb-pitr-enabled
 
 policy {
   required_providers {
@@ -31,6 +31,6 @@ resource_policy "aws_dynamodb_table" "pitr_enabled" {
 
   enforce {
     condition     = local.pitr_enabled == true
-    error_message = "DynamoDB table must have point-in-time recovery enabled. Add a 'point_in_time_recovery' block with 'enabled = true' to comply with AWS Security Hub control DynamoDB.2. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dynamodb-controls.html#dynamodb-2 for more details."
+    error_message = "DynamoDB table must have point-in-time recovery enabled. Add a 'point_in_time_recovery' block with 'enabled = true' to comply with AWS Security Hub control DynamoDB.2"
   }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ECS.9 - ECS task definitions should have a logging configuration.
+# ECS task definitions should have a logging configuration
 
 policy {
   required_providers {
@@ -34,6 +34,6 @@ resource_policy "aws_ecs_task_definition" "ecs_task_definition_logging_configure
 
     enforce {
         condition = (core::length(local.containers_with_logging_conf) == 0) && (core::length(local.containers_with_invalid_logging) ==0)
-        error_message = "ECS task definition must configure logConfiguration.logDriver for every container. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-9 for more details."
+        error_message = "ECS task definition must configure logConfiguration.logDriver for every container"
     }
 }

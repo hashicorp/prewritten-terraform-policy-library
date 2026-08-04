@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.23 - RDS instances should not use a database engine default port.
+# RDS instances should not use a database engine default port
 
 policy {
   required_providers {
@@ -47,7 +47,7 @@ resource_policy "aws_db_instance" "no_default_port" {
 
     enforce {
         condition = local.configured_port != local.default_port
-        error_message = "RDS instance uses the default port. Configure a non-default port to reduce attack surface. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-23 for more details."
+        error_message = "RDS instance uses the default port. Configure a non-default port to reduce attack surface"
     }
 }
 
@@ -70,6 +70,6 @@ resource_policy "aws_rds_cluster" "no_default_port_cluster" {
 
     enforce {
         condition = local.configured_port != local.default_port
-        error_message = "RDS cluster uses the default port. Configure a non-default port to reduce attack surface. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-23 for more details."
+        error_message = "RDS cluster uses the default port. Configure a non-default port to reduce attack surface"
     }
 }

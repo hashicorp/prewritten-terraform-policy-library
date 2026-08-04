@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# SageMaker.14 - SageMaker monitoring schedules should have network isolation enabled.
+# SageMaker monitoring schedules should have network isolation enabled
 
 policy {
   required_providers {
@@ -30,7 +30,7 @@ resource_policy "aws_sagemaker_monitoring_schedule" "network_isolation_enabled" 
 
     enforce {
         condition = local.network_isolation_enabled == true
-        error_message = "SageMaker monitoring schedule does not have network isolation enabled. Set 'monitoring_schedule_config.monitoring_job_definition.network_config.enable_network_isolation = true' to prevent outbound network calls from monitoring containers. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-14 for more details."
+        error_message = "SageMaker monitoring schedule does not have network isolation enabled. Set 'monitoring_schedule_config.monitoring_job_definition.network_config.enable_network_isolation = true' to prevent outbound network calls from monitoring containers"
     }
 }
 
@@ -44,6 +44,6 @@ resource_policy "aws_sagemaker_data_quality_job_definition" "network_isolation_e
 
     enforce {
         condition = local.network_isolation_enabled == true
-        error_message = "SageMaker data quality job definition does not have network isolation enabled. Set 'network_config.enable_network_isolation = true' to prevent outbound network calls from monitoring containers. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-14 for more details."
+        error_message = "SageMaker data quality job definition does not have network isolation enabled. Set 'network_config.enable_network_isolation = true' to prevent outbound network calls from monitoring containers"
     }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Cognito.3 - Password policies for Cognito user pools should have strong configurations
+# Cognito user pools should have a strong password policy
 
 policy {
   required_providers {
@@ -82,31 +82,31 @@ resource_policy "aws_cognito_user_pool" "cognito3_password_policy" {
 
     enforce {
         condition = local.has_minimum_length
-        error_message = "Cognito user pool '${local.user_pool_name}' password policy must require a minimum length of at least ${input.minLength} characters. Current minimum length: ${local.minimum_length}. Refer to https://docs.aws.amazon.com/config/latest/developerguide/cognito-user-pool-password-policy-check.html for more details."
+        error_message = "Cognito user pool '${local.user_pool_name}' password policy must require a minimum length of at least ${input.minLength} characters. Current minimum length: ${local.minimum_length}"
     }
 
     enforce {
         condition = local.has_required_lowercase
-        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set require_lowercase to '${input.requireLowercase}'. Current value: '${local.require_lowercase}'. Refer to https://docs.aws.amazon.com/config/latest/developerguide/cognito-user-pool-password-policy-check.html for more details."
+        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set require_lowercase to '${input.requireLowercase}'. Current value: '${local.require_lowercase}'"
     }
 
     enforce {
         condition = local.has_required_numbers
-        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set require_numbers to '${input.requireNumbers}'. Current value: '${local.require_numbers}'. Refer to https://docs.aws.amazon.com/config/latest/developerguide/cognito-user-pool-password-policy-check.html for more details."
+        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set require_numbers to '${input.requireNumbers}'. Current value: '${local.require_numbers}'"
     }
 
     enforce {
         condition = local.has_required_symbols
-        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set require_symbols to '${input.requireSymbols}'. Current value: '${local.require_symbols}'. Refer to https://docs.aws.amazon.com/config/latest/developerguide/cognito-user-pool-password-policy-check.html for more details."
+        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set require_symbols to '${input.requireSymbols}'. Current value: '${local.require_symbols}'"
     }
 
     enforce {
         condition = local.has_required_uppercase
-        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set require_uppercase to '${input.requireUppercase}'. Current value: '${local.require_uppercase}'. Refer to https://docs.aws.amazon.com/config/latest/developerguide/cognito-user-pool-password-policy-check.html for more details."
+        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set require_uppercase to '${input.requireUppercase}'. Current value: '${local.require_uppercase}'"
     }
 
     enforce {
         condition = local.has_valid_temporary_password_validity
-        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set temporary_password_validity_days to a value between 1 and ${input.temporaryPasswordValidity}. Current value: ${local.temporary_password_validity_days}. Refer to https://docs.aws.amazon.com/config/latest/developerguide/cognito-user-pool-password-policy-check.html for more details."
+        error_message = "Cognito user pool '${local.user_pool_name}' password policy must set temporary_password_validity_days to a value between 1 and ${input.temporaryPasswordValidity}. Current value: ${local.temporary_password_validity_days}"
     }
 }

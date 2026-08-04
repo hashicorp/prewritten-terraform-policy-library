@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ELB.1: Application Load Balancer HTTP to HTTPS Redirection
+# Application Load Balancer should be configured to redirect all HTTP requests to HTTPS
 
 policy {
   required_providers {
@@ -37,6 +37,6 @@ resource_policy "aws_lb_listener" "http_to_https_redirect" {
 
   enforce {
     condition     = local.has_https_redirect
-    error_message = "Application Load Balancer HTTP listener must have a default_action of type 'redirect' that targets the HTTPS protocol. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-1 for more details."
+    error_message = "Application Load Balancer HTTP listener must have a default_action of type 'redirect' that targets the HTTPS protocol"
   }
 }

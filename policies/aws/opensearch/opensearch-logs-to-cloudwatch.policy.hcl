@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Opensearch.4 - OpenSearch domain error logging to CloudWatch Logs should be enabled.
+# OpenSearch domain error logging to CloudWatch Logs should be enabled
 
 policy {
   required_providers {
@@ -34,16 +34,16 @@ resource_policy "aws_opensearch_domain" "error_logging_enabled" {
 
     enforce {
         condition = local.has_application_logs
-        error_message = "OpenSearch domain does not have ES_APPLICATION_LOGS configured. Add a log_publishing_options block with log_type = 'ES_APPLICATION_LOGS' to enable error logging to CloudWatch Logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-4 for more details."
+        error_message = "OpenSearch domain does not have ES_APPLICATION_LOGS configured. Add a log_publishing_options block with log_type = 'ES_APPLICATION_LOGS' to enable error logging to CloudWatch Logs"
     }
 
     enforce {
         condition = local.is_enabled
-        error_message = "OpenSearch domain has ES_APPLICATION_LOGS configured but it is disabled. Set 'enabled = true' or remove the enabled attribute (defaults to true). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-4 for more details."
+        error_message = "OpenSearch domain has ES_APPLICATION_LOGS configured but it is disabled. Set 'enabled = true' or remove the enabled attribute (defaults to true)"
     }
 
     enforce {
         condition = local.has_log_group
-        error_message = "OpenSearch domain has ES_APPLICATION_LOGS configured but missing 'cloudwatch_log_group_arn'. Specify a valid CloudWatch Log Group ARN to store the logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-4 for more details."
+        error_message = "OpenSearch domain has ES_APPLICATION_LOGS configured but missing 'cloudwatch_log_group_arn'. Specify a valid CloudWatch Log Group ARN to store the logs"
     }
 }

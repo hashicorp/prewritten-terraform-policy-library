@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# DocumentDB.4 - Amazon DocumentDB clusters should publish audit logs to CloudWatch Logs.
+# Amazon DocumentDB clusters should publish audit logs to CloudWatch Logs
 
 policy {
   required_providers {
@@ -28,6 +28,6 @@ resource_policy "aws_docdb_cluster" "audit-logging-enabled" {
 
     enforce {
         condition = local.has_audit_logging
-        error_message = "The DocumentDB cluster does not have audit logging enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/documentdb-controls.html#documentdb-4 for more details."
+        error_message = "The DocumentDB cluster does not have audit logging enabled"
     }
 }

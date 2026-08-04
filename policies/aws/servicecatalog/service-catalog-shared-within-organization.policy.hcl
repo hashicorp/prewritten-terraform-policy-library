@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ServiceCatalog.1 - Service Catalog portfolios should be shared within an AWS organization only
+# Service Catalog portfolios should be shared within an AWS organization only
 
 policy {
   required_providers {
@@ -35,11 +35,11 @@ resource_policy "aws_servicecatalog_portfolio_share" "organization_only_sharing"
 
     enforce {
         condition = !local.is_external_account
-        error_message = "Portfolio share uses type='ACCOUNT' which shares with external accounts. Service Catalog portfolios must be shared within the organization only. Use 'ORGANIZATION_MEMBER_ACCOUNT' (recommended), 'ORGANIZATIONAL_UNIT', or 'ORGANIZATION' instead. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/servicecatalog-controls.html#servicecatalog-1 for more details."
+        error_message = "Portfolio share uses type='ACCOUNT' which shares with external accounts. Service Catalog portfolios must be shared within the organization only. Use 'ORGANIZATION_MEMBER_ACCOUNT' (recommended), 'ORGANIZATIONAL_UNIT', or 'ORGANIZATION' instead"
     }
 
     enforce {
         condition = local.is_org_based
-        error_message = "Portfolio share has invalid or missing share type '${local.share_type}'. Valid organization-based types are: ${core::join(", ", local.valid_org_types)}. Recommended: 'ORGANIZATION_MEMBER_ACCOUNT' for sharing with specific accounts in the organization. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/servicecatalog-controls.html#servicecatalog-1 for more details."
+        error_message = "Portfolio share has invalid or missing share type '${local.share_type}'. Valid organization-based types are: ${core::join(", ", local.valid_org_types)}. Recommended: 'ORGANIZATION_MEMBER_ACCOUNT' for sharing with specific accounts in the organization"
     }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy : IAM.21 -  IAM customer managed policies that you create should not allow wildcard actions for services
+# IAM customer managed policies that you create should not allow wildcard actions for services
 
 policy {
   required_providers {
@@ -86,12 +86,12 @@ resource_policy "aws_iam_policy" "deny_service_wildcards" {
 
     enforce {
         condition = !local.should_evaluate || core::length(local.violating_actions) == 0
-        error_message = "IAM policy '${local.policy_name}' must not allow full service wildcard actions such as 'ec2:*' in Allow statements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-21 for more details."
+        error_message = "IAM policy '${local.policy_name}' must not allow full service wildcard actions such as 'ec2:*' in Allow statements"
     }
 
     enforce {
         condition = !local.should_evaluate || core::length(local.violating_not_actions) == 0
-        error_message = "IAM policy '${local.policy_name}' must not use NotAction with full service wildcards such as 'ec2:*' in Allow statements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-21 for more details."
+        error_message = "IAM policy '${local.policy_name}' must not use NotAction with full service wildcards such as 'ec2:*' in Allow statements"
     }
 }
 
@@ -135,12 +135,12 @@ resource_policy "aws_iam_role_policy" "deny_service_wildcards" {
 
     enforce {
         condition = core::length(local.violating_actions) == 0
-        error_message = "IAM role inline policy '${core::try(attrs.name, "unnamed-role-policy")}' must not allow full service wildcard actions such as 'ec2:*' in Allow statements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-21 for more details."
+        error_message = "IAM role inline policy '${core::try(attrs.name, "unnamed-role-policy")}' must not allow full service wildcard actions such as 'ec2:*' in Allow statements"
     }
 
     enforce {
         condition = core::length(local.violating_not_actions) == 0
-        error_message = "IAM role inline policy '${core::try(attrs.name, "unnamed-role-policy")}' must not use NotAction with full service wildcards such as 'ec2:*' in Allow statements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-21 for more details."
+        error_message = "IAM role inline policy '${core::try(attrs.name, "unnamed-role-policy")}' must not use NotAction with full service wildcards such as 'ec2:*' in Allow statements"
     }
 }
 
@@ -184,12 +184,12 @@ resource_policy "aws_iam_user_policy" "deny_service_wildcards" {
 
     enforce {
         condition = core::length(local.violating_actions) == 0
-        error_message = "IAM user inline policy '${core::try(attrs.name, "unnamed-user-policy")}' must not allow full service wildcard actions such as 'ec2:*' in Allow statements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-21 for more details."
+        error_message = "IAM user inline policy '${core::try(attrs.name, "unnamed-user-policy")}' must not allow full service wildcard actions such as 'ec2:*' in Allow statements"
     }
 
     enforce {
         condition = core::length(local.violating_not_actions) == 0
-        error_message = "IAM user inline policy '${core::try(attrs.name, "unnamed-user-policy")}' must not use NotAction with full service wildcards such as 'ec2:*' in Allow statements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-21 for more details."
+        error_message = "IAM user inline policy '${core::try(attrs.name, "unnamed-user-policy")}' must not use NotAction with full service wildcards such as 'ec2:*' in Allow statements"
     }
 }
 
@@ -233,11 +233,11 @@ resource_policy "aws_iam_group_policy" "deny_service_wildcards" {
 
     enforce {
         condition = core::length(local.violating_actions) == 0
-        error_message = "IAM group inline policy '${core::try(attrs.name, "unnamed-group-policy")}' must not allow full service wildcard actions such as 'ec2:*' in Allow statements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-21 for more details."
+        error_message = "IAM group inline policy '${core::try(attrs.name, "unnamed-group-policy")}' must not allow full service wildcard actions such as 'ec2:*' in Allow statements"
     }
 
     enforce {
         condition = core::length(local.violating_not_actions) == 0
-        error_message = "IAM group inline policy '${core::try(attrs.name, "unnamed-group-policy")}' must not use NotAction with full service wildcards such as 'ec2:*' in Allow statements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-21 for more details."
+        error_message = "IAM group inline policy '${core::try(attrs.name, "unnamed-group-policy")}' must not use NotAction with full service wildcards such as 'ec2:*' in Allow statements"
     }
 }

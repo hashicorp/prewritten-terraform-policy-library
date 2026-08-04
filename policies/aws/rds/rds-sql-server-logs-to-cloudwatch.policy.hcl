@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.40 - RDS for SQL Server DB instances should publish logs to CloudWatch Logs.
+# RDS for SQL Server DB instances should publish logs to CloudWatch Logs
 
 policy {
   required_providers {
@@ -32,6 +32,6 @@ resource_policy "aws_db_instance" "sql_cloudwatch_logs" {
 
     enforce {
         condition = local.error_logging_enabled && local.agent_logging_enabled
-        error_message = "RDS SQL server instance does not have CloudWatch Logs export enabled for both 'agent' and 'error' logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-40 for more details."
+        error_message = "RDS SQL server instance does not have CloudWatch Logs export enabled for both 'agent' and 'error' logs"
     }
 }

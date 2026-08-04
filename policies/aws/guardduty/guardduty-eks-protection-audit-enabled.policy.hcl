@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# GuardDuty.5 - GuardDuty EKS Audit Log Monitoring should be enabled.
+# GuardDuty EKS Audit Log Monitoring should be enabled
 
 policy {
   required_providers {
@@ -23,7 +23,7 @@ resource_policy "aws_guardduty_detector_feature" "eks_audit_logs_enabled" {
 
     enforce {
         condition = core::try(attrs.status, "DISABLED") == "ENABLED"
-        error_message = "GuardDuty detector feature does not have EKS Audit Log Monitoring enabled. Set status = 'ENABLED' to enable EKS audit log monitoring for threat detection in EKS clusters. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-5 for more details."
+        error_message = "GuardDuty detector feature does not have EKS Audit Log Monitoring enabled. Set status = 'ENABLED' to enable EKS audit log monitoring for threat detection in EKS clusters"
     }
 }
 
@@ -34,6 +34,6 @@ resource_policy "aws_guardduty_organization_configuration_feature" "eks_audit_lo
 
     enforce {
         condition = core::try(attrs.auto_enable, "NONE") == "ALL"
-        error_message = "GuardDuty organization configuration feature does not have EKS Audit Log Monitoring properly configured for member accounts. Set auto_enable = 'ALL' to enable for all existing and new member accounts. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-5 for more details."
+        error_message = "GuardDuty organization configuration feature does not have EKS Audit Log Monitoring properly configured for member accounts. Set auto_enable = 'ALL' to enable for all existing and new member accounts"
     }
 }

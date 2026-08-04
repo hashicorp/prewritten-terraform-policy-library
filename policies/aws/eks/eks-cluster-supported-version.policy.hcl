@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EKS.2 - EKS clusters should run on a supported Kubernetes version.
+# EKS clusters should run on a supported Kubernetes version
 
 policy {
   required_providers {
@@ -25,6 +25,6 @@ resource_policy "aws_eks_cluster" "supported_version" {
 
     enforce {
         condition = local.version == "" || core::semverconstraint(local.version, ">=${local.oldest_version_supported}")
-        error_message = "EKS cluster is either missing required 'version' attribute or is running an unsupported Kubernetes version. The cluster must be running a version that is at least '1.33'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/eks-controls.html#eks-2 for more details."
+        error_message = "EKS cluster is either missing required 'version' attribute or is running an unsupported Kubernetes version. The cluster must be running a version that is at least '1.33'"
     }
 }

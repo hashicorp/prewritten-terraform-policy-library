@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy : RedshiftServerless.6 - Redshift Serverless namespaces should export logs to CloudWatch Logs
+# Redshift Serverless namespaces should export logs to CloudWatch Logs
 
 policy {
   required_providers {
@@ -26,11 +26,11 @@ resource_policy "aws_redshiftserverless_namespace" "require_cloudwatch_log_expor
 
     enforce {
         condition = local.has_connection_log
-        error_message = "Redshift Serverless namespace must export connectionlog to CloudWatch Logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshiftserverless-controls.html#redshiftserverless-6 for more details."
+        error_message = "Redshift Serverless namespace must export connectionlog to CloudWatch Logs"
     }
 
     enforce {
         condition = local.has_user_log
-        error_message = "Redshift Serverless namespace must export userlog to CloudWatch Logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshiftserverless-controls.html#redshiftserverless-6 for more details."
+        error_message = "Redshift Serverless namespace must export userlog to CloudWatch Logs"
     }
 }

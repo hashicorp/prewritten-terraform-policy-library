@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ES.8 - Elasticsearch Domain TLS Security Policy.
+# Connections to Elasticsearch domains should be encrypted using the latest TLS security policy
 
 policy {
   required_providers {
@@ -28,11 +28,11 @@ resource_policy "aws_elasticsearch_domain" "tls_security_policy" {
 
     enforce {
         condition = local.enforce_https == true
-        error_message = "Elasticsearch domain must have HTTPS enforcement enabled. Set 'domain_endpoint_options.enforce_https = true' to encrypt connections. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-8 for more details."
+        error_message = "Elasticsearch domain must have HTTPS enforcement enabled. Set 'domain_endpoint_options.enforce_https = true' to encrypt connections"
     }
 
     enforce {
         condition = local.tls_policy == "Policy-Min-TLS-1-2-PFS-2023-10"
-        error_message = "Elasticsearch domain must use the latest TLS security policy 'Policy-Min-TLS-1-2-PFS-2023-10'. Update 'domain_endpoint_options.tls_security_policy' to the required version. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-8 for more details."
+        error_message = "Elasticsearch domain must use the latest TLS security policy 'Policy-Min-TLS-1-2-PFS-2023-10'. Update 'domain_endpoint_options.tls_security_policy' to the required version"
     }
 }

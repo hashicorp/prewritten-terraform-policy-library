@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# AWS Security Hub IAM.7 - Password Policies for IAM Users
+# Password policies for IAM users should have strong configurations
 
 policy {
   required_providers {
@@ -91,36 +91,36 @@ resource_policy "aws_iam_account_password_policy" "iam7_password_policy" {
 
     enforce {
         condition = local.has_uppercase
-        error_message = "AWS account password policy must require uppercase characters. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-7 for more details."
+        error_message = "AWS account password policy must require uppercase characters"
     }
 
     enforce {
         condition = local.has_lowercase
-        error_message = "AWS account password policy must require lowercase characters. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-7 for more details."
+        error_message = "AWS account password policy must require lowercase characters"
     }
 
     enforce {
         condition = local.has_symbols
-        error_message = "AWS account password policy must require symbols. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-7 for more details."
+        error_message = "AWS account password policy must require symbols"
     }
 
     enforce {
         condition = local.has_numbers
-        error_message = "AWS account password policy must require numbers. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-7 for more details."
+        error_message = "AWS account password policy must require numbers"
     }
 
     enforce {
         condition = local.has_min_length
-        error_message = "AWS account password policy minimum_password_length is below the required threshold. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-7 for more details."
+        error_message = "AWS account password policy minimum_password_length is below the required threshold"
     }
 
     enforce {
         condition = local.password_reuse_ok
-        error_message = "AWS account password policy must set password_reuse_prevention to the required minimum. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-7 for more details."
+        error_message = "AWS account password policy must set password_reuse_prevention to the required minimum"
     }
 
     enforce {
         condition = local.max_password_age_ok
-        error_message = "AWS account password policy must set max_password_age within the allowed range. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-7 for more details."
+        error_message = "AWS account password policy must set max_password_age within the allowed range"
     }
 }

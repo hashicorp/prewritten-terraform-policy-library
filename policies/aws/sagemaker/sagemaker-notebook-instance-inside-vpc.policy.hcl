@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# SageMaker.2 - SageMaker notebook instances should be launched in a custom VPC.
+# SageMaker notebook instances should be launched in a custom VPC
 
 policy {
   required_providers {
@@ -27,6 +27,6 @@ resource_policy "aws_sagemaker_notebook_instance" "custom_vpc_required" {
 
     enforce {
         condition = local.subnet_id_value != ""
-        error_message = "SageMaker notebook instance must be launched in a custom VPC. Configure the 'subnet_id' attribute to specify a VPC subnet. The absence of 'subnet_id' means the instance will use the SageMaker service VPC, which violates this security control. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-2 for more details."
+        error_message = "SageMaker notebook instance must be launched in a custom VPC. Configure the 'subnet_id' attribute to specify a VPC subnet. The absence of 'subnet_id' means the instance will use the SageMaker service VPC, which violates this security control"
     }
 }

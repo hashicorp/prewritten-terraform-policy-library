@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: APIGateway.1 - API Gateway REST and WebSocket API execution logging should be enabled
+# API Gateway REST and WebSocket API execution logging should be enabled
 policy {
   required_providers {
     aws = {
@@ -28,12 +28,12 @@ resource_policy "aws_api_gateway_stage" "access_logging_enabled" {
 
     enforce {
         condition = local.has_access_log
-        error_message = "API Gateway REST API stage must have access_log_settings configured. Configure access logging with CloudWatch Logs destination. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-1 for more details."
+        error_message = "API Gateway REST API stage must have access_log_settings configured. Configure access logging with CloudWatch Logs destination"
     }
 
     enforce {
         condition = local.has_destination
-        error_message = "API Gateway REST API stage access_log_settings must specify a destination_arn for CloudWatch Logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-1 for more details."
+        error_message = "API Gateway REST API stage access_log_settings must specify a destination_arn for CloudWatch Logs"
     }
 }
 
@@ -60,22 +60,22 @@ resource_policy "aws_apigatewayv2_stage" "execution_logging_enabled" {
 
     enforce {
         condition = local.has_default_route_settings
-        error_message = "API Gateway v2 stage must have default_route_settings configured for logging. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-1 for more details."
+        error_message = "API Gateway v2 stage must have default_route_settings configured for logging"
     }
 
     enforce {
         condition = local.is_valid_level
-        error_message = "API Gateway v2 stage logging_level must match one of the allowed values ('ERROR', 'INFO'). Configure default_route_settings.logging_level. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-1 for more details."
+        error_message = "API Gateway v2 stage logging_level must match one of the allowed values ('ERROR', 'INFO'). Configure default_route_settings.logging_level"
     }
 
     enforce {
         condition = local.has_access_log
-        error_message = "API Gateway v2 stage must have access_log_settings configured. Configure access logging with CloudWatch Logs destination. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-1 for more details."
+        error_message = "API Gateway v2 stage must have access_log_settings configured. Configure access logging with CloudWatch Logs destination"
     }
 
     enforce {
         condition = local.has_destination
-        error_message = "API Gateway v2 stage access_log_settings must specify a destination_arn for CloudWatch Logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-1 for more details."
+        error_message = "API Gateway v2 stage access_log_settings must specify a destination_arn for CloudWatch Logs"
     }
 }
 
@@ -97,11 +97,11 @@ resource_policy "aws_api_gateway_method_settings" "execution_logging_level" {
 
     enforce {
         condition = local.has_settings
-        error_message = "API Gateway method settings must have settings block configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-1 for more details."
+        error_message = "API Gateway method settings must have settings block configured"
     }
 
     enforce {
         condition = local.is_valid_level
-        error_message = "API Gateway method settings logging_level must match one of the allowed values ('ERROR', 'INFO'). Set settings.logging_level to enable execution logging. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-1 for more details."
+        error_message = "API Gateway method settings logging_level must match one of the allowed values ('ERROR', 'INFO'). Set settings.logging_level to enable execution logging"
     }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ELB.22 - ELB target groups should use encrypted transport protocols
+# ELB target groups should use encrypted transport protocols
 
 policy {
   required_providers {
@@ -29,6 +29,6 @@ resource_policy "aws_lb_target_group" "encrypted_protocol_required" {
 
     enforce {
         condition = local.is_excluded || local.uses_encrypted_protocol
-        error_message = "ELB target group must use an encrypted transport protocol. Allowed protocols are HTTPS, TLS or QUIC. Target groups with target_type 'lambda' or 'alb', and target groups using protocol 'GENEVE', are excluded. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-22 for more details."
+        error_message = "ELB target group must use an encrypted transport protocol. Allowed protocols are HTTPS, TLS or QUIC. Target groups with target_type 'lambda' or 'alb', and target groups using protocol 'GENEVE', are excluded"
     }
 }

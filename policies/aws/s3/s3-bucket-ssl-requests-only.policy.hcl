@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: S3.5 - S3 general purpose buckets should require requests to use SSL
+# S3 general purpose buckets should require requests to use SSL
 
 policy {
   required_providers {
@@ -62,11 +62,11 @@ resource_policy "aws_s3_bucket" "ssl_required" {
 
   enforce {
     condition     = local.has_policy_resource && local.policy_document != ""
-    error_message = "S3 bucket '${local.bucket_name}' must have an associated 'aws_s3_bucket_policy' with a non-empty 'policy' document that denies non-HTTPS requests. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-5 for more details."
+    error_message = "S3 bucket '${local.bucket_name}' must have an associated 'aws_s3_bucket_policy' with a non-empty 'policy' document that denies non-HTTPS requests"
   }
 
   enforce {
     condition     = !local.has_policy_resource || local.policy_document == "" || local.has_ssl_only_statement
-    error_message = "S3 bucket '${local.bucket_name}' policy must include a statement that denies non-HTTPS requests, e.g.: {\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:*\",\"Resource\":[\"arn:aws:s3:::<bucket>\",\"arn:aws:s3:::<bucket>/*\"],\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-5 for more details."
+    error_message = "S3 bucket '${local.bucket_name}' policy must include a statement that denies non-HTTPS requests, e.g.: {\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:*\",\"Resource\":[\"arn:aws:s3:::<bucket>\",\"arn:aws:s3:::<bucket>/*\"],\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}"
   }
 }

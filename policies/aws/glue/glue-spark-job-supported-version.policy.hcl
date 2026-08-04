@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Glue.4 - AWS Glue Spark jobs should run on supported versions
+# AWS Glue Spark jobs should run on supported versions of AWS Glue
 
 policy {
   required_providers {
@@ -64,12 +64,12 @@ resource_policy "aws_glue_job" "glue_spark_version_check" {
   # Enforce: Spark jobs must have glue_version specified
   enforce {
     condition     = !local.is_spark_job || local.has_version
-    error_message = "AWS Glue Spark job '${local.job_name}' must have the 'glue_version' property specified. GlueVersion is null or missing in the job configuration. Add the GlueVersion property to the job's configuration with a value of 3.0 or greater. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/glue-controls.html#glue-4 for more details."
+    error_message = "AWS Glue Spark job '${local.job_name}' must have the 'glue_version' property specified. GlueVersion is null or missing in the job configuration. Add the GlueVersion property to the job's configuration with a value of 3.0 or greater"
   }
 
   # Enforce: Spark jobs must use a version >= minimumSupportedGlueVersion
   enforce {
     condition     = !local.is_spark_job || local.version_compliant
-    error_message = "AWS Glue Spark job '${local.job_name}' is configured with glue_version '${local.version_string}', which is earlier than the minimum supported version 3.0. Update the job to use AWS Glue version 3.0 or greater for optimized performance, security, and access to the latest features. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/glue-controls.html#glue-4 for more details."
+    error_message = "AWS Glue Spark job '${local.job_name}' is configured with glue_version '${local.version_string}', which is earlier than the minimum supported version 3.0. Update the job to use AWS Glue version 3.0 or greater for optimized performance, security, and access to the latest features"
   }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.20 - Both VPN tunnels for an AWS Site-to-Site VPN connection should be up
+# Both VPN tunnels for an AWS Site-to-Site VPN connection should be up
 
 policy {
   required_providers {
@@ -52,11 +52,11 @@ resource_policy "aws_vpn_connection" "vpn_tunnels_up" {
 
     enforce {
         condition = local.both_tunnels_up
-        error_message = "VPN connection does not have both tunnels in UP status. Current status: ${local.status_details}. Both VPN tunnels must be UP to ensure high availability and secure connectivity. Tunnel addresses: ${local.tunnel1_address}, ${local.tunnel2_address}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-20 for more details."
+        error_message = "VPN connection does not have both tunnels in UP status. Current status: ${local.status_details}. Both VPN tunnels must be UP to ensure high availability and secure connectivity. Tunnel addresses: ${local.tunnel1_address}, ${local.tunnel2_address}"
     }
 
     enforce {
         condition = local.total_tunnels == 2
-        error_message = "VPN connection has ${local.total_tunnels} tunnel(s) configured, but exactly 2 tunnels are required for AWS Site-to-Site VPN connections. This is a configuration issue that needs immediate attention. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-20 for more details."
+        error_message = "VPN connection has ${local.total_tunnels} tunnel(s) configured, but exactly 2 tunnels are required for AWS Site-to-Site VPN connections. This is a configuration issue that needs immediate attention"
     }
 }
