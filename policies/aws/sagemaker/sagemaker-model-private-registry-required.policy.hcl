@@ -20,13 +20,14 @@ input "sagemaker-model-private-registry-required-enforcement-level" {
   default = "advisory"
 }
 
+locals {
+    # Safe access to primary_container list. Empty list => no primary_container configured.
+    primary_container_list = core::try(attrs.primary_container, [])
+    has_primary_container  = core::length(local.primary_container_list) > 0
+}
+
 resource_policy "aws_sagemaker_model" "private_registry_required" {
     enforcement_level = input.sagemaker-model-private-registry-required-enforcement-level
-    locals {
-        # Safe access to primary_container list. Empty list => no primary_container configured.
-        primary_container_list = core::try(attrs.primary_container, [])
-        has_primary_container  = core::length(local.primary_container_list) > 0
-    }
 
     # Skip models that don't configure a primary_container (covered by SageMaker.19).
     filter = local.has_primary_container

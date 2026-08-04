@@ -16,27 +16,27 @@ input "ecs-task-definition-windows-user-non-admin-enforcement-level" {
   default = "advisory"
 }
 
+locals {
+  os_family = core::try(attrs.runtime_platform[0].operating_system_family, "")
+
+  # Supported Windows OS families for ECS task definitions
+  windows_os_families = [
+    "WINDOWS_SERVER_2019_CORE",
+    "WINDOWS_SERVER_2019_FULL",
+    "WINDOWS_SERVER_2022_CORE",
+    "WINDOWS_SERVER_2022_FULL",
+    "WINDOWS_SERVER_2016_FULL",
+  ]
+
+  # Check if it's a Windows OS family
+  is_windows = core::contains(local.windows_os_families, local.os_family)
+
+  # Per spec: evaluate if Windows OR if operating_system_family not configured
+  should_evaluate = local.is_windows || local.os_family == ""
+}
+
 resource_policy "aws_ecs_task_definition" "windows_non_admin_user" {
   enforcement_level = input.ecs-task-definition-windows-user-non-admin-enforcement-level
-
-  locals {
-    os_family = core::try(attrs.runtime_platform[0].operating_system_family, "")
-
-    # Supported Windows OS families for ECS task definitions
-    windows_os_families = [
-      "WINDOWS_SERVER_2019_CORE",
-      "WINDOWS_SERVER_2019_FULL",
-      "WINDOWS_SERVER_2022_CORE",
-      "WINDOWS_SERVER_2022_FULL",
-      "WINDOWS_SERVER_2016_FULL",
-    ]
-
-    # Check if it's a Windows OS family
-    is_windows = core::contains(local.windows_os_families, local.os_family)
-
-    # Per spec: evaluate if Windows OR if operating_system_family not configured
-    should_evaluate = local.is_windows || local.os_family == ""
-  }
   
   # Only evaluate Windows task definitions or those without OS family specified
   filter = local.should_evaluate
