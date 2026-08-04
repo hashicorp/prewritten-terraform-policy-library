@@ -18,7 +18,7 @@ Security Hub CSPM recommends that you send CloudTrail logs to CloudWatch Logs. N
 
 Sending CloudTrail logs to CloudWatch Logs facilitates real-time and historic activity logging based on user, API, resource, and IP address. You can use this approach to establish alarms and notifications for anomalous or sensitivity account activity.
 
-This rule is covered by the [cloud-trail-cloud-watch-logs-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudtrail/cloud-trail-cloud-watch-logs-enabled.policy.hcl) policy.
+This rule is covered by the [cloud-trail-cloud-watch-logs-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudtrail/cloud-trail-cloud-watch-logs-enabled.policy.hcl) policy.
 
 ## Policy Results
 

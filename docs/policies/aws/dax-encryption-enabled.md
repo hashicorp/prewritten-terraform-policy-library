@@ -10,7 +10,7 @@ This control checks whether an Amazon DynamoDB Accelerator (DAX) cluster is encr
 
 Encrypting data at rest reduces the risk of data stored on disk being accessed by a user not authenticated to AWS. The encryption adds another set of access controls to limit the ability of unauthorized users to access to the data. For example, API permissions are required to decrypt the data before it can be read.
 
-This rule is covered by the [dax-encryption-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/dax/dax-encryption-enabled.policy.hcl) policy.
+This rule is covered by the [dax-encryption-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dax-encryption-enabled.policy.hcl) policy.
 
 ## Policy Results
 

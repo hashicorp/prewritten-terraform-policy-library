@@ -14,7 +14,7 @@ You can enable EBS encryption during manual launches of individual EC2 instances
 
 When this control checks an EC2 launch template, it only evaluates EBS encryption settings that are explicitly specified by the template. The evaluation doesn’t include encryption settings that are inherited from account-level EBS encryption settings, AMI block device mappings, or source snapshot encryption statuses.
 
-This rule is covered by the [ec2-launch-templates-ebs-volume-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-launch-templates-ebs-volume-encrypted.policy.hcl) policy.
+This rule is covered by the [ec2-launch-templates-ebs-volume-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-launch-templates-ebs-volume-encrypted.policy.hcl) policy.
 
 ## Policy Results
 

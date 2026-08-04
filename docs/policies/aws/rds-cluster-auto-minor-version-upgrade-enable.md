@@ -10,7 +10,7 @@ This control checks if automatic minor version upgrade is enabled for an Amazon 
 
 RDS provides automatic minor version upgrade so that you can keep your Multi-AZ DB cluster up to date. Minor versions can introduce new software features, bug fixes, security patches, and performance improvements. By enabling automatic minor version upgrade on RDS database clusters, the cluster, along with the instances in the cluster, will receive automatic updates to the minor version when new versions are available. The updates are applied automatically during the maintenance window.
 
-This rule is covered by the [rds-cluster-auto-minor-version-upgrade-enable](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-cluster-auto-minor-version-upgrade-enable.policy.hcl) policy.
+This rule is covered by the [rds-cluster-auto-minor-version-upgrade-enable](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-cluster-auto-minor-version-upgrade-enable.policy.hcl) policy.
 
 ## Policy Results
 

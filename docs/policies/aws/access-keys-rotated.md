@@ -14,7 +14,7 @@ Each approach has its use cases. Federation is generally better for enterprises 
 
 However, if the resources that need programmatic access run inside AWS, the best practice is to use IAM roles. Roles allow you to grant a resource access without hardcoding an access key ID and secret access key into the configuration.
 
-This rule is covered by the [access-keys-rotated](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/iam/access-keys-rotated.policy.hcl) policy.
+This rule is covered by the [access-keys-rotated](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/iam/access-keys-rotated.policy.hcl) policy.
 
 ## Policy Results
 

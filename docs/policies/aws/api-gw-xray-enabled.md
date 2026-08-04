@@ -10,7 +10,7 @@ This control checks whether AWS X-Ray active tracing is enabled for your Amazon 
 
 X-Ray active tracing enables a more rapid response to performance changes in the underlying infrastructure. Changes in performance could result in a lack of availability of the API. X-Ray active tracing provides real-time metrics of user requests that flow through your API Gateway REST API operations and connected services.
 
-This rule is covered by the [api-gw-xray-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/apigateway/api-gw-xray-enabled.policy.hcl) policy.
+This rule is covered by the [api-gw-xray-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/apigateway/api-gw-xray-enabled.policy.hcl) policy.
 
 ## Policy Results
 

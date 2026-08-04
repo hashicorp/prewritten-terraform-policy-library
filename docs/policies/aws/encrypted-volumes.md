@@ -12,7 +12,7 @@ For an added layer of security of your sensitive data in EBS volumes, you should
 
 To learn more about Amazon EBS encryption, see Amazon EBS encryption in the Amazon EC2 User Guide.
 
-This rule is covered by the [encrypted-volumes](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ebs/encrypted-volumes.policy.hcl) policy.
+This rule is covered by the [encrypted-volumes](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/encrypted-volumes.policy.hcl) policy.
 
 ## Policy Results
 

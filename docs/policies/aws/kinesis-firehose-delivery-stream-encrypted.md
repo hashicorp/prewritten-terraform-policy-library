@@ -10,7 +10,7 @@ This control checks whether an Amazon Data Firehose delivery stream is encrypted
 
 Server-side encryption is a feature in Amazon Data Firehose delivery streams that automatically encrypts data before it's at rest by using a key created in AWS Key Management Service (AWS KMS). Data is encrypted before it's written to the Data Firehose stream storage layer, and decrypted after it’s retrieved from storage. This allows you to comply with regulatory requirements and enhance the security of your data.
 
-This rule is covered by the [kinesis-firehose-delivery-stream-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/kinesis/kinesis-firehose-delivery-stream-encrypted.policy.hcl) policy.
+This rule is covered by the [kinesis-firehose-delivery-stream-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/datafirehose/kinesis-firehose-delivery-stream-encrypted.policy.hcl) policy.
 
 ## Policy Results
 

@@ -12,7 +12,7 @@ Source/destination checking for Amazon EC2 instances and attached ENIs should be
 
 If you're using an EC2 instance as a NAT instance and you disabled source/destination checking for its ENI, you can use a NAT gateway instead.
 
-This rule is covered by the [ec2-enis-source-destination-check-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-enis-source-destination-check-enabled.policy.hcl) policy.
+This rule is covered by the [ec2-enis-source-destination-check-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-enis-source-destination-check-enabled.policy.hcl) policy.
 
 ## Policy Results
 

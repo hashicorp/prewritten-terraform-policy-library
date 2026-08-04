@@ -10,7 +10,7 @@ This control checks if Amazon ECS Fargate services are running the latest Fargat
 
 AWS Fargate platform versions refer to a specific runtime environment for Fargate task infrastructure, which is a combination of kernel and container runtime versions. New platform versions are released as the runtime environment evolves. For example, a new version may be released for kernel or operating system updates, new features, bug fixes, or security updates. Security updates and patches are deployed automatically for your Fargate tasks. If a security issue is found that affects a platform version, AWS patches the platform version.
 
-This rule is covered by the [ecs-fargate-latest-platform-version](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-fargate-latest-platform-version.policy.hcl) policy.
+This rule is covered by the [ecs-fargate-latest-platform-version](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-fargate-latest-platform-version.policy.hcl) policy.
 
 ## Policy Results
 

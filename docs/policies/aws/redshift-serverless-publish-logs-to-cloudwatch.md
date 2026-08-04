@@ -10,7 +10,7 @@ This control checks whether an Amazon Redshift Serverless namespace is configure
 
 If you configure Amazon Redshift Serverless to export connection log (`connectionlog`) and user log (`userlog`) data to a log group in Amazon CloudWatch Logs, you can collect and store your log records in durable storage, which can support security, access, and availability reviews and audits. With CloudWatch Logs, you can also perform real-time analysis of log data and use CloudWatch to create alarms and review metrics.
 
-This rule is covered by the [redshift-serverless-publish-logs-to-cloudwatch](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-serverless-publish-logs-to-cloudwatch.policy.hcl) policy.
+This rule is covered by the [redshift-serverless-publish-logs-to-cloudwatch](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-serverless-publish-logs-to-cloudwatch.policy.hcl) policy.
 
 ## Policy Results
 

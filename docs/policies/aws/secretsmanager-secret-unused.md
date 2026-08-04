@@ -16,7 +16,7 @@ This control checks whether an AWS Secrets Manager secret has been accessed with
 
 Deleting unused secrets is as important as rotating secrets. Unused secrets can be abused by their former users, who no longer need access to these secrets. Also, as more users get access to a secret, someone might have mishandled and leaked it to an unauthorized entity, which increases the risk of abuse. Deleting unused secrets helps revoke secret access from users who no longer need it. It also helps to reduce the cost of using Secrets Manager. Therefore, it is essential to routinely delete unused secrets.
 
-This rule is covered by the [secretsmanager-secret-unused](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/secretsmanager/secretsmanager-secret-unused.policy.hcl) policy.
+This rule is covered by the [secretsmanager-secret-unused](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/secretmanager/secretsmanager-secret-unused.policy.hcl) policy.
 
 ## Policy Results
 

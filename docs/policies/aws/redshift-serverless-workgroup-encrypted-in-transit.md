@@ -10,7 +10,7 @@ This control checks whether connections to an Amazon Redshift Serverless workgro
 
 An Amazon Redshift Serverless workgroup is a collection of compute resources that groups together compute resources like RPUs, VPC subnet groups, and security groups. Properties of a workgroup include network and security settings. These settings specify whether connections to a workgroup should be required to use SSL to encrypt data in transit.
 
-This rule is covered by the [redshift-serverless-workgroup-encrypted-in-transit](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-serverless-workgroup-encrypted-in-transit.policy.hcl) policy.
+This rule is covered by the [redshift-serverless-workgroup-encrypted-in-transit](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-serverless-workgroup-encrypted-in-transit.policy.hcl) policy.
 
 ## Policy Results
 

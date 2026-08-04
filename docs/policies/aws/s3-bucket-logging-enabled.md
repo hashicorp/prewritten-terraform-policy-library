@@ -10,7 +10,7 @@ This control checks whether server access logging is enabled for an Amazon S3 ge
 
 Server access logging provides detailed records of requests made to a bucket. Server access logs can assist in security and access audits. For more information, see Security Best Practices for Amazon S3: Enable Amazon S3 server access logging.
 
-This rule is covered by the [s3-bucket-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/s3/s3-bucket-logging-enabled.policy.hcl) policy.
+This rule is covered by the [s3-bucket-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-bucket-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

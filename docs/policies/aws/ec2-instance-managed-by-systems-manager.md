@@ -10,7 +10,7 @@ This control checks whether the stopped and running EC2 instances in your accoun
 
 To help you maintain security and compliance, Systems Manager scans your stopped and running managed instances. A managed instance is a machine that's configured for use with Systems Manager. Systems Manager then reports or takes corrective action on any policy violations that it detects. Systems Manager also helps you configure and maintain your managed instances. To learn more, see the AWS Systems Manager User Guide.
 
-This rule is covered by the [ec2-instance-managed-by-systems-manager](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-instance-managed-by-systems-manager.policy.hcl) policy.
+This rule is covered by the [ec2-instance-managed-by-systems-manager](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-instance-managed-by-systems-manager.policy.hcl) policy.
 
 ## Policy Results
 

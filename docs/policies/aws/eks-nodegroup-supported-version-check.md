@@ -10,7 +10,7 @@ This control checks whether an Amazon EKS node group runs on a standard support 
 
 Running EKS node groups on unsupported Kubernetes versions means those nodes no longer receive security patches, bug fixes, or compatibility updates from AWS. Unsupported versions may contain known vulnerabilities that have been addressed in newer releases, and they may experience compatibility issues with updated AWS services, container images, and third-party tools in the Kubernetes ecosystem. If your application doesn't require a specific version of Kubernetes, we recommend that you use the latest available Kubernetes version that's supported by Amazon EKS for your node groups. For more information, see Amazon EKS Kubernetes release calendar and Understand each phase of node updates in the Amazon EKS User Guide.
 
-This rule is covered by the [eks-nodegroup-supported-version-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/eks/eks-nodegroup-supported-version-check.policy.hcl) policy.
+This rule is covered by the [eks-nodegroup-supported-version-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/eks/eks-nodegroup-supported-version-check.policy.hcl) policy.
 
 ## Policy Results
 

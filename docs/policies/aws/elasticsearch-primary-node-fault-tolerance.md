@@ -10,7 +10,7 @@ This control checks whether Elasticsearch domains are configured with at least t
 
 An Elasticsearch domain requires at least three dedicated primary nodes for high availability and fault-tolerance. Dedicated primary node resources can be strained during data node blue/green deployments because there are additional nodes to manage. Deploying an Elasticsearch domain with at least three dedicated primary nodes ensures sufficient primary node resource capacity and cluster operations if a node fails.
 
-This rule is covered by the [elasticsearch-primary-node-fault-tolerance](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticsearch/elasticsearch-primary-node-fault-tolerance.policy.hcl) policy.
+This rule is covered by the [elasticsearch-primary-node-fault-tolerance](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticsearch/elasticsearch-primary-node-fault-tolerance.policy.hcl) policy.
 
 ## Policy Results
 

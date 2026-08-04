@@ -10,7 +10,7 @@ This control checks whether an AWS WAF global web ACL contains at least one WAF 
 
 A WAF global web ACL can contain a collection of rules and rule groups that inspect and control web requests. If a web ACL is empty, the web traffic can pass without being detected or acted upon by WAF depending on the default action.
 
-This rule is covered by the [waf-global-webacl-not-empty](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/waf/waf-global-webacl-not-empty.policy.hcl) policy.
+This rule is covered by the [waf-global-webacl-not-empty](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/waf/waf-global-webacl-not-empty.policy.hcl) policy.
 
 ## Policy Results
 

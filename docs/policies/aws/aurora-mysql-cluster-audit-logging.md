@@ -10,7 +10,7 @@ This control checks whether an Amazon Aurora MySQL DB cluster has audit logging 
 
 Database logs can assist with security and access audits and help diagnose availability issues. Audit logs capture a record of database activity, including login attempts, data modifications, schema changes, and other events that can be audited for security and compliance purposes.
 
-This rule is covered by the [aurora-mysql-cluster-audit-logging](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/aurora-mysql-cluster-audit-logging.policy.hcl) policy.
+This rule is covered by the [aurora-mysql-cluster-audit-logging](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/aurora-mysql-cluster-audit-logging.policy.hcl) policy.
 
 ## Policy Results
 

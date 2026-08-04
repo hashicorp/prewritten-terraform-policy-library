@@ -16,7 +16,7 @@ In addition to configuring secrets to rotate automatically, you should ensure th
 
 To learn more about rotation, see Rotating your AWS Secrets Manager secrets in the AWS Secrets Manager User Guide.
 
-This rule is covered by the [secretsmanager-scheduled-rotation-success-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/secretsmanager/secretsmanager-scheduled-rotation-success-check.policy.hcl) policy.
+This rule is covered by the [secretsmanager-scheduled-rotation-success-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/secretmanager/secretsmanager-scheduled-rotation-success-check.policy.hcl) policy.
 
 ## Policy Results
 

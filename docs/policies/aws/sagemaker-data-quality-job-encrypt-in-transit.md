@@ -10,7 +10,7 @@ This control checks whether an Amazon SageMaker AI data quality job definition h
 
 Enabling inter-container traffic encryption protects sensitive ML data during distributed processing for data quality analysis.
 
-This rule is covered by the [sagemaker-data-quality-job-encrypt-in-transit](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-data-quality-job-encrypt-in-transit.policy.hcl) policy.
+This rule is covered by the [sagemaker-data-quality-job-encrypt-in-transit](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-data-quality-job-encrypt-in-transit.policy.hcl) policy.
 
 ## Policy Results
 

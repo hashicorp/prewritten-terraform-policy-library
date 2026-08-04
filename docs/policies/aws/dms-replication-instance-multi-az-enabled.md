@@ -10,7 +10,7 @@ This control checks whether an AWS Database Migration Service (AWS DMS) replicat
 
 In a Multi-AZ deployment, AWS DMS automatically provisions and maintains a standby replica of a replication instance in a different Availability Zone (AZ). The primary replication instance is then synchronously replicated to the standby replica. If the primary replication instance fails or becomes unresponsive, the standby resumes any running tasks with minimal interruption. For more information, see Working with a replication instance in the AWS Database Migration Service User Guide.
 
-This rule is covered by the [dms-replication-instance-multi-az-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/dms/dms-replication-instance-multi-az-enabled.policy.hcl) policy.
+This rule is covered by the [dms-replication-instance-multi-az-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dms/dms-replication-instance-multi-az-enabled.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether an Amazon Aurora DB cluster is configured to automat
 
 Identification and inventory of your IT assets is a crucial aspect of governance and security. You need to have visibility of all your Amazon Aurora DB clusters so that you can assess their security posture and take action on potential areas of weakness. Aurora DB snapshots should have the same tags as their parent DB clusters. In Amazon Aurora, you can configure a DB cluster to automatically copy all the tags for the cluster to snapshots of the cluster. Enabling this setting ensures that DB snapshots inherit the same tags as their parent DB clusters.
 
-This rule is covered by the [rds-cluster-copy-tags-to-snapshots-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-cluster-copy-tags-to-snapshots-enabled.policy.hcl) policy.
+This rule is covered by the [rds-cluster-copy-tags-to-snapshots-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-cluster-copy-tags-to-snapshots-enabled.policy.hcl) policy.
 
 ## Policy Results
 

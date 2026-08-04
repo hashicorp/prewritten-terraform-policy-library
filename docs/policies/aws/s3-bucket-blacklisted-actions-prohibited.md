@@ -12,7 +12,7 @@ Implementing least privilege access is fundamental to reducing security risk and
 
 The blacklistedactionpatterns parameter allows for successful evaluation of the rule for S3 buckets. The parameter grants access to external accounts for action patterns that are not included in the blacklistedactionpatterns list.
 
-This rule is covered by the [s3-bucket-blacklisted-actions-prohibited](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/s3/s3-bucket-blacklisted-actions-prohibited.policy.hcl) policy.
+This rule is covered by the [s3-bucket-blacklisted-actions-prohibited](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-bucket-blacklisted-actions-prohibited.policy.hcl) policy.
 
 ## Policy Results
 

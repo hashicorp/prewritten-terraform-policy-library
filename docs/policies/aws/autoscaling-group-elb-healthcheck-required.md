@@ -8,7 +8,7 @@
 
 Refer to [AWS Security Hub documentation](https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-1) for details.
 
-This rule is covered by the [autoscaling-group-elb-healthcheck-required](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/autoscaling/autoscaling-group-elb-healthcheck-required.policy.hcl) policy.
+This rule is covered by the [autoscaling-group-elb-healthcheck-required](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/autoscaling/autoscaling-group-elb-healthcheck-required.policy.hcl) policy.
 
 
 ## Policy Results

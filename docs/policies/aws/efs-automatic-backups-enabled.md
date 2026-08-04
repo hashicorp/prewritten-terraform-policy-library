@@ -10,7 +10,7 @@ This control checks whether an Amazon EFS file system has automatic backups enab
 
 A data backup is a copy of your system, configuration, or application data that's stored separately from the original. Enabling regular backups helps you safeguard valuable data against unforeseen events like system failures, cyberattacks, or accidental deletions. Having a robust backup strategy also facilitates quicker recovery, business continuity, and peace of mind in the face of potential data loss.
 
-This rule is covered by the [efs-automatic-backups-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/efs/efs-automatic-backups-enabled.policy.hcl) policy.
+This rule is covered by the [efs-automatic-backups-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/efs/efs-automatic-backups-enabled.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether CloudFront distributions are using the default SSL/T
 
 Custom SSL/TLS allow your users to access content by using alternate domain names. You can store custom certificates in AWS Certificate Manager (recommended), or in IAM.
 
-This rule is covered by the [cloudfront-custom-ssl-certificate](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-custom-ssl-certificate.policy.hcl) policy.
+This rule is covered by the [cloudfront-custom-ssl-certificate](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-custom-ssl-certificate.policy.hcl) policy.
 
 ## Policy Results
 

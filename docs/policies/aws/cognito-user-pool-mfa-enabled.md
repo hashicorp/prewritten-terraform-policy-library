@@ -12,7 +12,7 @@ Multi-factor authentication (MFA) adds a something you have authentication facto
 
 This control is not applicable for federated users and users signing in with passwordless factors.
 
-This rule is covered by the [cognito-user-pool-mfa-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cognito/cognito-user-pool-mfa-enabled.policy.hcl) policy.
+This rule is covered by the [cognito-user-pool-mfa-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cognito/cognito-user-pool-mfa-enabled.policy.hcl) policy.
 
 ## Policy Results
 

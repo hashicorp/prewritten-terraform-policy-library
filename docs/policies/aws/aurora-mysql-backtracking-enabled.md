@@ -10,7 +10,7 @@ This control checks whether an Amazon Aurora cluster has backtracking enabled. T
 
 Backups help you to recover more quickly from a security incident. They also strengthens the resilience of your systems. Aurora backtracking reduces the time to recover a database to a point in time. It does not require a database restore to do so.
 
-This rule is covered by the [aurora-mysql-backtracking-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/aurora-mysql-backtracking-enabled.policy.hcl) policy.
+This rule is covered by the [aurora-mysql-backtracking-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/aurora-mysql-backtracking-enabled.policy.hcl) policy.
 
 ## Policy Results
 

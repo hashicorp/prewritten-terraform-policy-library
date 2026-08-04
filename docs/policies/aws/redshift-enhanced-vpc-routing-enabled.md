@@ -10,7 +10,7 @@ This control checks whether an Amazon Redshift cluster has EnhancedVpcRouting en
 
 Enhanced VPC routing forces all COPY and UNLOAD traffic between the cluster and data repositories to go through your VPC. You can then use VPC features such as security groups and network access control lists to secure network traffic. You can also use VPC Flow Logs to monitor network traffic.
 
-This rule is covered by the [redshift-enhanced-vpc-routing-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-enhanced-vpc-routing-enabled.policy.hcl) policy.
+This rule is covered by the [redshift-enhanced-vpc-routing-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-enhanced-vpc-routing-enabled.policy.hcl) policy.
 
 ## Policy Results
 

@@ -12,7 +12,7 @@ ElastiCache (Redis OSS) clusters can back up their data. You can use the backup 
 
 This control also evaluates ElastiCache (Redis OSS and Valkey) replication groups.
 
-This rule is covered by the [elasticache-redis-cluster-automatic-backup-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticache/elasticache-redis-cluster-automatic-backup-check.policy.hcl) policy.
+This rule is covered by the [elasticache-redis-cluster-automatic-backup-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticache/elasticache-redis-cluster-automatic-backup-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks if Amazon EFS access points are configured to enforce a root
 
 When you enforce a root directory, the NFS client using the access point uses the root directory configured on the access point instead of the file system's root directory. Enforcing a root directory for an access point helps restrict data access by ensuring that users of the access point can only reach files of the specified subdirectory.
 
-This rule is covered by the [efs-access-point-enforce-root-directory](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/efs/efs-access-point-enforce-root-directory.policy.hcl) policy.
+This rule is covered by the [efs-access-point-enforce-root-directory](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/efs/efs-access-point-enforce-root-directory.policy.hcl) policy.
 
 ## Policy Results
 

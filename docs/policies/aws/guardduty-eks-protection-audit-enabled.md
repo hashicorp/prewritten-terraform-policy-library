@@ -12,7 +12,7 @@ In a multi-account environment, the control generates findings in only the deleg
 
 GuardDuty EKS Audit Log Monitoring helps you detect potentially suspicious activities in your Amazon Elastic Kubernetes Service (Amazon EKS) clusters. EKS Audit Log Monitoring uses Kubernetes audit logs to capture chronological activities from users, applications using the Kubernetes API, and the control plane.
 
-This rule is covered by the [guardduty-eks-protection-audit-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/guardduty/guardduty-eks-protection-audit-enabled.policy.hcl) policy.
+This rule is covered by the [guardduty-eks-protection-audit-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/guardduty/guardduty-eks-protection-audit-enabled.policy.hcl) policy.
 
 ## Policy Results
 

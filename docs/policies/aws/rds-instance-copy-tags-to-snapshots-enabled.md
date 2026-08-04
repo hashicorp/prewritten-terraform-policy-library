@@ -10,7 +10,7 @@ This control checks whether RDS DB instances are configured to copy all tags to 
 
 Identification and inventory of your IT assets is a crucial aspect of governance and security. You need to have visibility of all your RDS DB instances so that you can assess their security posture and take action on potential areas of weakness. Snapshots should be tagged in the same way as their parent RDS database instances. Enabling this setting ensures that snapshots inherit the tags of their parent database instances.
 
-This rule is covered by the [rds-instance-copy-tags-to-snapshots-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-instance-copy-tags-to-snapshots-enabled.policy.hcl) policy.
+This rule is covered by the [rds-instance-copy-tags-to-snapshots-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-instance-copy-tags-to-snapshots-enabled.policy.hcl) policy.
 
 ## Policy Results
 

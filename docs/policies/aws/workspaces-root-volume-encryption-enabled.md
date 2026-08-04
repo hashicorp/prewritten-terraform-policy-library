@@ -10,7 +10,7 @@ This control checks whether a root volume in an Amazon WorkSpaces WorkSpace is e
 
 Data at rest refers to data that's stored in persistent, non-volatile storage for any duration. Encrypting data at rest helps you protect its confidentiality, which reduces the risk that an unauthorized user can access it.
 
-This rule is covered by the [workspaces-root-volume-encryption-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/workspaces/workspaces-root-volume-encryption-enabled.policy.hcl) policy.
+This rule is covered by the [workspaces-root-volume-encryption-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/workspaces/workspaces-root-volume-encryption-enabled.policy.hcl) policy.
 
 ## Policy Results
 

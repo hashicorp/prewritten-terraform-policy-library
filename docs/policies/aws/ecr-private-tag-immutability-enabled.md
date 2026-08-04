@@ -10,7 +10,7 @@ This control checks whether a private ECR repository has tag immutability enable
 
 Amazon ECR Tag Immutability enables customers to rely on the descriptive tags of an image as a reliable mechanism to track and uniquely identify images. An immutable tag is static, which means each tag refers to a unique image. This improves reliability and scalability as the use of a static tag will always result in the same image being deployed. When configured, tag immutability prevents the tags from being overridden, which reduces the attack surface.
 
-This rule is covered by the [ecr-private-tag-immutability-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecr/ecr-private-tag-immutability-enabled.policy.hcl) policy.
+This rule is covered by the [ecr-private-tag-immutability-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecr/ecr-private-tag-immutability-enabled.policy.hcl) policy.
 
 ## Policy Results
 

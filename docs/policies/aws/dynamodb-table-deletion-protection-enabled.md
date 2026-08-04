@@ -10,7 +10,7 @@ This control checks whether an Amazon DynamoDB table has deletion protection ena
 
 You can protect a DynamoDB table from accidental deletion with the deletion protection property. Enabling this property for tables helps ensure that tables don't get accidentally deleted during regular table management operations by your administrators. This helps prevent disruption to your normal business operations.
 
-This rule is covered by the [dynamodb-table-deletion-protection-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/dynamodb/dynamodb-table-deletion-protection-enabled.policy.hcl) policy.
+This rule is covered by the [dynamodb-table-deletion-protection-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dynamodb-table-deletion-protection-enabled.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether the default security group of a VPC allows inbound o
 
 The rules for the default security group allow all outbound and inbound traffic from network interfaces (and their associated instances) that are assigned to the same security group. We recommend that you don't use the default security group. Because the default security group cannot be deleted, you should change the default security group rules setting to restrict inbound and outbound traffic. This prevents unintended traffic if the default security group is accidentally configured for resources such as EC2 instances.
 
-This rule is covered by the [vpc-default-security-group-closed](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/vpc/vpc-default-security-group-closed.policy.hcl) policy.
+This rule is covered by the [vpc-default-security-group-closed](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/vpc-default-security-group-closed.policy.hcl) policy.
 
 ## Policy Results
 

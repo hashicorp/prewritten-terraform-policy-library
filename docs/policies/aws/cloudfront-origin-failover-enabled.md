@@ -10,7 +10,7 @@ This control checks whether an Amazon CloudFront distribution is configured with
 
 CloudFront origin failover can increase availability. Origin failover automatically redirects traffic to a secondary origin if the primary origin is unavailable or if it returns specific HTTP response status codes.
 
-This rule is covered by the [cloudfront-origin-failover-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-origin-failover-enabled.policy.hcl) policy.
+This rule is covered by the [cloudfront-origin-failover-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-origin-failover-enabled.policy.hcl) policy.
 
 ## Policy Results
 

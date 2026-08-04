@@ -10,7 +10,7 @@ This control checks whether an Amazon DocumentDB cluster requires TLS for connec
 
 You can use TLS to encrypt the connection between an application and an Amazon DocumentDB cluster. Use of TLS can help protect data from being intercepted while the data is in transit between an application and an Amazon DocumentDB cluster. Encryption in transit for an Amazon DocumentDB cluster is managed using the TLS parameter in the cluster parameter group that's associated with the cluster. When encryption in transit is enabled, secure connections using TLS are required to connect to the cluster. We recommend using the following TLS parameters: `tls1.2+`, `tls1.3+`, and `fips-140-3`.
 
-This rule is covered by the [docdb-cluster-encrypted-in-transit](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/doc-db/docdb-cluster-encrypted-in-transit.policy.hcl) policy.
+This rule is covered by the [docdb-cluster-encrypted-in-transit](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/docdb/docdb-cluster-encrypted-in-transit.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether an Amazon FSx for Windows File Server file system is
 
 Amazon FSx for Windows File Server supports two deployment types for file systems: Single-AZ and Multi-AZ. The deployment types offer different levels of availability and durability. Single-AZ file systems are composed of a single Windows file server instance and a set of storage volumes within a single Availability Zone (AZ). Multi-AZ file systems are composed of a high-availability cluster of Windows file servers spread across two Availability Zones. We recommend using the Multi-AZ deployment type for most production workloads due to the high availability and durability model that it provides.
 
-This rule is covered by the [fsx-windows-deployment-type-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/fsx/fsx-windows-deployment-type-check.policy.hcl) policy.
+This rule is covered by the [fsx-windows-deployment-type-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/fsx/fsx-windows-deployment-type-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks if a Neptune DB cluster has IAM database authentication enab
 
 IAM database authentication for Amazon Neptune database clusters removes the need to store user credentials within the database configuration because authentication is managed externally using IAM. When IAM database authentication is enabled, each request needs to be signed using AWS Signature Version 4.
 
-This rule is covered by the [neptune-cluster-iam-database-authentication](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/neptune/neptune-cluster-iam-database-authentication.policy.hcl) policy.
+This rule is covered by the [neptune-cluster-iam-database-authentication](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/neptune/neptune-cluster-iam-database-authentication.policy.hcl) policy.
 
 ## Policy Results
 

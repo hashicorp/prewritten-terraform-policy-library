@@ -10,7 +10,7 @@ This control checks whether Amazon SageMaker monitoring schedules have network i
 
 Network isolation prevents monitoring jobs from making outbound network calls, reducing the attack surface by eliminating internet access from containers.
 
-This rule is covered by the [sagemaker-monitoring-schedule-isolation](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-monitoring-schedule-isolation.policy.hcl) policy.
+This rule is covered by the [sagemaker-monitoring-schedule-isolation](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-monitoring-schedule-isolation.policy.hcl) policy.
 
 ## Policy Results
 

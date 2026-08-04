@@ -12,7 +12,7 @@ For an additional layer of security, you should enable encryption for Amazon EBS
 
 This control doesn't generate findings for Amazon EC2 Spot Fleet requests that use launch templates. It also doesn't generate findings for Spot Fleet requests that don't explicitly specify a value for the encrypted parameter.
 
-This rule is covered by the [ec2-spot-fleet-request-ct-encryption-at-rest](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-spot-fleet-request-ct-encryption-at-rest.policy.hcl) policy.
+This rule is covered by the [ec2-spot-fleet-request-ct-encryption-at-rest](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-spot-fleet-request-ct-encryption-at-rest.policy.hcl) policy.
 
 ## Policy Results
 

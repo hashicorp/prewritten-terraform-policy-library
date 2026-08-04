@@ -10,7 +10,7 @@ This control checks whether an Amazon Relational Database Service instance has a
 
 Backups help you more quickly recover from a security incident and strengthens the resilience of your systems. Amazon RDS lets you configure daily full instance volume snapshots. For more information about Amazon RDS automated backups, see Working with Backups in the Amazon RDS User Guide.
 
-This rule is covered by the [rds-db-instance-backup-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-db-instance-backup-enabled.policy.hcl) policy.
+This rule is covered by the [rds-db-instance-backup-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-db-instance-backup-enabled.policy.hcl) policy.
 
 ## Policy Results
 

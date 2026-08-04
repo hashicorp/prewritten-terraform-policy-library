@@ -14,7 +14,7 @@ To learn more about OpenSearch encryption at rest, see Encryption of data at res
 
 Certain instance types, such as t.small and t.medium, don't support encryption of data at rest. For details, see Supported instance types in the Amazon OpenSearch Service Developer Guide.
 
-This rule is covered by the [elasticsearch-encrypted-at-rest](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticsearch/elasticsearch-encrypted-at-rest.policy.hcl) policy.
+This rule is covered by the [elasticsearch-encrypted-at-rest](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticsearch/elasticsearch-encrypted-at-rest.policy.hcl) policy.
 
 ## Policy Results
 

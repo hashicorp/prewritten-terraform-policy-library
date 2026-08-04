@@ -10,7 +10,7 @@ This control checks whether an Amazon RDS for MariaDB DB instance is configured 
 
 Database logging provides detailed records of requests made to an Amazon RDS for MariaDB DB instance. Publishing logs to Amazon CloudWatch Logs centralizes log management and helps you perform real-time analysis of the log data. In addition, CloudWatch Logs retains the logs in durable storage, which can support security, access, and availability reviews and audits. With CloudWatch Logs, you can also create alarms and review metrics.
 
-This rule is covered by the [mariadb-publish-logs-to-cloudwatch-logs](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/mariadb-publish-logs-to-cloudwatch-logs.policy.hcl) policy.
+This rule is covered by the [mariadb-publish-logs-to-cloudwatch-logs](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/mariadb-publish-logs-to-cloudwatch-logs.policy.hcl) policy.
 
 ## Policy Results
 

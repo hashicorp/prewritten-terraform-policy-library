@@ -10,7 +10,7 @@ This control checks whether an API Gateway stage uses an AWS WAF web access cont
 
 AWS WAF is a web application firewall that helps protect web applications and APIs from attacks. It enables you to configure an ACL, which is a set of rules that allow, block, or count web requests based on customizable web security rules and conditions that you define. Ensure that your API Gateway stage is associated with an AWS WAF web ACL to help protect it from malicious attacks.
 
-This rule is covered by the [api-gw-associated-with-waf](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/apigateway/api-gw-associated-with-waf.policy.hcl) policy.
+This rule is covered by the [api-gw-associated-with-waf](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/apigateway/api-gw-associated-with-waf.policy.hcl) policy.
 
 ## Policy Results
 

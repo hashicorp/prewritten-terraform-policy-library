@@ -10,7 +10,7 @@ This control checks whether a SageMaker model bias job definition has network is
 
 Network isolation prevents SageMaker model bias jobs from communicating with external resources over the internet. By enabling network isolation, you ensure that the job's containers cannot make outbound connections, reducing the attack surface and protecting sensitive data from exfiltration. This is particularly important for jobs processing regulated or sensitive data.
 
-This rule is covered by the [sagemaker-model-bias-job-isolation](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-model-bias-job-isolation.policy.hcl) policy.
+This rule is covered by the [sagemaker-model-bias-job-isolation](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-model-bias-job-isolation.policy.hcl) policy.
 
 ## Policy Results
 

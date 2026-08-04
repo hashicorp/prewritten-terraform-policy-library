@@ -10,7 +10,7 @@ This control checks whether an Elastic Load Balancing target group uses an encry
 
 Encrypting data in transit protects it from interception by unauthorized users. Target groups that use unencrypted protocols (HTTP, TCP, UDP) transmit data without encryption, making it vulnerable to eavesdropping. Using encrypted protocols (HTTPS, TLS, QUIC) ensures that data transmitted between load balancers and targets is protected.
 
-This rule is covered by the [elbv2-targetgroup-protocol-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elb/elbv2-targetgroup-protocol-encrypted.policy.hcl) policy.
+This rule is covered by the [elbv2-targetgroup-protocol-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elbv2-targetgroup-protocol-encrypted.policy.hcl) policy.
 
 ## Policy Results
 

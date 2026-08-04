@@ -10,7 +10,7 @@ This control checks if EC2 transit gateways are automatically accepting shared V
 
 Turning on AutoAcceptSharedAttachments configures a transit gateway to automatically accept any cross-account VPC attachment requests without verifying the request or the account the attachment is originating from. To follow the best practices of authorization and authentication, we recommended turning off this feature to ensure that only authorized VPC attachment requests are accepted.
 
-This rule is covered by the [ec2-transit-gateway-auto-vpc-attach-disabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-transit-gateway-auto-vpc-attach-disabled.policy.hcl) policy.
+This rule is covered by the [ec2-transit-gateway-auto-vpc-attach-disabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-transit-gateway-auto-vpc-attach-disabled.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether an Amazon RDS DB cluster has IAM database authentica
 
 IAM database authentication allows for password-free authentication to database instances. The authentication uses an authentication token. Network traffic to and from the database is encrypted using SSL. For more information, see IAM database authentication in the Amazon Aurora User Guide.
 
-This rule is covered by the [rds-cluster-iam-authentication-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-cluster-iam-authentication-enabled.policy.hcl) policy.
+This rule is covered by the [rds-cluster-iam-authentication-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-cluster-iam-authentication-enabled.policy.hcl) policy.
 
 ## Policy Results
 
