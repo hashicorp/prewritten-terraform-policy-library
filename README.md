@@ -56,8 +56,8 @@ tfpolicy test policies/aws/s3
 
 ## Documentation
 
-Per-policy documentation lives under `docs/policies/aws/`. Each file includes:
+Per-policy documentation lives under `docs/policies/`. Each file includes:
 
-- A description of the FSBP control
-- The AWS provider and Security Hub category
+- A description of the control
+- The provider and the policy control category
 - Expected `tfpolicy test` output
