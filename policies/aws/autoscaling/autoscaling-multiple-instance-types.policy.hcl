@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: AutoScaling.6 - Auto Scaling groups should use multiple instance types in multiple Availability Zones
+# Auto Scaling groups should use multiple instance types in multiple Availability Zones
 
 policy {
   required_providers {
@@ -56,24 +56,24 @@ resource_policy "aws_autoscaling_group" "multiple_instance_types_and_azs" {
   # Enforce: Must use mixed_instances_policy (not legacy launch_configuration)
   enforce {
     condition = !local.uses_launch_configuration
-    error_message = "Auto Scaling group uses legacy launch_configuration which does not support multiple instance types. Use mixed_instances_policy with launch_template instead. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-6 for more details."
+    error_message = "Auto Scaling group uses legacy launch_configuration which does not support multiple instance types. Use mixed_instances_policy with launch_template instead"
   }
   
   # Enforce: Must have mixed_instances_policy configured
   enforce {
     condition = local.has_mixed_instances_policy
-    error_message = "Auto Scaling group must use mixed_instances_policy to support multiple instance types for high availability. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-6 for more details."
+    error_message = "Auto Scaling group must use mixed_instances_policy to support multiple instance types for high availability"
   }
   
   # Enforce: Must have at least 2 instance type overrides
   enforce {
     condition = local.instance_type_count >= 2
-    error_message = "Auto Scaling group must define at least 2 different instance types in mixed_instances_policy.launch_template.override. Currently has ${local.instance_type_count} instance type(s). This ensures the Auto Scaling group can launch alternative instance types if capacity is insufficient. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-6 for more details."
+    error_message = "Auto Scaling group must define at least 2 different instance types in mixed_instances_policy.launch_template.override. Currently has ${local.instance_type_count} instance type(s). This ensures the Auto Scaling group can launch alternative instance types if capacity is insufficient"
   }
   
   # Enforce: Must span multiple Availability Zones
   enforce {
     condition = local.has_multiple_azs
-    error_message = "Auto Scaling group must span at least 2 Availability Zones. Configure either vpc_zone_identifier with subnets in multiple AZs (currently ${local.vpc_zone_count} subnet(s)) or availability_zones with multiple AZ names (currently ${local.az_count} AZ(s)). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-6 for more details."
+    error_message = "Auto Scaling group must span at least 2 Availability Zones. Configure either vpc_zone_identifier with subnets in multiple AZs (currently ${local.vpc_zone_count} subnet(s)) or availability_zones with multiple AZ names (currently ${local.az_count} AZ(s))"
   }
 }

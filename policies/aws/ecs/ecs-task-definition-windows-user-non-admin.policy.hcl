@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ECS.21 - ECS Task Definitions should configure non-administrator users in Windows container definitions
+# ECS Task Definitions should configure non-administrator users in Windows container definitions
 
 policy {
   required_providers {
@@ -66,11 +66,11 @@ resource_policy "aws_ecs_task_definition" "windows_non_admin_user" {
 
   enforce {
     condition = !local.has_user_violations
-    error_message = "Task definition has Windows containers without 'user' parameter configured: ${core::join(", ", local.containers_without_user)}. All Windows containers must specify a non-administrator user. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-21 for more details."
+    error_message = "Task definition has Windows containers without 'user' parameter configured: ${core::join(", ", local.containers_without_user)}. All Windows containers must specify a non-administrator user"
   }
 
   enforce {
     condition = !local.has_admin_violations
-    error_message = "Task definition has Windows containers configured with default administrator user 'containeradministrator': ${core::join(", ", local.containers_with_admin)}. Windows containers must not run as administrator. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-21 for more details."
+    error_message = "Task definition has Windows containers configured with default administrator user 'containeradministrator': ${core::join(", ", local.containers_with_admin)}. Windows containers must not run as administrator"
   }
 }

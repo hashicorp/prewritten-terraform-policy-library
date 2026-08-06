@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ELB.2 - Classic Load Balancers with SSL/HTTPS listeners should use ACM certificates
+# Classic Load Balancers with SSL/HTTPS listeners should use a certificate provided by AWS Certificate Manager
 
 policy {
   required_providers {
@@ -61,11 +61,11 @@ resource_policy "aws_elb" "acm_certificate_required" {
     # Enforce: All HTTPS/SSL listeners must have ssl_certificate_id specified
     enforce {
         condition = !local.has_missing_certs
-        error_message = "Classic Load Balancer has HTTPS/SSL listeners without ssl_certificate_id specified. All HTTPS/SSL listeners must have an ACM certificate configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-2 for more details."
+        error_message = "Classic Load Balancer has HTTPS/SSL listeners without ssl_certificate_id specified. All HTTPS/SSL listeners must have an ACM certificate configured"
     }
 
     enforce {
         condition = !local.has_non_acm_certs
-        error_message = "Classic Load Balancer must use ACM certificates for HTTPS/SSL listeners. Configure certificate ARNs with the 'arn:aws:acm:' format. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-2 for more details."
+        error_message = "Classic Load Balancer must use ACM certificates for HTTPS/SSL listeners. Configure certificate ARNs with the 'arn:aws:acm:' format"
     }
 }

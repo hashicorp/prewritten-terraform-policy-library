@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# SSM.7 - SSM documents should have the block public sharing setting enabled.
+# SSM documents should have the block public sharing setting enabled
 
 policy {
   required_providers {
@@ -27,11 +27,11 @@ resource_policy "aws_ssm_service_setting" "block_public_sharing" {
     
     enforce {
         condition = local.setting_id == local.required_setting_id
-        error_message = "This policy must evaluate the SSM block public sharing service setting. Ensure setting_id is '${local.required_setting_id}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-7 for more details."
+        error_message = "This policy must evaluate the SSM block public sharing service setting. Ensure setting_id is '${local.required_setting_id}'"
     }
 
     enforce {
         condition = local.setting_value == "Disable"
-        error_message = "SSM block public sharing must be enabled at the account level. Set the SSM service setting value to 'Disable' to prevent public sharing of SSM documents. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-7 for more details."
+        error_message = "SSM block public sharing must be enabled at the account level. Set the SSM service setting value to 'Disable' to prevent public sharing of SSM documents"
     }
 }

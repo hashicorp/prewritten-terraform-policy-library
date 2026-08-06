@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Redshift.4 - Amazon Redshift clusters should have audit logging enabled
+# Amazon Redshift clusters should have audit logging enabled
 
 policy {
   required_providers {
@@ -41,6 +41,6 @@ resource_policy "aws_redshift_logging" "logging_properly_configured" {
 
   enforce {
     condition = local.is_compliant
-    error_message = local.is_s3_logging ? "Redshift logging for cluster has S3 destination but missing 'bucket_name'. Ensure 'bucket_name' is set to a valid S3 bucket." : local.is_cloudwatch_logging ? "Redshift logging for cluster has CloudWatch destination but 'log_exports' is empty. Ensure 'log_exports' contains at least one log type (connectionlog, useractivitylog, or userlog)." : "Redshift logging for cluster has invalid or missing 'log_destination_type'. Must be either 's3' or 'cloudwatch'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshift-controls.html#redshift-4 for more details. "
+    error_message = local.is_s3_logging ? "Redshift logging for cluster has S3 destination but missing 'bucket_name'. Ensure 'bucket_name' is set to a valid S3 bucket." : local.is_cloudwatch_logging ? "Redshift logging for cluster has CloudWatch destination but 'log_exports' is empty. Ensure 'log_exports' contains at least one log type (connectionlog, useractivitylog, or userlog)." : "Redshift logging for cluster has invalid or missing 'log_destination_type'. Must be either 's3' or 'cloudwatch'"
   }
 }

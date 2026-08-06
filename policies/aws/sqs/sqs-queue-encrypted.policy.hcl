@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: SQS.1 - Amazon SQS queues should be encrypted at rest
+# Amazon SQS queues should be encrypted at rest
 
 policy {
   required_providers {
@@ -34,6 +34,6 @@ resource_policy "aws_sqs_queue" "encryption_required" {
 
     enforce {
         condition = local.is_encrypted
-        error_message = "SQS queue must be encrypted at rest. Enable either 'sqs_managed_sse_enabled = true' for SSE-SQS encryption or configure 'kms_master_key_id' for SSE-KMS encryption. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sqs-controls.html#sqs-1 for more details."
+        error_message = "SQS queue must be encrypted at rest. Enable either 'sqs_managed_sse_enabled = true' for SSE-SQS encryption or configure 'kms_master_key_id' for SSE-KMS encryption"
     }
 }

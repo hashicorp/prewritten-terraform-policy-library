@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EC2.19 - Security groups should not allow unrestricted access to ports with high risk.
+# Security groups should not allow unrestricted access to ports with high risk
 
 policy {
   required_providers {
@@ -76,6 +76,6 @@ resource_policy "aws_vpc_security_group_ingress_rule" "no_unrestricted_high_risk
 
   enforce {
     condition = !(local.is_unrestricted && local.is_invalid_condition)
-    error_message = "Security group ingress rule allows unrestricted access to high-risk ports. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-19 for more details."
+    error_message = "Security group ingress rule allows unrestricted access to high-risk ports"
   }
 }

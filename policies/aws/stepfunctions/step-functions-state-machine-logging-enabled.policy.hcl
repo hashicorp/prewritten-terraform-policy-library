@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: StepFunctions.1 - Step Functions state machines should have logging turned on
+# Step Functions state machines should have logging turned on
 
 policy {
   required_providers {
@@ -81,32 +81,32 @@ resource_policy "aws_sfn_state_machine" "logging_enabled" {
     # Enforce: Logging level must be set to ALL, ERROR, or FATAL
     enforce {
         condition = local.has_valid_level
-        error_message = "Step Functions state machine must have logging enabled with level set to ALL, ERROR, or FATAL. Current level: '${local.log_level}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/stepfunctions-controls.html#stepfunctions-1 for more details."
+        error_message = "Step Functions state machine must have logging enabled with level set to ALL, ERROR, or FATAL. Current level: '${local.log_level}'"
     }
 
     # Enforce: When input.logLevel is provided, the state machine's level must meet
     # or exceed that minimum verbosity (e.g. input=ERROR accepts ERROR and ALL).
     enforce {
         condition = local.meets_required_level
-        error_message = "Step Functions state machine logging level must be at least '${input.logLevel}' when input.logLevel is provided. Current level: '${local.log_level}'. Verbosity order: ALL > ERROR > FATAL. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/stepfunctions-controls.html#stepfunctions-1 for more details."
+        error_message = "Step Functions state machine logging level must be at least '${input.logLevel}' when input.logLevel is provided. Current level: '${local.log_level}'. Verbosity order: ALL > ERROR > FATAL"
     }
 
     # Enforce: Log destination must be specified
     enforce {
         condition = local.has_log_destination
-        error_message = "Step Functions state machine must have a CloudWatch log group ARN specified in logging_configuration.log_destination. Current value is empty or null. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/stepfunctions-controls.html#stepfunctions-1 for more details."
+        error_message = "Step Functions state machine must have a CloudWatch log group ARN specified in logging_configuration.log_destination. Current value is empty or null"
     }
 
     # Enforce: log_destination ARN must end with ":*" per AWS provider requirement
     enforce {
         condition = !local.has_log_destination || local.has_valid_log_destination_suffix
-        error_message = "Step Functions state machine logging_configuration.log_destination must be a CloudWatch log group ARN ending with ':*'. Current value: '${local.log_destination}'. Refer to https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sfn_state_machine for more details."
+        error_message = "Step Functions state machine logging_configuration.log_destination must be a CloudWatch log group ARN ending with ':*'. Current value: '${local.log_destination}'"
     }
 
     # Enforce: when input.cloudWatchLogGroupArns is provided, log_destination must match one of them
     enforce {
         condition = local.matches_allowed_log_group
-        error_message = "Step Functions state machine logging_configuration.log_destination ('${local.log_destination}') does not match any of the allowed CloudWatch log group ARNs in input.cloudWatchLogGroupArns ('${input.cloudWatchLogGroupArns}'). Refer to https://docs.aws.amazon.com/config/latest/developerguide/step-functions-state-machine-logging-enabled.html for more details."
+        error_message = "Step Functions state machine logging_configuration.log_destination ('${local.log_destination}') does not match any of the allowed CloudWatch log group ARNs in input.cloudWatchLogGroupArns ('${input.cloudWatchLogGroupArns}')"
     }
 }
 
@@ -122,6 +122,6 @@ resource_policy "aws_sfn_state_machine" "logging_configuration_required" {
 
     enforce {
         condition = local.has_logging_configuration
-        error_message = "Step Functions state machine must have logging_configuration block defined. Add a logging_configuration block with level set to ALL, ERROR, or FATAL, and log_destination pointing to a CloudWatch log group ARN ending with ':*'. If input.logLevel is provided, the logging level must meet that minimum verbosity. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/stepfunctions-controls.html#stepfunctions-1 for more details."
+        error_message = "Step Functions state machine must have logging_configuration block defined. Add a logging_configuration block with level set to ALL, ERROR, or FATAL, and log_destination pointing to a CloudWatch log group ARN ending with ':*'. If input.logLevel is provided, the logging level must meet that minimum verbosity"
     }
 }

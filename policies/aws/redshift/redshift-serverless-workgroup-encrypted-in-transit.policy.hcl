@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: RedshiftServerless.2 - Require SSL for Redshift Serverless Workgroups
+# Connections to Redshift Serverless workgroups should be required to use SSL
 
 policy {
   required_providers {
@@ -40,11 +40,11 @@ resource_policy "aws_redshiftserverless_workgroup" "require_ssl_encryption" {
 
     enforce {
         condition = local.has_require_ssl
-        error_message = "Redshift Serverless workgroup must have 'require_ssl' parameter configured in config_parameter block. Add: config_parameter { parameter_key = \"require_ssl\", parameter_value = \"true\" }. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshiftserverless-controls.html#redshiftserverless-2 for more details."
+        error_message = "Redshift Serverless workgroup must have 'require_ssl' parameter configured in config_parameter block. Add: config_parameter { parameter_key = \"require_ssl\", parameter_value = \"true\" }"
     }
 
     enforce {
         condition = !local.has_require_ssl || local.ssl_enabled
-        error_message = "Redshift Serverless workgroup has require_ssl set to a value other than 'true'. It must be set to 'true' to enforce SSL encryption for data in transit. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshiftserverless-controls.html#redshiftserverless-2 for more details."
+        error_message = "Redshift Serverless workgroup has require_ssl set to a value other than 'true'. It must be set to 'true' to enforce SSL encryption for data in transit"
     }
 }

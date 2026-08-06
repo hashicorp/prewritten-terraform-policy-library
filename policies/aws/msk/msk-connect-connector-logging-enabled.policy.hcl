@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: MSK.5 - MSK connectors should have logging enabled
+# MSK connectors should have logging enabled
 
 policy {
   required_providers {
@@ -59,12 +59,12 @@ resource_policy "aws_mskconnect_connector" "logging_enabled" {
     # Enforce: At least one logging destination (CloudWatch OR Firehose OR S3) must be enabled
     enforce {
         condition = local.has_logging_enabled
-        error_message = "MSK connector must have at least one logging destination enabled (CloudWatch Logs, Firehose, or S3). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/msk-controls.html#msk-5 for more details."
+        error_message = "MSK connector must have at least one logging destination enabled (CloudWatch Logs, Firehose, or S3)"
     }
 
     # Enforce: Any enabled logging destination must be fully configured
     enforce {
         condition = local.cloudwatch_valid && local.firehose_valid && local.s3_valid
-        error_message = "MSK connector has a logging destination enabled but is missing required configuration (log_group / delivery_stream / bucket). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/msk-controls.html#msk-5 for more details."
+        error_message = "MSK connector has a logging destination enabled but is missing required configuration (log_group / delivery_stream / bucket)"
     }
 }

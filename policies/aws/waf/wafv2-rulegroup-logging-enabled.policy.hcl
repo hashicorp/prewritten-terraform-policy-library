@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy : WAF.12 - AWS WAF rules should have CloudWatch metrics enabled
+# AWS WAF rules should have CloudWatch metrics enabled
 
 policy {
   required_providers {
@@ -39,22 +39,22 @@ resource_policy "aws_wafv2_rule_group" "waf_rule_group_cloudwatch_metrics_enable
 
   enforce {
     condition = local.resource_has_visibility_config
-    error_message = "WAF rule group '${local.resource_name}' must define a visibility_config block with CloudWatch metrics enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-12 for more details."
+    error_message = "WAF rule group '${local.resource_name}' must define a visibility_config block with CloudWatch metrics enabled"
   }
 
   enforce {
     condition = !local.resource_has_visibility_config || local.resource_cloudwatch_metrics_enabled == true
-    error_message = "WAF rule group '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-12 for more details."
+    error_message = "WAF rule group '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true"
   }
 
   enforce {
     condition = core::length(local.rules_missing_visibility_config) == 0
-    error_message = "Each rule in WAF rule group '${local.resource_name}' must define visibility_config. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-12 for more details."
+    error_message = "Each rule in WAF rule group '${local.resource_name}' must define visibility_config"
   }
 
   enforce {
     condition = core::length(local.rules_missing_visibility_config) > 0 || core::length(local.rules_with_metrics_disabled) == 0
-    error_message = "Each rule in WAF rule group '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-12 for more details."
+    error_message = "Each rule in WAF rule group '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true"
   }
 }
 
@@ -81,21 +81,21 @@ resource_policy "aws_wafv2_web_acl" "waf_web_acl_cloudwatch_metrics_enabled" {
 
   enforce {
     condition = local.resource_has_visibility_config
-    error_message = "WAF web ACL '${local.resource_name}' must define a visibility_config block with CloudWatch metrics enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-12 for more details."
+    error_message = "WAF web ACL '${local.resource_name}' must define a visibility_config block with CloudWatch metrics enabled"
   }
 
   enforce {
     condition = !local.resource_has_visibility_config || local.resource_cloudwatch_metrics_enabled == true
-    error_message = "WAF web ACL '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-12 for more details."
+    error_message = "WAF web ACL '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true"
   }
 
   enforce {
     condition = core::length(local.rules_missing_visibility_config) == 0
-    error_message = "Each rule in WAF web ACL '${local.resource_name}' must define visibility_config. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-12 for more details."
+    error_message = "Each rule in WAF web ACL '${local.resource_name}' must define visibility_config"
   }
 
   enforce {
     condition = core::length(local.rules_missing_visibility_config) > 0 || core::length(local.rules_with_metrics_disabled) == 0
-    error_message = "Each rule in WAF web ACL '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-12 for more details."
+    error_message = "Each rule in WAF web ACL '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true"
   }
 }

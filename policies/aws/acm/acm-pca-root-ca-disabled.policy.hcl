@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-// Policy: PCA.1 - AWS Private CA root certificate authority should be disabled
+# AWS Private CA root certificate authority should be disabled
 
 policy {
   required_providers {
@@ -29,6 +29,6 @@ resource_policy "aws_acmpca_certificate_authority" "root_ca_disabled" {
 
     enforce {
         condition = local.is_enabled == false
-        error_message = "Root CA must be disabled. Root CAs should only be used to issue certificates for intermediate CAs and should be stored securely. Set 'enabled = false' to comply with this control. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/pca-controls.html#pca-1 for more details."
+        error_message = "Root CA must be disabled. Root CAs should only be used to issue certificates for intermediate CAs and should be stored securely. Set 'enabled = false' to comply with this control"
     }
 }

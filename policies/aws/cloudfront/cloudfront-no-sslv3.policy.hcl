@@ -53,6 +53,6 @@ resource_policy "aws_cloudfront_distribution" "no_deprecated_ssl_protocols" {
 
     enforce {
         condition = !local.has_deprecated_ssl
-        error_message = "CloudFront distribution uses deprecated SSLv3 protocol for custom origins: ${core::join(", ", local.affected_origins)}. SSLv3 is insufficiently secure and should not be used. Use TLSv1.2 or later for HTTPS communication to custom origins. Update the origin_ssl_protocols configuration to remove 'SSLv3'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-10 for more details."
+        error_message = "CloudFront distribution uses deprecated SSLv3 protocol for custom origins: ${core::join(", ", local.affected_origins)}. SSLv3 is insufficiently secure and should not be used. Use TLSv1.2 or later for HTTPS communication to custom origins. Update the origin_ssl_protocols configuration to remove 'SSLv3'"
     }
 }

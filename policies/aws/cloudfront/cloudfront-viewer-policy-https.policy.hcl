@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# CloudFront.3 - CloudFront distributions should require encryption in transit.
+# CloudFront distributions should require encryption in transit
 
 policy {
   required_providers {
@@ -24,6 +24,6 @@ resource_policy "aws_cloudfront_distribution" "viewer-policy-https" {
     }
     enforce {
         condition = local.default_cache_behavior && local.ordered_cache_behavior
-        error_message = "CloudFront distribution viewer_protocol_policy is set to 'allow-all'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-3 for more details."
+        error_message = "CloudFront distribution viewer_protocol_policy is set to 'allow-all'"
     }
 }

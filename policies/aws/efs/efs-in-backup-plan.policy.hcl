@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EFS.2 - Amazon EFS volumes should be in backup plans.
+# Amazon EFS volumes should be in backup plans
 
 policy {
   required_providers {
@@ -35,6 +35,6 @@ resource_policy "aws_efs_file_system" "in_backup_plan" {
 
   enforce {
     condition = local.in_backup || local.has_backup_tag || local.has_backup_policy
-    error_message = "EFS file system is not included in any AWS Backup plan. Either add this file system to an aws_backup_selection resource that is associated with an aws_backup_plan (by explicit ARN reference or by tag-based selection), or set backup_policy.status to 'ENABLED' . Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/efs-controls.html#efs-2 for more details."
+    error_message = "EFS file system is not included in any AWS Backup plan. Either add this file system to an aws_backup_selection resource that is associated with an aws_backup_plan (by explicit ARN reference or by tag-based selection), or set backup_policy.status to 'ENABLED'"
   }
 }

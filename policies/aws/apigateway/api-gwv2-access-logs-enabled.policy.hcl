@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: APIGateway.9 - Access logging should be configured for API Gateway V2 Stages
+# Access logging should be configured for API Gateway V2 Stages
 
 policy {
   required_providers {
@@ -41,18 +41,18 @@ resource_policy "aws_apigatewayv2_stage" "access_logging_required" {
     # Enforce: access_log_settings must be configured
     enforce {
         condition = local.has_access_log_settings
-        error_message = "API Gateway V2 stage must have access_log_settings configured. Access logs provide detailed information about API access patterns and are required for security audits and forensics investigation. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-9 for more details."
+        error_message = "API Gateway V2 stage must have access_log_settings configured. Access logs provide detailed information about API access patterns and are required for security audits and forensics investigation"
     }
 
     # Enforce: destination_arn must be specified
     enforce {
         condition = local.has_destination
-        error_message = "API Gateway V2 stage must have destination_arn specified in access_log_settings. The destination_arn should reference a valid CloudWatch Logs log group ARN. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-9 for more details."
+        error_message = "API Gateway V2 stage must have destination_arn specified in access_log_settings. The destination_arn should reference a valid CloudWatch Logs log group ARN"
     }
 
     # Enforce: format must be specified
     enforce {
         condition = local.has_format
-        error_message = "API Gateway V2 stage must have format specified in access_log_settings. The format defines the log format specification for access logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-9 for more details."
+        error_message = "API Gateway V2 stage must have format specified in access_log_settings. The format defines the log format specification for access logs"
     }
 }

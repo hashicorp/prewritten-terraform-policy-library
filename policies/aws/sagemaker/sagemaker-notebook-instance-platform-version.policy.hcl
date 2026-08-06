@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# SageMaker.8 - SageMaker notebook instances should run on supported platforms.
+# SageMaker notebook instances should run on supported platforms
 
 policy {
   required_providers {
@@ -41,6 +41,6 @@ resource_policy "aws_sagemaker_notebook_instance" "supported_platform" {
 
     enforce {
         condition = local.is_supported && !local.is_deprecated
-        error_message = "SageMaker notebook instance is running on unsupported platform '${local.platform_identifier}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-8 for more details."
+        error_message = "SageMaker notebook instance is running on unsupported platform '${local.platform_identifier}'"
     }
 }

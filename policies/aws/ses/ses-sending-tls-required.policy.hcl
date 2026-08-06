@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: SES.3 - SES configuration sets should have TLS enabled for sending emails
+# SES configuration sets should have TLS enabled for sending emails
 
 policy {
   required_providers {
@@ -33,7 +33,7 @@ resource_policy "aws_ses_configuration_set" "tls_required" {
 
     enforce {
         condition = local.is_compliant
-        error_message = "SES configuration set must have TLS policy set to 'Require'. Current value: '${local.tls_policy}'. Update delivery_options.tls_policy to 'Require'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ses-controls.html#ses-3 for more details."
+        error_message = "SES configuration set must have TLS policy set to 'Require'. Current value: '${local.tls_policy}'. Update delivery_options.tls_policy to 'Require'"
     }
 }
 
@@ -54,6 +54,6 @@ resource_policy "aws_sesv2_configuration_set" "tls_required" {
 
     enforce {
         condition = local.is_compliant
-        error_message = "SES v2 configuration set must have TLS policy set to 'REQUIRE'. Current value: '${local.tls_policy}'. Update delivery_options.tls_policy to 'REQUIRE'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ses-controls.html#ses-3 for more details."
+        error_message = "SES v2 configuration set must have TLS policy set to 'REQUIRE'. Current value: '${local.tls_policy}'. Update delivery_options.tls_policy to 'REQUIRE'"
     }
 }

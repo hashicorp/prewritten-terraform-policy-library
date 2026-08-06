@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy : EC2.55 - VPCs should be configured with an interface endpoint for the services
+# VPCs should be configured with an interface endpoint for ECR API
 
 policy {
   required_providers {
@@ -58,6 +58,6 @@ resource_policy "aws_vpc" "vpc_endpoint_required" {
 
   enforce {
     condition     = local.all_services_have_endpoint
-    error_message = "VPC '${local.vpc_id}' is missing a VPC endpoint for service(s): ${local.missing_services_display}. The required service 'ecr.api' must have a matching com.amazonaws.<region>.ecr.api endpoint (Interface or Gateway, FIPS variant also accepted). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-55 and https://docs.aws.amazon.com/config/latest/developerguide/vpc-endpoint-enabled.html for more details."
+    error_message = "VPC '${local.vpc_id}' is missing a VPC endpoint for service(s): ${local.missing_services_display}. The required service 'ecr.api' must have a matching com.amazonaws.<region>.ecr.api endpoint (Interface or Gateway, FIPS variant also accepted)."
   }
 }

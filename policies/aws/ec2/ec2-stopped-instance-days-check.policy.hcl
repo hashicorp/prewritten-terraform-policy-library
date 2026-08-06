@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EC2.4 - Stopped EC2 instances should be removed after a specified time period.
+# Stopped EC2 instances should be removed after a specified time period
 
 policy {
   required_providers {
@@ -39,6 +39,6 @@ resource_policy "aws_instance" "stopped_instances_check" {
 
     enforce {
         condition     = !local.is_stopped || local.has_stopped_date
-        error_message = "Stopped EC2 instance must include a 'StoppedDate' tag so external tooling can evaluate it against the configured AllowedDays threshold. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-4 for more details."
+        error_message = "Stopped EC2 instance must include a 'StoppedDate' tag so external tooling can evaluate it against the configured AllowedDays threshold"
     }
 }

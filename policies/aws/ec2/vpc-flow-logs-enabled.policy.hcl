@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EC2.6 - VPC Flow Logging Should Be Enabled in All VPCs
+# VPC flow logging should be enabled in all VPCs
 
 policy {
   required_providers {
@@ -47,11 +47,11 @@ resource_policy "aws_vpc" "flow_logging_enabled" {
 
   enforce {
     condition     = !local.has_known_vpc_id || local.has_flow_log
-    error_message = "VPC must have VPC Flow Logs enabled. Create an aws_flow_log resource with vpc_id = ${attrs.id}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-6 for more details."
+    error_message = "VPC must have VPC Flow Logs enabled. Create an aws_flow_log resource with vpc_id = ${attrs.id}"
   }
 
   enforce {
     condition     = !local.has_known_vpc_id || local.has_reject_logging
-    error_message = "VPC must have VPC Flow Logs with traffic_type set to '${local.required_traffic_type}'. Current flow logs do not capture the required rejected traffic. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-6 for more details."
+    error_message = "VPC must have VPC Flow Logs with traffic_type set to '${local.required_traffic_type}'. Current flow logs do not capture the required rejected traffic"
   }
 }

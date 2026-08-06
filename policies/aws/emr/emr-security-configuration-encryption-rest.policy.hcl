@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EMR.3 - Amazon EMR security configurations should be encrypted at rest.
+# Amazon EMR security configurations should be encrypted at rest
 
 policy {
   required_providers {
@@ -24,6 +24,6 @@ resource_policy "aws_emr_security_configuration" "emr-security-configuration-enc
 
     enforce {
         condition = core::try(local.config.EncryptionConfiguration.EnableAtRestEncryption, false)
-        error_message = "The EMR security configuration does not have the encryption at rest enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/emr-controls.html#emr-3 for more details."
+        error_message = "The EMR security configuration does not have the encryption at rest enabled"
     }
 }

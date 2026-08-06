@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# DocumentDB.1 - DocumentDB clusters should be encrypted at rest. This control checks if Amazon DocumentDB clusters are encrypted at rest. The control fails if a DocumentDB cluster isn't encrypted at rest or if the encryption key is different from the provided key in the rule parameter.
+# Amazon DocumentDB clusters should be encrypted at rest
 
 policy {
   required_providers {
@@ -32,6 +32,6 @@ resource_policy "aws_docdb_cluster" "encrypted-at-rest" {
 
     enforce {
         condition = local.has_encryption && local.valid_kms_key_arn
-        error_message = "DocumentDB cluster either does not have encryption enabled or uses invalid KMS key. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/documentdb-controls.html#documentdb-1 for more details."
+        error_message = "DocumentDB cluster either does not have encryption enabled or uses invalid KMS key"
     }
 }

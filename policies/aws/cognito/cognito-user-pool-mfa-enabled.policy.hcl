@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Cognito.5 - MFA should be enabled for Cognito user pools
+# MFA should be enabled for Cognito user pools
 
 policy {
   required_providers {
@@ -51,11 +51,11 @@ resource_policy "aws_cognito_user_pool" "mfa_enabled" {
     
     enforce {
         condition = local.mfa_enabled
-        error_message = "Cognito user pool with password-only sign-in must have MFA enabled. Current mfa_configuration: '${local.mfa_configuration}'. Set mfa_configuration to 'ON' or 'OPTIONAL'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cognito-controls.html#cognito-5 for more details."
+        error_message = "Cognito user pool with password-only sign-in must have MFA enabled. Current mfa_configuration: '${local.mfa_configuration}'. Set mfa_configuration to 'ON' or 'OPTIONAL'"
     }
     
     enforce {
         condition = local.has_mfa_method
-        error_message = "Cognito user pool must have at least one MFA method configured (sms_configuration, software_token_mfa_configuration, or email_mfa_configuration) when MFA is enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cognito-controls.html#cognito-5 for more details."
+        error_message = "Cognito user pool must have at least one MFA method configured (sms_configuration, software_token_mfa_configuration, or email_mfa_configuration) when MFA is enabled"
     }
 }

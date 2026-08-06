@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ELB.8 - Classic Load Balancers with SSL listeners should use predefined security policy
+# Classic Load Balancers with SSL listeners should use a predefined security policy that has strong AWS Configuration
 
 policy {
   required_providers {
@@ -54,6 +54,6 @@ resource_policy "aws_elb" "ssl_predefined_security_policy" {
 
     enforce {
         condition = local.all_ssl_listeners_compliant
-        error_message = "Classic Load Balancer '${local.elb_name}' has ${local.non_compliant_count} SSL/HTTPS listener(s) that do not use the required security policy 'ELBSecurityPolicy-TLS-1-2-2017-01'. All SSL/HTTPS listeners must use this predefined security policy to meet compliance requirements (PCI DSS v4.0.1/4.2.1). Configure the security policy using aws_load_balancer_policy and aws_load_balancer_listener_policy resources. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-8 for more details."
+        error_message = "Classic Load Balancer '${local.elb_name}' has ${local.non_compliant_count} SSL/HTTPS listener(s) that do not use the required security policy 'ELBSecurityPolicy-TLS-1-2-2017-01'. All SSL/HTTPS listeners must use this predefined security policy. Configure the security policy using aws_load_balancer_policy and aws_load_balancer_listener_policy resources"
     }
 }

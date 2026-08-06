@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.10 - Amazon EC2 should be configured to use VPC endpoints
+# Amazon EC2 should be configured to use VPC endpoints that are created for the Amazon EC2 service
 
 policy {
   required_providers {
@@ -50,11 +50,11 @@ resource_policy "aws_vpc" "ec2_service_vpc_endpoint_enabled" {
 
     enforce {
         condition = !local.has_known_vpc_id || local.has_endpoint
-        error_message = "VPC must have an interface VPC endpoint created for the Amazon EC2 service. Create an aws_vpc_endpoint resource with service_name ending in '.ec2' for VPC id ${attrs.id}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-10 for more details."
+        error_message = "VPC must have an interface VPC endpoint created for the Amazon EC2 service. Create an aws_vpc_endpoint resource with service_name ending in '.ec2' for VPC id ${attrs.id}"
     }
 
     enforce {
         condition = !local.has_known_vpc_id || local.has_valid_endpoint
-        error_message = "VPC EC2 interface endpoint must include subnet_ids and security_group_ids for proper connectivity and access control. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-10 for more details."
+        error_message = "VPC EC2 interface endpoint must include subnet_ids and security_group_ids for proper connectivity and access control"
     }
 }

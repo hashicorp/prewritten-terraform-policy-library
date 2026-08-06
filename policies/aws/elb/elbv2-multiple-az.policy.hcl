@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ELB.13 - Application, Network and Gateway Load Balancers should have registered targets in multiple Availability Zones
+# Application, Network and Gateway Load Balancers should span multiple Availability Zones
 
 policy {
   required_providers {
@@ -109,6 +109,6 @@ resource_policy "aws_lb" "multiple_az_required" {
 
     enforce {
         condition = local.meets_minimum
-        error_message = "Load Balancer has registered targets in fewer Availability Zones than required by input.minAvailabilityZones. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-13 for more details."
+        error_message = "Load Balancer has registered targets in fewer Availability Zones than required by input.minAvailabilityZones"
     }
 }

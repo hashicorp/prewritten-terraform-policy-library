@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ACM.1 - Certificate Renewal Check
+# Imported and ACM-issued certificates should be renewed after a specified time period
 
 policy {
   required_providers {
@@ -57,11 +57,11 @@ resource_policy "aws_acm_certificate" "certificate_renewal_check" {
     
     enforce {
         condition = !local.needs_attention
-        error_message = "ACM certificate requires attention for renewal. Certificate status: ${local.status}, Renewal eligibility: ${local.renewal_eligibility}. The configured daysToExpiration threshold is ${local.days_to_expiration_threshold} days. For DNS-validated certificates, ensure DNS records are properly configured. For email-validated certificates, respond to validation emails. For imported certificates, manual renewal is required before expiration. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/acm-controls.html#acm-1 for more details."
+        error_message = "ACM certificate requires attention for renewal. Certificate status: ${local.status}, Renewal eligibility: ${local.renewal_eligibility}. The configured daysToExpiration threshold is ${local.days_to_expiration_threshold} days. For DNS-validated certificates, ensure DNS records are properly configured. For email-validated certificates, respond to validation emails. For imported certificates, manual renewal is required before expiration"
     }
     
     enforce {
         condition = local.not_after != null
-        error_message = "ACM certificate is missing expiration date (not_after attribute). This may indicate the certificate is still being provisioned or has an error. The configured daysToExpiration threshold is ${local.days_to_expiration_threshold} days. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/acm-controls.html#acm-1 for more details."
+        error_message = "ACM certificate is missing expiration date (not_after attribute). This may indicate the certificate is still being provisioned or has an error. The configured daysToExpiration threshold is ${local.days_to_expiration_threshold} days"
     }
 }

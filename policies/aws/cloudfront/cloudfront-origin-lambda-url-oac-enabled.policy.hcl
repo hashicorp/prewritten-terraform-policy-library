@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: CloudFront.16 - CloudFront distributions should use origin access control for Lambda function URL origins
+# cloudfront-origin-lambda-url-oac-enabled
 
 policy {
   required_providers {
@@ -107,8 +107,6 @@ Example:
     }
   }
 
-Reference: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-lambda.html
-Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-16 for more details.
-EOT
+Reference: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-lambda.htmlEOT
     }
 }

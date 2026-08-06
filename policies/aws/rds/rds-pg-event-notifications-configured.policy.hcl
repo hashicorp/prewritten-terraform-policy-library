@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.21 - RDS Event Notifications for Database Parameter Group Events.
+# An RDS event notifications subscription should be configured for critical database parameter group events
 
 policy {
   required_providers {
@@ -29,6 +29,6 @@ resource_policy "aws_db_event_subscription" "parameter_group_events" {
 
     enforce {
         condition = local.event_categories == [] || (local.is_enabled && local.has_config_change)
-        error_message = "RDS event subscription must include 'configuration change' in event_categories. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-21 for more details."
+        error_message = "RDS event subscription must include 'configuration change' in event_categories"
     }
 }

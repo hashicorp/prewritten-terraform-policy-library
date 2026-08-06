@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# CloudFront.4 - CloudFront distributions should have origin failover configured
+# CloudFront distributions should have origin failover configured
 
 policy {
   required_providers {
@@ -78,18 +78,18 @@ resource_policy "aws_cloudfront_distribution" "origin_failover_required" {
     # Enforce: Must have at least one origin group
     enforce {
         condition = local.has_origin_group
-        error_message = "CloudFront distribution must have at least one origin_group configured for high availability. Origin failover requires configuring an origin group with primary and failover origins. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-4 for more details."
+        error_message = "CloudFront distribution must have at least one origin_group configured for high availability. Origin failover requires configuring an origin group with primary and failover origins"
     }
 
     # Enforce: All origin groups must be properly configured
     enforce {
         condition = local.all_groups_valid
-        error_message = "CloudFront distribution has improperly configured origin groups. Each origin_group must have: (1) a unique origin_id, (2) failover_criteria with status_codes defined, and (3) at least two member origins (primary and failover). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-4 for more details."
+        error_message = "CloudFront distribution has improperly configured origin groups. Each origin_group must have: (1) a unique origin_id, (2) failover_criteria with status_codes defined, and (3) at least two member origins (primary and failover)"
     }
 
     # Enforce: Cache behaviors must reference origin groups
     enforce {
         condition = local.any_behavior_uses_group
-        error_message = "CloudFront distribution has origin groups configured but no cache behavior references them. The default_cache_behavior or ordered_cache_behavior must use target_origin_id that matches an origin_group ID (not individual origin IDs) to enable failover. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-4 for more details."
+        error_message = "CloudFront distribution has origin groups configured but no cache behavior references them. The default_cache_behavior or ordered_cache_behavior must use target_origin_id that matches an origin_group ID (not individual origin IDs) to enable failover"
     }
 }

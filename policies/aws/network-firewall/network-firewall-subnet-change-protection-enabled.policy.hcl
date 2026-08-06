@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: NetworkFirewall.10 - Network Firewall firewalls should have subnet change protection enabled
+# Network Firewall firewalls should have subnet change protection enabled
 
 policy {
   required_providers {
@@ -25,6 +25,6 @@ resource_policy "aws_networkfirewall_firewall" "subnet_change_protection_enabled
 
     enforce {
         condition     = local.subnet_change_protection == true
-        error_message = "Network Firewall must have subnet change protection enabled. Set 'subnet_change_protection = true' to protect against accidental changes to subnet associations. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-10 for more details."
+        error_message = "Network Firewall must have subnet change protection enabled. Set 'subnet_change_protection = true' to protect against accidental changes to subnet associations"
     }
 }

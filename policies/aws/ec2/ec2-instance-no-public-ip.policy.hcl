@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.9 - Amazon EC2 instances should not have a public IPv4 address
+# Amazon EC2 instances should not have a public IPv4 address
 
 policy {
   required_providers {
@@ -44,6 +44,6 @@ resource_policy "aws_instance" "no_public_ipv4" {
 
   enforce {
     condition     = local.is_compliant
-    error_message = "EC2 instance must not have a public IPv4 address. Either 'associate_public_ip_address' is set to true or a network_interface has public IP association enabled, which violates security policy EC2.9. Use a non-default VPC and ensure instances are launched in subnets that do not auto-assign public IPs. Remove explicit public IP associations from instance and network interface configurations. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-9 for more details."
+    error_message = "EC2 instance must not have a public IPv4 address. Either 'associate_public_ip_address' is set to true or a network_interface has public IP association enabled, which violates security policy EC2.9. Use a non-default VPC and ensure instances are launched in subnets that do not auto-assign public IPs. Remove explicit public IP associations from instance and network interface configurations"
   }
 }

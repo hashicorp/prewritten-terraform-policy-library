@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: SecretsManager.1 - Secrets Manager secrets should have automatic rotation enabled
+# Secrets Manager secrets should have automatic rotation enabled
 
 policy {
   required_providers {
@@ -61,12 +61,12 @@ resource_policy "aws_secretsmanager_secret" "rotation_enabled_check" {
   # Rotation must be enabled.
   enforce {
     condition     = local.has_rotation_enabled
-    error_message = "Secret must have automatic rotation enabled. Configure an aws_secretsmanager_secret_rotation resource with rotation_rules.automatically_after_days. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/secretsmanager-controls.html#secretsmanager-1 for more details."
+    error_message = "Secret must have automatic rotation enabled. Configure an aws_secretsmanager_secret_rotation resource with rotation_rules.automatically_after_days"
   }
 
   # Rotation frequency must not exceed the configured maximum.
   enforce {
     condition     = !local.frequency_exceeds_max
-    error_message = "Secret rotation frequency exceeds maximumAllowedRotationFrequency. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/secretsmanager-controls.html#secretsmanager-1 for more details."
+    error_message = "Secret rotation frequency exceeds maximumAllowedRotationFrequency"
   }
 }

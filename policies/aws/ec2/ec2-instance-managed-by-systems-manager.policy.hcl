@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: SSM.1 - Amazon EC2 instances should be managed by AWS Systems Manager
+# Amazon EC2 instances should be managed by AWS Systems Manager
 
 policy {
   required_providers {
@@ -37,6 +37,6 @@ resource_policy "aws_instance" "ssm_managed_instance" {
   # Enforce: Instance must have IAM instance profile (unless it's a disaster recovery instance)
   enforce {
     condition = local.has_instance_profile || local.is_disaster_recovery
-    error_message = "EC2 instance must have an IAM instance profile attached to be managed by AWS Systems Manager. The instance profile should have a role with the AmazonSSMManagedInstanceCore managed policy attached. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-1 for more details."
+    error_message = "EC2 instance must have an IAM instance profile attached to be managed by AWS Systems Manager. The instance profile should have a role with the AmazonSSMManagedInstanceCore managed policy attached"
   }
 }

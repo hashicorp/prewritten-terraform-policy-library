@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Redshift.2 - Connections to Amazon Redshift clusters should be encrypted in transit
+# Connections to Amazon Redshift clusters should be encrypted in transit
 
 policy {
   required_providers {
@@ -52,6 +52,6 @@ resource_policy "aws_redshift_cluster" "encryption_in_transit_required" {
   # Enforce: Cluster must use a custom parameter group with require_ssl = true
   enforce {
     condition = !local.is_default_param_group && local.require_ssl_enabled
-    error_message = "Redshift cluster must use a custom parameter group with require_ssl parameter set to 'true' to encrypt connections in transit. Current parameter group: '${local.param_group_name}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshift-controls.html#redshift-2 for more details."
+    error_message = "Redshift cluster must use a custom parameter group with require_ssl parameter set to 'true' to encrypt connections in transit. Current parameter group: '${local.param_group_name}'"
   }
 }

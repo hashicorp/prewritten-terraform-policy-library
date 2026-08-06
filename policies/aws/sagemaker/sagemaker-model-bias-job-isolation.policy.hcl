@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# SageMaker.12 - SageMaker model bias job definitions should have network isolation enabled
+# SageMaker model bias job definitions should have network isolation enabled
 
 policy {
   required_providers {
@@ -36,6 +36,6 @@ resource_policy "aws_sagemaker_monitoring_schedule" "model_bias_isolation" {
 
     enforce {
         condition = !local.is_model_bias || !local.has_job_definition || (local.has_network_config && local.isolation_enabled == true)
-        error_message = "SageMaker model bias monitoring schedule does not have network isolation enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-12 for more details."
+        error_message = "SageMaker model bias monitoring schedule does not have network isolation enabled"
     }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# SageMaker.1 - Amazon SageMaker notebook instances should not have direct internet access.
+# Amazon SageMaker notebook instances should not have direct internet access
 
 policy {
   required_providers {
@@ -28,11 +28,11 @@ resource_policy "aws_sagemaker_notebook_instance" "no_direct_internet_access" {
 
     enforce {
         condition = local.internet_access == "Disabled"
-        error_message = "SageMaker notebook instance has direct internet access enabled. Set 'direct_internet_access = \"Disabled\"' and configure VPC settings (subnet_id and security_groups) to comply with security requirements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-1 for more details."
+        error_message = "SageMaker notebook instance has direct internet access enabled. Set 'direct_internet_access = \"Disabled\"' and configure VPC settings (subnet_id and security_groups) to comply with security requirements"
     }
 
     enforce {
         condition = local.internet_access == "Enabled" || local.has_vpc_config
-        error_message = "SageMaker notebook instance has direct_internet_access disabled but is missing required VPC configuration. When direct internet access is disabled, you must specify both 'subnet_id' and 'security_groups' to enable the notebook instance to access resources through a VPC. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-1 for more details."
+        error_message = "SageMaker notebook instance has direct_internet_access disabled but is missing required VPC configuration. When direct internet access is disabled, you must specify both 'subnet_id' and 'security_groups' to enable the notebook instance to access resources through a VPC"
     }
 }

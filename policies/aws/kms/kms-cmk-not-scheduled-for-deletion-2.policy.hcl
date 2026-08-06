@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: KMS.3 - AWS KMS keys should not be deleted unintentionally
+# AWS KMS keys should not be deleted unintentionally
 
 policy {
   required_providers {
@@ -29,7 +29,7 @@ resource_policy "aws_kms_key" "kms_deletion_window" {
 
     enforce {
         condition     = local.valid_input && core::try(attrs.deletion_window_in_days, 30) >= input.minimumDeletionWindowInDays
-        error_message = "KMS key has a 'deletion_window_in_days' below the required minimum (must be between 7 and 30 days, inclusive). A longer waiting period reduces the risk of unintended key deletion (and unrecoverable data loss). Set 'deletion_window_in_days' to at least the required minimum (max 30). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/kms-controls.html#kms-3 for more details."
+        error_message = "KMS key has a 'deletion_window_in_days' below the required minimum (must be between 7 and 30 days, inclusive). A longer waiting period reduces the risk of unintended key deletion (and unrecoverable data loss). Set 'deletion_window_in_days' to at least the required minimum (max 30)"
     }
 }
 

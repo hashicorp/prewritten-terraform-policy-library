@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: SNS.4 - SNS topic access policies should not allow public access
+# SNS topic access policies should not allow public access
 
 policy {
   required_providers {
@@ -66,7 +66,7 @@ resource_policy "aws_sns_topic_policy" "no_public_access" {
 
   enforce {
     condition = local.is_compliant
-    error_message = "SNS topic policy allows public access. The policy contains ${local.public_statement_count} statement(s) with a wildcard (*) Principal (or NotPrincipal with Allow) and no Condition. Remove wildcard principals or add restrictive conditions. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sns-controls.html#sns-4 for more details."
+    error_message = "SNS topic policy allows public access. The policy contains ${local.public_statement_count} statement(s) with a wildcard (*) Principal (or NotPrincipal with Allow) and no Condition. Remove wildcard principals or add restrictive conditions"
   }
 }
 
@@ -118,6 +118,6 @@ resource_policy "aws_sns_topic" "no_public_access_inline" {
 
   enforce {
     condition = local.is_compliant
-    error_message = "SNS topic has an inline policy that allows public access. The policy contains ${local.public_statement_count} statement(s) with a wildcard (*) Principal (or NotPrincipal with Allow) and no Condition. Remove wildcard principals or add restrictive conditions. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sns-controls.html#sns-4 for more details."
+    error_message = "SNS topic has an inline policy that allows public access. The policy contains ${local.public_statement_count} statement(s) with a wildcard (*) Principal (or NotPrincipal with Allow) and no Condition. Remove wildcard principals or add restrictive conditions"
   }
 }

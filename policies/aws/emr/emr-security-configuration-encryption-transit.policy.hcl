@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EMR.4 - Amazon EMR security configurations should be encrypted in transit.
+# Amazon EMR security configurations should be encrypted in transit
 
 policy {
   required_providers {
@@ -24,6 +24,6 @@ resource_policy "aws_emr_security_configuration" "emr-security-configuration-enc
 
     enforce {
         condition = core::try(local.config.EncryptionConfiguration.EnableInTransitEncryption, false)
-        error_message = "The EMR security configuration does not have the encryption in transit enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/emr-controls.html#emr-4 for more details."
+        error_message = "The EMR security configuration does not have the encryption in transit enabled"
     }
 }

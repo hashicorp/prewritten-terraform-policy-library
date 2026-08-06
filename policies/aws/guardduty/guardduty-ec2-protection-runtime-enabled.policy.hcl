@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# GuardDuty.13 - GuardDuty EC2 Runtime Monitoring should be enabled.
+# GuardDuty EC2 Runtime Monitoring should be enabled
 
 policy {
   required_providers {
@@ -35,12 +35,12 @@ resource_policy "aws_guardduty_detector_feature" "ec2_runtime_monitoring_enabled
 
     enforce {
         condition = local.feature_status == "ENABLED"
-        error_message = "GuardDuty RUNTIME_MONITORING feature must be enabled. Set status = 'ENABLED' to enable EC2 runtime monitoring. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-13 for more details."
+        error_message = "GuardDuty RUNTIME_MONITORING feature must be enabled. Set status = 'ENABLED' to enable EC2 runtime monitoring"
     }
 
     enforce {
         condition = local.ec2_agent_status == "ENABLED"
-        error_message = "GuardDuty RUNTIME_MONITORING feature must have EC2_AGENT_MANAGEMENT enabled in additional_configuration. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-13 for more details."
+        error_message = "GuardDuty RUNTIME_MONITORING feature must have EC2_AGENT_MANAGEMENT enabled in additional_configuration"
     }
 }
 
@@ -63,11 +63,11 @@ resource_policy "aws_guardduty_organization_configuration_feature" "ec2_runtime_
 
     enforce {
         condition = local.feature_status == "ALL"
-        error_message = "GuardDuty RUNTIME_MONITORING feature must be enabled. Set auto_enable = 'ALL' to enable EC2 runtime monitoring. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-13 for more details."
+        error_message = "GuardDuty RUNTIME_MONITORING feature must be enabled. Set auto_enable = 'ALL' to enable EC2 runtime monitoring"
     }
 
     enforce {
         condition = local.ec2_agent_status == "ALL"
-        error_message = "GuardDuty RUNTIME_MONITORING feature must have EC2_AGENT_MANAGEMENT enabled in additional_configuration. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-13 for more details."
+        error_message = "GuardDuty RUNTIME_MONITORING feature must have EC2_AGENT_MANAGEMENT enabled in additional_configuration"
     }
 }

@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EC2.21 - Network ACLs should not allow ingress from 0.0.0.0/0 to port 22 or port 3389.
+# Network ACLs should not allow ingress from 0.0.0.0/0 to port 22 or port 3389
 
 policy {
   required_providers {
@@ -74,12 +74,12 @@ resource_policy "aws_network_acl" "no_unrestricted_ssh_rdp" {
 
     enforce {
         condition = !local.has_unrestricted_ssh
-        error_message = "Network ACL allows unrestricted SSH access (port 22) from 0.0.0.0/0 or ::/0. Remove or restrict the ingress rule to specific CIDR blocks. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-21 for more details."
+        error_message = "Network ACL allows unrestricted SSH access (port 22) from 0.0.0.0/0 or ::/0. Remove or restrict the ingress rule to specific CIDR blocks"
     }
 
     enforce {
         condition = !local.has_unrestricted_rdp
-        error_message = "Network ACL allows unrestricted RDP access (port 3389) from 0.0.0.0/0 or ::/0. Remove or restrict the ingress rule to specific CIDR blocks. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-21 for more details."
+        error_message = "Network ACL allows unrestricted RDP access (port 3389) from 0.0.0.0/0 or ::/0. Remove or restrict the ingress rule to specific CIDR blocks"
     }
 }
 
@@ -101,11 +101,11 @@ resource_policy "aws_network_acl_rule" "no_unrestricted_ssh_rdp" {
 
     enforce {
         condition = (core::try(attrs.protocol, "") == "tcp" || core::try(attrs.protocol, "") == "udp") && !(local.is_unrestricted && local.allows_ssh)
-        error_message = "Network ACL rule allows unrestricted SSH access (port 22) from 0.0.0.0/0 or ::/0. Change the cidr_block or ipv6_cidr_block to a specific range. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-21 for more details."
+        error_message = "Network ACL rule allows unrestricted SSH access (port 22) from 0.0.0.0/0 or ::/0. Change the cidr_block or ipv6_cidr_block to a specific range"
     }
 
     enforce {
         condition = (core::try(attrs.protocol, "") == "tcp" || core::try(attrs.protocol, "") == "udp") && !(local.is_unrestricted && local.allows_rdp)
-        error_message = "Network ACL rule allows unrestricted RDP access (port 3389) from 0.0.0.0/0 or ::/0. Change the cidr_block or ipv6_cidr_block to a specific range. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-21 for more details."
+        error_message = "Network ACL rule allows unrestricted RDP access (port 3389) from 0.0.0.0/0 or ::/0. Change the cidr_block or ipv6_cidr_block to a specific range"
     }
 }

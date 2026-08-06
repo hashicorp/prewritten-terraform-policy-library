@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ECS.20 - ECS Task Definitions should configure non-root users in Linux container definitions
+# ECS Task Definitions should configure non-root users in Linux container definitions
 
 policy {
   required_providers {
@@ -60,12 +60,12 @@ resource_policy "aws_ecs_task_definition" "ecs20_nonroot_user_linux" {
   # Enforce: All containers must have user parameter configured
   enforce {
     condition = core::length(local.containers_missing_user) == 0
-    error_message = "ECS task definition has containers without 'user' parameter configured. All Linux containers must specify a non-root user following the principle of least privilege. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-20 for more details."
+    error_message = "ECS task definition has containers without 'user' parameter configured. All Linux containers must specify a non-root user following the principle of least privilege"
   }
 
   # Enforce: No containers should run as root
   enforce {
     condition = core::length(local.containers_as_root) == 0
-    error_message = "ECS task definition has containers configured to run as root user. The 'user' parameter must not be 'root' or '0'. Use a non-root user (e.g., 'appuser', '1000', 'appuser:appgroup', '1000:1000'). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-20 for more details."
+    error_message = "ECS task definition has containers configured to run as root user. The 'user' parameter must not be 'root' or '0'. Use a non-root user (e.g., 'appuser', '1000', 'appuser:appgroup', '1000:1000')"
   }
 }

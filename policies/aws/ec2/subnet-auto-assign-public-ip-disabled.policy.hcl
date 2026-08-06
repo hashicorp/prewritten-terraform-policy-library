@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.15 - Amazon EC2 subnets should not automatically assign public IP addresses
+# Amazon EC2 subnets should not automatically assign public IP addresses
 
 policy {
   required_providers {
@@ -35,11 +35,11 @@ resource_policy "aws_subnet" "no_auto_public_ip" {
 
     enforce {
         condition = !local.ipv4_violation
-        error_message = "Subnet violates EC2.15: map_public_ip_on_launch is set to true. Subnets should not automatically assign public IPv4 addresses to instances. Set map_public_ip_on_launch to false or remove the attribute (defaults to false). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-15 for more details."
+        error_message = "Subnet violates EC2.15: map_public_ip_on_launch is set to true. Subnets should not automatically assign public IPv4 addresses to instances. Set map_public_ip_on_launch to false or remove the attribute (defaults to false)"
     }
 
     enforce {
         condition = !local.ipv6_violation
-        error_message = "Subnet violates EC2.15: assign_ipv6_address_on_creation is set to true. Subnets should not automatically assign IPv6 addresses to instances. Set assign_ipv6_address_on_creation to false or remove the attribute (defaults to false). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-15 for more details."
+        error_message = "Subnet violates EC2.15: assign_ipv6_address_on_creation is set to true. Subnets should not automatically assign IPv6 addresses to instances. Set assign_ipv6_address_on_creation to false or remove the attribute (defaults to false)"
     }
 }

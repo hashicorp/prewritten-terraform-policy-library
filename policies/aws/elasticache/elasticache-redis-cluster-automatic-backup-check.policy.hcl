@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ElastiCache.1 - ElastiCache (Redis OSS) clusters should have automatic backups enabled. 
+# ElastiCache (Redis OSS) clusters should have automatic backups enabled
 
 policy {
   required_providers {
@@ -31,7 +31,7 @@ resource_policy "aws_elasticache_cluster" "backup-check"{
 
     enforce {
         condition = local.snapshot_retention_limit != 0 && local.snapshot_retention_limit >= input.snapshot_retention_period
-        error_message = "ElastiCache Redis clusters should have automatic backup turned on. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticache-controls.html#elasticache-1 for more details."
+        error_message = "ElastiCache Redis clusters should have automatic backup turned on"
     }
 }
 
@@ -45,6 +45,6 @@ resource_policy "aws_elasticache_replication_group" "redis-backup-check"{
 
     enforce {
         condition = local.snapshot_retention_limit != 0 && local.snapshot_retention_limit >= input.snapshot_retention_period
-        error_message = "ElastiCache Redis clusters should have automatic backup turned on. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticache-controls.html#elasticache-1 for more details."
+        error_message = "ElastiCache Redis clusters should have automatic backup turned on"
     }
 }

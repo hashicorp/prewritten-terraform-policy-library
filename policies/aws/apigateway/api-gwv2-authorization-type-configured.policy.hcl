@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: APIGateway.8 - API Gateway routes should specify an authorization type
+# API Gateway routes should specify an authorization type
 
 policy {
   required_providers {
@@ -36,6 +36,6 @@ resource_policy "aws_apigatewayv2_route" "authorization_type_configured" {
   # Enforce: Route must have authorization type configured (not NONE)
   enforce {
     condition = local.has_authorization && local.is_valid_type
-    error_message = "API Gateway route must have an authorization type configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-8 for more details."
+    error_message = "API Gateway route must have an authorization type configured"
   }
 }

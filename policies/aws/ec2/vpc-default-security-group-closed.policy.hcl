@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EC2.2 - VPC Default Security Groups Traffic Restriction
+# VPC default security groups should not allow inbound or outbound traffic
 
 policy {
   required_providers {
@@ -61,26 +61,26 @@ resource_policy "aws_default_security_group" "no_traffic_allowed" {
 
   enforce {
     condition = !local.has_ingress_block
-    error_message = "Default security group must not have any ingress rules defined in the ingress block. Remove all ingress rules from the default security group. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-2 for more details."
+    error_message = "Default security group must not have any ingress rules defined in the ingress block. Remove all ingress rules from the default security group"
   }
 
   enforce {
     condition = !local.has_egress_block
-    error_message = "Default security group must not have any egress rules defined in the egress block. Remove all egress rules from the default security group. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-2 for more details."
+    error_message = "Default security group must not have any egress rules defined in the egress block. Remove all egress rules from the default security group"
   }
 
   enforce {
     condition = !local.has_external_ingress
-    error_message = "Default security group must not have any separate aws_vpc_security_group_ingress_rule resources. Found ${core::length(local.matching_ingress_rules)} ingress rule(s). Remove all ingress rules. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-2 for more details."
+    error_message = "Default security group must not have any separate aws_vpc_security_group_ingress_rule resources. Found ${core::length(local.matching_ingress_rules)} ingress rule(s). Remove all ingress rules"
   }
 
   enforce {
     condition = !local.has_external_egress
-    error_message = "Default security group must not have any separate aws_vpc_security_group_egress_rule resources. Found ${core::length(local.matching_egress_rules)} egress rule(s). Remove all egress rules. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-2 for more details."
+    error_message = "Default security group must not have any separate aws_vpc_security_group_egress_rule resources. Found ${core::length(local.matching_egress_rules)} egress rule(s). Remove all egress rules"
   }
 
   enforce {
     condition = !local.has_legacy_rules
-    error_message = "Default security group must not have any aws_security_group_rule resources. Found ${core::length(local.matching_legacy_rules)} rule(s). Remove all security group rules. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-2 for more details."
+    error_message = "Default security group must not have any aws_security_group_rule resources. Found ${core::length(local.matching_legacy_rules)} rule(s). Remove all security group rules"
   }
 }

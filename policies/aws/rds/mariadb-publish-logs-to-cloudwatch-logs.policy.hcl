@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# RDS.42 - RDS for MariaDB DB instances should publish logs to CloudWatch Logs.
+# RDS for MariaDB DB instances should publish logs to CloudWatch Logs
 
 policy {
   required_providers {
@@ -37,6 +37,6 @@ resource_policy "aws_db_instance" "mariadb_cloudwatch_logs" {
 
     enforce {
         condition = local.audit_logging_enabled || local.error_logging_enabled || !local.input_logging_not_enabled
-        error_message = "RDS MariaDB instance does not have CloudWatch Logs export enabled for 'audit' or 'error' logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-42 for more details."
+        error_message = "RDS MariaDB instance does not have CloudWatch Logs export enabled for 'audit' or 'error' logs"
     }
 }

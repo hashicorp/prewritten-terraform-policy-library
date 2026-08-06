@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# EFS.8 - EFS file systems should be encrypted at rest.
+# EFS file systems should be encrypted at rest
 
 policy {
   required_providers {
@@ -33,6 +33,6 @@ resource_policy "aws_efs_file_system" "encryption_at_rest" {
 
     enforce {
         condition = local.is_encrypted == true && local.valid_key
-        error_message = "EFS file system does not have encryption at rest enabled. Set 'encrypted = true' in the resource configuration to comply with the policy. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/efs-controls.html#efs-8 for more details."
+        error_message = "EFS file system does not have encryption at rest enabled. Set 'encrypted = true' in the resource configuration to comply with the policy"
     }
 }

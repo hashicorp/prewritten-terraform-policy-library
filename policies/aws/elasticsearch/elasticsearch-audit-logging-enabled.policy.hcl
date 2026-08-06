@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# ES.5 - Elasticsearch domains should have audit logging enabled.
+# Elasticsearch domains should have audit logging enabled
 
 policy {
   required_providers {
@@ -40,11 +40,11 @@ resource_policy "aws_elasticsearch_domain" "audit_logging_enabled" {
 
     enforce {
         condition = local.has_audit_logs
-        error_message = "Elasticsearch domain does not have audit logging configured. Add a log_publishing_options block with log_type = 'AUDIT_LOGS' and a valid cloudwatch_log_group_arn to enable audit logging. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-5 for more details."
+        error_message = "Elasticsearch domain does not have audit logging configured. Add a log_publishing_options block with log_type = 'AUDIT_LOGS' and a valid cloudwatch_log_group_arn to enable audit logging"
     }
 
     enforce {
         condition = local.audit_enabled
-        error_message = "Elasticsearch domain has audit logging disabled. Set 'enabled = true' in the AUDIT_LOGS log_publishing_options block. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-5 for more details."
+        error_message = "Elasticsearch domain has audit logging disabled. Set 'enabled = true' in the AUDIT_LOGS log_publishing_options block"
     }
 }

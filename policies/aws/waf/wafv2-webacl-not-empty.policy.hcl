@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: WAF.10 - AWS WAF web ACLs should have at least one rule or rule group
+# AWS WAF web ACLs should have at least one rule or rule group
 
 policy {
   required_providers {
@@ -29,6 +29,6 @@ resource_policy "aws_wafv2_web_acl" "waf10_webacl_not_empty" {
 
     enforce {
         condition = local.has_rules
-        error_message = "WAF.10 violation: Web ACL must have at least one rule or rule group. A web ACL should contain a collection of rules and rule groups that inspect and control web requests. If a web ACL is empty, the web traffic can pass without being detected or acted upon by AWS WAF depending on the default action. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-10 for more details."
+        error_message = "WAF.10 violation: Web ACL must have at least one rule or rule group. A web ACL should contain a collection of rules and rule groups that inspect and control web requests. If a web ACL is empty, the web traffic can pass without being detected or acted upon by AWS WAF depending on the default action"
     }
 }

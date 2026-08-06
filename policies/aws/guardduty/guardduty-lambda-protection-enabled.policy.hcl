@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# GuardDuty.6 - GuardDuty Lambda Protection should be enabled.
+# GuardDuty Lambda Protection should be enabled
 
 policy {
   required_providers {
@@ -22,7 +22,7 @@ resource_policy "aws_guardduty_detector_feature" "lambda_protection_enabled" {
 
     enforce {
         condition = core::try(attrs.status, "DISABLED") == "ENABLED"
-        error_message = "GuardDuty Lambda Protection (LAMBDA_NETWORK_LOGS) is not enabled for detector. Set status = 'ENABLED' to enable Lambda Protection and monitor Lambda network activity for potential security threats. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-6 for more details."
+        error_message = "GuardDuty Lambda Protection (LAMBDA_NETWORK_LOGS) is not enabled for detector. Set status = 'ENABLED' to enable Lambda Protection and monitor Lambda network activity for potential security threats"
     }
 }
 
@@ -32,6 +32,6 @@ resource_policy "aws_guardduty_organization_configuration_feature" "lambda_prote
 
     enforce {
         condition = core::try(attrs.auto_enable, "NONE") == "ALL"
-        error_message = "GuardDuty organization configuration feature does not have Lambda Protection (LAMBDA_NETWORK_LOGS) properly configured for member accounts. Set auto_enable = 'ALL' to enable for all existing and new member accounts. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-6 for more details."
+        error_message = "GuardDuty organization configuration feature does not have Lambda Protection (LAMBDA_NETWORK_LOGS) properly configured for member accounts. Set auto_enable = 'ALL' to enable for all existing and new member accounts"
     }
 }
