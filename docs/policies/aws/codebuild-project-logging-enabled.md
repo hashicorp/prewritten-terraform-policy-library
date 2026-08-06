@@ -10,7 +10,7 @@ This control checks whether a CodeBuild project environment has at least one log
 
 From a security perspective, logging is an important feature to enable for future forensics efforts in the case of any security incidents. Correlating anomalies in CodeBuild projects with threat detections can increase confidence in the accuracy of those threat detections.
 
-This rule is covered by the [codebuild-project-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/codebuild/codebuild-project-logging-enabled.policy.hcl) policy.
+This rule is covered by the [codebuild-project-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/codebuild/codebuild-project-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

@@ -14,7 +14,7 @@ If the only relationship is the VPC of the network ACL, the control fails.
 
 If other relationships are listed, then the control passes.
 
-This rule is covered by the [vpc-network-acl-unused-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/vpc/vpc-network-acl-unused-check.policy.hcl) policy.
+This rule is covered by the [vpc-network-acl-unused-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/vpc-network-acl-unused-check.policy.hcl) policy.
 
 ## Policy Results
 

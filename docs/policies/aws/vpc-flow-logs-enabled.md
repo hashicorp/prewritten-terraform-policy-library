@@ -16,7 +16,7 @@ Security Hub CSPM recommends that you enable flow logging for packet rejects for
 
 By default, the record includes values for the different components of the IP address flow, including the source, destination, and protocol. For more information and descriptions of the log fields, see VPC Flow Logs in the Amazon VPC User Guide.
 
-This rule is covered by the [vpc-flow-logs-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/vpc/vpc-flow-logs-enabled.policy.hcl) policy.
+This rule is covered by the [vpc-flow-logs-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/vpc-flow-logs-enabled.policy.hcl) policy.
 
 ## Policy Results
 

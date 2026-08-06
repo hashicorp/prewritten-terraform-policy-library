@@ -10,7 +10,7 @@ This control checks whether logging is enabled for an AWS Network Firewall firew
 
 Logging helps you maintain the reliability, availability, and performance of your firewalls. In Network Firewall, logging gives you detailed information about network traffic, including the time that the stateful engine received a packet flow, detailed information about the packet flow, and any stateful rule action taken against the packet flow.
 
-This rule is covered by the [network-firewall-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/networkfirewall/network-firewall-logging-enabled.policy.hcl) policy.
+This rule is covered by the [network-firewall-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/network-firewall/network-firewall-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

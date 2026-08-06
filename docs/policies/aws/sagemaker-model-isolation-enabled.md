@@ -12,7 +12,7 @@ SageMaker AI training and deployed inference containers are internet-enabled by 
 
 On August 13, 2025, Security Hub CSPM changed the title and description of this control. The new title and description more accurately reflect that the control checks the setting for the EnableNetworkIsolation parameter of Amazon SageMaker AI hosted models. Previously, the title of this control was: SageMaker models should block inbound traffic.
 
-This rule is covered by the [sagemaker-model-isolation-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-model-isolation-enabled.policy.hcl) policy.
+This rule is covered by the [sagemaker-model-isolation-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-model-isolation-enabled.policy.hcl) policy.
 
 ## Policy Results
 

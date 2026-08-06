@@ -12,7 +12,7 @@ IMDS provides data about your instance that you can use to configure or manage t
 
 Version 2 of the IMDS adds new protections that weren't available in IMDSv1 to further safeguard your EC2 instances.
 
-This rule is covered by the [autoscaling-launchconfig-requires-imdsv2](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/autoscaling/autoscaling-launchconfig-requires-imdsv2.policy.hcl) policy.
+This rule is covered by the [autoscaling-launchconfig-requires-imdsv2](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/autoscaling/autoscaling-launchconfig-requires-imdsv2.policy.hcl) policy.
 
 ## Policy Results
 

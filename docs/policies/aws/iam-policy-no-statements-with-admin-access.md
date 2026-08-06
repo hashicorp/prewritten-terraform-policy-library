@@ -16,7 +16,7 @@ Instead of allowing full administrative privileges, determine what users need to
 
 You should remove IAM policies that have a statement with `"Effect": "Allow"` with `"Action": "*"` over `"Resource": "*"`.
 
-This rule is covered by the [iam-policy-no-statements-with-admin-access](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/iam/iam-policy-no-statements-with-admin-access.policy.hcl) policy.
+This rule is covered by the [iam-policy-no-statements-with-admin-access](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/iam/iam-policy-no-statements-with-admin-access.policy.hcl) policy.
 
 ## Policy Results
 

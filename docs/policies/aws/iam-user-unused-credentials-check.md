@@ -16,7 +16,7 @@ This control checks whether your IAM users have passwords or active access keys 
 
 IAM users can access AWS resources using different types of credentials, such as passwords or access keys.
 
-This rule is covered by the [iam-user-unused-credentials-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/iam/iam-user-unused-credentials-check.policy.hcl) policy.
+This rule is covered by the [iam-user-unused-credentials-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/iam/iam-user-unused-credentials-check.policy.hcl) policy.
 
 ## Policy Results
 

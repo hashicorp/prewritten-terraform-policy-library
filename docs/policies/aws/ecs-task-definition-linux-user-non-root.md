@@ -12,7 +12,7 @@ When Linux containers run with root privileges, they pose several significant se
 
 This control only evaluates the container definitions in a task definition if the operatingSystemFamily is configured as LINUX or operatingSystemFamily is not configured in the task definition. The control will generate a FAILED finding for an evaluated task definition if any container definition in the task definition has user not configured or user configured as default root user. The default root users for LINUX containers are "root" and "0".
 
-This rule is covered by the [ecs-task-definition-linux-user-non-root](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-task-definition-linux-user-non-root.policy.hcl) policy.
+This rule is covered by the [ecs-task-definition-linux-user-non-root](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-task-definition-linux-user-non-root.policy.hcl) policy.
 
 ## Policy Results
 

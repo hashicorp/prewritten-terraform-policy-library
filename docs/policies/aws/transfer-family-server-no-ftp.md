@@ -10,7 +10,7 @@ This control checks whether an AWS Transfer Family server uses a protocol other 
 
 FTP (File Transfer Protocol) establishes the endpoint connection through unencrypted channels, leaving data sent over these channels vulnerable to interception. Using SFTP (SSH File Transfer Protocol), FTPS (File Transfer Protocol Secure), or AS2 (Applicability Statement 2) offers an extra layer of security by encrypting your data in transit and can be used to help prevent potential attackers from using person-in-the-middle or similar attacks to eavesdrop on or manipulate network traffic.
 
-This rule is covered by the [transfer-family-server-no-ftp](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/transfer/transfer-family-server-no-ftp.policy.hcl) policy.
+This rule is covered by the [transfer-family-server-no-ftp](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/transfer/transfer-family-server-no-ftp.policy.hcl) policy.
 
 ## Policy Results
 

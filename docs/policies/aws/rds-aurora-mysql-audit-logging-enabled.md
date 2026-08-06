@@ -12,7 +12,7 @@ Audit logs capture a record of database activity, including login attempts, data
 
 An alternative way to publish audit logs to CloudWatch Logs is by enabling advanced auditing and setting the cluster-level DB parameter server_audit_logs_upload to 1. The default for the server_audit_logs_upload parameter is 0. However, we recommend you use the following remediation instructions instead to pass this control.
 
-This rule is covered by the [rds-aurora-mysql-audit-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-aurora-mysql-audit-logging-enabled.policy.hcl) policy.
+This rule is covered by the [rds-aurora-mysql-audit-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-aurora-mysql-audit-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

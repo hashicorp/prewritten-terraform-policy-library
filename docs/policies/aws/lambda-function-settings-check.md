@@ -16,7 +16,7 @@ This control checks whether AWS Lambda function runtime settings match the expec
 
 Lambda runtimes are built around a combination of operating system, programming language, and software libraries that are subject to maintenance and security updates. When a runtime component is no longer supported for security updates, Lambda deprecates the runtime. Even though you can't create functions that use the deprecated runtime, the function is still available to process invocation events. We recommend ensuring that your Lambda functions are current.
 
-This rule is covered by the [lambda-function-settings-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/lambda/lambda-function-settings-check.policy.hcl) policy.
+This rule is covered by the [lambda-function-settings-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/lambda/lambda-function-settings-check.policy.hcl) policy.
 
 ## Policy Results
 

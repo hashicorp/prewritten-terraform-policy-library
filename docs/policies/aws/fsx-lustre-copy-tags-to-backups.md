@@ -10,7 +10,7 @@ This control checks whether an Amazon FSx for Lustre file system is configured t
 
 Identification and inventory of your IT assets is an important aspect of governance and security. Tags help you categorize your AWS resources in different ways, for example, by purpose, owner, or environment. This is useful when you have many resources of the same type because you can quickly identify a specific resource based on the tags that you assigned to it.
 
-This rule is covered by the [fsx-lustre-copy-tags-to-backups](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/fsx/fsx-lustre-copy-tags-to-backups.policy.hcl) policy.
+This rule is covered by the [fsx-lustre-copy-tags-to-backups](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/fsx/fsx-lustre-copy-tags-to-backups.policy.hcl) policy.
 
 ## Policy Results
 

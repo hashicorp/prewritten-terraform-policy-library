@@ -10,7 +10,7 @@ This control checks whether an Amazon S3 Multi-Region Access Point has block pub
 
 Publicly accessible resources can be lead to unauthorized access, data breaches, or exploitation of vulnerabilities. Restricting access through authentication and authorization measures helps to safeguard sensitive information and maintain the integrity of your resources.
 
-This rule is covered by the [s3-mrap-public-access-blocked](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/s3/s3-mrap-public-access-blocked.policy.hcl) policy.
+This rule is covered by the [s3-mrap-public-access-blocked](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-mrap-public-access-blocked.policy.hcl) policy.
 
 ## Policy Results
 

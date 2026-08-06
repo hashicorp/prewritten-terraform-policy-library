@@ -10,7 +10,7 @@ This control checks whether an Amazon EFS mount target is associated with subnet
 
 Subnets have attributes that determine whether network interfaces automatically receive public IPv4 and IPv6 addresses. For IPv4, this attribute is set to TRUE for default subnets and FALSE for nondefault subnets (with an exception for nondefault subnets created through the EC2 launch instance wizard, where it's set to TRUE). For IPv6, this attribute is set to FALSE for all subnets by default. When these attributes are enabled, instances launched in the subnet automatically receive the corresponding IP addresses (IPv4 or IPv6) on their primary network interface. Amazon EFS mount targets that are launched into subnets that have this attribute enabled have a public IP address assigned to their primary network interface.
 
-This rule is covered by the [efs-mount-target-public-accessible](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/efs/efs-mount-target-public-accessible.policy.hcl) policy.
+This rule is covered by the [efs-mount-target-public-accessible](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/efs/efs-mount-target-public-accessible.policy.hcl) policy.
 
 ## Policy Results
 

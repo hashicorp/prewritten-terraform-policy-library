@@ -12,7 +12,7 @@ HTTPS (TLS) can be used to help prevent potential attackers from eavesdropping o
 
 There can be a performance penalty associated with this configuration. You should be aware of and test the performance trade-off before enabling this option.
 
-This rule is covered by the [opensearch-node-to-node-encryption-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/opensearch/opensearch-node-to-node-encryption-check.policy.hcl) policy.
+This rule is covered by the [opensearch-node-to-node-encryption-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/opensearch/opensearch-node-to-node-encryption-check.policy.hcl) policy.
 
 ## Policy Results
 

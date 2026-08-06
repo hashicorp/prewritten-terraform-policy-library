@@ -12,7 +12,7 @@ This control doesn't apply to ElastiCache Memcached clusters.
 
 Automatic minor version upgrade is a feature that you can enable in Amazon ElastiCache to automatically upgrade your cache clusters when a new minor cache engine version is available. These upgrades might include security patches and bug fixes. Staying up-to-date with patch installation is an important step in securing systems.
 
-This rule is covered by the [elasticache-auto-minor-version-upgrade-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticache/elasticache-auto-minor-version-upgrade-check.policy.hcl) policy.
+This rule is covered by the [elasticache-auto-minor-version-upgrade-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticache/elasticache-auto-minor-version-upgrade-check.policy.hcl) policy.
 
 ## Policy Results
 

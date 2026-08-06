@@ -16,7 +16,7 @@ Note that if the configuration is changed to allow public access, the AWS Config
 
 To learn more about sharing a DB snapshot, see Sharing a DB snapshot in the Amazon RDS User Guide.
 
-This rule is covered by the [rds-snapshots-public-prohibited](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-snapshots-public-prohibited.policy.hcl) policy.
+This rule is covered by the [rds-snapshots-public-prohibited](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-snapshots-public-prohibited.policy.hcl) policy.
 
 ## Policy Results
 

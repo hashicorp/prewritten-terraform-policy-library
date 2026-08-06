@@ -10,7 +10,7 @@ This control checks whether an Amazon CloudFront distribution requires viewers t
 
 HTTPS (TLS) can be used to help prevent potential attackers from using person-in-the-middle or similar attacks to eavesdrop on or manipulate network traffic. Only encrypted connections over HTTPS (TLS) should be allowed. Encrypting data in transit can affect performance. You should test your application with this feature to understand the performance profile and the impact of TLS.
 
-This rule is covered by the [cloudfront-viewer-policy-https](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-viewer-policy-https.policy.hcl) policy.
+This rule is covered by the [cloudfront-viewer-policy-https](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-viewer-policy-https.policy.hcl) policy.
 
 ## Policy Results
 

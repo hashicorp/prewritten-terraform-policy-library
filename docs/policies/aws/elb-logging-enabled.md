@@ -12,7 +12,7 @@ Elastic Load Balancing provides access logs that capture detailed information ab
 
 To learn more, see Access logs for your Classic Load Balancer in User Guide for Classic Load Balancers.
 
-This rule is covered by the [elb-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elb/elb-logging-enabled.policy.hcl) policy.
+This rule is covered by the [elb-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elb-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

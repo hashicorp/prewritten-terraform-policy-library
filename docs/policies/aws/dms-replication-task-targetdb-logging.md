@@ -16,7 +16,7 @@ TARGET_LOAD – Data is loaded into the target database.
 
 Logging plays a critical role in DMS replication tasks by enabling monitoring, troubleshooting, auditing, performance analysis, error detection, and recovery, as well as historical analysis and reporting. It helps ensure the successful replication of data between databases while maintaining data integrity and compliance with regulatory requirements. Logging levels other than DEFAULT are rarely needed for these components during troubleshooting. We recommend keeping the logging level as DEFAULT for these components unless specifically requested to change it by Support. A minimal logging level of DEFAULT ensures that informational messages, warnings, and error messages are written to the logs. This control checks if the logging level is at least one of the following for the preceding replication tasks: LOGGER_SEVERITY_DEFAULT, LOGGER_SEVERITY_DEBUG, or LOGGER_SEVERITY_DETAILED_DEBUG.
 
-This rule is covered by the [dms-replication-task-targetdb-logging](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/dms/dms-replication-task-targetdb-logging.policy.hcl) policy.
+This rule is covered by the [dms-replication-task-targetdb-logging](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dms/dms-replication-task-targetdb-logging.policy.hcl) policy.
 
 ## Policy Results
 

@@ -12,7 +12,7 @@ If you configure an Amazon CloudFront distribution to require viewers to use HTT
 
 This control generates findings only for CloudFront distributions that are configured to use custom SSL certificates and are not configured to support legacy clients.
 
-This rule is covered by the [cloudfront-ssl-policy-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-ssl-policy-check.policy.hcl) policy.
+This rule is covered by the [cloudfront-ssl-policy-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-ssl-policy-check.policy.hcl) policy.
 
 ## Policy Results
 

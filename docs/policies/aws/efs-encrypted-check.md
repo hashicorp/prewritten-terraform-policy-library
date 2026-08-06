@@ -20,7 +20,7 @@ Note that this control does not use the KmsKeyId parameter for efs-encrypted-che
 
 For an added layer of security for your sensitive data in Amazon EFS, you should create encrypted file systems. Amazon EFS supports encryption for file systems at-rest. You can enable encryption of data at rest when you create an Amazon EFS file system. To learn more about Amazon EFS encryption, see Data encryption in Amazon EFS in the Amazon Elastic File System User Guide.
 
-This rule is covered by the [efs-encrypted-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/efs/efs-encrypted-check.policy.hcl) policy.
+This rule is covered by the [efs-encrypted-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/efs/efs-encrypted-check.policy.hcl) policy.
 
 ## Policy Results
 

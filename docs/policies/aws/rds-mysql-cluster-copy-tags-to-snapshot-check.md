@@ -10,7 +10,7 @@ This control checks whether an Amazon RDS for MySQL DB cluster is configured to 
 
 Copying tags to DB snapshots helps maintain proper resource tracking, governance, and cost allocation across backup resources. This enables consistent resource identification, access control, and compliance monitoring across both active databases and their snapshots. Properly tagged snapshots improve security operations by ensuring backup resources inherit the same metadata as their source databases.
 
-This rule is covered by the [rds-mysql-cluster-copy-tags-to-snapshot-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-mysql-cluster-copy-tags-to-snapshot-check.policy.hcl) policy.
+This rule is covered by the [rds-mysql-cluster-copy-tags-to-snapshot-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-mysql-cluster-copy-tags-to-snapshot-check.policy.hcl) policy.
 
 ## Policy Results
 

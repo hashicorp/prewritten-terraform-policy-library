@@ -10,7 +10,7 @@ This control checks whether an Amazon FSx for NetApp ONTAP file system is config
 
 Amazon FSx for NetApp ONTAP supports several deployment types for file systems: Single-AZ 1, Single-AZ 2, Multi-AZ 1, and Multi-AZ 2. The deployment types offer different levels of availability and durability. We recommend using a Multi-AZ deployment type for most production workloads due to the high availability and durability model that Multi-AZ deployment types provide. Multi-AZ file systems support all the availability and durability features of Single-AZ file systems. In addition, they're designed to provide continuous availability to data even when an Availability Zone (AZ) is unavailable.
 
-This rule is covered by the [fsx-ontap-deployment-type-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/fsx/fsx-ontap-deployment-type-check.policy.hcl) policy.
+This rule is covered by the [fsx-ontap-deployment-type-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/fsx/fsx-ontap-deployment-type-check.policy.hcl) policy.
 
 ## Policy Results
 

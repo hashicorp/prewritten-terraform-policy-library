@@ -8,7 +8,7 @@
 
 No description available from AWS docs.
 
-This rule is covered by the [cloudfront-origin-lambda-url-oac-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-origin-lambda-url-oac-enabled.policy.hcl) policy.
+This rule is covered by the [cloudfront-origin-lambda-url-oac-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-origin-lambda-url-oac-enabled.policy.hcl) policy.
 
 ## Policy Results
 

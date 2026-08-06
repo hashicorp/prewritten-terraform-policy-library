@@ -10,7 +10,7 @@ This control checks whether an Amazon Athena workgroup has logging enabled. The 
 
 Audit logs track and monitor system activities. They provide a record of events that can help you detect security breaches, investigate incidents, and comply with regulations. Audit logs also enhance the overall accountability and transparency of your organization.
 
-This rule is covered by the [athena-workgroup-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/athena/athena-workgroup-logging-enabled.policy.hcl) policy.
+This rule is covered by the [athena-workgroup-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/athena/athena-workgroup-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether an ElastiCache replication group is encrypted at res
 
 Encrypting data at rest reduces the risk that an unauthenticated user gets access to data that is stored on disk. ElastiCache (Redis OSS) replication groups should be encrypted at rest for an added layer of security.
 
-This rule is covered by the [elasticache-repl-grp-encrypted-at-rest](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticache/elasticache-repl-grp-encrypted-at-rest.policy.hcl) policy.
+This rule is covered by the [elasticache-repl-grp-encrypted-at-rest](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticache/elasticache-repl-grp-encrypted-at-rest.policy.hcl) policy.
 
 ## Policy Results
 

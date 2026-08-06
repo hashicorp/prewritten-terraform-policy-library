@@ -10,7 +10,7 @@ This control checks whether Amazon EC2 VPC Block Public Access (BPA) settings ar
 
 Configuring the VPC BPA settings for your account in an AWS Region lets you block resources in VPCs and subnets that you own in that Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If you need specific VPCs and subnets to be able to reach or be reachable from the internet, you can exclude them by configuring VPC BPA exclusions. For instructions on creating and deleting exclusions, see Create and delete exclusions in the Amazon VPC User Guide.
 
-This rule is covered by the [ec2-vpc-bpa-internet-gateway-blocked](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-vpc-bpa-internet-gateway-blocked.policy.hcl) policy.
+This rule is covered by the [ec2-vpc-bpa-internet-gateway-blocked](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-vpc-bpa-internet-gateway-blocked.policy.hcl) policy.
 
 ## Policy Results
 

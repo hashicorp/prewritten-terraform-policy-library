@@ -10,7 +10,7 @@ This control checks whether a Neptune DB cluster snapshot is encrypted at rest. 
 
 Data at rest refers to any data that's stored in persistent, non-volatile storage for any duration. Encryption helps you protect the confidentiality of such data, reducing the risk that an unauthorized user gets access to it. Data in Neptune DB clusters snapshots should be encrypted at rest for an added layer of security.
 
-This rule is covered by the [neptune-cluster-snapshot-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/neptune/neptune-cluster-snapshot-encrypted.policy.hcl) policy.
+This rule is covered by the [neptune-cluster-snapshot-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/neptune/neptune-cluster-snapshot-encrypted.policy.hcl) policy.
 
 ## Policy Results
 

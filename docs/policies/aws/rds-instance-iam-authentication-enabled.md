@@ -10,7 +10,7 @@ This control checks whether an RDS DB instance has IAM database authentication e
 
 IAM database authentication allows authentication to database instances with an authentication token instead of a password. Network traffic to and from the database is encrypted using SSL. For more information, see IAM database authentication in the Amazon Aurora User Guide.
 
-This rule is covered by the [rds-instance-iam-authentication-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-instance-iam-authentication-enabled.policy.hcl) policy.
+This rule is covered by the [rds-instance-iam-authentication-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-instance-iam-authentication-enabled.policy.hcl) policy.
 
 ## Policy Results
 

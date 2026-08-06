@@ -14,7 +14,7 @@ Using service roles with CloudFormation stacks helps implement least privilege a
 
 It is not possible to remove a service role attached to a stack after the stack is created. Other users that have permissions to perform operations on this stack are able to use this role, regardless of whether those users have the iam:PassRole permission or not. If the role includes permissions that the user shouldn't have, you can unintentionally escalate a user's permissions. Ensure that the role grants least privilege.
 
-This rule is covered by the [cloudformation-stack-service-role-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudformation/cloudformation-stack-service-role-check.policy.hcl) policy.
+This rule is covered by the [cloudformation-stack-service-role-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudformation/cloudformation-stack-service-role-check.policy.hcl) policy.
 
 
 ## Policy Results

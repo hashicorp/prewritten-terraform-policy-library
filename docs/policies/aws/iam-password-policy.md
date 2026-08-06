@@ -8,7 +8,7 @@
 
 This control checks whether the account password policy for IAM users uses strong configurations. The control fails if the password policy doesn't use strong configurations. Unless you provide custom parameter values, Security Hub CSPM uses the default values mentioned in the preceding table. The `PasswordReusePrevention` and `MaxPasswordAge` parameters have no default value, so if you exclude these parameters, Security Hub CSPM ignores number of password rotations and password age when evaluating this control.
 
-This rule is covered by the [iam-password-policy](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/iam/iam-password-policy.policy.hcl) policy.
+This rule is covered by the [iam-password-policy](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/iam/iam-password-policy.policy.hcl) policy.
 
 ## Policy Results
 

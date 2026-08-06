@@ -10,7 +10,7 @@ This control checks whether Elasticsearch domains are configured to send error l
 
 You should enable error logs for Elasticsearch domains and send those logs to CloudWatch Logs for retention and response. Domain error logs can assist with security and access audits, and can help to diagnose availability issues.
 
-This rule is covered by the [elasticsearch-logs-to-cloudwatch](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticsearch/elasticsearch-logs-to-cloudwatch.policy.hcl) policy.
+This rule is covered by the [elasticsearch-logs-to-cloudwatch](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticsearch/elasticsearch-logs-to-cloudwatch.policy.hcl) policy.
 
 ## Policy Results
 

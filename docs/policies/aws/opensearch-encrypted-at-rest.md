@@ -12,7 +12,7 @@ For an added layer of security for sensitive data, you should configure your Ope
 
 To learn more about OpenSearch Service encryption at rest, see Encryption of data at rest for Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
 
-This rule is covered by the [opensearch-encrypted-at-rest](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/opensearch/opensearch-encrypted-at-rest.policy.hcl) policy.
+This rule is covered by the [opensearch-encrypted-at-rest](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/opensearch/opensearch-encrypted-at-rest.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether Amazon CloudWatch logging is enabled for AWS Systems
 
 SSM Automation is an AWS Systems Manager tool that helps you build automated solutions to deploy, configure, and manage AWS resources at scale using predefined or custom runbooks. To meet operational or security requirements for your organization, you might need to provide a record of the scripts that it runs. You can configure SSM Automation to send the output from aws:executeScript actions in your runbooks to an Amazon CloudWatch Logs log group that you specify. With CloudWatch Logs, you can monitor, store, and access log files from various AWS services.
 
-This rule is covered by the [ssm-automation-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ssm/ssm-automation-logging-enabled.policy.hcl) policy.
+This rule is covered by the [ssm-automation-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ssm/ssm-automation-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

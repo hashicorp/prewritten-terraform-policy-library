@@ -19,7 +19,7 @@ This control checks whether an Amazon RDS DB instance is configured to publish t
 
 RDS databases should have relevant logs enabled. Database logging provides detailed records of requests made to RDS. Database logs can assist with security and access audits and can help to diagnose availability issues.
 
-This rule is covered by the [rds-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-logging-enabled.policy.hcl) policy.
+This rule is covered by the [rds-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

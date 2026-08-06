@@ -10,7 +10,7 @@ This control checks whether an Application, Gateway, or Network Load Balancer ha
 
 Enable deletion protection to protect your Application, Gateway, or Network Load Balancer from deletion.
 
-This rule is covered by the [elb-deletion-protection-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elb/elb-deletion-protection-enabled.policy.hcl) policy.
+This rule is covered by the [elb-deletion-protection-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elb-deletion-protection-enabled.policy.hcl) policy.
 
 ## Policy Results
 

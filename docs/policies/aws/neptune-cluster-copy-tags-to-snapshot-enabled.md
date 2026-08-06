@@ -10,7 +10,7 @@ This control checks if a Neptune DB cluster is configured to copy all tags to sn
 
 Identification and inventory of your IT assets is a crucial aspect of governance and security. You should tag snapshots in the same way as their parent Amazon RDS database clusters. Copying tags ensures that the metadata for the DB snapshots matches that of the parent database clusters, and that access policies for the DB snapshot also match those of the parent DB instance.
 
-This rule is covered by the [neptune-cluster-copy-tags-to-snapshot-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/neptune/neptune-cluster-copy-tags-to-snapshot-enabled.policy.hcl) policy.
+This rule is covered by the [neptune-cluster-copy-tags-to-snapshot-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/neptune/neptune-cluster-copy-tags-to-snapshot-enabled.policy.hcl) policy.
 
 ## Policy Results
 

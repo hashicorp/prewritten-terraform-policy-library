@@ -10,7 +10,7 @@ This control checks whether an ElastiCache (Redis OSS) replication group has Red
 
 When you use Redis authentication tokens, or passwords, Redis requires a password before allowing clients to run commands, which improves data security. For Redis 6.0 and later versions, we recommend using Role-Based Access Control (RBAC). Since RBAC is not supported for Redis versions earlier than 6.0, this control only evaluates versions which can't use the RBAC feature.
 
-This rule is covered by the [elasticache-repl-grp-redis-auth-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticache/elasticache-repl-grp-redis-auth-enabled.policy.hcl) policy.
+This rule is covered by the [elasticache-repl-grp-redis-auth-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticache/elasticache-repl-grp-redis-auth-enabled.policy.hcl) policy.
 
 ## Policy Results
 

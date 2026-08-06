@@ -10,7 +10,7 @@ This control checks whether your IAM users have policies attached. The control f
 
 By default, IAM users, groups, and roles have no access to AWS resources. IAM policies grant privileges to users, groups, or roles. We recommend that you apply IAM policies directly to groups and roles but not to users. Assigning privileges at the group or role level reduces the complexity of access management as the number of users grows. Reducing access management complexity might in turn reduce the opportunity for a principal to inadvertently receive or retain excessive privileges.
 
-This rule is covered by the [iam-user-no-policies-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/iam/iam-user-no-policies-check.policy.hcl) policy.
+This rule is covered by the [iam-user-no-policies-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/iam/iam-user-no-policies-check.policy.hcl) policy.
 
 ## Policy Results
 

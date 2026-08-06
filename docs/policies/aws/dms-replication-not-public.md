@@ -12,7 +12,7 @@ A private replication instance has a private IP address that you cannot access o
 
 You should also ensure that access to your AWS DMS instance configuration is limited to only authorized users. To do this, restrict users' IAM permissions to modify AWS DMS settings and resources.
 
-This rule is covered by the [dms-replication-not-public](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/dms/dms-replication-not-public.policy.hcl) policy.
+This rule is covered by the [dms-replication-not-public](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dms/dms-replication-not-public.policy.hcl) policy.
 
 ## Policy Results
 

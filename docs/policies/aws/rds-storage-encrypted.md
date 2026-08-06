@@ -16,7 +16,7 @@ RDS encrypted DB instances use the open standard AES-256 encryption algorithm to
 
 Amazon RDS encryption is currently available for all database engines and storage types. Amazon RDS encryption is available for most DB instance classes. To learn about DB instance classes that do not support Amazon RDS encryption, see Encrypting Amazon RDS resources in the Amazon RDS User Guide.
 
-This rule is covered by the [rds-storage-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-storage-encrypted.policy.hcl) policy.
+This rule is covered by the [rds-storage-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-storage-encrypted.policy.hcl) policy.
 
 ## Policy Results
 

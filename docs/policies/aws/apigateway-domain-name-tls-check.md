@@ -8,7 +8,7 @@
 
 API Gateway domain name must have security_policy explicitly configured. Set security_policy to one of the allowed values (SecurityPolicy_TLS13_1_3_2025_09, SecurityPolicy_TLS13_1_3_FIPS_2025_09, SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09, SecurityPolicy_TLS13_2025_EDGE, SecurityPolicy_TLS12_PFS_2025_EDGE). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-11 for more details.
 
-This rule is covered by the [apigateway-domain-name-tls-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/apigateway/apigateway-domain-name-tls-check.policy.hcl) policy.
+This rule is covered by the [apigateway-domain-name-tls-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/apigateway/apigateway-domain-name-tls-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether an Amazon S3 general purpose bucket has a policy tha
 
 S3 buckets should have policies that require all requests (`Action: s3:*`) to only accept transmission of data over HTTPS in the S3 resource policy, indicated by the condition key `aws:SecureTransport`.
 
-This rule is covered by the [s3-bucket-ssl-requests-only](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/s3/s3-bucket-ssl-requests-only.policy.hcl) policy.
+This rule is covered by the [s3-bucket-ssl-requests-only](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-bucket-ssl-requests-only.policy.hcl) policy.
 
 ## Policy Results
 

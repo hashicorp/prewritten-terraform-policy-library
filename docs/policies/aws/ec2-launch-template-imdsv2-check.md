@@ -10,7 +10,7 @@ This control checks whether an Amazon EC2 launch template is configured with Ins
 
 Running resources on supported software versions ensures optimal performance, security, and access to the latest features. Regular updates safeguard against vulnerabilities, which help ensure a stable and efficient user experience.
 
-This rule is covered by the [ec2-launch-template-imdsv2-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-launch-template-imdsv2-check.policy.hcl) policy.
+This rule is covered by the [ec2-launch-template-imdsv2-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-launch-template-imdsv2-check.policy.hcl) policy.
 
 ## Policy Results
 

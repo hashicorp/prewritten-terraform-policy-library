@@ -12,7 +12,7 @@ In Amazon RDS, Enhanced Monitoring enables a more rapid response to performance 
 
 Enhanced Monitoring metrics are useful when you want to see how different processes or threads on a DB instance use the CPU. For more information, see Enhanced Monitoring in the Amazon RDS User Guide.
 
-This rule is covered by the [rds-enhanced-monitoring-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-enhanced-monitoring-enabled.policy.hcl) policy.
+This rule is covered by the [rds-enhanced-monitoring-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-enhanced-monitoring-enabled.policy.hcl) policy.
 
 ## Policy Results
 

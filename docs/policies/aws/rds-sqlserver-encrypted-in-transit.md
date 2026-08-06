@@ -10,7 +10,7 @@ This control checks whether a connection to an Amazon RDS for Microsoft SQL Serv
 
 Data in transit refers to data that moves from one location to another, such as between nodes in a DB cluster or between a DB cluster and a client application. Data can move across the internet or within a private network. Encrypting data in transit reduces the risk of unauthorized users eavesdropping on network traffic.
 
-This rule is covered by the [rds-sqlserver-encrypted-in-transit](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-sqlserver-encrypted-in-transit.policy.hcl) policy.
+This rule is covered by the [rds-sqlserver-encrypted-in-transit](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-sqlserver-encrypted-in-transit.policy.hcl) policy.
 
 ## Policy Results
 

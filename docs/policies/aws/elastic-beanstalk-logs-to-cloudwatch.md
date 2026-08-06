@@ -10,7 +10,7 @@ This control checks whether an Elastic Beanstalk environment is configured to se
 
 CloudWatch helps you collect and monitor various metrics for your applications and infrastructure resources. You can also use CloudWatch to configure alarm actions based on specific metrics. We recommend integrating Elastic Beanstalk with CloudWatch to get increased visibility into your Elastic Beanstalk environment. Elastic Beanstalk logs include the eb-activity.log, access logs from the environment nginx or Apache proxy server, and logs that are specific to an environment.
 
-This rule is covered by the [elastic-beanstalk-logs-to-cloudwatch](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticbeanstalk/elastic-beanstalk-logs-to-cloudwatch.policy.hcl) policy.
+This rule is covered by the [elastic-beanstalk-logs-to-cloudwatch](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticbeanstalk/elastic-beanstalk-logs-to-cloudwatch.policy.hcl) policy.
 
 ## Policy Results
 

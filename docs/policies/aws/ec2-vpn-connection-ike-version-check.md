@@ -12,7 +12,7 @@ The policy evaluates `aws_vpn_connection` resources of type `ipsec.1` and requir
 
 IKEv2 provides improved security and stronger cryptographic protections compared to the legacy IKEv1 protocol. Restricting VPN tunnels to IKEv2 reduces attack surface and helps ensure modern encryption standards are used for data in transit.
 
-This rule is covered by the [ec2-vpn-connection-ike-version-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-vpn-connection-ike-version-check.policy.hcl) policy.
+This rule is covered by the [ec2-vpn-connection-ike-version-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-vpn-connection-ike-version-check.policy.hcl) policy.
 
 ## Policy Results
 

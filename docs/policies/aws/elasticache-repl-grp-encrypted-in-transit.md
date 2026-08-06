@@ -10,7 +10,7 @@ This control checks whether an ElastiCache replication group is encrypted in tra
 
 Encrypting data in transit reduces the risk that an unauthorized user can eavesdrop on network traffic. Enabling encryption in transit on an ElastiCache replication group encrypts your data whenever it's moving from one place to another, such as between nodes in your cluster or between your cluster and your application.
 
-This rule is covered by the [elasticache-repl-grp-encrypted-in-transit](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticache/elasticache-repl-grp-encrypted-in-transit.policy.hcl) policy.
+This rule is covered by the [elasticache-repl-grp-encrypted-in-transit](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticache/elasticache-repl-grp-encrypted-in-transit.policy.hcl) policy.
 
 ## Policy Results
 

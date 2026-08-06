@@ -12,7 +12,7 @@ Elastic Beanstalk enhanced health reporting enables a more rapid response to cha
 
 Elastic Beanstalk enhanced health reporting provides a status descriptor to gauge the severity of the identified issues and identify possible causes to investigate. The Elastic Beanstalk health agent, included in supported Amazon Machine Images (AMIs), evaluates logs and metrics of environment EC2 instances.
 
-This rule is covered by the [beanstalk-enhanced-health-reporting-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticbeanstalk/beanstalk-enhanced-health-reporting-enabled.policy.hcl) policy.
+This rule is covered by the [beanstalk-enhanced-health-reporting-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticbeanstalk/beanstalk-enhanced-health-reporting-enabled.policy.hcl) policy.
 
 ## Policy Results
 

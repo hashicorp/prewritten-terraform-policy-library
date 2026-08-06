@@ -10,7 +10,7 @@ This control checks whether Amazon Elastic File System (Amazon EFS) file systems
 
 Including EFS file systems in the backup plans helps you to protect your data from deletion and data loss.
 
-This rule is covered by the [efs-in-backup-plan](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/efs/efs-in-backup-plan.policy.hcl) policy.
+This rule is covered by the [efs-in-backup-plan](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/efs/efs-in-backup-plan.policy.hcl) policy.
 
 ## Policy Results
 

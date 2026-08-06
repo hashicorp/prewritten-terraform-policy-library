@@ -16,7 +16,7 @@ Open Layer 3 firewalls and network address translation (NAT)
 
 Security Hub CSPM recommends that you configure your EC2 instances with IMDSv2.
 
-This rule is covered by the [ec2-imdsv2-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-imdsv2-check.policy.hcl) policy.
+This rule is covered by the [ec2-imdsv2-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-imdsv2-check.policy.hcl) policy.
 
 ## Policy Results
 

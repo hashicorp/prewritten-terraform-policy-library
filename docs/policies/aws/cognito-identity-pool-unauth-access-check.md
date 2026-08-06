@@ -10,7 +10,7 @@ This control checks whether an Amazon Cognito identity pool is configured to all
 
 If an Amazon Cognito identity pool allows unauthenticated identities, the identity pool provides temporary AWS credentials to users who haven't authenticated through an identity provider (guests). This creates security risks because it allows anonymous access to AWS resources. If you deactivate guest access, you can help ensure that only properly authenticated users can access your AWS resources, which reduces the risk of unauthorized access and potential security breaches. As a best practice, an identity pool should require authentication through supported identity providers. If unauthenticated access is necessary, it's important to carefully restrict permissions for unauthenticated identities, and regularly review and monitor their usage.
 
-This rule is covered by the [cognito-identity-pool-unauth-access-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cognito/cognito-identity-pool-unauth-access-check.policy.hcl) policy.
+This rule is covered by the [cognito-identity-pool-unauth-access-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cognito/cognito-identity-pool-unauth-access-check.policy.hcl) policy.
 
 ## Policy Results
 

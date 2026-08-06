@@ -12,7 +12,7 @@ Systems Manager documents that are public might allow unintended access to your 
 
 Unless your use case requires public sharing, we recommend that you block public sharing for Systems Manager documents that have Self as the owner.
 
-This rule is covered by the [ssm-document-not-public](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ssm/ssm-document-not-public.policy.hcl) policy.
+This rule is covered by the [ssm-document-not-public](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ssm/ssm-document-not-public.policy.hcl) policy.
 
 ## Policy Results
 

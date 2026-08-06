@@ -10,7 +10,7 @@ This control checks if the key value of any variables in the environment paramet
 
 AWS Systems Manager Parameter Store can help you improve the security posture of your organization. We recommend using the Parameter Store to store secrets and credentials instead of directly passing them into your container instances or hard coding them into your code.
 
-This rule is covered by the [ecs-no-environment-secrets](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-no-environment-secrets.policy.hcl) policy.
+This rule is covered by the [ecs-no-environment-secrets](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-no-environment-secrets.policy.hcl) policy.
 
 ## Policy Results
 

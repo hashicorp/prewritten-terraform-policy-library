@@ -10,7 +10,7 @@ This control checks whether an Amazon SageMaker model explainability job definit
 
 Enabling inter-container traffic encryption protects sensitive ML data such as model data, training datasets, intermediate processing results, parameters and model weights during distributed processing for explainability analysis.
 
-This rule is covered by the [sagemaker-model-explainability-job-encrypt-in-transit](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-model-explainability-job-encrypt-in-transit.policy.hcl) policy.
+This rule is covered by the [sagemaker-model-explainability-job-encrypt-in-transit](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-model-explainability-job-encrypt-in-transit.policy.hcl) policy.
 
 ## Policy Results
 

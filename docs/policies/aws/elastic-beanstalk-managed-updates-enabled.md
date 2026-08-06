@@ -10,7 +10,7 @@ This control checks whether managed platform updates are enabled for an Elastic 
 
 Enabling managed platform updates ensures that the latest available platform fixes, updates, and features for the environment are installed. Keeping up to date with patch installation is an important step in securing systems.
 
-This rule is covered by the [elastic-beanstalk-managed-updates-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticbeanstalk/elastic-beanstalk-managed-updates-enabled.policy.hcl) policy.
+This rule is covered by the [elastic-beanstalk-managed-updates-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticbeanstalk/elastic-beanstalk-managed-updates-enabled.policy.hcl) policy.
 
 ## Policy Results
 

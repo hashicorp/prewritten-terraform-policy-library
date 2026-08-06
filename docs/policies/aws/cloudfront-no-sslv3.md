@@ -8,7 +8,7 @@
 
 CloudFront distribution uses deprecated SSLv3 protocol for custom origins: ${core::join(", ", local.affected_origins)}. SSLv3 is insufficiently secure and should not be used. Use TLSv1.2 or later for HTTPS communication to custom origins. Update the origin_ssl_protocols configuration to remove 'SSLv3'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-10 for more details.
 
-This rule is covered by the [cloudfront-no-sslv3](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-no-sslv3.policy.hcl) policy.
+This rule is covered by the [cloudfront-no-sslv3](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-no-sslv3.policy.hcl) policy.
 
 ## Policy Results
 

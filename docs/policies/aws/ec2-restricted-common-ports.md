@@ -12,7 +12,7 @@ Security groups provide stateful filtering of ingress and egress network traffic
 
 3000 (Go, Node.js, and Ruby web development frameworks)
 
-This rule is covered by the [ec2-restricted-common-ports](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-restricted-common-ports.policy.hcl) policy.
+This rule is covered by the [ec2-restricted-common-ports](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-restricted-common-ports.policy.hcl) policy.
 
 ## Policy Results
 

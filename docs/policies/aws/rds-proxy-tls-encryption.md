@@ -10,7 +10,7 @@ This control checks whether an Amazon RDS DB proxy requires TLS for all connecti
 
 Amazon RDS Proxy can act as an additional layer of security between client applications and underlying RDS DB instances. For example, you can connect to an RDS proxy using TLS 1.3, even if the underlying DB instance supports an older version of TLS. By using RDS Proxy, you can enforce strong authentication requirements for database applications.
 
-This rule is covered by the [rds-proxy-tls-encryption](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-proxy-tls-encryption.policy.hcl) policy.
+This rule is covered by the [rds-proxy-tls-encryption](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-proxy-tls-encryption.policy.hcl) policy.
 
 ## Policy Results
 

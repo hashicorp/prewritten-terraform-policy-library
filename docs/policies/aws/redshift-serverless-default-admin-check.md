@@ -10,7 +10,7 @@ This control checks whether the admin username for an Amazon Redshift Serverless
 
 When creating an Amazon Redshift Serverless namespace, you should specify a custom admin username for the namespace. The default admin username is public knowledge. By specifying a custom admin username, you can, for example, help mitigate the risk or effectiveness of brute force attacks against the namespace.
 
-This rule is covered by the [redshift-serverless-default-admin-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-serverless-default-admin-check.policy.hcl) policy.
+This rule is covered by the [redshift-serverless-default-admin-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-serverless-default-admin-check.policy.hcl) policy.
 
 ## Policy Results
 

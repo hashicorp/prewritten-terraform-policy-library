@@ -20,7 +20,7 @@ As more users get access to a secret, it can become more likely that someone mis
 
 You can configure automatic rotation for secrets in AWS Secrets Manager. With automatic rotation, you can replace long-term secrets with short-term ones, significantly reducing the risk of compromise. We recommend that you configure automatic rotation for your Secrets Manager secrets. For more information, see Rotating your AWS Secrets Manager secrets in the AWS Secrets Manager User Guide.
 
-This rule is covered by the [secretsmanager-secret-periodic-rotation](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/secretsmanager/secretsmanager-secret-periodic-rotation.policy.hcl) policy.
+This rule is covered by the [secretsmanager-secret-periodic-rotation](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/secretmanager/secretsmanager-secret-periodic-rotation.policy.hcl) policy.
 
 ## Policy Results
 

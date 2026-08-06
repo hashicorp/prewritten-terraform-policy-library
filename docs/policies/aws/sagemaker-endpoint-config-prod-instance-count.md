@@ -12,7 +12,7 @@ Production variants running with an instance count greater than 1 permit multi-A
 
 This control applies only to instance-based endpoint configuration.
 
-This rule is covered by the [sagemaker-endpoint-config-prod-instance-count](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-endpoint-config-prod-instance-count.policy.hcl) policy.
+This rule is covered by the [sagemaker-endpoint-config-prod-instance-count](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-endpoint-config-prod-instance-count.policy.hcl) policy.
 
 ## Policy Results
 

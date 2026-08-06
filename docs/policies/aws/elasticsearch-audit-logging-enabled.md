@@ -12,7 +12,7 @@ This control checks whether Elasticsearch domains have audit logging enabled. Th
 
 Audit logs are highly customizable. They allow you to track user activity on your Elasticsearch clusters, including authentication successes and failures, requests to OpenSearch, index changes, and incoming search queries.
 
-This rule is covered by the [elasticsearch-audit-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticsearch/elasticsearch-audit-logging-enabled.policy.hcl) policy.
+This rule is covered by the [elasticsearch-audit-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticsearch/elasticsearch-audit-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 
