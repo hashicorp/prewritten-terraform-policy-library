@@ -31,8 +31,8 @@ resource_policy "aws_config_config_rule" "iam_unused_credentials_check" {
 
     input_parameters_raw = core::try(attrs.input_parameters, "{}")
     input_parameters = core::try(core::jsondecode(local.input_parameters_raw), {})
-    max_credential_usage_age = core::try(local.input_parameters.maxCredentialUsageAge, null)
-    has_fixed_usage_age = local.max_credential_usage_age == null || local.max_credential_usage_age == 90 || local.max_credential_usage_age == "90"
+    max_credential_usage_age = core::try(local.input_parameters.maxCredentialUsageAge, "")
+    has_fixed_usage_age = local.max_credential_usage_age == "" || local.max_credential_usage_age == 90 || local.max_credential_usage_age == "90"
   }
 
   filter = local.is_iam_unused_creds_rule
