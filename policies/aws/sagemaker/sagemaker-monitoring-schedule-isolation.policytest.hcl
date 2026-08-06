@@ -88,6 +88,7 @@ resource "aws_sagemaker_data_quality_job_definition" "data_quality_disabled" {
 resource "aws_sagemaker_data_quality_job_definition" "data_quality_no_config" {
   expect_failure = true
   attrs = {
+    name = "my-data-quality-job-definition"
     # No network_config defined
   }
 }
