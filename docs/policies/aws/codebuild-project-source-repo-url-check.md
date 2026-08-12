@@ -12,7 +12,7 @@ This control evaluates both the primary source and secondary sources of a CodeBu
 
 Sign-in credentials shouldn't be stored or transmitted in clear text or appear in the source repository URL. Instead of personal access tokens or sign-in credentials, you should access your source provider in CodeBuild, and change your source repository URL to contain only the path to the Bitbucket repository location. Using personal access tokens or sign-in credentials could result in unintended data exposure or unauthorized access.
 
-This rule is covered by the [codebuild-project-source-repo-url-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/codebuild/codebuild-project-source-repo-url-check.policy.hcl) policy.
+This rule is covered by the [codebuild-project-source-repo-url-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/codebuild/codebuild-project-source-repo-url-check.policy.hcl) policy.
 
 ## Policy Results
 

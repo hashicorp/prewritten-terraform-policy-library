@@ -1,6 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.6 - Enhanced monitoring should be configured for RDS DB instances
+# Enhanced monitoring should be configured for RDS DB instances
+
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 locals {
     valid_monitoring_intervals = [1, 5, 10, 15, 30, 60]
@@ -20,6 +29,6 @@ resource_policy "aws_db_instance" "enhanced_monitoring_enabled" {
 
     enforce {
         condition = local.is_valid_interval
-        error_message = "Enhanced monitoring should be configured for RDS DB instances. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-6 for more details."
+        error_message = "Enhanced monitoring should be configured for RDS DB instances"
     }
 }

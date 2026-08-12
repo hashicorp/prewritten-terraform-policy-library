@@ -10,7 +10,7 @@ This control checks whether an Amazon EMR security configuration has encryption 
 
 Data in transit refers to data that moves from one location to another, such as between nodes in your cluster or between your cluster and your application. Data may move across the internet or within a private network. Encrypting data in transit reduces the risk that an unauthorized user can eavesdrop on network traffic.
 
-This rule is covered by the [emr-security-configuration-encryption-transit](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/emr/emr-security-configuration-encryption-transit.policy.hcl) policy.
+This rule is covered by the [emr-security-configuration-encryption-transit](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/emr/emr-security-configuration-encryption-transit.policy.hcl) policy.
 
 ## Policy Results
 

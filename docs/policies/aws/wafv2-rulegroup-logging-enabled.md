@@ -10,7 +10,7 @@ This control checks whether an AWS WAF rule or rule group has Amazon CloudWatch 
 
 Configuring CloudWatch metrics on AWS WAF rules and rule groups provides visibility into traffic flow. You can see which ACL rules are triggered and which requests are accepted and blocked. This visibility can help you identify malicious activity on your associated resources.
 
-This rule is covered by the [wafv2-rulegroup-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/wafv2/wafv2-rulegroup-logging-enabled.policy.hcl) policy.
+This rule is covered by the [wafv2-rulegroup-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/waf/wafv2-rulegroup-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

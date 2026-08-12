@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: SecretsManager.3 - Remove unused Secrets Manager secrets
+# Remove unused Secrets Manager secrets
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "secretsmanager-secret-unused-enforcement-level" {
   type = string
@@ -35,6 +42,6 @@ resource_policy "aws_secretsmanager_secret" "remove_unused_secrets" {
   # Every secret must carry a LastAccessed (or CreatedDate fallback) tag so unused age can be evaluated.
   enforce {
     condition     = local.has_usage_reference
-    error_message = "Secret must include a 'LastAccessed' tag, or a fallback 'CreatedDate' tag, so its unused age can be evaluated against the configured unusedForDays threshold. These timestamps should be maintained by external automation that tracks secret access. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/secretsmanager-controls.html#secretsmanager-3 for more details."
+    error_message = "Secret must include a 'LastAccessed' tag, or a fallback 'CreatedDate' tag, so its unused age can be evaluated against the configured unusedForDays threshold. These timestamps should be maintained by external automation that tracks secret access"
   }
 }

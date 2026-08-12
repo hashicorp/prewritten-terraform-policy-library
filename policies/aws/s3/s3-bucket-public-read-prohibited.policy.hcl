@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# S3.2 - S3 General Purpose Buckets Should Block Public Read Access. This control checks whether an Amazon S3 general purpose bucket permits public read access. It evaluates the block public access settings, the bucket policy, and the bucket access control list (ACL). The control fails if the bucket permits public read access.
+# S3 general purpose buckets should block public read access
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-public-read-prohibited-enforcement-level" {
   type = string
@@ -33,12 +40,12 @@ resource_policy "aws_s3_bucket_acl" "bucket-public-read-acls-prohibited" {
 
     enforce {
         condition = !local.condition
-        error_message = "S3 bucket has an invalid ACL. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-2 for more details."
+        error_message = "S3 bucket has an invalid ACL"
     }
 
     enforce {
         condition = !local.has_public_grants
-        error_message = "S3 bucket has public access granted to AllUsers. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-2 for more details."
+        error_message = "S3 bucket has public access granted to AllUsers"
     }
 }
 
@@ -53,6 +60,6 @@ resource_policy "aws_s3_bucket_public_access_block" "bucket-public-read-prohibit
 
     enforce {
         condition = local.block_public_acls && local.block_public_policy && local.ignore_public_acls && local.restrict_public_buckets
-        error_message = "S3 bucket does not have any Block Public Access settings enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-2 for more details."
+        error_message = "S3 bucket does not have any Block Public Access settings enabled"
     }
 }

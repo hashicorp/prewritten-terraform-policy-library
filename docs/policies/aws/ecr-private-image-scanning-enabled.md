@@ -10,7 +10,7 @@ This control checks whether a private Amazon ECR repository has image scanning c
 
 ECR image scanning helps in identifying software vulnerabilities in your container images. Configuring image scanning on ECR repositories adds a layer of verification for the integrity and safety of the images being stored.
 
-This rule is covered by the [ecr-private-image-scanning-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecr/ecr-private-image-scanning-enabled.policy.hcl) policy.
+This rule is covered by the [ecr-private-image-scanning-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecr/ecr-private-image-scanning-enabled.policy.hcl) policy.
 
 ## Policy Results
 

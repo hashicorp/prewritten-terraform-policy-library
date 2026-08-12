@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# IAM.1: IAM policies should not allow full "*" administrative privileges
+# IAM policies should not allow full "*" administrative privileges
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-policy-no-statements-with-admin-access-enforcement-level" {
   type = string
@@ -67,6 +74,6 @@ resource_policy "aws_iam_policy" "deny_full_admin_privileges" {
 
     enforce {
         condition     = !local.should_evaluate || !local.has_admin_access
-        error_message = "IAM customer managed policy must not allow administrative wildcard access with Effect 'Allow', Action '*', and Resource '*'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-1 for more details."
+        error_message = "IAM customer managed policy must not allow administrative wildcard access with Effect 'Allow', Action '*', and Resource '*'"
     }
 }

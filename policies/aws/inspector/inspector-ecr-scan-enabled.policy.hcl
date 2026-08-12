@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Inspector.2 - Amazon Inspector ECR Scanning Should Be Enabled.
+# Amazon Inspector ECR scanning should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.37.0, < 7.0.0"
+    }
+  }
+}
 
 input "inspector-ecr-scan-enabled-enforcement-level" {
   type = string
@@ -19,7 +26,7 @@ resource_policy "aws_inspector2_enabler" "ecr_scanning_enabled" {
 
     enforce {
         condition = core::contains(local.resource_types, "ECR")
-        error_message = "Amazon Inspector ECR scanning must be enabled. Add 'ECR' to the resource_types list to enable ECR scanning. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/inspector-controls.html#inspector-2 for more details."
+        error_message = "Amazon Inspector ECR scanning must be enabled. Add 'ECR' to the resource_types list to enable ECR scanning"
     }
 }
 
@@ -28,6 +35,6 @@ resource_policy "aws_inspector2_organization_configuration" "ecr_org_scanning_en
     filter = core::try(attrs.auto_enable, null) != null && core::length(core::try(attrs.auto_enable, [])) > 0
     enforce {
         condition = core::try(attrs.auto_enable[0].ecr, false) == true
-        error_message = "Amazon Inspector ECR scanning must be enabled. Set 'auto_enable.ecr = true' to enable ECR scanning. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/inspector-controls.html#inspector-2 for more details."
+        error_message = "Amazon Inspector ECR scanning must be enabled. Set 'auto_enable.ecr = true' to enable ECR scanning"
     }
 }

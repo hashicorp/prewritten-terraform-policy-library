@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
-# Policy : CodeBuild.4 - CodeBuild project environments should have a logging AWS Configuration
-policy {}
+# CodeBuild project environments should have a logging AWS Configuration
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "codebuild-project-logging-enabled-enforcement-level" {
   type = string
@@ -32,6 +39,6 @@ resource_policy "aws_codebuild_project" "logging_configuration" {
 
     enforce {
         condition = local.has_logging
-        error_message = "CodeBuild project must have at least one logging option enabled (CloudWatch Logs or S3 Logs). Current status - CloudWatch: ${local.cloudwatch_status}, S3: ${local.s3_status} . Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/codebuild-controls.html#codebuild-4 for more details."
+        error_message = "CodeBuild project must have at least one logging option enabled (CloudWatch Logs or S3 Logs). Current status - CloudWatch: ${local.cloudwatch_status}, S3: ${local.s3_status}"
     }
 }

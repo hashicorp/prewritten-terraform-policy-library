@@ -12,7 +12,7 @@ The root user is the most privileged user in an AWS account. AWS access keys pro
 
 Security Hub CSPM recommends that you remove all access keys that are associated with the root user. This limits that vectors that can be used to compromise your account. It also encourages the creation and use of role-based accounts that are least privileged.
 
-This rule is covered by the [iam-root-access-key-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/iam/iam-root-access-key-check.policy.hcl) policy.
+This rule is covered by the [iam-root-access-key-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/iam/iam-root-access-key-check.policy.hcl) policy.
 
 ## Policy Results
 

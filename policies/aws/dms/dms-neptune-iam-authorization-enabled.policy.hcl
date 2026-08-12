@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: DMS.10 - DMS endpoints for Neptune databases should have IAM authorization enabled
+# DMS endpoints for Neptune databases should have IAM authorization enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-neptune-iam-authorization-enabled-enforcement-level" {
   type = string
@@ -25,6 +32,6 @@ resource_policy "aws_dms_endpoint" "neptune_iam_authorization_required" {
     # Enforce: service_access_role must be configured
     enforce {
         condition = local.has_service_role
-        error_message = "DMS endpoint for Neptune database must have IAM authorization enabled via service_access_role parameter. Configure a valid IAM role ARN to grant authorization privileges. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dms-controls.html#dms-10 for more details."
+        error_message = "DMS endpoint for Neptune database must have IAM authorization enabled via service_access_role parameter. Configure a valid IAM role ARN to grant authorization privileges"
     }
 }

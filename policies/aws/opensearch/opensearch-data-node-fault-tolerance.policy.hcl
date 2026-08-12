@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Opensearch.6 - OpenSearch domains should have at least three data nodes.
+# OpenSearch domains should have at least three data nodes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.9.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-data-node-fault-tolerance-enforcement-level" {
   type = string
@@ -20,11 +27,11 @@ resource_policy "aws_opensearch_domain" "data_node_fault_tolerance" {
 
     enforce {
         condition = local.instance_count >= 3
-        error_message = "OpenSearch domain must have at least 3 data nodes for high availability. Set cluster_config.instance_count to 3 or more. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-6 for more details."
+        error_message = "OpenSearch domain must have at least 3 data nodes for high availability. Set cluster_config.instance_count to 3 or more"
     }
 
     enforce {
         condition = local.zone_awareness_enabled == true
-        error_message = "OpenSearch domain must have zone awareness enabled for fault tolerance. Set cluster_config.zone_awareness_enabled = true. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-6 for more details."
+        error_message = "OpenSearch domain must have zone awareness enabled for fault tolerance. Set cluster_config.zone_awareness_enabled = true"
     }
 }

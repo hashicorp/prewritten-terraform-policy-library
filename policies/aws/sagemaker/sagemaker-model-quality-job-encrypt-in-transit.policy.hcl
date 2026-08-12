@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# SageMaker.13 - Model Quality Job Definitions Inter-Container Traffic Encryption.
+# SageMaker model quality job definitions should have inter-container traffic encryption enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.63.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-model-quality-job-encrypt-in-transit-enforcement-level" {
   type = string
@@ -29,6 +36,6 @@ resource_policy "aws_sagemaker_monitoring_schedule" "model_quality_encryption" {
 
     enforce {
         condition = !local.is_model_quality || !local.has_job_definition || (local.has_network_config && local.encryption_enabled == true)
-        error_message = "SageMaker model quality monitoring schedule does not have inter-container traffic encryption enabled. Set 'monitoring_schedule_config.monitoring_job_definition.network_config.enable_inter_container_traffic_encryption = true' to protect data transmitted between containers during distributed model quality monitoring jobs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-13 for more details."
+        error_message = "SageMaker model quality monitoring schedule does not have inter-container traffic encryption enabled. Set 'monitoring_schedule_config.monitoring_job_definition.network_config.enable_inter_container_traffic_encryption = true' to protect data transmitted between containers during distributed model quality monitoring jobs"
     }
 }

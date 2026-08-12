@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ELB.1 - Application Load Balancer should be configured to redirect all HTTP requests to HTTPS
+# Application Load Balancer should be configured to redirect all HTTP requests to HTTPS
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "alb-http-to-https-redirection-check-enforcement-level" {
   type    = string
@@ -91,6 +98,6 @@ resource_policy "aws_lb" "http_to_https_redirect" {
 
   enforce {
     condition     = local.has_http_port_80_listener && local.has_https_redirect && core::length(local.http_port_80_listeners_without_redirect) == 0
-    error_message = "Application Load Balancer must have an HTTP listener on port 80 with a redirect action that targets the HTTPS protocol, either in the listener default_action or an associated listener rule. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-1 for more details."
+    error_message = "Application Load Balancer must have an HTTP listener on port 80 with a redirect action that targets the HTTPS protocol, either in the listener default_action or an associated listener rule."
   }
 }

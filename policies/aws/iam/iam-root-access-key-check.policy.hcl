@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy : IAM.4 -  IAM root user access key should not exist
+# IAM root user access key should not exist
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-root-access-key-check-enforcement-level" {
   type = string
@@ -18,6 +25,6 @@ resource_policy "aws_iam_access_key" "deny_root_user_access_keys" {
 
     enforce {
         condition = local.is_root_user == false
-        error_message = "IAM access keys for the AWS root user must not exist. Remove the root access key associated with user '${local.username}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-4 for more details."
+        error_message = "IAM access keys for the AWS root user must not exist. Remove the root access key associated with user '${local.username}'"
     }
 }

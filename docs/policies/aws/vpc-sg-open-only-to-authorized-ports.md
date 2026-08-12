@@ -14,7 +14,7 @@ If you provide custom values for `authorizedTcpPorts` or `authorizedUdpPorts`, t
 
 Security groups provide stateful filtering of ingress and egress network traffic to AWS. Security group rules should follow the principal of least privileged access. Unrestricted access (IP address with a `/0` suffix) increases the opportunity for malicious activity such as hacking, denial-of-service attacks, and loss of data. Unless a port is specifically allowed, the port should deny unrestricted access.
 
-This rule is covered by the [vpc-sg-open-only-to-authorized-ports](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/vpc-sg-open-only-to-authorized-ports.policy.hcl) policy.
+This rule is covered by the [vpc-sg-open-only-to-authorized-ports](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/vpc-sg-open-only-to-authorized-ports.policy.hcl) policy.
 
 ## Policy Results
 

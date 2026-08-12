@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.17 - Amazon EC2 instances should not use multiple ENIs
+# Amazon EC2 instances should not use multiple ENIs
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.32.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-instance-multiple-eni-check-enforcement-level" {
   type = string
@@ -42,6 +49,6 @@ resource_policy "aws_instance" "no_multiple_enis" {
     
     enforce {
         condition = !local.has_multiple_enis
-        error_message = "[EC2.17] Instance uses multiple ENIs. ${local.eni_details}. Multiple ENIs can create dual-homed instances with multiple subnets, adding network security complexity. Detach additional network interfaces to comply with security requirements. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-17 for more details."
+        error_message = "[EC2.17] Instance uses multiple ENIs. ${local.eni_details}. Multiple ENIs can create dual-homed instances with multiple subnets, adding network security complexity. Detach additional network interfaces to comply with security requirements"
     }
 }

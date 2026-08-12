@@ -1,12 +1,19 @@
 # Copyright IBM Corp. 2026
 
-# S3.6 - S3 Bucket Policies Should Restrict Access to Other AWS Accounts. This control checks whether an Amazon S3 general purpose bucket policy prevents principals from other AWS accounts from performing denied actions on resources in the S3 bucket.
+# S3 general purpose bucket policies should restrict access to other AWS accounts
 # 
 # NOTE: This policy uses exact string matching for blocked actions. Wildcard patterns (e.g., s3:GetBucket*) are NOT supported.
 # Users must explicitly list all blocked actions in the CSV format.
 # Example: "s3:DeleteBucketPolicy,s3:PutBucketAcl,s3:PutBucketPolicy,s3:PutEncryptionConfiguration,s3:PutObjectAcl"
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-blacklisted-actions-prohibited-enforcement-level" {
   type = string
@@ -44,6 +51,6 @@ resource_policy "aws_s3_bucket_policy" "s3-bucket-blacklisted-actions-prohibited
 
     enforce {
         condition = !local.has_violation
-        error_message = "S3 bucket policy allows blacklisted actions for cross-account or wildcard principals. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-6 for more details."
+        error_message = "S3 bucket policy allows blacklisted actions for cross-account or wildcard principals"
     }
 }

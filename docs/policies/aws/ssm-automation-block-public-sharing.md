@@ -10,7 +10,7 @@ This control checks whether the block public sharing setting is enabled for AWS 
 
 The block public sharing setting for AWS Systems Manager (SSM) documents is an account-level setting. Enabling this setting can prevent unwanted access to your SSM documents. If you enable this setting, your change doesn't affect any SSM documents that you're currently sharing with the public. Unless your use case requires you to share SSM documents with the public, we recommend that you enable the block public sharing setting. The setting can differ for each AWS Region.
 
-This rule is covered by the [ssm-automation-block-public-sharing](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ssm/ssm-automation-block-public-sharing.policy.hcl) policy.
+This rule is covered by the [ssm-automation-block-public-sharing](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ssm/ssm-automation-block-public-sharing.policy.hcl) policy.
 
 ## Policy Results
 

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ES.2 - Elasticsearch domains should not be publicly accessible
+# Elasticsearch domains should not be publicly accessible
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-in-vpc-only-enforcement-level" {
   type    = string
@@ -20,6 +27,6 @@ resource_policy "aws_elasticsearch_domain" "elasticsearch_in_vpc_only" {
 
   enforce {
     condition     = local.in_vpc
-    error_message = "Attribute 'subnet_ids' should not be empty for the attribute 'vpc_options' for 'aws_elasticsearch_domain' resources. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-2 for more details."
+    error_message = "Attribute 'subnet_ids' should not be empty for the attribute 'vpc_options' for 'aws_elasticsearch_domain' resources."
   }
 }

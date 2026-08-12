@@ -12,7 +12,7 @@ In a multi-account environment, the control generates findings in only the deleg
 
 Amazon Inspector Lambda code scanning scans the custom application code within an AWS Lambda function for code vulnerabilities based on AWS security best practices. Lambda code scanning can detect injection flaws, data leaks, weak cryptography, or missing encryption in your code. This feature is available in specific AWS Regions only. You can activate Lambda code scanning together with Lambda standard scanning (see [Inspector.4] Amazon Inspector Lambda standard scanning should be enabled).
 
-This rule is covered by the [inspector-lambda-code-scan-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/inspector/inspector-lambda-code-scan-enabled.policy.hcl) policy.
+This rule is covered by the [inspector-lambda-code-scan-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/inspector/inspector-lambda-code-scan-enabled.policy.hcl) policy.
 
 ## Policy Results
 

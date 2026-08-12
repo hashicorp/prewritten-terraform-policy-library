@@ -10,7 +10,7 @@ This control checks whether RSA certificates managed by AWS Certificate Manager 
 
 The strength of encryption directly correlates with key size. We recommend key lengths of at least 2,048 bits to protect your AWS resources as computing power becomes less expensive and servers become more advanced.
 
-This rule is covered by the [acm-certificate-rsa-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/acm/acm-certificate-rsa-check.policy.hcl) policy.
+This rule is covered by the [acm-certificate-rsa-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/acm/acm-certificate-rsa-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -12,7 +12,7 @@ You should ensure that OpenSearch domains are not attached to public subnets. Se
 
 OpenSearch domains deployed within a VPC can communicate with VPC resources over the private AWS network, without the need to traverse the public internet. This configuration increases the security posture by limiting access to the data in transit. VPCs provide a number of network controls to secure access to OpenSearch domains, including network ACL and security groups. Security Hub recommends that you migrate public OpenSearch domains to VPCs to take advantage of these controls.
 
-This rule is covered by the [opensearch-in-vpc-only](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/opensearch/opensearch-in-vpc-only.policy.hcl) policy.
+This rule is covered by the [opensearch-in-vpc-only](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/opensearch/opensearch-in-vpc-only.policy.hcl) policy.
 
 ## Policy Results
 

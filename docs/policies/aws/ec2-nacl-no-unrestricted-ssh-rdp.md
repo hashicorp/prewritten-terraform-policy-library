@@ -10,7 +10,7 @@ This control checks whether a network access control list (network ACL) allows u
 
 Access to remote server administration ports, such as port 22 (SSH) and port 3389 (RDP), should not be publicly accessible, as this may allow unintended access to resources within your VPC.
 
-This rule is covered by the [ec2-nacl-no-unrestricted-ssh-rdp](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-nacl-no-unrestricted-ssh-rdp.policy.hcl) policy.
+This rule is covered by the [ec2-nacl-no-unrestricted-ssh-rdp](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-nacl-no-unrestricted-ssh-rdp.policy.hcl) policy.
 
 ## Policy Results
 

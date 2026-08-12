@@ -1,12 +1,19 @@
 # Copyright IBM Corp. 2026
 
-# KMS.2 - IAM principals should not have IAM inline policies that allow decryption and re-encryption actions on all KMS keys. The control fails if kms:Decrypt or kms:ReEncryptFrom actions are allowed on all KMS keys.
+# IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys
 #
 # NOTE: This policy uses exact string matching for blocked actions. Wildcard patterns (e.g., kms:*) are NOT supported.
 # Users must explicitly list all blocked actions in the CSV format.
 # Example: "kms:Decrypt,kms:ReEncryptFrom,kms:ReEncryptTo,kms:*"
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-inline-policy-blocked-kms-actions-enforcement-level" {
   type = string
@@ -39,7 +46,7 @@ resource_policy "aws_iam_user_policy" "iam-inline-blocked-kms-actions-user" {
 
     enforce {
         condition = !local.has_violations
-        error_message = "IAM user policy allows blocked KMS actions on all keys. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/kms-controls.html#kms-2 for more details."
+        error_message = "IAM user policy allows blocked KMS actions on all keys"
     }
 }
 
@@ -64,7 +71,7 @@ resource_policy "aws_iam_role_policy" "iam-inline-blocked-kms-actions-role" {
 
     enforce {
         condition = !local.has_violations
-        error_message = "IAM role policy allows blocked KMS actions on all keys. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/kms-controls.html#kms-2 for more details."
+        error_message = "IAM role policy allows blocked KMS actions on all keys"
     }
 }
 
@@ -89,6 +96,6 @@ resource_policy "aws_iam_group_policy" "iam-inline-blocked-kms-actions-group" {
 
     enforce {
         condition = !local.has_violations
-        error_message = "IAM group policy allows blocked KMS actions on all keys. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/kms-controls.html#kms-2 for more details."
+        error_message = "IAM group policy allows blocked KMS actions on all keys"
     }
 }

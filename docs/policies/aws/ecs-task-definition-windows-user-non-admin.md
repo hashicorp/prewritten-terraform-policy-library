@@ -12,7 +12,7 @@ When Windows containers run with administrator privileges, they pose several sig
 
 This control only evaluates the container definitions in a task definition if the operatingSystemFamily is configured as WINDOWS_SERVER or operatingSystemFamily is not configured in the task definition. The control will generate a FAILED finding for an evaluated task definition if any container definition in the task definition has user not configured or user configured as default administrator for WINDOWS_SERVER containers which is "containeradministrator".
 
-This rule is covered by the [ecs-task-definition-windows-user-non-admin](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-task-definition-windows-user-non-admin.policy.hcl) policy.
+This rule is covered by the [ecs-task-definition-windows-user-non-admin](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-task-definition-windows-user-non-admin.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether an Amazon CloudFront distribution with S3 origins is
 
 A user might sometimes request the distribution's root URL instead of an object in the distribution. When this happens, specifying a default root object can help you to avoid exposing the contents of your web distribution.
 
-This rule is covered by the [cloudfront-default-root-object-configured](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-default-root-object-configured.policy.hcl) policy.
+This rule is covered by the [cloudfront-default-root-object-configured](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-default-root-object-configured.policy.hcl) policy.
 
 ## Policy Results
 

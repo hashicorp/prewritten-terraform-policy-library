@@ -32,5 +32,7 @@ resource "aws_ebs_snapshot_block_public_access" "fail_with_unblocked" {
 # Test 4: FAIL - state attribute missing (not explicitly configured)
 resource "aws_ebs_snapshot_block_public_access" "fail_with_missing_state" {
   expect_failure = true
-  attrs = {}
+  attrs = {
+    region = "us-east-1"
+  }
 }

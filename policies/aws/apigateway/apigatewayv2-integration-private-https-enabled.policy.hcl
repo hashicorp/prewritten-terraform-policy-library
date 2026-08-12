@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: APIGateway.10 - API Gateway V2 integrations should use HTTPS for private connections
+# API Gateway V2 integrations should use HTTPS for private connections
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "apigatewayv2-integration-private-https-enabled-enforcement-level" {
   type = string
@@ -29,6 +36,6 @@ resource_policy "aws_apigatewayv2_integration" "private_https_enabled" {
 
     enforce {
         condition = local.has_tls_config
-        error_message = "API Gateway V2 integration uses VPC Link (private connection) but does not have TLS configuration enabled. Private integrations must use HTTPS to encrypt data in transit. Configure 'tls_config' block with 'server_name_to_verify' to enable TLS/HTTPS encryption for the private connection to '${local.integration_uri}'. Refer tp https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-10 for more details."
+        error_message = "API Gateway V2 integration uses VPC Link (private connection) but does not have TLS configuration enabled. Private integrations must use HTTPS to encrypt data in transit. Configure 'tls_config' block with 'server_name_to_verify' to enable TLS/HTTPS encryption for the private connection to '${local.integration_uri}'"
     }
 }

@@ -10,7 +10,7 @@ This control checks whether an AWS Network Firewall firewall has deletion protec
 
 AWS Network Firewall is a stateful, managed network firewall and intrusion detection service that enables you to inspect and filter traffic to, from, or between your Virtual Private Clouds (VPCs). The deletion protection setting protects against accidental deletion of the firewall.
 
-This rule is covered by the [network-firewall-deletion-protection-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/network-firewall/network-firewall-deletion-protection-enabled.policy.hcl) policy.
+This rule is covered by the [network-firewall-deletion-protection-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/network-firewall/network-firewall-deletion-protection-enabled.policy.hcl) policy.
 
 ## Policy Results
 

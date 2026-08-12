@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy - CloudFront.12: CloudFront distributions should not point to non-existent S3 origins
+# CloudFront distributions should not point to non-existent S3 origins
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-s3-origin-non-existent-bucket-enforcement-level" {
   type = string
@@ -57,6 +64,6 @@ resource_policy "aws_cloudfront_distribution" "no_nonexistent_s3_origins" {
   
   enforce {
     condition = local.all_origins_valid
-    error_message = "CloudFront distribution points to non-existent S3 origin bucket(s): ${core::join(", ", local.invalid_origin_buckets)}. All S3 origins must reference buckets defined in the Terraform configuration to prevent malicious third parties from creating the bucket and serving unauthorized content. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-12 for more details."
+    error_message = "CloudFront distribution points to non-existent S3 origin bucket(s): ${core::join(", ", local.invalid_origin_buckets)}. All S3 origins must reference buckets defined in the Terraform configuration to prevent malicious third parties from creating the bucket and serving unauthorized content"
   }
 }

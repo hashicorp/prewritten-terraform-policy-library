@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# APIGateway.4 - API Gateway should be associated with a WAF Web ACL
+# API Gateway should be associated with a WAF Web ACL
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "api-gw-associated-with-waf-enforcement-level" {
   type = string
@@ -35,6 +42,6 @@ resource_policy "aws_api_gateway_stage" "waf_association_required" {
 
   enforce {
     condition = local.has_waf_association || local.has_web_acl_arn
-    error_message = "API Gateway stage '${attrs.rest_api_id}/${attrs.stage_name}' must be associated with an AWS WAF Web ACL. Create an aws_wafv2_web_acl_association resource with resource_arn pointing to this stage's ARN, or ensure the stage has a web_acl_arn configured. Refer this https://docs.aws.amazon.com/securityhub/latest/userguide/apigateway-controls.html#apigateway-4 for more details."
+    error_message = "API Gateway stage '${attrs.rest_api_id}/${attrs.stage_name}' must be associated with an AWS WAF Web ACL. Create an aws_wafv2_web_acl_association resource with resource_arn pointing to this stage's ARN, or ensure the stage has a web_acl_arn configured"
   }
 }

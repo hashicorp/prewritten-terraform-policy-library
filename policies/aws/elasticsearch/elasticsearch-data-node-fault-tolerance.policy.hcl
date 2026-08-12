@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ES.6 - Elasticsearch domains should have at least three data nodes.
+# Elasticsearch domains should have at least three data nodes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-data-node-fault-tolerance-enforcement-level" {
   type = string
@@ -23,12 +30,12 @@ resource_policy "aws_elasticsearch_domain" "three_data_nodes" {
 
     enforce {
         condition = local.has_minimum_nodes
-        error_message = "Elasticsearch domain must have at least 3 data nodes for high availability. Set cluster_config.instance_count to 3 or more. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-6 for more details."
+        error_message = "Elasticsearch domain must have at least 3 data nodes for high availability. Set cluster_config.instance_count to 3 or more"
     }
 
     # Enforce zone awareness is enabled
     enforce {
         condition = local.zone_awareness_enabled
-        error_message = "Elasticsearch domain must have zone_awareness_enabled set to true for fault tolerance. Set cluster_config.zone_awareness_enabled = true. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-6 for more details."
+        error_message = "Elasticsearch domain must have zone_awareness_enabled set to true for fault tolerance. Set cluster_config.zone_awareness_enabled = true"
     }
 }

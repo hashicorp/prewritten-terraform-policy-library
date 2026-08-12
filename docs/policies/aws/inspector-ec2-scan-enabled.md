@@ -12,7 +12,7 @@ In a multi-account environment, the control generates findings in only the deleg
 
 Amazon Inspector EC2 scanning extracts metadata from your Amazon Elastic Compute Cloud (Amazon EC2) instance, and then compares this metadata against rules collected from security advisories to produce findings. Amazon Inspector scans instances for package vulnerabilities and network reachability issues. For information about supported operating systems, including which operating system can be scanned without an SSM agent, see Supported operating systems: Amazon EC2 scanning.
 
-This rule is covered by the [inspector-ec2-scan-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/inspector/inspector-ec2-scan-enabled.policy.hcl) policy.
+This rule is covered by the [inspector-ec2-scan-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/inspector/inspector-ec2-scan-enabled.policy.hcl) policy.
 
 ## Policy Results
 

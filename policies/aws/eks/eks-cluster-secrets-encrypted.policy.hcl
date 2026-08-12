@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# EKS.3 - EKS clusters should use encrypted Kubernetes secrets.
+# EKS clusters should use encrypted Kubernetes secrets
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "eks-cluster-secrets-encrypted-enforcement-level" {
   type = string
@@ -25,11 +32,11 @@ resource_policy "aws_eks_cluster" "encrypted_secrets" {
 
     enforce {
         condition = local.has_encryption_config && local.secrets_encrypted
-        error_message = "EKS cluster does not encrypt Kubernetes secrets. Add 'secrets' to 'encryption_config.resources' list to enable secrets encryption. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/eks-controls.html#eks-3 for more details."
+        error_message = "EKS cluster does not encrypt Kubernetes secrets. Add 'secrets' to 'encryption_config.resources' list to enable secrets encryption"
     }
 
     enforce {
         condition = local.has_key_arn
-        error_message = "EKS cluster does not have a KMS key ARN configured for encryption. Set 'encryption_config.provider.key_arn' to enable envelope encryption of Kubernetes secrets. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/eks-controls.html#eks-3 for more details."
+        error_message = "EKS cluster does not have a KMS key ARN configured for encryption. Set 'encryption_config.provider.key_arn' to enable envelope encryption of Kubernetes secrets"
     }
 }

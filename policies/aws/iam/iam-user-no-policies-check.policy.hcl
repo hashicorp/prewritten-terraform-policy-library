@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# AWS Security Hub IAM.2: IAM users should not have IAM policies attached
+# IAM users should not have IAM policies attached
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-user-no-policies-check-enforcement-level" {
   type = string
@@ -18,7 +25,7 @@ resource_policy "aws_iam_user_policy" "no_inline_user_policies" {
 
   enforce {
     condition = false
-    error_message = "IAM.2 violation: Inline policy '${local.policy_name}' is attached directly to IAM user '${attrs.user}'. IAM users must inherit permissions from IAM groups or assume roles instead. Remove this inline policy and attach it to an IAM group, then add the user to that group. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-2 for more details."
+    error_message = "IAM.2 violation: Inline policy '${local.policy_name}' is attached directly to IAM user '${attrs.user}'. IAM users must inherit permissions from IAM groups or assume roles instead. Remove this inline policy and attach it to an IAM group, then add the user to that group"
   }
 }
 
@@ -27,6 +34,6 @@ resource_policy "aws_iam_user_policy_attachment" "no_managed_user_policies" {
   enforcement_level = input.iam-user-no-policies-check-enforcement-level
   enforce {
     condition = false
-    error_message = "IAM.2 violation: Managed policy '${attrs.policy_arn}' is attached directly to IAM user '${attrs.user}'. IAM users must inherit permissions from IAM groups or assume roles instead. Remove this policy attachment and attach the policy to an IAM group, then add the user to that group. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-2 for more details."
+    error_message = "IAM.2 violation: Managed policy '${attrs.policy_arn}' is attached directly to IAM user '${attrs.user}'. IAM users must inherit permissions from IAM groups or assume roles instead. Remove this policy attachment and attach the policy to an IAM group, then add the user to that group"
   }
 }

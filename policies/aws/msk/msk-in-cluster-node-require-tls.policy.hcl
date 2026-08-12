@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
-# Policy : MSK.1 - MSK clusters should be encrypted in transit among broker nodes.
-policy {}
+# MSK clusters should be encrypted in transit among broker nodes
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "msk-in-cluster-node-require-tls-enforcement-level" {
   type = string
@@ -22,6 +29,6 @@ resource_policy "aws_msk_cluster" "encryption_in_transit" {
 
     enforce {
         condition = local.encryption_enabled
-        error_message = "MSK cluster does not have encryption in transit enabled among broker nodes. The 'encryption_info.encryption_in_transit.in_cluster' setting is explicitly set to false. Set it to true or remove the explicit setting to use the secure default. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/msk-controls.html#msk-1 for more details."
+        error_message = "MSK cluster does not have encryption in transit enabled among broker nodes. The 'encryption_info.encryption_in_transit.in_cluster' setting is explicitly set to false. Set it to true or remove the explicit setting to use the secure default"
     }
 }

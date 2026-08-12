@@ -10,7 +10,7 @@ This control checks whether an Amazon EMR security configuration has encryption 
 
 Data at rest refers to data that's stored in persistent, non-volatile storage for any duration. Encrypting data at rest helps you protect its confidentiality, which reduces the risk that an unauthorized user can access it.
 
-This rule is covered by the [emr-security-configuration-encryption-rest](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/emr/emr-security-configuration-encryption-rest.policy.hcl) policy.
+This rule is covered by the [emr-security-configuration-encryption-rest](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/emr/emr-security-configuration-encryption-rest.policy.hcl) policy.
 
 ## Policy Results
 

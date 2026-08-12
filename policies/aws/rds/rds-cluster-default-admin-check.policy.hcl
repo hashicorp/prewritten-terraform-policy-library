@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.24 - RDS Database clusters should use a custom administrator username.
+# RDS Database clusters should use a custom administrator username
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-default-admin-check-enforcement-level" {
   type = string
@@ -27,6 +34,6 @@ resource_policy "aws_rds_cluster" "cluster_admin_username_check" {
 
     enforce{
         condition = local.has_input ? !local.is_default_admin && local.is_valid_input && core::contains(local.input_usernames, local.master_username) : !local.is_default_admin
-        error_message = "RDS database clusters should use a custom administrator username. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-24 for more details."
+        error_message = "RDS database clusters should use a custom administrator username"
     }
 }

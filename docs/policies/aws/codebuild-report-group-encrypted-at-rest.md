@@ -10,7 +10,7 @@ This control checks whether the test results of an AWS CodeBuild report group th
 
 Data at rest refers to data that's stored in persistent, non-volatile storage for any duration. Encrypting data at rest helps you protect its confidentiality, which reduces the risk that an unauthorized user can access it.
 
-This rule is covered by the [codebuild-report-group-encrypted-at-rest](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/codebuild/codebuild-report-group-encrypted-at-rest.policy.hcl) policy.
+This rule is covered by the [codebuild-report-group-encrypted-at-rest](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/codebuild/codebuild-report-group-encrypted-at-rest.policy.hcl) policy.
 
 ## Policy Results
 

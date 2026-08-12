@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: CloudFront.6 - CloudFront distributions should have WAF enabled
+# CloudFront distributions should have WAF enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-associated-with-waf-enforcement-level" {
   type = string
@@ -23,6 +30,6 @@ resource_policy "aws_cloudfront_distribution" "waf_enabled" {
 
     enforce {
         condition = local.has_waf
-        error_message = "CloudFront distribution must be associated with an AWS WAF web ACL. Configure the 'web_acl_id' argument with either a WAFv2 ACL ARN (e.g., aws_wafv2_web_acl.example.arn) or a WAF Classic ACL ID (e.g., aws_waf_web_acl.example.id). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-6 for more details."
+        error_message = "CloudFront distribution must be associated with an AWS WAF web ACL. Configure the 'web_acl_id' argument with either a WAFv2 ACL ARN (e.g., aws_wafv2_web_acl.example.arn) or a WAF Classic ACL ID (e.g., aws_waf_web_acl.example.id)"
     }
 }

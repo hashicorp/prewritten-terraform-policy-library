@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: RedshiftServerless.5 -  Redshift Serverless namespaces should not use the default admin username
+# Redshift Serverless namespaces should not use the default admin username
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.23.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-serverless-default-admin-check-enforcement-level" {
   type = string
@@ -22,6 +29,6 @@ resource_policy "aws_redshiftserverless_namespace" "no_default_admin_username" {
 
     enforce {
         condition = !local.uses_default_username
-        error_message = "Redshift Serverless namespace must not use the default admin username 'admin'. Specify a custom admin_username to improve security and mitigate brute force attack risks. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshiftserverless-controls.html#redshiftserverless-5 for more details."
+        error_message = "Redshift Serverless namespace must not use the default admin username 'admin'. Specify a custom admin_username to improve security and mitigate brute force attack risks"
     }
 }

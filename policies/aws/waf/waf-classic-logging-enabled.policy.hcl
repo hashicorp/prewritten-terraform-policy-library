@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# WAF.1 - AWS WAF Classic Global Web ACL logging should be enabled
+# AWS WAF Classic Global Web ACL logging should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "waf-classic-logging-enabled-enforcement-level" {
   type = string
@@ -19,6 +26,6 @@ resource_policy "aws_waf_web_acl" "logging_enabled" {
 
   enforce {
     condition = local.has_logging && local.has_destination
-    error_message = "WAF Classic Web ACL must have logging_configuration with a valid log_destination ARN pointing to a Kinesis Firehose Delivery Stream. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/waf-controls.html#waf-1 for more details."
+    error_message = "WAF Classic Web ACL must have logging_configuration with a valid log_destination ARN pointing to a Kinesis Firehose Delivery Stream"
   }
 }

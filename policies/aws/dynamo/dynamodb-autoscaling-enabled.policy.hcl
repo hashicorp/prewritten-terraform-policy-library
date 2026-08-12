@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# DynamoDB.1: DynamoDB tables should automatically scale capacity with demand
+# DynamoDB tables should automatically scale capacity with demand
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dynamodb-autoscaling-enabled-enforcement-level" {
   type = string
@@ -83,6 +90,6 @@ resource_policy "aws_dynamodb_table" "autoscaling_enabled" {
   # this policy enforces the billing mode contract and surfaces guidance.
   enforce {
     condition = local.is_provisioned
-    error_message = "DynamoDB table with PROVISIONED billing mode must have autoscaling configured. Ensure aws_appautoscaling_target and aws_appautoscaling_policy resources are configured for both read and write capacity, and align any configured inputs: minProvisionedReadCapacity=${input.minProvisionedReadCapacity}, targetReadUtilization=${input.targetReadUtilization}, minProvisionedWriteCapacity=${input.minProvisionedWriteCapacity}, targetWriteUtilization=${input.targetWriteUtilization}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dynamodb-controls.html#dynamodb-1 for more details."
+    error_message = "DynamoDB table with PROVISIONED billing mode must have autoscaling configured. Ensure aws_appautoscaling_target and aws_appautoscaling_policy resources are configured for both read and write capacity, and align any configured inputs: minProvisionedReadCapacity=${input.minProvisionedReadCapacity}, targetReadUtilization=${input.targetReadUtilization}, minProvisionedWriteCapacity=${input.minProvisionedWriteCapacity}, targetWriteUtilization=${input.targetWriteUtilization}"
   }
 }

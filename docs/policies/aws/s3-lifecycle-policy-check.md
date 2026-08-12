@@ -18,7 +18,7 @@ This control checks whether an Amazon S3 general purpose bucket has a Lifecycle 
 
 Creating a Lifecycle configuration for your S3 bucket defines actions that you want Amazon S3 to take during an object's lifetime. For example, you can transition objects to another storage class, archive them, or delete them after a specified period of time.
 
-This rule is covered by the [s3-lifecycle-policy-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/s3/s3-lifecycle-policy-check.policy.hcl) policy.
+This rule is covered by the [s3-lifecycle-policy-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-lifecycle-policy-check.policy.hcl) policy.
 
 ## Policy Results
 

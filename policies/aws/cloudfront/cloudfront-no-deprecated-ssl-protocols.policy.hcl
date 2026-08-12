@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: CloudFront.10 -  CloudFront distributions should not use deprecated SSL protocols between edge locations and custom origins
+# CloudFront distributions should encrypt traffic to custom origins
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-no-deprecated-ssl-protocols-enforcement-level" {
   type = string
@@ -50,6 +57,6 @@ resource_policy "aws_cloudfront_distribution" "no_deprecated_ssl_protocols_all" 
 
     enforce {
         condition = !local.has_deprecated_ssl
-        error_message = "CloudFront distribution uses deprecated SSL/TLS protocols (SSLv3, TLSv1, TLSv1_2016) for custom origins: ${core::join(", ", local.affected_origins)}. These protocols are insufficiently secure. Use TLSv1.2_2018, TLSv1.2_2019, or TLSv1.2_2021 for HTTPS communication to custom origins. Update the origin_ssl_protocols configuration to remove deprecated protocols. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-10 for more details."
+        error_message = "CloudFront distribution uses deprecated SSL/TLS protocols (SSLv3, TLSv1, TLSv1_2016) for custom origins: ${core::join(", ", local.affected_origins)}. These protocols are insufficiently secure. Use TLSv1.2_2018, TLSv1.2_2019, or TLSv1.2_2021 for HTTPS communication to custom origins. Update the origin_ssl_protocols configuration to remove deprecated protocols"
     }
 }

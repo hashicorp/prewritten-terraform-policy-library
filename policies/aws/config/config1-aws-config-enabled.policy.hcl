@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Config.1 - AWS Config should be enabled and use the service-linked role
+# AWS Config should be enabled and use the service-linked role for resource recording
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "config1-aws-config-enabled-enforcement-level" {
   type = string
@@ -31,12 +38,12 @@ resource_policy "aws_config_configuration_recorder" "recorder_configuration" {
 
   enforce {
     condition     = local.records_everything
-    error_message = "Configuration recorder must declare a recording_group with all_supported=true and include_global_resource_types=true so AWS Config records every supported resource type, including IAM global resources. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/config-controls.html#config-1 for more details."
+    error_message = "Configuration recorder must declare a recording_group with all_supported=true and include_global_resource_types=true so AWS Config records every supported resource type, including IAM global resources"
   }
 
   enforce {
     condition     = !input.includeConfigServiceLinkedRoleCheck || local.uses_service_linked_role
-    error_message = "Configuration recorder must use the AWS Config service-linked role (role_arn must match '/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig'). Set input.includeConfigServiceLinkedRoleCheck=false to skip this check. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/config-controls.html#config-1 for more details."
+    error_message = "Configuration recorder must use the AWS Config service-linked role (role_arn must match '/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig'). Set input.includeConfigServiceLinkedRoleCheck=false to skip this check"
   }
 }
 
@@ -45,7 +52,7 @@ resource_policy "aws_config_configuration_recorder_status" "recorder_enabled" {
   enforcement_level = input.config1-aws-config-enabled-enforcement-level
   enforce {
     condition     = core::try(attrs.is_enabled, false) == true
-    error_message = "AWS Config configuration recorder must be enabled (is_enabled=true). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/config-controls.html#config-1 for more details."
+    error_message = "AWS Config configuration recorder must be enabled (is_enabled=true)"
   }
 }
 
@@ -54,6 +61,6 @@ resource_policy "aws_config_delivery_channel" "delivery_channel_configuration" {
   enforcement_level = input.config1-aws-config-enabled-enforcement-level
   enforce {
     condition     = core::try(attrs.s3_bucket_name, "") != ""
-    error_message = "AWS Config delivery channel must have a non-empty s3_bucket_name configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/config-controls.html#config-1 for more details."
+    error_message = "AWS Config delivery channel must have a non-empty s3_bucket_name configured"
   }
 }

@@ -14,7 +14,7 @@ To improve the security posture of your VPC, you can configure Amazon EC2 to use
 
 To learn more about creating VPC endpoints for Amazon EC2, see Amazon EC2 and interface VPC endpoints in the Amazon EC2 User Guide.
 
-This rule is covered by the [service-vpc-endpoint-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/vpc/service-vpc-endpoint-enabled.policy.hcl) policy.
+This rule is covered by the [service-vpc-endpoint-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/service-vpc-endpoint-enabled.policy.hcl) policy.
 
 ## Policy Results
 

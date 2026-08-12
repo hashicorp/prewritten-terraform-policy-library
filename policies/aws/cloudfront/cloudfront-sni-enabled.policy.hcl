@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# CloudFront.8: CloudFront distributions should use SNI to serve HTTPS requests
+# CloudFront distributions should use SNI to serve HTTPS requests
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-sni-enabled-enforcement-level" {
   type = string
@@ -39,12 +46,12 @@ resource_policy "aws_cloudfront_distribution" "sni_required" {
     # Enforce SNI when custom certificate is used
     enforce {
         condition = !local.uses_custom_cert || (local.uses_custom_cert && local.uses_sni)
-        error_message = "CloudFront distribution uses a custom SSL/TLS certificate but is configured with dedicated IP address (ssl_support_method='${local.ssl_support_method}'). Configure the distribution to use SNI by setting ssl_support_method='sni-only' in the viewer_certificate block. SNI is supported by all modern browsers and clients and avoids extra charges associated with dedicated IP addresses. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-8 for more details."
+        error_message = "CloudFront distribution uses a custom SSL/TLS certificate but is configured with dedicated IP address (ssl_support_method='${local.ssl_support_method}'). Configure the distribution to use SNI by setting ssl_support_method='sni-only' in the viewer_certificate block. SNI is supported by all modern browsers and clients and avoids extra charges associated with dedicated IP addresses"
     }
 
     # Additional check: Ensure ssl_support_method is specified when using custom cert
     enforce {
         condition = !local.uses_custom_cert || (local.uses_custom_cert && local.ssl_support_method != "")
-        error_message = "CloudFront distribution uses a custom SSL/TLS certificate but does not specify ssl_support_method in the viewer_certificate block. Set ssl_support_method='sni-only' to serve HTTPS requests using Server Name Indication. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-8 for more details."
+        error_message = "CloudFront distribution uses a custom SSL/TLS certificate but does not specify ssl_support_method in the viewer_certificate block. Set ssl_support_method='sni-only' to serve HTTPS requests using Server Name Indication"
     }
 }

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: SSM.4 - SSM documents should not be public
+# SSM documents should not be public
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ssm-document-not-public-enforcement-level" {
   type = string
@@ -35,6 +42,6 @@ resource_policy "aws_ssm_document" "ssm_document_not_public" {
 
     enforce {
         condition = !local.is_public
-        error_message = "SSM document is publicly accessible. Documents owned by 'Self' must not have 'All' in permissions.account_ids. Current account_ids: ${core::join(", ", local.account_ids)} . Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-4 for more details."
+        error_message = "SSM document is publicly accessible. Documents owned by 'Self' must not have 'All' in permissions.account_ids. Current account_ids: ${core::join(", ", local.account_ids)}"
     }
 }

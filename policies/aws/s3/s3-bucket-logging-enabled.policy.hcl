@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: S3.9 - S3 general purpose buckets should have server access logging enabled
+# S3 general purpose buckets should have server access logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-logging-enabled-enforcement-level" {
   type = string
@@ -43,16 +50,16 @@ resource_policy "aws_s3_bucket" "server_access_logging_enabled" {
 
   enforce {
     condition     = local.has_logging && local.target_bucket != ""
-    error_message = "S3 bucket '${local.bucket_name}' must have an associated 'aws_s3_bucket_logging' resource with a non-empty 'target_bucket' to enable server access logging. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-9 for more details."
+    error_message = "S3 bucket '${local.bucket_name}' must have an associated 'aws_s3_bucket_logging' resource with a non-empty 'target_bucket' to enable server access logging"
   }
 
   enforce {
     condition     = local.matches_target_bucket
-    error_message = "S3 bucket '${local.bucket_name}' logging target_bucket '${local.target_bucket}' does not match the required value '${input.targetBucket}' set via input.targetBucket. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-9 for more details."
+    error_message = "S3 bucket '${local.bucket_name}' logging target_bucket '${local.target_bucket}' does not match the required value '${input.targetBucket}' set via input.targetBucket"
   }
 
   enforce {
     condition     = local.matches_target_prefix
-    error_message = "S3 bucket '${local.bucket_name}' logging target_prefix '${local.target_prefix}' does not match the required value '${input.loggingTargetPrefix}' set via input.loggingTargetPrefix. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-9 for more details."
+    error_message = "S3 bucket '${local.bucket_name}' logging target_prefix '${local.target_prefix}' does not match the required value '${input.loggingTargetPrefix}' set via input.loggingTargetPrefix"
   }
 }

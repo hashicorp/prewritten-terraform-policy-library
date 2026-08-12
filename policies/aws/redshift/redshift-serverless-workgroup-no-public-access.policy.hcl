@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: RedshiftServerless.3 - Redshift Serverless workgroups should prohibit public access
+# Redshift Serverless workgroups should prohibit public access
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.28.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-serverless-workgroup-no-public-access-enforcement-level" {
   type = string
@@ -19,6 +26,6 @@ resource_policy "aws_redshiftserverless_workgroup" "prohibit_public_access" {
 
     enforce {
         condition     = local.publicly_accessible == false
-        error_message = "Redshift Serverless workgroup must not be publicly accessible. Set 'publicly_accessible = false' or omit the attribute (defaults to false). Public access allows connections from outside the VPC, which violates security best practices. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshiftserverless-controls.html#redshiftserverless-3 for more details."
+        error_message = "Redshift Serverless workgroup must not be publicly accessible. Set 'publicly_accessible = false' or omit the attribute (defaults to false). Public access allows connections from outside the VPC, which violates security best practices"
     }
 }

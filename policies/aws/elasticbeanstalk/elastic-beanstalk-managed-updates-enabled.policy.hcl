@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ElasticBeanstalk.2: Elastic Beanstalk managed platform updates should be enabled
+# Elastic Beanstalk managed platform updates should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elastic-beanstalk-managed-updates-enabled-enforcement-level" {
   type = string
@@ -54,7 +61,7 @@ resource_policy "aws_elastic_beanstalk_environment" "managed_updates_enabled" {
 
     enforce {
         condition = local.managed_updates_enabled
-        error_message = "Elastic Beanstalk environment '${local.env_name}' must have managed platform updates enabled. Set 'ManagedActionsEnabled' to 'true' in the 'aws:elasticbeanstalk:managedactions' namespace. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticbeanstalk-controls.html#elasticbeanstalk-2 for more details."
+        error_message = "Elastic Beanstalk environment '${local.env_name}' must have managed platform updates enabled. Set 'ManagedActionsEnabled' to 'true' in the 'aws:elasticbeanstalk:managedactions' namespace"
     }
 
     enforce {
@@ -64,6 +71,6 @@ resource_policy "aws_elastic_beanstalk_environment" "managed_updates_enabled" {
 
     enforce {
         condition = local.update_level_matches
-        error_message = "Elastic Beanstalk environment '${local.env_name}' must set UpdateLevel = '${input.UpdateLevel}' in the 'aws:elasticbeanstalk:managedactions:platformupdate' namespace when the input is configured. Current value: '${local.update_level}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticbeanstalk-controls.html#elasticbeanstalk-2 for more details."
+        error_message = "Elastic Beanstalk environment '${local.env_name}' must set UpdateLevel = '${input.UpdateLevel}' in the 'aws:elasticbeanstalk:managedactions:platformupdate' namespace when the input is configured. Current value: '${local.update_level}'"
     }
 }

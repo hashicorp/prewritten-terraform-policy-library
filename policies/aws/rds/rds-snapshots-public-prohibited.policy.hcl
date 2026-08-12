@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.1 - RDS snapshot should be private.
+# RDS snapshot should be private
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.60.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-snapshots-public-prohibited-enforcement-level" {
   type = string
@@ -19,7 +26,7 @@ resource_policy "aws_db_snapshot" "no_public_snapshots" {
 
     enforce {
         condition = !local.is_public
-        error_message = "RDS DB snapshot is configured as public. The 'shared_accounts' attribute contains 'all', which makes the snapshot accessible to every AWS account. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-1 for more details."
+        error_message = "RDS DB snapshot is configured as public. The 'shared_accounts' attribute contains 'all', which makes the snapshot accessible to every AWS account"
     }
 }
 
@@ -33,6 +40,6 @@ resource_policy "aws_db_cluster_snapshot" "no_public_snapshots" {
 
     enforce {
         condition = !local.is_public
-        error_message = "RDS DB cluster snapshot is configured as public. The 'shared_accounts' attribute contains 'all', which makes the snapshot accessible to every AWS account. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-1 for more details."
+        error_message = "RDS DB cluster snapshot is configured as public. The 'shared_accounts' attribute contains 'all', which makes the snapshot accessible to every AWS account"
     }
 }

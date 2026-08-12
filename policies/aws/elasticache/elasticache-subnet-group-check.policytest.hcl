@@ -64,5 +64,7 @@ resource "aws_elasticache_cluster" "fail_explicit_default_sg" {
 # Test 6: FAIL - ElastiCache cluster without subnet_group_name (implicit default)
 resource "aws_elasticache_cluster" "fail_missing_sg" {
   expect_failure = true
-  attrs = {}
+  attrs = {
+    cluster_id = "my-memcached-cluster"
+  }
 }

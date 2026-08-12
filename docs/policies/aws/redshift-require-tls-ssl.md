@@ -10,7 +10,7 @@ This control checks whether connections to Amazon Redshift clusters are required
 
 TLS can be used to help prevent potential attackers from using person-in-the-middle or similar attacks to eavesdrop on or manipulate network traffic. Only encrypted connections over TLS should be allowed. Encrypting data in transit can affect performance. You should test your application with this feature to understand the performance profile and the impact of TLS.
 
-This rule is covered by the [redshift-require-tls-ssl](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-require-tls-ssl.policy.hcl) policy.
+This rule is covered by the [redshift-require-tls-ssl](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-require-tls-ssl.policy.hcl) policy.
 
 ## Policy Results
 

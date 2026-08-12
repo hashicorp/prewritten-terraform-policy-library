@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: KMS.1 - IAM customer managed policies should not allow decryption actions on all KMS keys
+# IAM customer managed policies should not allow decryption actions on all KMS keys
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-customer-policy-blocked-kms-actions-enforcement-level" {
   type = string
@@ -46,7 +53,7 @@ resource_policy "aws_iam_policy" "kms_decrypt_restriction" {
 
     enforce {
         condition     = core::length(local.violations) == 0
-        error_message = "IAM customer managed policy violates KMS.1. It must not allow blocked KMS actions on all KMS keys (Resource: \"*\"). Instead, specify the ARN of specific KMS keys (e.g., arn:aws:kms:region:account-id:key/key-id). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/kms-controls.html#kms-1 for more details."
+        error_message = "IAM customer managed policy violates KMS.1. It must not allow blocked KMS actions on all KMS keys (Resource: \"*\"). Instead, specify the ARN of specific KMS keys (e.g., arn:aws:kms:region:account-id:key/key-id)"
     }
 }
 

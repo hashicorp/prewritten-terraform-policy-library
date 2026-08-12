@@ -10,7 +10,7 @@ This control checks whether AWS Service Catalog shares portfolios within an orga
 
 Portfolio sharing only within Organizations helps ensure that a portfolio isn't shared with incorrect AWS accounts. To share a Service Catalog portfolio with an account in an organization, Security Hub CSPM recommends using ORGANIZATION_MEMBER_ACCOUNT instead of ACCOUNT. This simplifies administration by governing the access granted to the account across the organization. If you have a business need to share Service Catalog portfolios with an external account, you can automatically suppress the findings from this control or disable it.
 
-This rule is covered by the [service-catalog-shared-within-organization](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/servicecatalog/service-catalog-shared-within-organization.policy.hcl) policy.
+This rule is covered by the [service-catalog-shared-within-organization](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/servicecatalog/service-catalog-shared-within-organization.policy.hcl) policy.
 
 ## Policy Results
 

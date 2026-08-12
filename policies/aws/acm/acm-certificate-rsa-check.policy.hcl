@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy : ACM.2 -  RSA certificates managed by ACM should use a key length of at least 2,048 bits
+# RSA certificates managed by ACM should use a key length of at least 2,048 bits
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.40.0, < 7.0.0"
+    }
+  }
+}
 
 input "acm-certificate-rsa-check-enforcement-level" {
   type = string
@@ -32,6 +39,6 @@ resource_policy "aws_acm_certificate" "rsa_key_length_check" {
     # Only enforce on RSA certificates (EC certificates are excluded)
     enforce {
         condition = !local.is_rsa || local.is_compliant
-        error_message = "ACM certificate uses ${local.key_algorithm} which does not meet the minimum 2048-bit key length requirement. RSA certificates must use RSA_2048, RSA_3072, or RSA_4096. Current algorithm: ${local.key_algorithm}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/acm-controls.html#acm-2 for more details."
+        error_message = "ACM certificate uses ${local.key_algorithm} which does not meet the minimum 2048-bit key length requirement. RSA certificates must use RSA_2048, RSA_3072, or RSA_4096. Current algorithm: ${local.key_algorithm}"
     }
 }

@@ -10,7 +10,7 @@ This control checks whether an Amazon Connect instance is configured to generate
 
 Amazon Connect flow logs provide real-time details about events in Amazon Connect flows. A flow defines the customer experience with an Amazon Connect contact center from start to finish. By default, when you create a new Amazon Connect instance, an Amazon CloudWatch log group is created automatically to store flow logs for the instance. Flow logs can help you analyze flows, find errors, and monitor operational metrics. You can also set up alerts for specific events that can occur in a flow.
 
-This rule is covered by the [connect-instance-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/connect/connect-instance-logging-enabled.policy.hcl) policy.
+This rule is covered by the [connect-instance-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/connect/connect-instance-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

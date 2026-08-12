@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# EFS.3 - EFS Access Points Should Enforce a Root Directory.
+# EFS access points should enforce a root directory
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "efs-access-point-enforce-root-directory-enforcement-level" {
   type = string
@@ -21,6 +28,6 @@ resource_policy "aws_efs_access_point" "enforce_root_directory" {
 
     enforce {
         condition = local.root_path != "/" && local.root_path != ""
-        error_message = "EFS access point does not enforce a root directory. The root_directory.path must be a subdirectory path (e.g., '/data', '/app', '/users') to restrict data access. Configure root_directory.path to a value other than '/' to pass this control. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/efs-controls.html#efs-3 for more details."
+        error_message = "EFS access point does not enforce a root directory. The root_directory.path must be a subdirectory path (e.g., '/data', '/app', '/users') to restrict data access. Configure root_directory.path to a value other than '/' to pass this control"
     }
 }

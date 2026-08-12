@@ -12,7 +12,7 @@ API Gateway access logs provide detailed information about who has accessed your
 
 For additional best practices, see Monitoring REST APIs in the API Gateway Developer Guide.
 
-This rule is covered by the [api-gwv2-access-logs-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/apigateway/api-gwv2-access-logs-enabled.policy.hcl) policy.
+This rule is covered by the [api-gwv2-access-logs-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/apigateway/api-gwv2-access-logs-enabled.policy.hcl) policy.
 
 ## Policy Results
 

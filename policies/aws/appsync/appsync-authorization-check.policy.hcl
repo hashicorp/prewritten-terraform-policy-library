@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: AppSync.5 - AWS AppSync GraphQL APIs should not be authenticated with API keys
+# AWS AppSync GraphQL APIs should not be authenticated with API keys
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "appsync-authorization-check-enforcement-level" {
   type = string
@@ -37,12 +44,12 @@ resource_policy "aws_appsync_graphql_api" "no_api_key_auth" {
     # Enforce: Primary authentication must not use API_KEY
     enforce {
         condition = !local.primary_uses_api_key
-        error_message = "AppSync GraphQL API uses API_KEY for primary authentication. This control does not allow customization. Use one of the allowed authentication types: ${core::join(", ", local.allowed_auth_types)}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/appsync-controls.html#appsync-5 for more details."
+        error_message = "AppSync GraphQL API uses API_KEY for primary authentication. This control does not allow customization. Use one of the allowed authentication types: ${core::join(", ", local.allowed_auth_types)}"
     }
     
     # Enforce: Additional authentication providers must not use API_KEY
     enforce {
         condition = !local.has_additional_api_key
-        error_message = "AppSync GraphQL API has ${core::length(local.additional_api_key_providers)} additional authentication provider(s) using API_KEY. This control does not allow customization. Use one of the allowed authentication types: ${core::join(", ", local.allowed_auth_types)}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/appsync-controls.html#appsync-5 for more details."
+        error_message = "AppSync GraphQL API has ${core::length(local.additional_api_key_providers)} additional authentication provider(s) using API_KEY. This control does not allow customization. Use one of the allowed authentication types: ${core::join(", ", local.allowed_auth_types)}"
     }
 }

@@ -12,7 +12,7 @@ Amazon EMR block public access prevents you from launching a cluster in a public
 
 Block public access is enabled by default. To increase account protection, we recommend that you keep it enabled.
 
-This rule is covered by the [emr-block-public-access](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/emr/emr-block-public-access.policy.hcl) policy.
+This rule is covered by the [emr-block-public-access](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/emr/emr-block-public-access.policy.hcl) policy.
 
 ## Policy Results
 

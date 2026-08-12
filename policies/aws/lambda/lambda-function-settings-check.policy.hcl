@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Lambda.2 - Lambda functions should use supported runtimes
+# Lambda functions should use supported runtimes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "lambda-function-settings-check-enforcement-level" {
   type = string
@@ -26,6 +33,6 @@ resource_policy "aws_lambda_function" "lambda_supported_runtimes" {
 
     enforce {
         condition     = core::contains(local.supported_runtimes, core::try(attrs.runtime, ""))
-        error_message = "Lambda function uses an unsupported runtime. Update the 'runtime' argument to one of the supported values configured for this policy. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/lambda-controls.html#lambda-2 for more details."
+        error_message = "Lambda function uses an unsupported runtime. Update the 'runtime' argument to one of the supported values configured for this policy"
     }
 }

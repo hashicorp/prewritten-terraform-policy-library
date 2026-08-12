@@ -12,7 +12,7 @@ In a multi-account environment, only the delegated GuardDuty administrator can e
 
 GuardDuty Runtime Monitoring observes and analyzes operating system-level, networking, and file events to help you detect potential threats in specific AWS workloads in your environment. It uses GuardDuty security agents that add visibility into runtime behavior, such as file access, process execution, command line arguments, and network connections. You can enable and manage the security agent for each type of resource that you want to monitor for potential threats, such as Amazon EKS clusters and Amazon EC2 instances.
 
-This rule is covered by the [guardduty-runtime-monitoring-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/guardduty/guardduty-runtime-monitoring-enabled.policy.hcl) policy.
+This rule is covered by the [guardduty-runtime-monitoring-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/guardduty/guardduty-runtime-monitoring-enabled.policy.hcl) policy.
 
 ## Policy Results
 

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Transfer.3 - Transfer Family connectors should have logging enabled
+# Transfer Family connectors should have logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.6.0, < 7.0.0"
+    }
+  }
+}
 
 input "transfer-connector-logging-enabled-enforcement-level" {
   type = string
@@ -21,6 +28,6 @@ resource_policy "aws_transfer_connector" "logging_enabled" {
 
     enforce {
         condition     = local.has_logging_role
-        error_message = "Transfer Family connector must have CloudWatch logging enabled. Configure the 'logging_role' attribute with a valid IAM role ARN that has permissions to write to CloudWatch Logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/transfer-controls.html#transfer-3 for more details."
+        error_message = "Transfer Family connector must have CloudWatch logging enabled. Configure the 'logging_role' attribute with a valid IAM role ARN that has permissions to write to CloudWatch Logs"
     }
 }

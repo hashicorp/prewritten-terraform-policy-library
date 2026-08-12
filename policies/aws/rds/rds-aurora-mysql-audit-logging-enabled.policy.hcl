@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.34 - Aurora MySQL DB clusters should publish audit logs to CloudWatch Logs.
+# Aurora MySQL DB clusters should publish audit logs to CloudWatch Logs
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-aurora-mysql-audit-logging-enabled-enforcement-level" {
   type = string
@@ -19,6 +26,6 @@ resource_policy "aws_rds_cluster" "aurora_mysql_audit_logging" {
 
     enforce {
         condition = core::contains(local.log_exports, "audit")
-        error_message = "Aurora MySQL DB cluster does not have CloudWatch Logs export enabled for 'audit' logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-34 for more details."
+        error_message = "Aurora MySQL DB cluster does not have CloudWatch Logs export enabled for 'audit' logs"
     }
 }

@@ -10,7 +10,7 @@ This control checks whether CloudTrail is configured to use the server-side encr
 
 For an added layer of security for your sensitive CloudTrail log files, you should use server-side encryption with AWS KMS keys (SSE-KMS) for your CloudTrail log files for encryption at rest. Note that by default, the log files delivered by CloudTrail to your buckets are encrypted by Amazon server-side encryption with Amazon S3-managed encryption keys (SSE-S3).
 
-This rule is covered by the [cloud-trail-encryption-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudtrail/cloud-trail-encryption-enabled.policy.hcl) policy.
+This rule is covered by the [cloud-trail-encryption-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudtrail/cloud-trail-encryption-enabled.policy.hcl) policy.
 
 ## Policy Results
 

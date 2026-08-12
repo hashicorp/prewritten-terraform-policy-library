@@ -10,7 +10,7 @@ This control checks whether Amazon SageMaker model quality job definitions have 
 
 Inter-container traffic encryption protects data transmitted between containers during distributed model quality monitoring jobs. By default, inter-container traffic is unencrypted. Enabling encryption helps maintain data confidentiality during processing and supports compliance with regulatory requirements for data in transit protection.
 
-This rule is covered by the [sagemaker-model-quality-job-encrypt-in-transit](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-model-quality-job-encrypt-in-transit.policy.hcl) policy.
+This rule is covered by the [sagemaker-model-quality-job-encrypt-in-transit](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-model-quality-job-encrypt-in-transit.policy.hcl) policy.
 
 ## Policy Results
 

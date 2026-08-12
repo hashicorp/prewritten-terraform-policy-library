@@ -12,7 +12,7 @@ To create a certificate, you can use either ACM or a tool that supports the SSL 
 
 ACM integrates with Classic Load Balancers so that you can deploy the certificate on your load balancer. You also should automatically renew these certificates.
 
-This rule is covered by the [elb-acm-certificate-required](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticloadbalancing/elb-acm-certificate-required.policy.hcl) policy.
+This rule is covered by the [elb-acm-certificate-required](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elb-acm-certificate-required.policy.hcl) policy.
 
 ## Policy Results
 

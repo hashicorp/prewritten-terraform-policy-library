@@ -12,7 +12,7 @@ By default, Application Load Balancers are not configured to drop invalid HTTP h
 
 We recommend disabling this control if ELB.12 is enabled in your account. For more information, see [ELB.12] Application Load Balancer should be configured with defensive or strictest desync mitigation mode.
 
-This rule is covered by the [alb-http-drop-invalid-header-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elb/alb-http-drop-invalid-header-enabled.policy.hcl) policy.
+This rule is covered by the [alb-http-drop-invalid-header-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/alb-http-drop-invalid-header-enabled.policy.hcl) policy.
 
 ## Policy Results
 

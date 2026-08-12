@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.60 - VPCs should be configured with an interface endpoint for Systems Manager Incident Manager
+# VPCs should be configured with an interface endpoint for Systems Manager Incident Manager
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-vpc-ssm-incidents-endpoint-enforcement-level" {
   type = string
@@ -37,6 +44,6 @@ resource_policy "aws_vpc" "ssm_incidents_endpoint_required" {
 
   enforce {
     condition     = local.vpc_id == "" || local.has_endpoint
-    error_message = "VPC '${local.vpc_id}' must have an Interface VPC endpoint for AWS Systems Manager Incident Manager (e.g. 'com.amazonaws.<region>.ssm-incidents'). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-60 for more details."
+    error_message = "VPC '${local.vpc_id}' must have an Interface VPC endpoint for AWS Systems Manager Incident Manager (e.g. 'com.amazonaws.<region>.ssm-incidents')"
   }
 }

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# FSx.4 - FSx for NetApp ONTAP file systems should be configured for Multi-AZ deployment.
+# FSx for NetApp ONTAP file systems should be configured for Multi-AZ deployment
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "fsx-ontap-deployment-type-check-enforcement-level" {
   type = string
@@ -20,13 +27,13 @@ resource_policy "aws_fsx_ontap_file_system" "ontap_multi_az_deployment" {
         trimmed_input = core::trimspace(input.ontap_deployment_types)
         inputs = [for split in core::split(",", local.trimmed_input) : core::trimspace(split)]
         has_invalid_input = core::contains([
-            for input in local.inputs: input == "MULTI_AZ_1" || input == "MULTI_AZ_2"
+            for deployment_value in local.inputs: deployment_value == "MULTI_AZ_1" || deployment_value == "MULTI_AZ_2"
         ], false)
         deployment_type = core::try(attrs.deployment_type, "SINGLE_AZ_1")
     }
 
     enforce {
         condition = !local.has_invalid_input && core::contains(local.inputs, local.deployment_type)
-        error_message = "FSx for NetApp ONTAP file system is not configured for Multi-AZ deployment. Set deployment_type = 'MULTI_AZ_1' or 'MULTI_AZ_2' for high availability and durability in production workloads. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/fsx-controls.html#fsx-4 for more details."
+        error_message = "FSx for NetApp ONTAP file system is not configured for Multi-AZ deployment. Set deployment_type = 'MULTI_AZ_1' or 'MULTI_AZ_2' for high availability and durability in production workloads"
     }
 }

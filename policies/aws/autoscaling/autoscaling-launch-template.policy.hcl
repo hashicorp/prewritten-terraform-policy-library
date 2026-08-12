@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
-# Policy: AutoScaling.9 - Amazon EC2 Auto Scaling groups should use Amazon EC2 launch templates
-policy {}
+# Amazon EC2 Auto Scaling groups should use Amazon EC2 launch templates
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "autoscaling-launch-template-enforcement-level" {
   type = string
@@ -30,11 +37,11 @@ resource_policy "aws_autoscaling_group" "use_launch_templates" {
 
     enforce {
         condition = local.uses_launch_template
-        error_message = "Auto Scaling Group must use a launch template. Either configure 'launch_template' or 'mixed_instances_policy.launch_template'. Launch configurations are deprecated and do not provide access to the latest features. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-9 for more details."
+        error_message = "Auto Scaling Group must use a launch template. Either configure 'launch_template' or 'mixed_instances_policy.launch_template'. Launch configurations are deprecated and do not provide access to the latest features"
     }
 
     enforce {
         condition = !local.uses_only_launch_config
-        error_message = "Auto Scaling Group uses only 'launch_configuration' which is deprecated. Replace it with a launch template by configuring 'launch_template' or 'mixed_instances_policy.launch_template'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-9 for more details."
+        error_message = "Auto Scaling Group uses only 'launch_configuration' which is deprecated. Replace it with a launch template by configuring 'launch_template' or 'mixed_instances_policy.launch_template'"
     }
 }

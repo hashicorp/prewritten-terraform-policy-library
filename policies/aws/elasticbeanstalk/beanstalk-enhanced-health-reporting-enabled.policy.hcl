@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ElasticBeanstalk.1: Enhanced Health Reporting Required
+# Elastic Beanstalk environments should have enhanced health reporting enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "beanstalk-enhanced-health-reporting-enabled-enforcement-level" {
   type = string
@@ -31,6 +38,6 @@ resource_policy "aws_elastic_beanstalk_environment" "enhanced_health_reporting_r
   
   enforce {
     condition = local.has_enhanced_health
-    error_message = "Elastic Beanstalk environment '${local.env_name}' must have enhanced health reporting enabled. Configure setting with namespace='aws:elasticbeanstalk:healthreporting:system', name='SystemType', value='enhanced'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticbeanstalk-controls.html#elasticbeanstalk-1 for more details."
+    error_message = "Elastic Beanstalk environment '${local.env_name}' must have enhanced health reporting enabled. Configure setting with namespace='aws:elasticbeanstalk:healthreporting:system', name='SystemType', value='enhanced'"
   }
 }

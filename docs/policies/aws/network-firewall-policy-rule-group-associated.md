@@ -10,7 +10,7 @@ This control checks whether a Network Firewall policy has any stateful or statel
 
 A firewall policy defines how your firewall monitors and handles traffic in Amazon Virtual Private Cloud (Amazon VPC). Configuration of stateless and stateful rule groups helps to filter packets and traffic flows, and defines default traffic handling.
 
-This rule is covered by the [network-firewall-policy-rule-group-associated](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/network-firewall/network-firewall-policy-rule-group-associated.policy.hcl) policy.
+This rule is covered by the [network-firewall-policy-rule-group-associated](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/network-firewall/network-firewall-policy-rule-group-associated.policy.hcl) policy.
 
 ## Policy Results
 

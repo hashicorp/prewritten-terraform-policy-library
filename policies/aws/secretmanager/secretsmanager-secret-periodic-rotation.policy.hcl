@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Policy: SecretsManager.4 - Secrets Manager secrets should be rotated within a specified number of days
+# Secrets Manager secrets should be rotated within a specified number of days
 # AWS Config rule: secretsmanager-secret-periodic-rotation
 # AWS rule targets AWS::SecretsManager::Secret and flags secrets not rotated within maxDaysSinceRotation
 # days (default 90, range 1-180). At Terraform plan time we cannot observe "days since last rotation",
@@ -8,7 +8,14 @@
 # as the plan-time proxy: a secret cannot be rotated less frequently than its configured interval.
 # Secrets with no aws_secretsmanager_secret_rotation are out of scope here (covered by SecretsManager.1).
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "secretsmanager-secret-periodic-rotation-enforcement-level" {
   type = string
@@ -45,12 +52,12 @@ resource_policy "aws_secretsmanager_secret_rotation" "rotation_frequency_check" 
     # automatically_after_days must be configured so frequency can be evaluated.
     enforce {
         condition     = local.has_rotation_frequency
-        error_message = "Secret rotation must have 'automatically_after_days' configured in rotation_rules so compliance can be evaluated against the configured maxDaysSinceRotation threshold. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/secretsmanager-controls.html#secretsmanager-4 for more details."
+        error_message = "Secret rotation must have 'automatically_after_days' configured in rotation_rules so compliance can be evaluated against the configured maxDaysSinceRotation threshold"
     }
 
     # Configured rotation interval must not exceed the maximum.
     enforce {
         condition     = !local.has_rotation_frequency || local.rotation_frequency_valid
-        error_message = "Secret rotation must rotate at least once within the configured maxDaysSinceRotation threshold. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/secretsmanager-controls.html#secretsmanager-4 for more details."
+        error_message = "Secret rotation must rotate at least once within the configured maxDaysSinceRotation threshold"
     }
 }

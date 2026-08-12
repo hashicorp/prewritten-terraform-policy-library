@@ -12,7 +12,7 @@ If the readonlyRootFilesystem parameter is set to true in an Amazon ECS task def
 
 The readonlyRootFilesystem parameter is not supported for Windows containers. Task definitions with runtimePlatform configured to specify a WINDOWS_SERVER OS family are marked as NOT_APPLICABLE and will not generate findings for this control.
 
-This rule is covered by the [ecs-containers-readonly-access](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-containers-readonly-access.policy.hcl) policy.
+This rule is covered by the [ecs-containers-readonly-access](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-containers-readonly-access.policy.hcl) policy.
 
 ## Policy Results
 

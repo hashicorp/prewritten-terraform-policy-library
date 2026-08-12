@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ECS.10 - ECS Fargate services should run on the latest Fargate platform version.
+# ECS Fargate services should run on the latest Fargate platform version
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-fargate-latest-platform-version-enforcement-level" {
   type = string
@@ -23,6 +30,6 @@ resource_policy "aws_ecs_service" "fargate_latest_platform" {
 
     enforce {
         condition = local.platform_version == "LATEST" || local.is_explicit_latest
-        error_message = "ECS Fargate service is not using the latest platform version. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-10 for more details."
+        error_message = "ECS Fargate service is not using the latest platform version"
     }
 }

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Connect.2 - Amazon Connect instances should have CloudWatch logging enabled
+# Amazon Connect instances should have CloudWatch logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "connect-instance-logging-enabled-enforcement-level" {
   type = string
@@ -18,6 +25,6 @@ resource_policy "aws_connect_instance" "cloudwatch_logging_enabled" {
 
     enforce {
         condition     = local.contact_flow_logs_enabled == true
-        error_message = "Amazon Connect instance must have contact flow logs enabled. Set 'contact_flow_logs_enabled = true' to enable CloudWatch logging for contact flows. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/connect-controls.html#connect-2 for more details."
+        error_message = "Amazon Connect instance must have contact flow logs enabled. Set 'contact_flow_logs_enabled = true' to enable CloudWatch logging for contact flows"
     }
 }

@@ -16,7 +16,7 @@ This control checks whether lifecycle rules are configured for an S3 directory b
 
 In Amazon S3, a lifecycle configuration is a set of rules that define actions for Amazon S3 to apply to a group of objects in a bucket. For an S3 directory bucket, you can create a lifecycle rule that specifies when objects expire based on age (in days). You can also create a lifecycle rule that deletes incomplete multipart uploads. Unlike other types of S3 buckets, such as general purpose buckets, directory buckets do not support other types of actions for lifecycle rules, such as transitioning objects between storage classes.
 
-This rule is covered by the [s3express-dir-bucket-lifecycle-rules-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/s3/s3express-dir-bucket-lifecycle-rules-check.policy.hcl) policy.
+This rule is covered by the [s3express-dir-bucket-lifecycle-rules-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3express-dir-bucket-lifecycle-rules-check.policy.hcl) policy.
 
 ## Policy Results
 

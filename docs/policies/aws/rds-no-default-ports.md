@@ -12,7 +12,7 @@ If you use a known port to deploy an RDS cluster or instance, an attacker can gu
 
 When you change the port, you must also update the existing connection strings that were used to connect to the old port. You should also check the security group of the DB instance to ensure that it includes an ingress rule that allows connectivity on the new port.
 
-This rule is covered by the [rds-no-default-ports](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-no-default-ports.policy.hcl) policy.
+This rule is covered by the [rds-no-default-ports](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-no-default-ports.policy.hcl) policy.
 
 ## Policy Results
 

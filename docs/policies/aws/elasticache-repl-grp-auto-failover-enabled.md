@@ -10,7 +10,7 @@ This control checks whether an ElastiCache replication groups has automatic fail
 
 When automatic failover is enabled for a replication group, the role of primary node will automatically fail over to one of the read replicas. This failover and replica promotion ensure that you can resume writing to the new primary after promotion is complete, which reduces overall downtime in case of failure.
 
-This rule is covered by the [elasticache-repl-grp-auto-failover-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticache/elasticache-repl-grp-auto-failover-enabled.policy.hcl) policy.
+This rule is covered by the [elasticache-repl-grp-auto-failover-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticache/elasticache-repl-grp-auto-failover-enabled.policy.hcl) policy.
 
 ## Policy Results
 

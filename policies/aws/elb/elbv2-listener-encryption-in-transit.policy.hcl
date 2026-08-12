@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ELB.18 - Application and Network Load Balancer listeners should use secure protocols.
+# Application and Network Load Balancer listeners should use secure protocols to encrypt data in transit
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elbv2-listener-encryption-in-transit-enforcement-level" {
   type = string
@@ -38,6 +45,6 @@ resource_policy "aws_lb_listener" "secure_protocol_check" {
 
     enforce {
         condition = local.alb_secure || local.nlb_secure
-        error_message = "Load balancer listener must use secure protocol: HTTPS for Application Load Balancers or TLS for Network Load Balancers. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-18 for more details."
+        error_message = "Load balancer listener must use secure protocol: HTTPS for Application Load Balancers or TLS for Network Load Balancers"
     }
 }

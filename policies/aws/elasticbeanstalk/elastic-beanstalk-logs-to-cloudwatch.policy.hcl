@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ElasticBeanstalk.3 - Elastic Beanstalk should stream logs to CloudWatch
+# Elastic Beanstalk should stream logs to CloudWatch
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elastic-beanstalk-logs-to-cloudwatch-enforcement-level" {
   type = string
@@ -59,12 +66,12 @@ resource_policy "aws_elastic_beanstalk_environment" "logs_to_cloudwatch" {
 
   enforce {
     condition = local.logs_enabled
-    error_message = "Elastic Beanstalk environment '${local.env_name}' must be configured to stream logs to CloudWatch Logs. Configure the 'aws:elasticbeanstalk:cloudwatch:logs' namespace with 'StreamLogs' set to 'true'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticbeanstalk-controls.html#elasticbeanstalk-3 for more details."
+    error_message = "Elastic Beanstalk environment '${local.env_name}' must be configured to stream logs to CloudWatch Logs. Configure the 'aws:elasticbeanstalk:cloudwatch:logs' namespace with 'StreamLogs' set to 'true'"
   }
 
   enforce {
     condition = local.retention_valid
-    error_message = "Elastic Beanstalk environment '${local.env_name}' has invalid RetentionInDays value '${local.retention_value}'. Valid values are: ${core::join(", ", local.valid_retention_values)}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticbeanstalk-controls.html#elasticbeanstalk-3 for more details."
+    error_message = "Elastic Beanstalk environment '${local.env_name}' has invalid RetentionInDays value '${local.retention_value}'. Valid values are: ${core::join(", ", local.valid_retention_values)}"
   }
 
   enforce {
@@ -74,6 +81,6 @@ resource_policy "aws_elastic_beanstalk_environment" "logs_to_cloudwatch" {
 
   enforce {
     condition = local.retention_matches_input
-    error_message = "Elastic Beanstalk environment '${local.env_name}' must set RetentionInDays = '${input.RetentionInDays}' in the 'aws:elasticbeanstalk:cloudwatch:logs' namespace when the input is configured. Current value: '${local.retention_value}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticbeanstalk-controls.html#elasticbeanstalk-3 for more details."
+    error_message = "Elastic Beanstalk environment '${local.env_name}' must set RetentionInDays = '${input.RetentionInDays}' in the 'aws:elasticbeanstalk:cloudwatch:logs' namespace when the input is configured. Current value: '${local.retention_value}'"
   }
 }

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ElastiCache.2 - ElastiCache clusters should have automatic minor version upgrades enabled.
+# ElastiCache clusters should have automatic minor version upgrades enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.9.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticache-auto-minor-version-upgrade-check-enforcement-level" {
   type = string
@@ -20,6 +27,6 @@ resource_policy "aws_elasticache_cluster" "auto-minor-version-upgrade-check" {
 
     enforce {
         condition = core::try(attrs.auto_minor_version_upgrade, true) && local.engine_version_condition
-        error_message = "ElastiCache clusters should have automatic minor version upgrades enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticache-controls.html#elasticache-2 for more details."
+        error_message = "ElastiCache clusters should have automatic minor version upgrades enabled"
     }
 }

@@ -1,13 +1,20 @@
 # Copyright IBM Corp. 2026
 
-# ElastiCache.4 - ElastiCache replication groups should be encrypted at rest.
+# ElastiCache replication groups should be encrypted at rest
 
 input "approved_kms_keys" {
     type = string
     default = ""
 }
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticache-repl-grp-encrypted-at-rest-enforcement-level" {
   type = string
@@ -23,6 +30,6 @@ resource_policy "aws_elasticache_replication_group" "elasticache-rg-encrypted-at
 
     enforce {
         condition = local.at_rest_encryption && (input.approved_kms_keys != "" && core::try(attrs.kms_key_id, "") != "" ? core::contains(core::split(",", input.approved_kms_keys), core::try(attrs.kms_key_id, "")) : true)
-        error_message = "ElastiCache replication group is not encrypted at rest. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elasticache-controls.html#elasticache-4 for more details."
+        error_message = "ElastiCache replication group is not encrypted at rest"
     }
 }

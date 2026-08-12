@@ -10,7 +10,7 @@ This control checks whether the project contains the environment variables AWS_A
 
 Authentication credentials AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY should never be stored in clear text, as this could lead to unintended data exposure and unauthorized access.
 
-This rule is covered by the [codebuild-project-envvar-awscred-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/codebuild/codebuild-project-envvar-awscred-check.policy.hcl) policy.
+This rule is covered by the [codebuild-project-envvar-awscred-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/codebuild/codebuild-project-envvar-awscred-check.policy.hcl) policy.
 
 ## Policy Results
 

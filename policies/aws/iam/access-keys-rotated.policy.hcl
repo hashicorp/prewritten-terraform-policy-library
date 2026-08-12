@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: IAM.3 - IAM users' access keys should be rotated every 90 days or less
+# IAM users' access keys should be rotated every 90 days or less
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "access-keys-rotated-enforcement-level" {
   type = string
@@ -35,16 +42,16 @@ resource_policy "aws_config_config_rule" "access_keys_rotated" {
 
   enforce {
     condition = local.is_correct_source
-    error_message = "AWS Config rule '${attrs.name}' must use source identifier 'ACCESS_KEYS_ROTATED'. This rule is required for IAM.3 compliance to monitor access key rotation. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-3 for more details."
+    error_message = "AWS Config rule '${attrs.name}' must use source identifier 'ACCESS_KEYS_ROTATED'. This rule is required for IAM.3 compliance to monitor access key rotation"
   }
 
   enforce {
     condition = local.is_aws_managed
-    error_message = "AWS Config rule '${attrs.name}' must be AWS-managed. This ensures the rule uses AWS's official implementation for monitoring access key rotation. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-3 for more details."
+    error_message = "AWS Config rule '${attrs.name}' must be AWS-managed. This ensures the rule uses AWS's official implementation for monitoring access key rotation"
   }
 
   enforce {
     condition     = local.has_fixed_max_age
-    error_message = "AWS Config rule '${attrs.name}' must use maxAccessKeyAge = 90 (the parameter is not customizable for Security Hub IAM.3). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-3 for more details."
+    error_message = "AWS Config rule '${attrs.name}' must use maxAccessKeyAge = 90 (the parameter is not customizable for Security Hub IAM.3)"
   }
 }

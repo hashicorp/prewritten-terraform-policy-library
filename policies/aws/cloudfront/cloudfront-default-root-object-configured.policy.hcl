@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# CloudFront.1 - CloudFront distributions should have a default root object configured.
+# CloudFront distributions should have a default root object configured
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-default-root-object-configured-enforcement-level" {
   type = string
@@ -22,6 +29,6 @@ resource_policy "aws_cloudfront_distribution" "default-root-object-configured" {
 
     enforce {
         condition = local.condition
-        error_message = "CloudFront distribution does not have a default root object configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-1 for more details."
+        error_message = "CloudFront distribution does not have a default root object configured"
     }
 }

@@ -16,7 +16,7 @@ Unless you intend to have your S3 buckets be publicly accessible, you should con
 
 To learn more, see Using Amazon S3 Block Public Access in the Amazon Simple Storage Service User Guide.
 
-This rule is covered by the [s3-account-level-public-access-blocks-periodic](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/s3/s3-account-level-public-access-blocks-periodic.policy.hcl) policy.
+This rule is covered by the [s3-account-level-public-access-blocks-periodic](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-account-level-public-access-blocks-periodic.policy.hcl) policy.
 
 ## Policy Results
 

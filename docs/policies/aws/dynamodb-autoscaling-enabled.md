@@ -10,7 +10,7 @@ This control checks whether an Amazon DynamoDB table can scale its read and writ
 
 Scaling capacity with demand avoids throttling exceptions, which helps to maintain availability of your applications. DynamoDB tables that use on-demand capacity mode are limited only by the DynamoDB throughput default table quotas. To raise these quotas, you can file a support ticket with Support. DynamoDB tables that use provisioned mode with auto scaling adjust the provisioned throughput capacity dynamically in response to traffic patterns. For more information about DynamoDB request throttling, see Request throttling and burst capacity in the Amazon DynamoDB Developer Guide.
 
-This rule is covered by the [dynamodb-autoscaling-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/dynamodb/dynamodb-autoscaling-enabled.policy.hcl) policy.
+This rule is covered by the [dynamodb-autoscaling-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dynamodb-autoscaling-enabled.policy.hcl) policy.
 
 ## Policy Results
 

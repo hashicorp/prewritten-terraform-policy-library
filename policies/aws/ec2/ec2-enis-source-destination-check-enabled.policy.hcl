@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.180 - EC2 network interfaces should have source/destination checking enabled
+# EC2 network interfaces should have source/destination checking enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-enis-source-destination-check-enabled-enforcement-level" {
   type = string
@@ -32,6 +39,6 @@ resource_policy "aws_network_interface" "source_dest_check_enabled" {
 
     enforce {
         condition = !local.should_check || local.source_dest_check == true
-        error_message = "EC2 network interface (type: ${local.interface_type}) must have source/destination checking enabled. Current value: ${local.source_dest_check}. Source/destination checking provides an additional layer of network security by preventing resources from handling unintended traffic and preventing IP address spoofing. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-180 for more details."
+        error_message = "EC2 network interface (type: ${local.interface_type}) must have source/destination checking enabled. Current value: ${local.source_dest_check}. Source/destination checking provides an additional layer of network security by preventing resources from handling unintended traffic and preventing IP address spoofing"
     }
 }

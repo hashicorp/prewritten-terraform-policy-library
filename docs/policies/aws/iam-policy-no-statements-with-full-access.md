@@ -48,7 +48,7 @@ In some cases, you might want to allow IAM actions that have a similar prefix, s
 
 When you group related IAM actions in this way, you can also avoid exceeding the IAM policy size.
 
-This rule is covered by the [iam-policy-no-statements-with-full-access](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/iam/iam-policy-no-statements-with-full-access.policy.hcl) policy.
+This rule is covered by the [iam-policy-no-statements-with-full-access](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/iam/iam-policy-no-statements-with-full-access.policy.hcl) policy.
 
 ## Policy Results
 

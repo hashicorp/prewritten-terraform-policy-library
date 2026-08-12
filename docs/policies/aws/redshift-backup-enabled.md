@@ -10,7 +10,7 @@ This control checks whether an Amazon Redshift cluster has automated snapshots e
 
 Backups help you to recover more quickly from a security incident. They strengthen the resilience of your systems. Amazon Redshift takes periodic snapshots by default. This control checks whether automatic snapshots are enabled and retained for at least seven days. For more details on Amazon Redshift automated snapshots, see Automated snapshots in the Amazon Redshift Management Guide.
 
-This rule is covered by the [redshift-backup-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-backup-enabled.policy.hcl) policy.
+This rule is covered by the [redshift-backup-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-backup-enabled.policy.hcl) policy.
 
 ## Policy Results
 

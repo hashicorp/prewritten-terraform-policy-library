@@ -10,7 +10,7 @@ This control checks whether the latest active revision of an Amazon ECS task def
 
 Amazon EFS volumes provide simple, scalable, and persistent shared file storage for use with your Amazon ECS tasks. Amazon EFS supports encryption of data in transit with Transport Layer Security (TLS). When encryption of data in transit is declared as a mount option for your EFS file system, Amazon EFS establishes a secure TLS connection with your EFS file system upon mounting your file system.
 
-This rule is covered by the [ecs-task-definition-efs-encryption-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-task-definition-efs-encryption-enabled.policy.hcl) policy.
+This rule is covered by the [ecs-task-definition-efs-encryption-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-task-definition-efs-encryption-enabled.policy.hcl) policy.
 
 ## Policy Results
 

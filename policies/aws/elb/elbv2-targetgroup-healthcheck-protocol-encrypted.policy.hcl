@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ELB.21 - Application and Network Load Balancer target groups should use encrypted health check protocols.
+# Application and Network Load Balancer target groups should use encrypted health check protocols
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elbv2-targetgroup-healthcheck-protocol-encrypted-enforcement-level" {
   type = string
@@ -21,6 +28,6 @@ resource_policy "aws_lb_target_group" "encrypted_health_check" {
 
     enforce {
         condition = local.has_health_check && local.health_check_protocol == "HTTPS"
-        error_message = "Target group does not use HTTPS for health checks. Set health_check.protocol = 'HTTPS' to ensure encrypted communication between the load balancer and targets. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-21 for more details."
+        error_message = "Target group does not use HTTPS for health checks. Set health_check.protocol = 'HTTPS' to ensure encrypted communication between the load balancer and targets"
     }
 }

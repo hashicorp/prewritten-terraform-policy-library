@@ -10,7 +10,7 @@ This control checks if an Amazon EventBridge custom event bus has a resource-bas
 
 By default, an EventBridge custom event bus doesn't have a resource-based policy attached. This allows principals in the account to access the event bus. By attaching a resource-based policy to the event bus, you can limit access to the event bus to specified accounts, as well as intentionally grant access to entities in another account.
 
-This rule is covered by the [custom-eventbus-policy-attached](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/eventbridge/custom-eventbus-policy-attached.policy.hcl) policy.
+This rule is covered by the [custom-eventbus-policy-attached](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/eventbridge/custom-eventbus-policy-attached.policy.hcl) policy.
 
 ## Policy Results
 

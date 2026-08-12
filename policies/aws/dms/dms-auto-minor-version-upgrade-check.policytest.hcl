@@ -48,7 +48,6 @@ resource "aws_dms_replication_instance" "pass_auto_upgrade_with_full_config" {
         publicly_accessible        = false
         tags = {
             Environment = "production"
-            Compliance  = "pci-dss"
         }
     }
 }

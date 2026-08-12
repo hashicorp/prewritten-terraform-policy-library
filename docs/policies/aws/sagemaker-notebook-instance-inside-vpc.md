@@ -10,7 +10,7 @@ This control checks if an Amazon SageMaker AI notebook instance is launched with
 
 Subnets are a range of IP addresses within a VPC. We recommend keeping your resources inside a custom VPC whenever possible to ensure secure network protection of your infrastructure. An Amazon VPC is a virtual network dedicated to your AWS account. With an Amazon VPC, you can control the network access and internet connectivity of your SageMaker AI Studio and notebook instances.
 
-This rule is covered by the [sagemaker-notebook-instance-inside-vpc](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-notebook-instance-inside-vpc.policy.hcl) policy.
+This rule is covered by the [sagemaker-notebook-instance-inside-vpc](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-notebook-instance-inside-vpc.policy.hcl) policy.
 
 ## Policy Results
 

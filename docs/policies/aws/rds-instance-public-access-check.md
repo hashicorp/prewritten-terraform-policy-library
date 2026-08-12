@@ -14,7 +14,7 @@ The PubliclyAccessible value in the RDS instance configuration indicates whether
 
 Unless you intend for your RDS instance to be publicly accessible, the RDS instance should not be configured with PubliclyAccessible value. Doing so might allow unnecessary traffic to your database instance.
 
-This rule is covered by the [rds-instance-public-access-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-instance-public-access-check.policy.hcl) policy.
+This rule is covered by the [rds-instance-public-access-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-instance-public-access-check.policy.hcl) policy.
 
 ## Policy Results
 

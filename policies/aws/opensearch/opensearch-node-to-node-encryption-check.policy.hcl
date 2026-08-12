@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Opensearch.3 - OpenSearch domains should encrypt data sent between nodes
+# OpenSearch domains should encrypt data sent between nodes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.9.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-node-to-node-encryption-check-enforcement-level" {
   type = string
@@ -25,6 +32,6 @@ resource_policy "aws_opensearch_domain" "node_encryption_enabled" {
 
     enforce {
         condition = local.has_enabled
-        error_message = "OpenSearch domains should have node-to-node encryption enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-3 for more details."
+        error_message = "OpenSearch domains should have node-to-node encryption enabled"
     }
 }

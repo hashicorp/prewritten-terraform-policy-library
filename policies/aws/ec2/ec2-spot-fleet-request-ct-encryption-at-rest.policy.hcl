@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# EC2.173 - EC2 Spot Fleet requests with launch parameters should enable encryption for attached EBS volumes
+# EC2 Spot Fleet requests with launch parameters should enable encryption for attached EBS volumes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-spot-fleet-request-ct-encryption-at-rest-enforcement-level" {
   type = string
@@ -43,18 +50,18 @@ resource_policy "aws_spot_fleet_request" "ebs_encryption_required" {
     # Enforce that launch specifications are defined
     enforce {
         condition = local.has_launch_specs
-        error_message = "Spot Fleet request must have launch_specification blocks defined. EC2.173 requires Spot Fleet requests with launch parameters to enable EBS encryption. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-173 for more details."
+        error_message = "Spot Fleet request must have launch_specification blocks defined. EC2.173 requires Spot Fleet requests with launch parameters to enable EBS encryption"
     }
 
     # Enforce root block device encryption
     enforce {
         condition = !local.has_unencrypted_root
-        error_message = "Spot Fleet request has launch specifications with unencrypted root block devices. All EBS volumes must have encryption enabled (encrypted = true). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-173 for more details."
+        error_message = "Spot Fleet request has launch specifications with unencrypted root block devices. All EBS volumes must have encryption enabled (encrypted = true)"
     }
 
     # Enforce EBS block device encryption
     enforce {
         condition = !local.has_unencrypted_ebs
-        error_message = "Spot Fleet request has launch specifications with unencrypted EBS block devices. All EBS volumes must have encryption enabled (encrypted = true). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-173 for more details."
+        error_message = "Spot Fleet request has launch specifications with unencrypted EBS block devices. All EBS volumes must have encryption enabled (encrypted = true)"
     }
 }

@@ -18,7 +18,7 @@ Secrets Manager helps you improve the security posture of your organization. Sec
 
 Secrets Manager can rotate secrets. You can use rotation to replace long-term secrets with short-term ones. Rotating your secrets limits how long an unauthorized user can use a compromised secret. For this reason, you should rotate your secrets frequently. To learn more about rotation, see Rotating your AWS Secrets Manager secrets in the AWS Secrets Manager User Guide.
 
-This rule is covered by the [secretsmanager-rotation-enabled-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/secretsmanager/secretsmanager-rotation-enabled-check.policy.hcl) policy.
+This rule is covered by the [secretsmanager-rotation-enabled-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/secretmanager/secretsmanager-rotation-enabled-check.policy.hcl) policy.
 
 ## Policy Results
 

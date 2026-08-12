@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.10 - IAM authentication should be configured for RDS instances.
+# IAM authentication should be configured for RDS instances
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-iam-authentication-enabled-enforcement-level" {
   type = string
@@ -19,6 +26,6 @@ resource_policy "aws_db_instance" "iam_database_authentication_enabled" {
 
     enforce {
         condition = local.iam_authentication_enabled == true
-        error_message = "RDS DB instance must enable iam_database_authentication_enabled for supported engines. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-10 for more details."
+        error_message = "RDS DB instance must enable iam_database_authentication_enabled for supported engines"
     }
 }

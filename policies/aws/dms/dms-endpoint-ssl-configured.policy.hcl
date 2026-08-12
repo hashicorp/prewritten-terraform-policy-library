@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: DMS.9 - DMS endpoints should use SSL
+# DMS endpoints should use SSL
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-endpoint-ssl-configured-enforcement-level" {
   type    = string
@@ -18,6 +25,6 @@ resource_policy "aws_dms_endpoint" "certificate_arn_required" {
 
   enforce {
     condition     = local.has_certificate_arn
-    error_message = "Attribute 'certificate_arn' must not be empty for 'aws_dms_endpoint' resources. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dms-controls.html#dms-9 for more details."
+    error_message = "Attribute 'certificate_arn' must not be empty for 'aws_dms_endpoint' resources."
   }
 }

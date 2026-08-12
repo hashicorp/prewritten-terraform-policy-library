@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ELB.5 - Application and Classic Load Balancers logging should be enabled.
+# Application and Classic Load Balancers logging should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elb-logging-enabled-enforcement-level" {
   type = string
@@ -33,12 +40,12 @@ resource_policy "aws_elb" "logging_enabled" {
 
     enforce {
         condition = local.logging_enabled == true
-        error_message = "Classic Load Balancer does not have access logging enabled. Configure the 'access_logs' block with 'enabled = true' and specify an S3 bucket to store logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-5 for more details."
+        error_message = "Classic Load Balancer does not have access logging enabled. Configure the 'access_logs' block with 'enabled = true' and specify an S3 bucket to store logs"
     }
 
     enforce {
         condition = core::length(local.input_s3_buckets) > 0 ? core::contains(local.input_s3_buckets, local.elb_s3_bucket_name) : true
-        error_message = "Classic Load Balancer does not have valid s3 bucket for logging. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-5 for more details."
+        error_message = "Classic Load Balancer does not have valid s3 bucket for logging"
     }
 }
 
@@ -57,11 +64,11 @@ resource_policy "aws_lb" "logging_enabled" {
 
     enforce {
         condition = local.logging_enabled == true
-        error_message = "Application Load Balancer does not have access logging enabled. Configure the 'access_logs' block with 'enabled = true' and specify an S3 bucket to store logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-5 for more details."
+        error_message = "Application Load Balancer does not have access logging enabled. Configure the 'access_logs' block with 'enabled = true' and specify an S3 bucket to store logs"
     }
 
     enforce {
         condition = core::length(local.input_s3_buckets) > 0 ? core::contains(local.input_s3_buckets, local.elb_s3_bucket_name) : true
-        error_message = "Application Load Balancer does not have valid s3 bucket for logging. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-5 for more details."
+        error_message = "Application Load Balancer does not have valid s3 bucket for logging"
     }
 }

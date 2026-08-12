@@ -10,7 +10,7 @@ This control checks whether your Classic Load Balancer HTTPS/SSL listeners use t
 
 A security policy is a combination of SSL protocols, ciphers, and the Server Order Preference option. Predefined policies control the ciphers, protocols, and preference orders to support during SSL negotiations between a client and load balancer.
 
-This rule is covered by the [elb-predefined-security-policy-ssl-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticloadbalancing/elb-predefined-security-policy-ssl-check.policy.hcl) policy.
+This rule is covered by the [elb-predefined-security-policy-ssl-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elb-predefined-security-policy-ssl-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -12,7 +12,7 @@ Amazon ECS capacity providers manage the scaling of infrastructure for tasks in 
 
 When using managed termination protection, managed scaling must also be used otherwise managed termination protection doesn't work.
 
-This rule is covered by the [ecs-capacity-provider-termination-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-capacity-provider-termination-check.policy.hcl) policy.
+This rule is covered by the [ecs-capacity-provider-termination-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-capacity-provider-termination-check.policy.hcl) policy.
 
 ## Policy Results
 

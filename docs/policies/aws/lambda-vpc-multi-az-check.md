@@ -16,7 +16,7 @@ This control checks if an AWS Lambda function that connects to a virtual private
 
 Deploying resources across multiple AZs is an AWS best practice to ensure high availability within your architecture. Availability is a core pillar in the confidentiality, integrity, and availability triad security model. All Lambda functions that connect to a VPC should have a multi-AZ deployment to ensure that a single zone of failure doesn't cause a total disruption of operations.
 
-This rule is covered by the [lambda-vpc-multi-az-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/lambda/lambda-vpc-multi-az-check.policy.hcl) policy.
+This rule is covered by the [lambda-vpc-multi-az-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/lambda/lambda-vpc-multi-az-check.policy.hcl) policy.
 
 ## Policy Results
 

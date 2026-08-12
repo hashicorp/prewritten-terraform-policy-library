@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: DynamoDB.3 - DynamoDB Accelerator (DAX) clusters should be encrypted at rest
+# DynamoDB Accelerator (DAX) clusters should be encrypted at rest
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dax-encryption-enabled-enforcement-level" {
   type = string
@@ -25,6 +32,6 @@ resource_policy "aws_dax_cluster" "encryption_at_rest_required" {
 
     enforce {
         condition     = local.encryption_enabled == true
-        error_message = "DAX cluster '${meta.address}' must have encryption at rest enabled. Set server_side_encryption.enabled = true in the cluster configuration. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dynamodb-controls.html#dynamodb-3 for more details."
+        error_message = "DAX cluster must have encryption at rest enabled. Set server_side_encryption.enabled = true in the cluster configuration"
     }
 }

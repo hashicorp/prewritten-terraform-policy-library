@@ -1,7 +1,14 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.18 - Security groups should only allow unrestricted incoming traffic for authorized ports
-policy {}
+# Security groups should only allow unrestricted incoming traffic for authorized ports
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.56.0, < 7.0.0"
+    }
+  }
+}
 
 input "vpc-sg-open-only-to-authorized-ports-enforcement-level" {
   type = string
@@ -100,7 +107,7 @@ resource_policy "aws_security_group" "restrict_unrestricted_ingress" {
 
   enforce {
     condition     = core::length(local.unauthorized_rules) == 0
-    error_message = "Security group has ingress rules that allow unrestricted incoming traffic from a broadly-public CIDR (0.0.0.0/0-7 or ::/0-7) on ports outside the authorized TCP/UDP lists. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-18 for more details."
+    error_message = "Security group has ingress rules that allow unrestricted incoming traffic from a broadly-public CIDR (0.0.0.0/0-7 or ::/0-7) on ports outside the authorized TCP/UDP lists"
   }
 }
 
@@ -142,6 +149,6 @@ resource_policy "aws_vpc_security_group_ingress_rule" "restrict_unrestricted_ing
 
   enforce {
     condition     = local.is_authorized
-    error_message = "Security group ingress rule allows unrestricted incoming traffic from a broadly-public CIDR (0.0.0.0/0-7 or ::/0-7) on a port outside the authorized TCP/UDP lists. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-18 for more details."
+    error_message = "Security group ingress rule allows unrestricted incoming traffic from a broadly-public CIDR (0.0.0.0/0-7 or ::/0-7) on a port outside the authorized TCP/UDP lists"
   }
 }

@@ -10,7 +10,7 @@ This control checks whether an AWS Certificate Manager (ACM) certificate is rene
 
 ACM can automatically renew certificates that use DNS validation. For certificates that use email validation, you must respond to a domain validation email. ACM doesn't automatically renew certificates that you import. You must renew imported certificates manually.
 
-This rule is covered by the [acm-certificate-expiration-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/acm/acm-certificate-expiration-check.policy.hcl) policy.
+This rule is covered by the [acm-certificate-expiration-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/acm/acm-certificate-expiration-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether HTTP to HTTPS redirection is configured on all HTTP 
 
 Before you start to use your Application Load Balancer, you must add one or more listeners. A listener is a process that uses the configured protocol and port to check for connection requests. Listeners support both the HTTP and HTTPS protocols. You can use an HTTPS listener to offload the work of encryption and decryption to your load balancer. To enforce encryption in transit, you should use redirect actions with Application Load Balancers to redirect client HTTP requests to an HTTPS request on port 443.
 
-This rule is covered by the [alb-http-to-https-redirection-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elb/alb-http-to-https-redirection-check.policy.hcl) policy.
+This rule is covered by the [alb-http-to-https-redirection-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/alb-http-to-https-redirection-check.policy.hcl) policy.
 
 ## Policy Results
 

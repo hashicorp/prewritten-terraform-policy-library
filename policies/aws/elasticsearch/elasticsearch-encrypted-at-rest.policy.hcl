@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ES.1 - Elasticsearch domains should have encryption at-rest enabled.
+# Elasticsearch domains should have encryption at-rest enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-encrypted-at-rest-enforcement-level" {
   type = string
@@ -17,6 +24,6 @@ resource_policy "aws_elasticsearch_domain" "encrypted_at_rest" {
 
     enforce {
         condition = local.encrypt_at_rest != null && core::try(local.encrypt_at_rest[0].enabled, false)
-        error_message = "Elasticsearch domain is not encrypted at rest. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-1 for more details."
+        error_message = "Elasticsearch domain is not encrypted at rest"
     }
 }

@@ -10,7 +10,7 @@ This control checks if Amazon EC2 launch templates are configured to assign publ
 
 A public IP address is one that is reachable from the internet. If you configure your network interfaces with a public IP address, then the resources associated with those network interfaces may be reachable from the internet. EC2 resources shouldn't be publicly accessible because this may permit unintended access to your workloads.
 
-This rule is covered by the [ec2-launch-template-public-ip-disabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-launch-template-public-ip-disabled.policy.hcl) policy.
+This rule is covered by the [ec2-launch-template-public-ip-disabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-launch-template-public-ip-disabled.policy.hcl) policy.
 
 ## Policy Results
 

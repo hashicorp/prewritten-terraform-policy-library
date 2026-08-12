@@ -1,12 +1,19 @@
 # Copyright IBM Corp. 2026
 
-# S3.13 - S3 General Purpose Buckets Should Have Lifecycle Configurations
+# S3 general purpose buckets should have Lifecycle configurations
 # AWS Config rule: s3-lifecycle-policy-check
 #
 # NON_COMPLIANT if there is no active lifecycle configuration rule or the
 # configuration does not match the optional parameter values.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-lifecycle-policy-check-enforcement-level" {
   type = string
@@ -148,12 +155,12 @@ resource_policy "aws_s3_bucket" "lifecycle_policy_check" {
   # least one active rule.
   enforce {
     condition     = !local.bucket_in_scope || local.has_active_rules
-    error_message = "S3 bucket '${local.bucket_name}' must have an 'aws_s3_bucket_lifecycle_configuration' resource with at least one Enabled rule that performs a lifecycle action (transition, expiration, noncurrent_version_transition, noncurrent_version_expiration, or abort_incomplete_multipart_upload). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-13 for more details."
+    error_message = "S3 bucket '${local.bucket_name}' must have an 'aws_s3_bucket_lifecycle_configuration' resource with at least one Enabled rule that performs a lifecycle action (transition, expiration, noncurrent_version_transition, noncurrent_version_expiration, or abort_incomplete_multipart_upload)"
   }
 
   enforce {
     condition     = !local.bucket_in_scope || local.has_only_valid_transition_storage_classes
-    error_message = "S3 bucket '${local.bucket_name}' lifecycle configuration contains an invalid transition.storage_class value. Allowed values are STANDARD_IA, INTELLIGENT_TIERING, ONEZONE_IA, GLACIER, GLACIER_IR, and DEEP_ARCHIVE. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-13 for more details."
+    error_message = "S3 bucket '${local.bucket_name}' lifecycle configuration contains an invalid transition.storage_class value. Allowed values are STANDARD_IA, INTELLIGENT_TIERING, ONEZONE_IA, GLACIER, GLACIER_IR, and DEEP_ARCHIVE"
   }
 
   # Optional parameter matching.

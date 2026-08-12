@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# CodeBuild.2: CodeBuild project environment variables should not contain clear text credentials
+# CodeBuild project environment variables should not contain clear text credentials
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "codebuild-project-envvar-awscred-check-enforcement-level" {
   type = string
@@ -39,12 +46,12 @@ resource_policy "aws_codebuild_project" "no_plaintext_credentials" {
     # Enforce: No plaintext AWS_ACCESS_KEY_ID
     enforce {
         condition = !local.has_plaintext_access_key
-        error_message = "CodeBuild project contains AWS_ACCESS_KEY_ID as a plaintext environment variable. Store credentials in AWS Systems Manager Parameter Store (type: PARAMETER_STORE) or AWS Secrets Manager (type: SECRETS_MANAGER) instead. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/codebuild-controls.html#codebuild-2 for more details."
+        error_message = "CodeBuild project contains AWS_ACCESS_KEY_ID as a plaintext environment variable. Store credentials in AWS Systems Manager Parameter Store (type: PARAMETER_STORE) or AWS Secrets Manager (type: SECRETS_MANAGER) instead"
     }
 
     # Enforce: No plaintext AWS_SECRET_ACCESS_KEY
     enforce {
         condition = !local.has_plaintext_secret_key
-        error_message = "CodeBuild project contains AWS_SECRET_ACCESS_KEY as a plaintext environment variable. Store credentials in AWS Systems Manager Parameter Store (type: PARAMETER_STORE) or AWS Secrets Manager (type: SECRETS_MANAGER) instead. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/codebuild-controls.html#codebuild-2 for more details."
+        error_message = "CodeBuild project contains AWS_SECRET_ACCESS_KEY as a plaintext environment variable. Store credentials in AWS Systems Manager Parameter Store (type: PARAMETER_STORE) or AWS Secrets Manager (type: SECRETS_MANAGER) instead"
     }
 }

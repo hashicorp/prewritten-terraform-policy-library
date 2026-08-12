@@ -10,7 +10,7 @@ This control checks whether logging is enabled for an Amazon MSK connector. The 
 
 Amazon MSK connectors integrate external systems and Amazon services with Apache Kafka by continuously copying streaming data from a data source into an Apache Kafka cluster, or continuously copying data from a cluster into a data sink. MSK Connect can write log events that can help debug a connector. When you create a connector, you can specify zero or more of the following log destinations: Amazon CloudWatch Logs, Amazon S3, and Amazon Data Firehose.
 
-This rule is covered by the [msk-connect-connector-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/msk/msk-connect-connector-logging-enabled.policy.hcl) policy.
+This rule is covered by the [msk-connect-connector-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/msk/msk-connect-connector-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

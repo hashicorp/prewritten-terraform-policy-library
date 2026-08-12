@@ -12,7 +12,7 @@ Encrypting data at rest reduces the risk of data stored on disk being accessed b
 
 API Gateway REST API caches should be encrypted at rest for an added layer of security.
 
-This rule is covered by the [api-gw-cache-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/apigateway/api-gw-cache-encrypted.policy.hcl) policy.
+This rule is covered by the [api-gw-cache-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/apigateway/api-gw-cache-encrypted.policy.hcl) policy.
 
 
 ## Policy Results
