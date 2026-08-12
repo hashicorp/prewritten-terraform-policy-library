@@ -24,17 +24,17 @@ resource_policy "aws_rds_cluster" "audit_logging_enabled" {
     param_group_name = core::try(attrs.db_cluster_parameter_group_name, "")
     cloudwatch_logs = core::try(attrs.enabled_cloudwatch_logs_exports, [])
     audit_log_exported = core::contains(local.cloudwatch_logs, "audit")
-    all_parameter_groups = core::getresources("aws_rds_cluster_parameter_group", {
+    aurora_mysql_all_parameter_groups = core::getresources("aws_rds_cluster_parameter_group", {
       name = local.param_group_name
     })
-    param_group_exists = core::length(local.all_parameter_groups) > 0
+    param_group_exists = core::length(local.aurora_mysql_all_parameter_groups) > 0
     audit_logging_param = local.param_group_exists ? [
-      for param in core::try(local.all_parameter_groups[0].parameter, []) : param.value
+      for param in core::try(local.aurora_mysql_all_parameter_groups[0].parameter, []) : param.value
       if param.name == "server_audit_logging"
     ] : []
     audit_logging_enabled = core::length(local.audit_logging_param) > 0 ? local.audit_logging_param[0] == "1" : false
     audit_events_param = local.param_group_exists ? [
-      for param in core::try(local.all_parameter_groups[0].parameter, []) : param.value
+      for param in core::try(local.aurora_mysql_all_parameter_groups[0].parameter, []) : param.value
       if param.name == "server_audit_events"
     ] : []
     audit_events_configured = core::length(local.audit_events_param) > 0 ? local.audit_events_param[0] != "" : false

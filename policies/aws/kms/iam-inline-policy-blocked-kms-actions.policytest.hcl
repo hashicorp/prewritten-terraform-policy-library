@@ -4,173 +4,186 @@ policytest {
   targets = ["iam-inline-policy-blocked-kms-actions.policy.hcl"]
 }
 
-# PASS: Statement with only non-blocked KMS actions
-resource "aws_iam_policy_document" "pass_non_blocked_kms_actions" {
+# ---------------------------------------------------------------------------
+# aws_iam_role_policy
+# ---------------------------------------------------------------------------
+
+# PASS: Role inline policy allows only non-blocked KMS actions
+resource "aws_iam_role_policy" "pass_role_non_blocked_actions" {
   attrs = {
-    statement = [
-      {
-        sid       = "AllowNonBlockedKms"
-        effect    = "Allow"
-        actions   = ["kms:Encrypt", "kms:GenerateDataKey"]
-        resources = ["*"]
-      }
-    ]
+    name   = "pass-role-kms-safe"
+    role   = "my-role"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Encrypt\",\"kms:GenerateDataKey\"],\"Resource\":\"*\"}]}"
   }
 }
 
-# PASS: Multiple statements, all with compliant actions only
-resource "aws_iam_policy_document" "pass_multiple_compliant_statements" {
+# PASS: Role inline policy with blocked action but scoped to a specific key ARN (not *)
+resource "aws_iam_role_policy" "pass_role_decrypt_scoped_resource" {
   attrs = {
-    statement = [
-      {
-        sid       = "AllowKmsEncrypt"
-        effect    = "Allow"
-        actions   = ["kms:Encrypt", "kms:GenerateDataKey"]
-        resources = ["arn:aws:kms:us-east-1:123456789012:key/12345"]
-      },
-      {
-        sid       = "AllowS3"
-        effect    = "Allow"
-        actions   = ["s3:GetObject", "s3:PutObject"]
-        resources = ["arn:aws:s3:::my-bucket/*"]
-      }
-    ]
+    name   = "pass-role-decrypt-scoped"
+    role   = "my-role"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\"],\"Resource\":\"arn:aws:kms:us-east-1:123456789012:key/12345\"}]}"
   }
 }
 
-# PASS: Statement with empty actions list
-resource "aws_iam_policy_document" "pass_empty_actions" {
+# PASS: Role inline policy with blocked action under Deny effect on *
+resource "aws_iam_role_policy" "pass_role_decrypt_deny_effect" {
   attrs = {
-    statement = [
-      {
-        sid       = "EmptyActions"
-        effect    = "Allow"
-        actions   = []
-        resources = ["*"]
-      }
-    ]
+    name   = "pass-role-decrypt-denied"
+    role   = "my-role"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Action\":[\"kms:Decrypt\"],\"Resource\":\"*\"}]}"
   }
 }
 
-# PASS: No statements (empty statement list)
-resource "aws_iam_policy_document" "pass_no_statements" {
+# PASS: Role inline policy with empty statement list
+resource "aws_iam_role_policy" "pass_role_empty_statements" {
   attrs = {
-    statement = []
+    name   = "pass-role-empty"
+    role   = "my-role"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
   }
 }
 
-# PASS: Missing statement attribute entirely
-resource "aws_iam_policy_document" "pass_missing_statement_attr" {
-  attrs = {
-    version = "2012-10-17"
-  }
-}
-
-# PASS: Statement with missing actions attribute
-resource "aws_iam_policy_document" "pass_missing_actions_attr" {
-  attrs = {
-    statement = [
-      {
-        sid       = "MissingActions"
-        effect    = "Allow"
-        resources = ["*"]
-      }
-    ]
-  }
-}
-
-# FAIL: Statement with kms:Decrypt action
-resource "aws_iam_policy_document" "fail_kms_decrypt" {
+# FAIL: Role inline policy allows kms:Decrypt on all keys
+resource "aws_iam_role_policy" "fail_role_decrypt_all_keys" {
   expect_failure = true
   attrs = {
-    statement = [
-      {
-        sid       = "AllowKmsDecrypt"
-        effect    = "Allow"
-        actions   = ["kms:Decrypt"]
-        resources = ["*"]
-      }
-    ]
+    name   = "fail-role-kms-decrypt"
+    role   = "my-role"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\"],\"Resource\":\"*\"}]}"
   }
 }
 
-# FAIL: Statement with kms:ReEncryptFrom action
-resource "aws_iam_policy_document" "fail_kms_reencrypt_from" {
+# FAIL: Role inline policy allows kms:ReEncryptFrom on all keys
+resource "aws_iam_role_policy" "fail_role_reencryptfrom_all_keys" {
   expect_failure = true
   attrs = {
-    statement = [
-      {
-        sid       = "AllowKmsReEncryptFrom"
-        effect    = "Allow"
-        actions   = ["kms:ReEncryptFrom"]
-        resources = ["*"]
-      }
-    ]
+    name   = "fail-role-kms-reencryptfrom"
+    role   = "my-role"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:ReEncryptFrom\"],\"Resource\":\"*\"}]}"
   }
 }
 
-# FAIL: Statement with both kms:Decrypt and kms:ReEncryptFrom
-resource "aws_iam_policy_document" "fail_both_blocked_actions" {
+# FAIL: Role inline policy allows both blocked actions on all keys
+resource "aws_iam_role_policy" "fail_role_both_blocked_actions" {
   expect_failure = true
   attrs = {
-    statement = [
-      {
-        sid       = "AllowBothBlockedKms"
-        effect    = "Allow"
-        actions   = ["kms:Decrypt", "kms:ReEncryptFrom"]
-        resources = ["*"]
-      }
-    ]
+    name   = "fail-role-kms-both"
+    role   = "my-role"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\",\"kms:ReEncryptFrom\"],\"Resource\":\"*\"}]}"
   }
 }
 
-# FAIL: Multiple statements — one has kms:Decrypt, another is compliant
-resource "aws_iam_policy_document" "fail_mixed_statements_decrypt" {
+# FAIL: Role inline policy — one compliant statement, one with kms:Decrypt on *
+resource "aws_iam_role_policy" "fail_role_mixed_statements" {
   expect_failure = true
   attrs = {
-    statement = [
-      {
-        sid       = "CompliantStatement"
-        effect    = "Allow"
-        actions   = ["kms:Encrypt", "kms:GenerateDataKey"]
-        resources = ["arn:aws:kms:us-east-1:123456789012:key/12345"]
-      },
-      {
-        sid       = "BlockedStatement"
-        effect    = "Allow"
-        actions   = ["kms:Decrypt"]
-        resources = ["*"]
-      }
-    ]
+    name   = "fail-role-kms-mixed"
+    role   = "my-role"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Encrypt\"],\"Resource\":\"*\"},{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\"],\"Resource\":\"*\"}]}"
   }
 }
 
-# FAIL: kms:Decrypt mixed with other non-blocked actions in same statement
-resource "aws_iam_policy_document" "fail_decrypt_mixed_with_other_actions" {
-  expect_failure = true
+# ---------------------------------------------------------------------------
+# aws_iam_user_policy
+# ---------------------------------------------------------------------------
+
+# PASS: User inline policy allows only non-blocked KMS actions
+resource "aws_iam_user_policy" "pass_user_non_blocked_actions" {
   attrs = {
-    statement = [
-      {
-        sid       = "MixedKmsActions"
-        effect    = "Allow"
-        actions   = ["kms:Encrypt", "kms:Decrypt", "kms:GenerateDataKey"]
-        resources = ["*"]
-      }
-    ]
+    name   = "pass-user-kms-safe"
+    user   = "my-user"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Encrypt\",\"kms:GenerateDataKey\"],\"Resource\":\"*\"}]}"
   }
 }
 
-# FAIL: kms:ReEncryptFrom with Deny effect — blocked action regardless of effect
-resource "aws_iam_policy_document" "fail_reencrypt_deny_effect" {
+# PASS: User inline policy with blocked action scoped to a specific key ARN
+resource "aws_iam_user_policy" "pass_user_decrypt_scoped_resource" {
+  attrs = {
+    name   = "pass-user-decrypt-scoped"
+    user   = "my-user"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\"],\"Resource\":\"arn:aws:kms:us-east-1:123456789012:key/abcde\"}]}"
+  }
+}
+
+# FAIL: User inline policy allows kms:Decrypt on all keys
+resource "aws_iam_user_policy" "fail_user_decrypt_all_keys" {
   expect_failure = true
   attrs = {
-    statement = [
-      {
-        sid       = "DenyKmsReEncryptFrom"
-        effect    = "Deny"
-        actions   = ["kms:ReEncryptFrom"]
-        resources = ["*"]
-      }
-    ]
+    name   = "fail-user-kms-decrypt"
+    user   = "my-user"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# FAIL: User inline policy allows kms:ReEncryptFrom on all keys
+resource "aws_iam_user_policy" "fail_user_reencryptfrom_all_keys" {
+  expect_failure = true
+  attrs = {
+    name   = "fail-user-kms-reencryptfrom"
+    user   = "my-user"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:ReEncryptFrom\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# FAIL: User inline policy — kms:Decrypt mixed with other safe actions on *
+resource "aws_iam_user_policy" "fail_user_decrypt_mixed_actions" {
+  expect_failure = true
+  attrs = {
+    name   = "fail-user-kms-mixed-actions"
+    user   = "my-user"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Encrypt\",\"kms:Decrypt\",\"kms:GenerateDataKey\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# ---------------------------------------------------------------------------
+# aws_iam_group_policy
+# ---------------------------------------------------------------------------
+
+# PASS: Group inline policy allows only non-blocked KMS actions
+resource "aws_iam_group_policy" "pass_group_non_blocked_actions" {
+  attrs = {
+    name   = "pass-group-kms-safe"
+    group  = "my-group"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Encrypt\",\"kms:GenerateDataKey\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# PASS: Group inline policy with blocked action scoped to a specific key ARN
+resource "aws_iam_group_policy" "pass_group_decrypt_scoped_resource" {
+  attrs = {
+    name   = "pass-group-decrypt-scoped"
+    group  = "my-group"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\"],\"Resource\":\"arn:aws:kms:us-east-1:123456789012:key/xyz99\"}]}"
+  }
+}
+
+# FAIL: Group inline policy allows kms:Decrypt on all keys
+resource "aws_iam_group_policy" "fail_group_decrypt_all_keys" {
+  expect_failure = true
+  attrs = {
+    name   = "fail-group-kms-decrypt"
+    group  = "my-group"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# FAIL: Group inline policy allows kms:ReEncryptFrom on all keys
+resource "aws_iam_group_policy" "fail_group_reencryptfrom_all_keys" {
+  expect_failure = true
+  attrs = {
+    name   = "fail-group-kms-reencryptfrom"
+    group  = "my-group"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:ReEncryptFrom\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# FAIL: Group inline policy allows both blocked actions on all keys
+resource "aws_iam_group_policy" "fail_group_both_blocked_actions" {
+  expect_failure = true
+  attrs = {
+    name   = "fail-group-kms-both"
+    group  = "my-group"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\",\"kms:ReEncryptFrom\"],\"Resource\":\"*\"}]}"
   }
 }
