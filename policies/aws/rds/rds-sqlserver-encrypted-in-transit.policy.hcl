@@ -23,11 +23,11 @@ resource_policy "aws_db_instance" "sqlserver_ssl_check" {
   
   locals {
     param_group_name = core::try(attrs.parameter_group_name, "")
-    all_parameter_groups = core::getresources("aws_db_parameter_group", {
+    sqlserver_all_parameter_groups = core::getresources("aws_db_parameter_group", {
       name = local.param_group_name
     })
-    has_matching_pg = core::length(local.all_parameter_groups) > 0
-    param_group = local.has_matching_pg ? local.all_parameter_groups[0] : null
+    has_matching_pg = core::length(local.sqlserver_all_parameter_groups) > 0
+    param_group = local.has_matching_pg ? local.sqlserver_all_parameter_groups[0] : null
     force_ssl_params = local.param_group != null ? [for param in core::try(local.param_group.parameter, []) : param if param.name == "rds.force_ssl"] : []
     has_force_ssl = core::length(local.force_ssl_params) > 0
     force_ssl_value = local.has_force_ssl ? local.force_ssl_params[0].value : null

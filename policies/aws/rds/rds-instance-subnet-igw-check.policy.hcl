@@ -41,9 +41,9 @@ resource_policy "aws_db_instance" "no_public_subnet_igw" {
     can_evaluate = local.subnet_group_name != "" && core::length(local.subnet_ids) > 0
     
     # Get all subnets to resolve VPC IDs for main route table lookup
-    all_subnets = core::getresources("aws_subnet", {})
+    rds_igw_all_subnets = core::getresources("aws_subnet", {})
     db_subnets = [
-      for s in local.all_subnets :
+      for s in local.rds_igw_all_subnets :
       s if core::contains(local.subnet_ids, core::try(s.id, ""))
     ]
     
