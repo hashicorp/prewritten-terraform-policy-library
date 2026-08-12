@@ -1,114 +1,149 @@
 # Copyright IBM Corp. 2026
 
 policytest {
-    targets = [
-        "opensearch-audit-logging-enabled.policy.hcl"
-    ]
+  targets = ["opensearch-audit-logging-enabled.policy.hcl"]
 }
 
-# Test 1: PASS - OpenSearch domain with audit logging enabled
-resource "aws_opensearch_domain" "pass_audit_logs_enabled" {
+# PASS: Single AUDIT_LOGS block with enabled=true
+resource "aws_opensearch_domain" "pass_single_audit_log_enabled" {
   attrs = {
-    domain_name = "compliant-domain"
-    engine_version = "OpenSearch_2.5"
+    domain_name    = "pass-single-audit"
+    engine_version = "OpenSearch_2.11"
     log_publishing_options = [
       {
-        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:/aws/opensearch/audit"
-        enabled = true
-        log_type = "AUDIT_LOGS"
-      }
-    ]
-    advanced_security_options = [
-      {
-        enabled = true
-        internal_user_database_enabled = true
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:audit"
+        log_type                 = "AUDIT_LOGS"
+        enabled                  = true
       }
     ]
   }
 }
 
-# Test 2: FAIL - OpenSearch domain with audit logging explicitly disabled
-resource "aws_opensearch_domain" "fail_audit_logs_disabled" {
+# FAIL: Multiple log_publishing_options — one AUDIT_LOGS and one INDEX_SLOW_LOGS
+resource "aws_opensearch_domain" "fail_multiple_log_types_with_audit" {
   expect_failure = true
   attrs = {
-    domain_name = "non-compliant-domain"
-    engine_version = "OpenSearch_2.5"
+    domain_name    = "fail-multi-log"
+    engine_version = "OpenSearch_2.11"
     log_publishing_options = [
       {
-        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:/aws/opensearch/audit"
-        enabled = false
-        log_type = "AUDIT_LOGS"
-      }
-    ]
-  }
-}
-
-# Test 3: FAIL - OpenSearch domain without log_publishing_options
-resource "aws_opensearch_domain" "fail_no_log_options" {
-  expect_failure = true
-  attrs = {
-    domain_name = "no-logs-domain"
-    engine_version = "OpenSearch_2.5"
-  }
-}
-
-# Test 4: FAIL - OpenSearch domain with other log types but no AUDIT_LOGS
-resource "aws_opensearch_domain" "fail_no_audit_logs" {
-  expect_failure = true
-  attrs = {
-    domain_name = "other-logs-domain"
-    engine_version = "OpenSearch_2.5"
-    log_publishing_options = [
-      {
-        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:/aws/opensearch/index-slow"
-        enabled = true
-        log_type = "INDEX_SLOW_LOGS"
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:slow"
+        log_type                 = "INDEX_SLOW_LOGS"
+        enabled                  = true
       },
       {
-        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:/aws/opensearch/search-slow"
-        enabled = true
-        log_type = "SEARCH_SLOW_LOGS"
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:audit"
+        log_type                 = "AUDIT_LOGS"
+        enabled                  = true
       }
     ]
   }
 }
 
-# Test 5: PASS - OpenSearch domain with multiple log types including enabled AUDIT_LOGS
-resource "aws_opensearch_domain" "pass_multiple_logs_with_audit" {
-  attrs = {
-    domain_name = "multiple-logs-domain"
-    engine_version = "OpenSearch_2.5"
-    log_publishing_options = [
-      {
-        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:/aws/opensearch/index-slow"
-        enabled = true
-        log_type = "INDEX_SLOW_LOGS"
-      },
-      {
-        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:/aws/opensearch/audit"
-        enabled = true
-        log_type = "AUDIT_LOGS"
-      },
-      {
-        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:/aws/opensearch/application"
-        enabled = true
-        log_type = "ES_APPLICATION_LOGS"
-      }
-    ]
-    advanced_security_options = [
-      {
-        enabled = true
-      }
-    ]
-  }
-}
-
-# Test 6: FAIL - OpenSearch domain without log_publishing_options
-resource "aws_opensearch_domain" "fail_empty_log_options" {
+# FAIL: AUDIT_LOGS block with enabled omitted (defaults to false)
+resource "aws_opensearch_domain" "fail_audit_log_enabled_omitted" {
   expect_failure = true
   attrs = {
-    domain_name = "no-logs-domain"
-    engine_version = "OpenSearch_2.5"
-    log_publishing_options = [{}]
+    domain_name    = "fail-audit-enabled-omitted"
+    engine_version = "OpenSearch_2.11"
+    log_publishing_options = [
+      {
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:audit"
+        log_type                 = "AUDIT_LOGS"
+      }
+    ]
+  }
+}
+
+# FAIL: Empty log_publishing_options list
+resource "aws_opensearch_domain" "fail_empty_log_publishing_options" {
+  expect_failure = true
+  attrs = {
+    domain_name    = "fail-empty-log-options"
+    engine_version = "OpenSearch_2.11"
+    log_publishing_options = []
+  }
+}
+
+# FAIL: log_publishing_options is absent
+resource "aws_opensearch_domain" "fail_no_log_publishing_options" {
+  expect_failure = true
+  attrs = {
+    domain_name    = "fail-no-log-options"
+    engine_version = "OpenSearch_2.11"
+  }
+}
+
+# FAIL: AUDIT_LOGS block exists but enabled=false
+resource "aws_opensearch_domain" "fail_audit_log_disabled" {
+  expect_failure = true
+  attrs = {
+    domain_name    = "fail-audit-disabled"
+    engine_version = "OpenSearch_2.11"
+    log_publishing_options = [
+      {
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:audit"
+        log_type                 = "AUDIT_LOGS"
+        enabled                  = false
+      }
+    ]
+  }
+}
+
+# FAIL: Only non-AUDIT_LOGS log type with enabled=true
+resource "aws_opensearch_domain" "fail_only_index_slow_logs" {
+  expect_failure = true
+  attrs = {
+    domain_name    = "fail-only-index-slow"
+    engine_version = "OpenSearch_2.11"
+    log_publishing_options = [
+      {
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:slow"
+        log_type                 = "INDEX_SLOW_LOGS"
+        enabled                  = true
+      }
+    ]
+  }
+}
+
+# FAIL: Multiple log_publishing_options blocks, none have AUDIT_LOGS
+resource "aws_opensearch_domain" "fail_multiple_non_audit_log_types" {
+  expect_failure = true
+  attrs = {
+    domain_name    = "fail-multi-non-audit"
+    engine_version = "OpenSearch_2.11"
+    log_publishing_options = [
+      {
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:slow-index"
+        log_type                 = "INDEX_SLOW_LOGS"
+        enabled                  = true
+      },
+      {
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:slow-search"
+        log_type                 = "SEARCH_SLOW_LOGS"
+        enabled                  = true
+      }
+    ]
+  }
+}
+
+# FAIL: Two AUDIT_LOGS entries — one enabled=true, one enabled=false
+resource "aws_opensearch_domain" "fail_one_enabled_one_disabled_audit" {
+  expect_failure = true
+  attrs = {
+    domain_name    = "fail-mixed-audit-enabled"
+    engine_version = "OpenSearch_2.11"
+    log_publishing_options = [
+      {
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:audit-enabled"
+        log_type                 = "AUDIT_LOGS"
+        enabled                  = true
+      },
+      {
+        cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:audit-disabled"
+        log_type                 = "AUDIT_LOGS"
+        enabled                  = false
+      }
+    ]
   }
 }

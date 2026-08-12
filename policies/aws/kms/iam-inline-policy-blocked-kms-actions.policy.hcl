@@ -16,86 +16,25 @@ policy {
 }
 
 input "iam-inline-policy-blocked-kms-actions-enforcement-level" {
-  type = string
+  type    = string
   default = "advisory"
 }
 
-input "blocked_action_pattern"{
-    type = string
-    default = "kms:Decrypt,kms:ReEncryptFrom,kms:*"
-}
+resource_policy "aws_iam_policy_document" "kms_restrict_decrypt_actions" {
+  enforcement_level = input.iam-inline-policy-blocked-kms-actions-enforcement-level
+  locals {
+    statements = core::try(attrs.statement, [])
 
-resource_policy "aws_iam_user_policy" "iam-inline-blocked-kms-actions-user" {
-    enforcement_level = input.iam-inline-policy-blocked-kms-actions-enforcement-level
-    locals {
-        policy_block = core::jsondecode(attrs.policy)
-        statements = core::try(local.policy_block.Statement, [])
-        
-        violations = [
-            for statement in local.statements : statement
-            if (core::try(statement.Effect, "") == "Allow" &&
-                core::try(statement.Resource, "") == "*" &&
-                core::length([
-                    for action in core::try(statement.Action, []) : action
-                    if core::contains(core::split(",", input.blocked_action_pattern), action)
-                ]) > 0
-            )
-        ]
-        has_violations = core::length(local.violations) > 0
-    }
+    statements_with_blocked_actions = [
+      for stmt in local.statements : stmt
+      if core::length([for action in core::try(stmt.actions, []) : action if action == "kms:ReEncryptFrom" || action == "kms:Decrypt"]) > 0
+    ]
 
-    enforce {
-        condition = !local.has_violations
-        error_message = "IAM user policy allows blocked KMS actions on all keys"
-    }
-}
+    no_blocked_actions = core::length(local.statements_with_blocked_actions) == 0
+  }
 
-resource_policy "aws_iam_role_policy" "iam-inline-blocked-kms-actions-role" {
-    enforcement_level = input.iam-inline-policy-blocked-kms-actions-enforcement-level
-    locals {
-        policy_block = core::jsondecode(attrs.policy)
-        statements = core::try(local.policy_block.Statement, [])
-        
-        violations = [
-            for statement in local.statements : statement
-            if (core::try(statement.Effect, "") == "Allow" &&
-                core::try(statement.Resource, "") == "*" &&
-                core::length([
-                    for action in core::try(statement.Action, []) : action
-                    if core::contains(core::split(",", input.blocked_action_pattern), action)
-                ]) > 0
-            )
-        ]
-        has_violations = core::length(local.violations) > 0
-    }
-
-    enforce {
-        condition = !local.has_violations
-        error_message = "IAM role policy allows blocked KMS actions on all keys"
-    }
-}
-
-resource_policy "aws_iam_group_policy" "iam-inline-blocked-kms-actions-group" {
-    enforcement_level = input.iam-inline-policy-blocked-kms-actions-enforcement-level
-    locals {
-        policy_block = core::jsondecode(attrs.policy)
-        statements = core::try(local.policy_block.Statement, [])
-        
-        violations = [
-            for statement in local.statements : statement
-            if (core::try(statement.Effect, "") == "Allow" &&
-                core::try(statement.Resource, "") == "*" &&
-                core::length([
-                    for action in core::try(statement.Action, []) : action
-                    if core::contains(core::split(",", input.blocked_action_pattern), action)
-                ]) > 0
-            )
-        ]
-        has_violations = core::length(local.violations) > 0
-    }
-
-    enforce {
-        condition = !local.has_violations
-        error_message = "IAM group policy allows blocked KMS actions on all keys"
-    }
+  enforce {
+    condition     = local.no_blocked_actions
+    error_message = "Actions 'kms:ReEncryptFrom' and 'kms:Decrypt' must not be allowed on all 'KMS keys'."
+  }
 }
