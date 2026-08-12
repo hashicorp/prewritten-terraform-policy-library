@@ -17,14 +17,20 @@ This rule is covered by the [elasticsearch-in-vpc-only](https://github.com/hashi
 ```bash
 trace:
       # elasticsearch-in-vpc-only.policytest.hcl... running
-      # resource.aws_elasticsearch_domain.compliant_single... running
-      # resource.aws_elasticsearch_domain.compliant_single... pass
-      # resource.aws_elasticsearch_domain.compliant_multi... running
-      # resource.aws_elasticsearch_domain.compliant_multi... pass
-      # resource.aws_elasticsearch_domain.non_compliant_no_vpc... running
-      # resource.aws_elasticsearch_domain.non_compliant_no_vpc... pass
-      # resource.aws_elasticsearch_domain.non_compliant_empty_subnets... running
-      # resource.aws_elasticsearch_domain.non_compliant_empty_subnets... pass
+      # resource.aws_elasticsearch_domain.pass_with_vpc_single_subnet... running
+      # resource.aws_elasticsearch_domain.pass_with_vpc_single_subnet... pass
+      # resource.aws_elasticsearch_domain.pass_with_vpc_multiple_subnets... running
+      # resource.aws_elasticsearch_domain.pass_with_vpc_multiple_subnets... pass
+      # resource.aws_elasticsearch_domain.fail_no_vpc_options... running
+      # resource.aws_elasticsearch_domain.fail_no_vpc_options... pass
+      # resource.aws_elasticsearch_domain.fail_empty_subnet_ids... running
+      # resource.aws_elasticsearch_domain.fail_empty_subnet_ids... pass
+      # resource.aws_elasticsearch_domain.fail_subnet_ids_null... running
+      # resource.aws_elasticsearch_domain.fail_subnet_ids_null... pass
+      # resource.aws_elasticsearch_domain.fail_vpc_options_null... running
+      # resource.aws_elasticsearch_domain.fail_vpc_options_null... pass
+      # resource.aws_elasticsearch_domain.fail_vpc_options_omitted... running
+      # resource.aws_elasticsearch_domain.fail_vpc_options_omitted... pass
       # elasticsearch-in-vpc-only.policytest.hcl... pass
 ```
 

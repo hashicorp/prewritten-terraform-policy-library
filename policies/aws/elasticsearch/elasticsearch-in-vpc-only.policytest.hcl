@@ -4,7 +4,6 @@ policytest {
   targets = ["elasticsearch-in-vpc-only.policy.hcl"]
 }
 
-# PASS: Domain with vpc_options block and one subnet ID
 resource "aws_elasticsearch_domain" "pass_with_vpc_single_subnet" {
   attrs = {
     domain_name           = "vpc-domain-single-subnet"
@@ -16,7 +15,6 @@ resource "aws_elasticsearch_domain" "pass_with_vpc_single_subnet" {
   }
 }
 
-# PASS: Domain with vpc_options block and multiple subnet IDs
 resource "aws_elasticsearch_domain" "pass_with_vpc_multiple_subnets" {
   attrs = {
     domain_name           = "vpc-domain-multi-subnet"
@@ -28,7 +26,6 @@ resource "aws_elasticsearch_domain" "pass_with_vpc_multiple_subnets" {
   }
 }
 
-# FAIL: Domain without vpc_options block
 resource "aws_elasticsearch_domain" "fail_no_vpc_options" {
   expect_failure = true
   attrs = {
@@ -37,7 +34,6 @@ resource "aws_elasticsearch_domain" "fail_no_vpc_options" {
   }
 }
 
-# FAIL: Domain with vpc_options block but empty subnet_ids list
 resource "aws_elasticsearch_domain" "fail_empty_subnet_ids" {
   expect_failure = true
   attrs = {
@@ -50,7 +46,18 @@ resource "aws_elasticsearch_domain" "fail_empty_subnet_ids" {
   }
 }
 
-# FAIL: Domain with vpc_options set to null
+resource "aws_elasticsearch_domain" "fail_subnet_ids_null" {
+  expect_failure = true
+  attrs = {
+    domain_name           = "vpc-domain-null-subnets"
+    elasticsearch_version = "7.10"
+    vpc_options = [{
+      subnet_ids         = null
+      security_group_ids = ["sg-12345678"]
+    }]
+  }
+}
+
 resource "aws_elasticsearch_domain" "fail_vpc_options_null" {
   expect_failure = true
   attrs = {
@@ -60,7 +67,6 @@ resource "aws_elasticsearch_domain" "fail_vpc_options_null" {
   }
 }
 
-# FAIL: Domain where vpc_options attribute is entirely omitted
 resource "aws_elasticsearch_domain" "fail_vpc_options_omitted" {
   expect_failure = true
   attrs = {

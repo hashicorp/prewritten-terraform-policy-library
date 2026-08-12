@@ -19,9 +19,10 @@ input "elasticsearch-in-vpc-only-enforcement-level" {
 resource_policy "aws_elasticsearch_domain" "elasticsearch_in_vpc_only" {
   enforcement_level = input.elasticsearch-in-vpc-only-enforcement-level
   locals {
-    vpc_options = core::try(attrs.vpc_options, []) != null ? core::try(attrs.vpc_options, []) : []
-    subnet_ids  = core::try(local.vpc_options[0].subnet_ids, [])
-    in_vpc      = core::length(local.vpc_options) > 0 && core::length(local.subnet_ids) > 0
+    vpc_options    = core::try(attrs.vpc_options, []) != null ? core::try(attrs.vpc_options, []) : []
+    subnet_ids_raw = core::length(local.vpc_options) > 0 ? core::try(local.vpc_options[0].subnet_ids, null) : null
+    subnet_ids     = local.subnet_ids_raw != null ? local.subnet_ids_raw : []
+    in_vpc         = core::length(local.vpc_options) > 0 && core::length(local.subnet_ids) > 0
   }
 
   enforce {

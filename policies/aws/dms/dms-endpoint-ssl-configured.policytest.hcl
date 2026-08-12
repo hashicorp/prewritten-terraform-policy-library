@@ -4,80 +4,53 @@ policytest {
   targets = ["dms-endpoint-ssl-configured.policy.hcl"]
 }
 
-# PASS: ssl_mode = "require"
-resource "aws_dms_endpoint" "pass_ssl_require" {
+resource "aws_dms_endpoint" "pass_certificate_arn_literal" {
   attrs = {
-    endpoint_id   = "pass-require"
-    endpoint_type = "source"
-    engine_name   = "mysql"
-    ssl_mode      = "require"
+    certificate_arn = "arn:aws:dms:us-east-1:123456789012:cert:ABCDEFG1234567890"
+    endpoint_id     = "pass-certificate-literal"
+    endpoint_type   = "source"
+    engine_name     = "mysql"
   }
 }
 
-# PASS: ssl_mode = "verify-ca"
-resource "aws_dms_endpoint" "pass_ssl_verify_ca" {
+resource "aws_dms_endpoint" "pass_certificate_arn_reference" {
   attrs = {
-    endpoint_id   = "pass-verify-ca"
-    endpoint_type = "target"
-    engine_name   = "postgres"
-    ssl_mode      = "verify-ca"
+    certificate_arn = "arn:aws:dms:us-east-1:123456789012:cert:REFERENCECERT1234"
+    endpoint_id     = "pass-certificate-reference"
+    endpoint_type   = "source"
+    engine_name     = "mysql"
   }
 }
 
-# PASS: ssl_mode = "verify-full"
-resource "aws_dms_endpoint" "pass_ssl_verify_full" {
+resource "aws_dms_endpoint" "pass_source_endpoint_certificate" {
   attrs = {
-    endpoint_id   = "pass-verify-full"
-    endpoint_type = "source"
-    engine_name   = "oracle"
-    ssl_mode      = "verify-full"
+    certificate_arn = "arn:aws:dms:us-east-1:123456789012:cert:SOURCECERT123456"
+    endpoint_id     = "pass-source-certificate"
+    endpoint_type   = "source"
+    engine_name     = "postgres"
   }
 }
 
-# PASS: source endpoint with ssl_mode = "require"
-resource "aws_dms_endpoint" "pass_source_endpoint_ssl" {
+resource "aws_dms_endpoint" "pass_target_endpoint_certificate" {
   attrs = {
-    endpoint_id   = "pass-source-ssl"
-    endpoint_type = "source"
-    engine_name   = "mysql"
-    ssl_mode      = "require"
+    certificate_arn = "arn:aws:dms:us-east-1:123456789012:cert:TARGETCERT123456"
+    endpoint_id     = "pass-target-certificate"
+    endpoint_type   = "target"
+    engine_name     = "redshift"
   }
 }
 
-# PASS: target endpoint with ssl_mode = "verify-full"
-resource "aws_dms_endpoint" "pass_target_endpoint_ssl" {
+resource "aws_dms_endpoint" "pass_certificate_with_ssl_none" {
   attrs = {
-    endpoint_id   = "pass-target-ssl"
-    endpoint_type = "target"
-    engine_name   = "redshift"
-    ssl_mode      = "verify-full"
+    certificate_arn = "arn:aws:dms:us-east-1:123456789012:cert:SSLMODEIGNORED12"
+    endpoint_id     = "pass-ssl-mode-ignored"
+    endpoint_type   = "source"
+    engine_name     = "mysql"
+    ssl_mode        = "none"
   }
 }
 
-# FAIL: ssl_mode = "none"
-resource "aws_dms_endpoint" "fail_ssl_none" {
-  expect_failure = true
-  attrs = {
-    endpoint_id   = "fail-none"
-    endpoint_type = "source"
-    engine_name   = "mysql"
-    ssl_mode      = "none"
-  }
-}
-
-# FAIL: ssl_mode = null
-resource "aws_dms_endpoint" "fail_ssl_null" {
-  expect_failure = true
-  attrs = {
-    endpoint_id   = "fail-null"
-    endpoint_type = "source"
-    engine_name   = "mysql"
-    ssl_mode      = null
-  }
-}
-
-# FAIL: ssl_mode omitted
-resource "aws_dms_endpoint" "fail_ssl_missing" {
+resource "aws_dms_endpoint" "fail_certificate_arn_missing" {
   expect_failure = true
   attrs = {
     endpoint_id   = "fail-missing"
@@ -86,22 +59,40 @@ resource "aws_dms_endpoint" "fail_ssl_missing" {
   }
 }
 
-# FAIL: ssl_mode = ""
-resource "aws_dms_endpoint" "fail_ssl_empty_string" {
+resource "aws_dms_endpoint" "fail_certificate_arn_null" {
   expect_failure = true
   attrs = {
-    endpoint_id   = "fail-empty"
-    endpoint_type = "source"
-    engine_name   = "mysql"
-    ssl_mode      = ""
+    certificate_arn = null
+    endpoint_id     = "fail-null"
+    endpoint_type   = "source"
+    engine_name     = "mysql"
   }
 }
 
-# FAIL: ssl_mode = "ssl-enabled" (invalid value)
-resource "aws_dms_endpoint" "fail_ssl_invalid_value" {
+resource "aws_dms_endpoint" "fail_certificate_arn_empty_string" {
   expect_failure = true
   attrs = {
-    endpoint_id   = "fail-invalid"
+    certificate_arn = ""
+    endpoint_id     = "fail-empty"
+    endpoint_type   = "source"
+    engine_name     = "mysql"
+  }
+}
+
+resource "aws_dms_endpoint" "fail_ssl_mode_without_certificate" {
+  expect_failure = true
+  attrs = {
+    endpoint_id   = "fail-ssl-mode-only"
+    endpoint_type = "source"
+    engine_name   = "mysql"
+    ssl_mode      = "require"
+  }
+}
+
+resource "aws_dms_endpoint" "fail_invalid_ssl_mode_without_certificate" {
+  expect_failure = true
+  attrs = {
+    endpoint_id   = "fail-invalid-ssl-mode-only"
     endpoint_type = "source"
     engine_name   = "sqlserver"
     ssl_mode      = "ssl-enabled"
