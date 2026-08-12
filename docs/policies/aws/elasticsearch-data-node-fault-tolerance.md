@@ -10,7 +10,7 @@ This control checks whether Elasticsearch domains are configured with at least t
 
 An Elasticsearch domain requires at least three data nodes for high availability and fault-tolerance. Deploying an Elasticsearch domain with at least three data nodes ensures cluster operations if a node fails.
 
-This rule is covered by the [elasticsearch-data-node-fault-tolerance](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticsearch/elasticsearch-data-node-fault-tolerance.policy.hcl) policy.
+This rule is covered by the [elasticsearch-data-node-fault-tolerance](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticsearch/elasticsearch-data-node-fault-tolerance.policy.hcl) policy.
 
 ## Policy Results
 

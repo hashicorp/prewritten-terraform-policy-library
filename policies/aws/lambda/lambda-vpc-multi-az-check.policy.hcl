@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Lambda.5 - VPC Lambda functions should operate in multiple Availability Zones
+# VPC Lambda functions should operate in multiple Availability Zones
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "lambda-vpc-multi-az-check-enforcement-level" {
   type = string
@@ -47,7 +54,7 @@ resource_policy "aws_lambda_function" "vpc_multi_az_check" {
 
   enforce {
     condition = local.valid_input && local.meets_requirement
-    error_message = "Lambda function must operate in at least the required number of Availability Zones for high availability (input 'availabilityZones' must be between 2 and 6). Note: subnets referenced via data sources or hardcoded IDs (not declared as aws_subnet in this plan) cannot be resolved and will appear as 0 AZs. Add subnets from additional AZs to meet the requirement. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/lambda-controls.html#lambda-5 for more details."
+    error_message = "Lambda function must operate in at least the required number of Availability Zones for high availability (input 'availabilityZones' must be between 2 and 6). Note: subnets referenced via data sources or hardcoded IDs (not declared as aws_subnet in this plan) cannot be resolved and will appear as 0 AZs. Add subnets from additional AZs to meet the requirement"
   }
 }
 

@@ -10,7 +10,7 @@ This control checks whether an Amazon RDS for Microsoft SQL Server DB instance i
 
 Database logging provides detailed records of requests made to an Amazon RDS DB instance. Publishing logs to CloudWatch Logs centralizes log management and helps you perform real-time analysis of log data. CloudWatch Logs retains logs in highly durable storage. In addition, you can use it to create alarms for specific errors that can occur, such as frequent restarts that are recorded in an error log. Similarly, you can create alarms for errors or warnings that are recorded in SQL Server agent logs related to SQL agent jobs.
 
-This rule is covered by the [rds-sql-server-logs-to-cloudwatch](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-sql-server-logs-to-cloudwatch.policy.hcl) policy.
+This rule is covered by the [rds-sql-server-logs-to-cloudwatch](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-sql-server-logs-to-cloudwatch.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether public access is disabled for an Amazon Redshift Ser
 
 The public access (`publiclyAccessible`) setting for an Amazon Redshift Serverless workgroup specifies whether the workgroup can be accessed from a public network. If public access is enabled (`true`) for a workgroup, Amazon Redshift creates an Elastic IP address that makes the workgroup publicly accessible from outside the VPC. If you don't want a workgroup to be publicly accessible, disable public access for it.
 
-This rule is covered by the [redshift-serverless-workgroup-no-public-access](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-serverless-workgroup-no-public-access.policy.hcl) policy.
+This rule is covered by the [redshift-serverless-workgroup-no-public-access](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-serverless-workgroup-no-public-access.policy.hcl) policy.
 
 ## Policy Results
 

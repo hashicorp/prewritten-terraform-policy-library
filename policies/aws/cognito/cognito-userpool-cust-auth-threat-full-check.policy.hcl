@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy : Cognito.4 - Cognito user pools should have threat protection activated with full function enforcement mode for custom authentication
+# Cognito user pools should have threat protection activated with full function enforcement mode for custom authentication
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cognito-userpool-cust-auth-threat-full-check-enforcement-level" {
   type = string
@@ -33,21 +40,21 @@ resource_policy "aws_cognito_user_pool" "threat_protection_enforced" {
 
     enforce {
         condition = local.has_add_ons
-        error_message = "Cognito user pool must have user_pool_add_ons block configured for threat protection. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cognito-controls.html#cognito-4 for more details."
+        error_message = "Cognito user pool must have user_pool_add_ons block configured for threat protection"
     }
 
     enforce {
         condition = local.is_security_enforced
-        error_message = "Cognito user pool must have advanced_security_mode set to 'ENFORCED' (current: '${local.security_mode}'). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cognito-controls.html#cognito-4 for more details."
+        error_message = "Cognito user pool must have advanced_security_mode set to 'ENFORCED' (current: '${local.security_mode}')"
     }
 
     enforce {
         condition = local.has_additional_flows
-        error_message = "Cognito user pool must have advanced_security_additional_flows block configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cognito-controls.html#cognito-4 for more details."
+        error_message = "Cognito user pool must have advanced_security_additional_flows block configured"
     }
 
     enforce {
         condition = local.is_custom_auth_enforced
-        error_message = "Cognito user pool must have custom_auth_mode set to 'ENFORCED' for full function enforcement (current: '${local.custom_auth_mode}'). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cognito-controls.html#cognito-4 for more details."
+        error_message = "Cognito user pool must have custom_auth_mode set to 'ENFORCED' for full function enforcement (current: '${local.custom_auth_mode}')"
     }
 }

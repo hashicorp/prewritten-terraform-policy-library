@@ -10,7 +10,7 @@ This control checks whether an API Gateway V2 integration has HTTPS enabled for 
 
 VPC Links connect API Gateway to private resources. While VPC Links create private connectivity, they don't inherently encrypt data. Configuring TLS ensures use of HTTPS for end-to-end encryption from client through API Gateway to backend. Without TLS, sensitive API traffic flows unencrypted across private connections. HTTPS encryption protects the traffic through private connections from data interception, man-in-the-middle attacks and credential exposure.
 
-This rule is covered by the [apigatewayv2-integration-private-https-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/apigateway/apigatewayv2-integration-private-https-enabled.policy.hcl) policy.
+This rule is covered by the [apigatewayv2-integration-private-https-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/apigateway/apigatewayv2-integration-private-https-enabled.policy.hcl) policy.
 
 ## Policy Results
 

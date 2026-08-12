@@ -10,7 +10,7 @@ This control checks whether an Amazon SageMaker AI notebook instance is configur
 
 If the platform for an Amazon SageMaker AI notebook instance is no longer supported, it might not receive security patches, bug fixes, or other types of updates. Notebook instances might continue to function, but they won't receive SageMaker AI security updates or critical bug fixes. You assume the risks associated with using an unsupported platform. For more information, see JupyterLab versioning in the Amazon SageMaker AI Developer Guide.
 
-This rule is covered by the [sagemaker-notebook-instance-platform-version](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-notebook-instance-platform-version.policy.hcl) policy.
+This rule is covered by the [sagemaker-notebook-instance-platform-version](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-notebook-instance-platform-version.policy.hcl) policy.
 
 ## Policy Results
 

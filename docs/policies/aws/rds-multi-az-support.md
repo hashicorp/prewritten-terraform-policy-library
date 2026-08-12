@@ -10,7 +10,7 @@ This control checks whether high availability is enabled for your RDS DB instanc
 
 Configuring Amazon RDS DB instances with AZs helps ensure the availability of stored data. Multi-AZ deployments allow for automated failover if there is an issue with AZ availability and during regular RDS maintenance.
 
-This rule is covered by the [rds-multi-az-support](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-multi-az-support.policy.hcl) policy.
+This rule is covered by the [rds-multi-az-support](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-multi-az-support.policy.hcl) policy.
 
 ## Policy Results
 

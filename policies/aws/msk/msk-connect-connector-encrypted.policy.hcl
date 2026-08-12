@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# MSK.3 - MSK Connect connectors should be encrypted in transit
+# MSK Connect connectors should be encrypted in transit
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.8.0, < 7.0.0"
+    }
+  }
+}
 
 input "msk-connect-connector-encrypted-enforcement-level" {
   type = string
@@ -28,6 +35,6 @@ resource_policy "aws_mskconnect_connector" "encryption_in_transit_required" {
 
     enforce {
         condition = local.is_encrypted
-        error_message = "MSK Connect connector must have encryption in transit enabled. Current encryption_type: '${local.encryption_type}'. Set kafka_cluster_encryption_in_transit.encryption_type to 'TLS' to meet security best practices. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/msk-controls.html#msk-3 for more details."
+        error_message = "MSK Connect connector must have encryption in transit enabled. Current encryption_type: '${local.encryption_type}'. Set kafka_cluster_encryption_in_transit.encryption_type to 'TLS' to meet security best practices"
     }
 }

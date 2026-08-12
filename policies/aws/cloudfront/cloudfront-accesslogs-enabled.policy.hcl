@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# CloudFront.5: CloudFront distributions should have logging enabled
+# CloudFront distributions should have logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-accesslogs-enabled-enforcement-level" {
   type = string
@@ -31,6 +38,6 @@ resource_policy "aws_cloudfront_distribution" "logging_required" {
 
     enforce {
         condition = local.has_valid_bucket
-        error_message = "CloudFront distribution must have logging enabled. Configure the logging_config block with a valid S3 bucket (e.g., logging_config { bucket = \"myawslogbucket.s3.amazonaws.com\" }). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-5 for more details."
+        error_message = "CloudFront distribution must have logging enabled. Configure the logging_config block with a valid S3 bucket (e.g., logging_config { bucket = \"myawslogbucket.s3.amazonaws.com\" })"
     }
 }

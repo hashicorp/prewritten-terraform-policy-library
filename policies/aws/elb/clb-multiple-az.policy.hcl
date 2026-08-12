@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ELB.10 - Classic Load Balancer should span multiple Availability Zones.
+# Classic Load Balancer should span multiple Availability Zones
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "clb-multiple-az-enforcement-level" {
   type = string
@@ -33,6 +40,6 @@ resource_policy "aws_elb" "multiple_availability_zones" {
 
     enforce {
         condition = local.is_valid_input && (local.actual_az_count >= input.clb_min_availability_zones)
-        error_message = "Classic Load Balancer does not span enough Availability Zones. Configure the load balancer to span at least 2 Availability Zones for high availability. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-10 for more details."
+        error_message = "Classic Load Balancer does not span enough Availability Zones. Configure the load balancer to span at least 2 Availability Zones for high availability"
     }
 }

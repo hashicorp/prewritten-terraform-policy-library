@@ -10,7 +10,7 @@ This control checks if an RDS DB cluster is encrypted at rest. The control fails
 
 Data at rest refers to any data that's stored in persistent, non-volatile storage for any duration. Encryption helps you protect the confidentiality of such data, reducing the risk that an unauthorized user can access it. Encrypting your RDS DB clusters protects your data and metadata against unauthorized access. It also fulfills compliance requirements for data-at-rest encryption of production file systems.
 
-This rule is covered by the [rds-cluster-encrypted-at-rest](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-cluster-encrypted-at-rest.policy.hcl) policy.
+This rule is covered by the [rds-cluster-encrypted-at-rest](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-cluster-encrypted-at-rest.policy.hcl) policy.
 
 ## Policy Results
 

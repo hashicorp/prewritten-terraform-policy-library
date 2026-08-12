@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# S3.8 - S3 general purpose buckets should block public access.
+# S3 general purpose buckets should block public access
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-bucket-level-public-access-prohibited-enforcement-level" {
   type = string
@@ -23,6 +30,6 @@ resource_policy "aws_s3_bucket" "s3_block_public_access" {
 
     enforce {
         condition = local.block_public_acls && local.block_public_policy && local.ignore_public_acls && local.restrict_public_buckets
-        error_message = "S3 bucket does not have all required settings enabled. Set all to 'true' to comply with the control. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-8 for more details."
+        error_message = "S3 bucket does not have all required settings enabled. Set all to 'true' to comply with the control"
     }
 }

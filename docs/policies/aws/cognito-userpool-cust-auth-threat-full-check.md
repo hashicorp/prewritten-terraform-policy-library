@@ -10,7 +10,7 @@ This control checks whether an Amazon Cognito user pool has threat protection ac
 
 Threat protection, formerly called advanced security features, is a set of monitoring tools for unwanted activity in your user pool, and configuration tools to automatically shut down potentially malicious activity. After you create an Amazon Cognito user pool, you can activate threat protection with full function enforcement mode for custom authentication and customize the actions that are taken in response to different risks. Full-function mode includes a set of automatic reactions to detect unwanted activity and compromised passwords.
 
-This rule is covered by the [cognito-userpool-cust-auth-threat-full-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cognito/cognito-userpool-cust-auth-threat-full-check.policy.hcl) policy.
+This rule is covered by the [cognito-userpool-cust-auth-threat-full-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cognito/cognito-userpool-cust-auth-threat-full-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether an Amazon Cognito user pool has deletion protection 
 
 Deletion protection helps ensure that your user pool is not accidentally deleted. When you configure a user pool with deletion protection, the pool cannot be deleted by any user. Deletion protection prevents you from requesting the deletion of a user pool unless you first modify the pool and deactivate deletion protection.
 
-This rule is covered by the [cognito-user-pool-deletion-protection-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cognito/cognito-user-pool-deletion-protection-enabled.policy.hcl) policy.
+This rule is covered by the [cognito-user-pool-deletion-protection-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cognito/cognito-user-pool-deletion-protection-enabled.policy.hcl) policy.
 
 ## Policy Results
 

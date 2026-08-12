@@ -12,7 +12,7 @@ In a multi-account environment, the control generates findings in only the deleg
 
 GuardDuty Lambda Protection helps you identify potential security threats when an AWS Lambda function gets invoked. After your enable Lambda Protection, GuardDuty starts monitoring Lambda network activity logs associated with the Lambda functions in your AWS account. When a Lambda function gets invoked and GuardDuty identifies suspicious network traffic that indicates the presence of a potentially malicious piece of code in your Lambda function, GuardDuty generates a finding.
 
-This rule is covered by the [guardduty-lambda-protection-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/guardduty/guardduty-lambda-protection-enabled.policy.hcl) policy.
+This rule is covered by the [guardduty-lambda-protection-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/guardduty/guardduty-lambda-protection-enabled.policy.hcl) policy.
 
 ## Policy Results
 

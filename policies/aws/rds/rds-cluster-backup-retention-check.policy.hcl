@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.50 - RDS DB clusters should have enough backup retention period set.
+# RDS DB clusters should have enough backup retention period set
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-backup-retention-check-enforcement-level" {
   type = string
@@ -23,6 +30,6 @@ resource_policy "aws_rds_cluster" "cluster_backup_enabled" {
 
     enforce {
         condition = local.backup_period != 0 && local.is_valid_input && local.backup_period >= input.min_backup_retention_period
-        error_message = "RDS clusters should have enough backup retention period set. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-50 for more details."
+        error_message = "RDS clusters should have enough backup retention period set"
     }
 }

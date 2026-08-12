@@ -10,7 +10,7 @@ This control checks whether an Amazon SageMaker AI model pulls container image f
 
 Using a private Docker registry in a VPC for SageMaker model containers ensures container images are pulled from trusted, controlled sources within your VPC. Also, it ensures container images are accessed through VPC endpoints, without traversing the public internet.
 
-This rule is covered by the [sagemaker-model-private-registry-required](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sagemaker/sagemaker-model-private-registry-required.policy.hcl) policy.
+This rule is covered by the [sagemaker-model-private-registry-required](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-model-private-registry-required.policy.hcl) policy.
 
 ## Policy Results
 

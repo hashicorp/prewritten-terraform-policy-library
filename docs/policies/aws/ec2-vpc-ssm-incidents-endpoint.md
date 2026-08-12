@@ -19,7 +19,7 @@ This control checks whether a virtual private cloud (VPC) that you manage has an
 
 AWS PrivateLink enables customers to access services hosted on AWS in a highly available and scalable manner while keeping all network traffic within the AWS network. Service users can privately access services powered by PrivateLink from their VPC or their on-premises environment, without using public IPs and without requiring traffic to traverse the internet.
 
-This rule is covered by the [ec2-vpc-ssm-incidents-endpoint](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-vpc-ssm-incidents-endpoint.policy.hcl) policy.
+This rule is covered by the [ec2-vpc-ssm-incidents-endpoint](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-vpc-ssm-incidents-endpoint.policy.hcl) policy.
 
 ## Policy Results
 

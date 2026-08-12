@@ -10,7 +10,7 @@ This control checks whether an RDS DB cluster has a minimum backup retention per
 
 This control checks whether an RDS DB cluster has a minimum backup retention period. The control fails if the backup retention period is less than the specified parameter value. Unless you provide a customer parameter value, Security Hub uses a default value of 7 days. This control applies to all types of RDS DB clusters including Aurora DB cluster, DocumentDB clusters, NeptuneDB clusters, etc.
 
-This rule is covered by the [rds-cluster-backup-retention-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-cluster-backup-retention-check.policy.hcl) policy.
+This rule is covered by the [rds-cluster-backup-retention-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-cluster-backup-retention-check.policy.hcl) policy.
 
 ## Policy Results
 

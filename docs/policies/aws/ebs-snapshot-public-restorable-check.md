@@ -10,7 +10,7 @@ This control checks whether Amazon Elastic Block Store snapshots are configured 
 
 EBS snapshots are used to back up the data on your EBS volumes to Amazon S3 at a specific point in time. You can use the snapshots to restore previous states of EBS volumes. It is rarely acceptable to share a snapshot with the public. Typically the decision to share a snapshot publicly was made in error or without a complete understanding of the implications. This check helps ensure that all such sharing was fully planned and intentional.
 
-This rule is covered by the [ebs-snapshot-public-restorable-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ebs/ebs-snapshot-public-restorable-check.policy.hcl) policy.
+This rule is covered by the [ebs-snapshot-public-restorable-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ebs-snapshot-public-restorable-check.policy.hcl) policy.
 
 ## Policy Results
 

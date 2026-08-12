@@ -10,7 +10,7 @@ This control checks whether an Amazon SES configuration set requires TLS connect
 
 By default, Amazon SES uses opportunistic TLS, which means emails can be sent unencrypted if a TLS connection cannot be established with the receiving mail server. Enforcing TLS for email sending ensures that messages are only delivered when a secure encrypted connection can be established. This helps protect the confidentiality and integrity of email content during transmission between Amazon SES and the recipient's mail server. If a secure TLS connection cannot be established, the message will not be delivered, preventing potential exposure of sensitive information.
 
-This rule is covered by the [ses-sending-tls-required](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ses/ses-sending-tls-required.policy.hcl) policy.
+This rule is covered by the [ses-sending-tls-required](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ses/ses-sending-tls-required.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether an Amazon Redshift cluster has changed the admin use
 
 When creating a Redshift cluster, you should change the default admin username to a unique value. Default usernames are public knowledge and should be changed upon configuration. Changing the default usernames reduces the risk of unintended access.
 
-This rule is covered by the [redshift-default-admin-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-default-admin-check.policy.hcl) policy.
+This rule is covered by the [redshift-default-admin-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-default-admin-check.policy.hcl) policy.
 
 ## Policy Results
 

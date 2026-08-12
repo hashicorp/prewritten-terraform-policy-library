@@ -11,7 +11,7 @@ This control checks whether master nodes on Amazon EMR clusters have public IP a
 
 Public IP addresses are designated in the `PublicIp` field of the `NetworkInterfaces` configuration for the instance. This control only checks Amazon EMR clusters that are in a `RUNNING` or `WAITING` state.
 
-This rule is covered by the [emr-master-no-public-ip](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/emr/emr-master-no-public-ip.policy.hcl) policy.
+This rule is covered by the [emr-master-no-public-ip](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/emr/emr-master-no-public-ip.policy.hcl) policy.
 
 ## Policy Results
 

@@ -18,7 +18,7 @@ This control checks whether an AWS Glue for Spark job is configured to run on a 
 
 Only Spark ETL jobs are evaluated. Other AWS Glue job types are excluded from this version check.
 
-This rule is covered by the [glue-spark-job-supported-version](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/glue/glue-spark-job-supported-version.policy.hcl) policy.
+This rule is covered by the [glue-spark-job-supported-version](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/glue/glue-spark-job-supported-version.policy.hcl) policy.
 
 ## Policy Results
 

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ECR.1 - ECR private repositories should have image scanning configured
+# ECR private repositories should have image scanning configured
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecr-private-image-scanning-enabled-enforcement-level" {
   type = string
@@ -23,6 +30,6 @@ resource_policy "aws_ecr_repository" "image_scanning_required" {
 
     enforce {
         condition = local.scan_on_push == true
-        error_message = "ECR repository must have image scanning enabled. Configure 'image_scanning_configuration' block with 'scan_on_push = true' to scan images after being pushed to the repository. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecr-controls.html#ecr-1 for more details."
+        error_message = "ECR repository must have image scanning enabled. Configure 'image_scanning_configuration' block with 'scan_on_push = true' to scan images after being pushed to the repository"
     }
 }

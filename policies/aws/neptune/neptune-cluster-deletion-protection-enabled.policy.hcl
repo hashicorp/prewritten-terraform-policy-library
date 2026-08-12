@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Neptune.4 - Neptune DB clusters should have deletion protection enabled.
+# Neptune DB clusters should have deletion protection enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "neptune-cluster-deletion-protection-enabled-enforcement-level" {
   type = string
@@ -13,6 +20,6 @@ resource_policy "aws_neptune_cluster" "deletion-protection-enabled" {
     enforcement_level = input.neptune-cluster-deletion-protection-enabled-enforcement-level
     enforce {
         condition = core::try(attrs.deletion_protection, false)
-        error_message = "The Neptune cluster does not have deletion protection enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/neptune-controls.html#neptune-4 for more details."
+        error_message = "The Neptune cluster does not have deletion protection enabled"
     }
 }

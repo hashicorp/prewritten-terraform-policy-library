@@ -10,7 +10,7 @@ This control checks if Amazon ECS task definitions are configured to share a hos
 
 A process ID (PID) namespace provides separation between processes. It prevents system processes from being visible, and allows PIDs to be reused, including PID 1. If the host's PID namespace is shared with containers, it would allow containers to see all of the processes on the host system. This reduces the benefit of process level isolation between the host and the containers. These circumstances could lead to unauthorized access to processes on the host itself, including the ability to manipulate and terminate them. Customers shouldn't share the host's process namespace with containers running on it.
 
-This rule is covered by the [ecs-task-definition-pid-mode-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-task-definition-pid-mode-check.policy.hcl) policy.
+This rule is covered by the [ecs-task-definition-pid-mode-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-task-definition-pid-mode-check.policy.hcl) policy.
 
 ## Policy Results
 

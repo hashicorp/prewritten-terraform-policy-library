@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# CodeBuild.7: CodeBuild report group exports should be encrypted at rest
+# CodeBuild report group exports should be encrypted at rest
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "codebuild-report-group-encrypted-at-rest-enforcement-level" {
   type = string
@@ -32,18 +39,18 @@ resource_policy "aws_codebuild_report_group" "encryption_required" {
     # Enforce: S3 destination must be configured
     enforce {
         condition = local.has_s3_destination
-        error_message = "CodeBuild report group exports to S3 but s3_destination is not properly configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/codebuild-controls.html#codebuild-7 for more details."
+        error_message = "CodeBuild report group exports to S3 but s3_destination is not properly configured"
     }
 
     # Enforce: Encryption must not be explicitly disabled
     enforce {
         condition = local.is_encryption_enabled
-        error_message = "CodeBuild report group has encryption explicitly disabled (encryption_disabled = true). Encryption must be enabled for S3 exports. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/codebuild-controls.html#codebuild-7 for more details."
+        error_message = "CodeBuild report group has encryption explicitly disabled (encryption_disabled = true). Encryption must be enabled for S3 exports"
     }
 
     # Enforce: KMS encryption key must be specified
     enforce {
         condition = local.has_encryption_key
-        error_message = "CodeBuild report group is missing encryption_key for S3 export. Specify a KMS key ARN to encrypt report data at rest. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/codebuild-controls.html#codebuild-7 for more details."
+        error_message = "CodeBuild report group is missing encryption_key for S3 export. Specify a KMS key ARN to encrypt report data at rest"
     }
 }

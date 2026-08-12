@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: DMS.7 - DMS replication tasks for the target database should have logging enabled
+# DMS replication tasks for the target database should have logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-replication-task-targetdb-logging-enforcement-level" {
   type = string
@@ -66,18 +73,18 @@ resource_policy "aws_dms_replication_task" "logging_enabled" {
   # Enforce: Logging must be enabled
   enforce {
     condition = local.enable_logging == true
-    error_message = "DMS replication task must have logging enabled. Set 'EnableLogging' to true in replication_task_settings.Logging configuration. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dms-controls.html#dms-7 for more details."
+    error_message = "DMS replication task must have logging enabled. Set 'EnableLogging' to true in replication_task_settings.Logging configuration"
   }
   
   # Enforce: TARGET_APPLY component must exist with valid severity
   enforce {
     condition = local.target_apply_valid
-    error_message = "DMS replication task must have TARGET_APPLY logging component configured with severity level of LOGGER_SEVERITY_DEFAULT, LOGGER_SEVERITY_DEBUG, or LOGGER_SEVERITY_DETAILED_DEBUG. Current: ${local.target_apply_display} . Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dms-controls.html#dms-7 for more details."
+    error_message = "DMS replication task must have TARGET_APPLY logging component configured with severity level of LOGGER_SEVERITY_DEFAULT, LOGGER_SEVERITY_DEBUG, or LOGGER_SEVERITY_DETAILED_DEBUG. Current: ${local.target_apply_display}"
   }
   
   # Enforce: TARGET_LOAD component must exist with valid severity
   enforce {
     condition = local.target_load_valid
-    error_message = "DMS replication task must have TARGET_LOAD logging component configured with severity level of LOGGER_SEVERITY_DEFAULT, LOGGER_SEVERITY_DEBUG, or LOGGER_SEVERITY_DETAILED_DEBUG. Current: ${local.target_load_display} . Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dms-controls.html#dms-7 for more details."
+    error_message = "DMS replication task must have TARGET_LOAD logging component configured with severity level of LOGGER_SEVERITY_DEFAULT, LOGGER_SEVERITY_DEBUG, or LOGGER_SEVERITY_DETAILED_DEBUG. Current: ${local.target_load_display}"
   }
 }

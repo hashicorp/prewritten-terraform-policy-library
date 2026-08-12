@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: S3.25 - S3 directory buckets should have lifecycle configurations
+# S3 directory buckets should have lifecycle configurations
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.28.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3express-dir-bucket-lifecycle-rules-check-enforcement-level" {
   type = string
@@ -58,11 +65,11 @@ resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
 
   enforce {
     condition     = local.has_lifecycle_resource && local.has_active_rules
-    error_message = "S3 directory bucket '${local.bucket_name}' must have an associated 'aws_s3_bucket_lifecycle_configuration' with at least one rule whose status = 'Enabled' and that has either expiration or abort_incomplete_multipart_upload set. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-25 for more details."
+    error_message = "S3 directory bucket '${local.bucket_name}' must have an associated 'aws_s3_bucket_lifecycle_configuration' with at least one rule whose status = 'Enabled' and that has either expiration or abort_incomplete_multipart_upload set"
   }
 
   enforce {
     condition     = local.has_matching_expiration_days
-    error_message = "S3 directory bucket '${local.bucket_name}' lifecycle configuration must include an enabled rule with expiration.days = ${input.expressTargetExpirationDays} as required by input.expressTargetExpirationDays. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-25 for more details."
+    error_message = "S3 directory bucket '${local.bucket_name}' lifecycle configuration must include an enabled rule with expiration.days = ${input.expressTargetExpirationDays} as required by input.expressTargetExpirationDays"
   }
 }

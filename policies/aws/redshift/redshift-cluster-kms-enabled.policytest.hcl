@@ -12,7 +12,7 @@ resource "aws_redshift_cluster" "fail_encryption_disabled" {
   attrs = {
     cluster_identifier = "test-cluster-no-encryption"
     node_type = "dc2.large"
-    encypted = false
+    encrypted = false
     master_username = "admin"
     database_name = "mydb"
   }
@@ -23,7 +23,7 @@ resource "aws_redshift_cluster" "fail_encrypted_no_kms_key" {
   attrs = {
     cluster_identifier = "test-cluster-no-kms-key"
     node_type = "dc2.large"
-    encypted = true
+    encrypted = true
     master_username = "admin"
     database_name = "mydb"
   }
@@ -34,7 +34,7 @@ resource "aws_redshift_cluster" "fail_encrypted_empty_kms" {
   attrs = {
     cluster_identifier = "test-cluster-empty-kms"
     node_type = "dc2.large"
-    encypted = true
+    encrypted = true
     kms_key_id = ""
     master_username = "admin"
     database_name = "mydb"

@@ -10,7 +10,7 @@ This control checks whether an Amazon EC2 Auto Scaling group uses multiple insta
 
 You can enhance availability by deploying your application across multiple instance types running in multiple Availability Zones. Security Hub CSPM recommends using multiple instance types so that the Auto Scaling group can launch another instance type if there is insufficient instance capacity in your chosen Availability Zones.
 
-This rule is covered by the [autoscaling-multiple-instance-types](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/autoscaling/autoscaling-multiple-instance-types.policy.hcl) policy.
+This rule is covered by the [autoscaling-multiple-instance-types](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/autoscaling/autoscaling-multiple-instance-types.policy.hcl) policy.
 
 
 ## Policy Results

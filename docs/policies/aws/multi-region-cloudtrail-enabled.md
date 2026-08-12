@@ -8,7 +8,7 @@
 
 Refer to [AWS Security Hub documentation](https://docs.aws.amazon.com/config/latest/developerguide/multi-region-cloudtrail-enabled.html) for details.
 
-This rule is covered by the [multi-region-cloudtrail-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudtrail/multi-region-cloudtrail-enabled.policy.hcl) policy.
+This rule is covered by the [multi-region-cloudtrail-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudtrail/multi-region-cloudtrail-enabled.policy.hcl) policy.
 
 ## Policy Results
 

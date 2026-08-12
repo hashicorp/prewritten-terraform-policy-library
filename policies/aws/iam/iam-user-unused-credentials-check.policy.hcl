@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: IAM.8 - Unused IAM user credentials should be removed
+# Unused IAM user credentials should be removed
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-user-unused-credentials-check-enforcement-level" {
   type = string
@@ -24,24 +31,24 @@ resource_policy "aws_config_config_rule" "iam_unused_credentials_check" {
 
     input_parameters_raw = core::try(attrs.input_parameters, "{}")
     input_parameters = core::try(core::jsondecode(local.input_parameters_raw), {})
-    max_credential_usage_age = core::try(local.input_parameters.maxCredentialUsageAge, null)
-    has_fixed_usage_age = local.max_credential_usage_age == null || local.max_credential_usage_age == 90 || local.max_credential_usage_age == "90"
+    max_credential_usage_age = core::try(local.input_parameters.maxCredentialUsageAge, "")
+    has_fixed_usage_age = local.max_credential_usage_age == "" || local.max_credential_usage_age == 90 || local.max_credential_usage_age == "90"
   }
 
   filter = local.is_iam_unused_creds_rule
 
   enforce {
     condition = local.is_correct_source
-    error_message = "AWS Config rule '${attrs.name}' must use source identifier 'IAM_USER_UNUSED_CREDENTIALS_CHECK' (current: '${local.source_identifier}'). This rule is required for IAM.8 compliance to monitor unused credentials. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-8 for more details."
+    error_message = "AWS Config rule '${attrs.name}' must use source identifier 'IAM_USER_UNUSED_CREDENTIALS_CHECK' (current: '${local.source_identifier}'). This rule is required for IAM.8 compliance to monitor unused credentials"
   }
 
   enforce {
     condition = local.is_aws_managed
-    error_message = "AWS Config rule '${attrs.name}' must be AWS-managed (owner: AWS, current: '${local.rule_owner}'). This ensures the rule uses AWS's official implementation for monitoring unused IAM credentials. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-8 for more details."
+    error_message = "AWS Config rule '${attrs.name}' must be AWS-managed (owner: AWS, current: '${local.rule_owner}'). This ensures the rule uses AWS's official implementation for monitoring unused IAM credentials"
   }
 
   enforce {
     condition = local.has_fixed_usage_age
-    error_message = "AWS Config rule '${attrs.name}' must use maxCredentialUsageAge = 90 when input_parameters are provided. Current value: '${local.max_credential_usage_age}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/iam-controls.html#iam-8 for more details."
+    error_message = "AWS Config rule '${attrs.name}' must use maxCredentialUsageAge = 90 when input_parameters are provided. Current value: '${local.max_credential_usage_age}'"
   }
 }

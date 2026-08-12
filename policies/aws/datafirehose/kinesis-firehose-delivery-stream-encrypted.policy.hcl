@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# DataFirehose.1 - Firehose delivery streams should be encrypted at rest
+# Firehose delivery streams should be encrypted at rest
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "kinesis-firehose-delivery-stream-encrypted-enforcement-level" {
   type = string
@@ -25,6 +32,6 @@ resource_policy "aws_kinesis_firehose_delivery_stream" "encryption_at_rest_requi
 
     enforce {
         condition = local.sse_enabled == true
-        error_message = "Firehose delivery stream must have server-side encryption enabled. Configure the 'server_side_encryption' block with 'enabled = true' to encrypt data at rest. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/datafirehose-controls.html#datafirehose-1 for more details."
+        error_message = "Firehose delivery stream must have server-side encryption enabled. Configure the 'server_side_encryption' block with 'enabled = true' to encrypt data at rest"
     }
 }

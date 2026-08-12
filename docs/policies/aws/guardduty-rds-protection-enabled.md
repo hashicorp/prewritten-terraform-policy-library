@@ -12,7 +12,7 @@ In a multi-account environment, the control generates findings in only the deleg
 
 RDS Protection in GuardDuty analyzes and profiles RDS login activity for potential access threats to your Amazon Aurora databases (Aurora MySQL-Compatible Edition and Aurora PostgreSQL-Compatible Edition). This feature allows you to identify potentially suspicious login behavior. RDS Protection doesn't require additional infrastructure; it is designed so as not to affect the performance of your database instances. When RDS Protection detects a potentially suspicious or anomalous login attempt that indicates a threat to your database, GuardDuty generates a new finding with details about the potentially compromised database.
 
-This rule is covered by the [guardduty-rds-protection-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/guardduty/guardduty-rds-protection-enabled.policy.hcl) policy.
+This rule is covered by the [guardduty-rds-protection-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/guardduty/guardduty-rds-protection-enabled.policy.hcl) policy.
 
 ## Policy Results
 

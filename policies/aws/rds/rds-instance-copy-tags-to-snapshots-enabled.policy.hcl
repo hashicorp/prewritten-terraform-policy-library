@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.17 - RDS DB instances should be configured to copy tags to snapshots.
+# RDS DB instances should be configured to copy tags to snapshots
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-copy-tags-to-snapshots-enabled-enforcement-level" {
   type = string
@@ -13,6 +20,6 @@ resource_policy "aws_db_instance" "copy_tags_to_snapshots_enabled" {
     enforcement_level = input.rds-instance-copy-tags-to-snapshots-enabled-enforcement-level
     enforce {
         condition = core::try(attrs.copy_tags_to_snapshot, false)
-        error_message = "RDS instances should be configured to copy tags to DB snapshots. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-17 for more details."
+        error_message = "RDS instances should be configured to copy tags to DB snapshots"
     }
 }

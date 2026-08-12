@@ -10,7 +10,7 @@ This control checks whether account level block public access is enabled to prev
 
 To prevent public sharing of your Amazon EBS snapshots, you can enable block public access for snapshots. Once block public access for snapshots is enabled in a Region, any attempt to publicly share snapshots in that Region is automatically blocked. This helps improve the security of the snapshots and protect the snapshot data from unauthorized or unintended access.
 
-This rule is covered by the [ebs-snapshot-block-public-access](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ebs-snapshot-block-public-access.policy.hcl) policy.
+This rule is covered by the [ebs-snapshot-block-public-access](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ebs-snapshot-block-public-access.policy.hcl) policy.
 
 ## Policy Results
 

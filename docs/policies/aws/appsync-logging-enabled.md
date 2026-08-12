@@ -20,7 +20,7 @@ This control checks whether an AWS AppSync API has field-level logging turned on
 
 You can use logging and metrics to identify, troubleshoot, and optimize your GraphQL queries. Turning on logging for AWS AppSync GraphQL helps you get detailed information about API requests and responses, identify and respond to issues, and comply with regulatory requirements.
 
-This rule is covered by the [appsync-logging-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/appsync/appsync-logging-enabled.policy.hcl) policy.
+This rule is covered by the [appsync-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/appsync/appsync-logging-enabled.policy.hcl) policy.
 
 ## Policy Results
 

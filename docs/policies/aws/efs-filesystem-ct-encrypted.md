@@ -10,7 +10,7 @@ This control checks whether an Amazon EFS file system encrypts data with AWS Key
 
 Data at rest refers to data that's stored in persistent, non-volatile storage for any duration. Encrypting data at rest helps you protect its confidentiality, which reduces the risk that an unauthorized user can access it.
 
-This rule is covered by the [efs-filesystem-ct-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/efs/efs-filesystem-ct-encrypted.policy.hcl) policy.
+This rule is covered by the [efs-filesystem-ct-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/efs/efs-filesystem-ct-encrypted.policy.hcl) policy.
 
 ## Policy Results
 

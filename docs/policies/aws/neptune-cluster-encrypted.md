@@ -10,7 +10,7 @@ This control checks whether a Neptune DB cluster is encrypted at rest. The contr
 
 Data at rest refers to any data that's stored in persistent, non-volatile storage for any duration. Encryption helps you protect the confidentiality of such data, reducing the risk that an unauthorized user can access it. Encrypting your Neptune DB clusters protects your data and metadata against unauthorized access. It also fulfills compliance requirements for data-at-rest encryption of production file systems.
 
-This rule is covered by the [neptune-cluster-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/neptune/neptune-cluster-encrypted.policy.hcl) policy.
+This rule is covered by the [neptune-cluster-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/neptune/neptune-cluster-encrypted.policy.hcl) policy.
 
 ## Policy Results
 

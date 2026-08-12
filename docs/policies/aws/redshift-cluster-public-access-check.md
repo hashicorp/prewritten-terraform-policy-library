@@ -12,7 +12,7 @@ The PubliclyAccessible attribute of the Amazon Redshift cluster configuration in
 
 When the cluster is not publicly accessible, it is an internal instance with a DNS name that resolves to a private IP address. Unless you intend for your cluster to be publicly accessible, the cluster should not be configured with PubliclyAccessible set to true.
 
-This rule is covered by the [redshift-cluster-public-access-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-cluster-public-access-check.policy.hcl) policy.
+This rule is covered by the [redshift-cluster-public-access-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-cluster-public-access-check.policy.hcl) policy.
 
 ## Policy Results
 

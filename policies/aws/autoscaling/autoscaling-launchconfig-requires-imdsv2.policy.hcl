@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: AutoScaling.3 - IMDSv2 Required for Launch Configurations
+# Auto Scaling group launch configurations should configure EC2 instances to require Instance Metadata Service Version 2 (IMDSv2)
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "autoscaling-launchconfig-requires-imdsv2-enforcement-level" {
   type = string
@@ -27,7 +34,7 @@ resource_policy "aws_launch_configuration" "imdsv2_required" {
 
     enforce {
         condition = local.is_imdsv2_enabled
-        error_message = "Launch configuration must require IMDSv2. Set metadata_options.http_tokens = \"required\" (currently: ${local.http_tokens}). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-3 for more details."
+        error_message = "Launch configuration must require IMDSv2. Set metadata_options.http_tokens = \"required\" (currently: ${local.http_tokens})"
     }
 }
 

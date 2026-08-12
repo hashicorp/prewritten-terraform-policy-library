@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.20 - Existing RDS event notification subscriptions should be configured for critical database instance events.
+# Existing RDS event notification subscriptions should be configured for critical database instance events
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-event-notifications-configured-enforcement-level" {
   type = string
@@ -26,6 +33,6 @@ resource_policy "aws_db_event_subscription" "critical_events_configured" {
 
     enforce {
         condition = local.event_categories == [] || (local.is_enabled && local.all_categories_present)
-        error_message = "RDS event subscription must include all critical event categories: 'maintenance', 'configuration change', and 'failure'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-20 for more details."
+        error_message = "RDS event subscription must include all critical event categories: 'maintenance', 'configuration change', and 'failure'"
     }
 }

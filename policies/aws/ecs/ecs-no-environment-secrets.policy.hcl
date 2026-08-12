@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ECS.8 - Secrets should not be passed as container environment variables.
+# Secrets should not be passed as container environment variables
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-no-environment-secrets-enforcement-level" {
   type = string
@@ -48,6 +55,6 @@ resource_policy "aws_ecs_task_definition" "no_environment_secrets" {
 
     enforce {
         condition = core::length(local.containers_with_violations) == 0
-        error_message = "Task definition contains prohibited environment variables in containers. Use the 'secrets' parameter to reference AWS Secrets Manager or Systems Manager Parameter Store instead of passing secrets as environment variables. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-8 for more details."
+        error_message = "Task definition contains prohibited environment variables in containers. Use the 'secrets' parameter to reference AWS Secrets Manager or Systems Manager Parameter Store instead of passing secrets as environment variables"
     }
 }

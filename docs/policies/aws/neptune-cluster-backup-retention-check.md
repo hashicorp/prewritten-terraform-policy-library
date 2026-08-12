@@ -10,7 +10,7 @@ This control checks whether a Neptune DB cluster has automated backups enabled, 
 
 Backups help you recover more quickly from a security incident and strengthen the resilience of your systems. By automating backups for your Neptune DB clusters, you'll be able to restore your systems to a point in time and minimize downtime and data loss.
 
-This rule is covered by the [neptune-cluster-backup-retention-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/neptune/neptune-cluster-backup-retention-check.policy.hcl) policy.
+This rule is covered by the [neptune-cluster-backup-retention-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/neptune/neptune-cluster-backup-retention-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks whether high availability is enabled for your RDS DB cluster
 
 RDS DB clusters should be configured for multiple AZs to ensure availability of stored data. Deployment to multiple AZs allows for automated failover in the event of an AZ availability issue and during regular RDS maintenance events.
 
-This rule is covered by the [rds-cluster-multi-az-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-cluster-multi-az-enabled.policy.hcl) policy.
+This rule is covered by the [rds-cluster-multi-az-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-cluster-multi-az-enabled.policy.hcl) policy.
 
 ## Policy Results
 

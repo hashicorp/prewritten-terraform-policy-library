@@ -20,7 +20,7 @@ This control checks if Amazon API Gateway routes have an authorization type. The
 
 API Gateway supports multiple mechanisms for controlling and managing access to your API. By specifying an authorization type, you can restrict access to your API to only authorized users or processes.
 
-This rule is covered by the [api-gwv2-authorization-type-configured](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/apigateway/api-gwv2-authorization-type-configured.policy.hcl) policy.
+This rule is covered by the [api-gwv2-authorization-type-configured](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/apigateway/api-gwv2-authorization-type-configured.policy.hcl) policy.
 
 
 ## Policy Results

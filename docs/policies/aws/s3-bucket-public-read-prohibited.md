@@ -12,7 +12,7 @@ If an S3 bucket has a bucket policy, this control doesn't evaluate policy condit
 
 Some use cases may require that everyone on the internet be able to read from your S3 bucket. However, those situations are rare. To ensure the integrity and security of your data, your S3 bucket should not be publicly readable.
 
-This rule is covered by the [s3-bucket-public-read-prohibited](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/s3/s3-bucket-public-read-prohibited.policy.hcl) policy.
+This rule is covered by the [s3-bucket-public-read-prohibited](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-bucket-public-read-prohibited.policy.hcl) policy.
 
 ## Policy Results
 

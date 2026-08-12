@@ -12,7 +12,7 @@ CloudTrail log file validation creates a digitally signed digest file that conta
 
 Security Hub CSPM recommends that you enable file validation on all trails. Log file validation provides additional integrity checks of CloudTrail logs.
 
-This rule is covered by the [cloud-trail-log-file-validation-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudtrail/cloud-trail-log-file-validation-enabled.policy.hcl) policy.
+This rule is covered by the [cloud-trail-log-file-validation-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudtrail/cloud-trail-log-file-validation-enabled.policy.hcl) policy.
 
 ## Policy Results
 

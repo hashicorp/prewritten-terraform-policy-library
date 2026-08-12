@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy : CloudFront.15 -  CloudFront distributions should use the recommended TLS security policy
+# CloudFront distributions should use the recommended TLS security policy
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-ssl-policy-check-enforcement-level" {
   type = string
@@ -38,11 +45,11 @@ resource_policy "aws_cloudfront_distribution" "recommended_tls_security_policy" 
 
   enforce {
     condition = local.input_matches_supported_values
-    error_message = "input.securityPolicies must remain 'TLSv1.2_2021,TLSv1.2_2025,TLSv1.3_2025' because this AWS control is not customizable. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-15 for more details."
+    error_message = "input.securityPolicies must remain 'TLSv1.2_2021,TLSv1.2_2025,TLSv1.3_2025' because this AWS control is not customizable"
   }
 
   enforce {
     condition = local.requires_evaluation == false || local.uses_recommended_tls_policy
-    error_message = "CloudFront distribution must use one of the recommended TLS security policies from input.securityPolicies='${input.securityPolicies}' when configured with a custom SSL certificate. Current minimum_protocol_version: ${local.minimum_protocol_version}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-15 for more details."
+    error_message = "CloudFront distribution must use one of the recommended TLS security policies from input.securityPolicies='${input.securityPolicies}' when configured with a custom SSL certificate. Current minimum_protocol_version: ${local.minimum_protocol_version}"
   }
 }

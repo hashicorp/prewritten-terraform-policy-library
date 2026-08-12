@@ -10,7 +10,7 @@ This control checks whether Amazon API Gateway REST API stages have SSL certific
 
 API Gateway REST API stages should be configured with SSL certificates to allow backend systems to authenticate that requests originate from API Gateway.
 
-This rule is covered by the [api-gw-ssl-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/apigateway/api-gw-ssl-enabled.policy.hcl) policy.
+This rule is covered by the [api-gw-ssl-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/apigateway/api-gw-ssl-enabled.policy.hcl) policy.
 
 ## Policy Results
 

@@ -25,6 +25,7 @@ resource "aws_dms_replication_instance" "fail_multi_az_false" {
 resource "aws_dms_replication_instance" "fail_multi_az_missing" {
     expect_failure = true
     attrs = {
+        engine_version = "3.1.4"
         # multi_az is omitted
     }
 }

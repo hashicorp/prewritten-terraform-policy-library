@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: DMS.9 - DMS endpoints should use SSL
+# DMS endpoints should use SSL
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-endpoint-ssl-configured-enforcement-level" {
   type    = string
@@ -20,6 +27,6 @@ resource_policy "aws_dms_endpoint" "ssl_mode_required" {
 
   enforce {
     condition     = local.is_compliant
-    error_message = "Attribute 'ssl_mode' must be set to one of: require, verify-ca, verify-full for 'aws_dms_endpoint' resources. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dms-controls.html#dms-9 for more details."
+    error_message = "Attribute 'ssl_mode' must be set to one of: require, verify-ca, verify-full for 'aws_dms_endpoint' resources."
   }
 }

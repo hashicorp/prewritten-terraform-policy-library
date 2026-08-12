@@ -8,7 +8,7 @@
 
 Load Balancer listener '${local.listener_name}' uses SSL policy '${local.ssl_policy}' which is not recommended. Please use one of the following recommended policies: ${core::join(", ", local.recommended_policies)}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-17 for more details.
 
-This rule is covered by the [elbv2-predefined-security-policy-ssl-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elb/elbv2-predefined-security-policy-ssl-check.policy.hcl) policy.
+This rule is covered by the [elbv2-predefined-security-policy-ssl-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elbv2-predefined-security-policy-ssl-check.policy.hcl) policy.
 
 ## Policy Results
 

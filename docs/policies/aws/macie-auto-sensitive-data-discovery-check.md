@@ -10,7 +10,7 @@ This control checks whether automated sensitive data discovery is enabled for an
 
 Macie automates discovery and reporting of sensitive data, such as personally identifiable information (PII), in Amazon Simple Storage Service (Amazon S3) buckets. With automated sensitive data discovery, Macie continually evaluates your bucket inventory and uses sampling techniques to identify and select representative S3 objects from your buckets. Macie then analyzes the selected objects, inspecting them for sensitive data. As the analyses progress, Macie updates statistics, inventory data, and other information that it provides about your S3 data. Macie also generates findings to report sensitive data that it finds.
 
-This rule is covered by the [macie-auto-sensitive-data-discovery-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/macie/macie-auto-sensitive-data-discovery-check.policy.hcl) policy.
+This rule is covered by the [macie-auto-sensitive-data-discovery-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/macie/macie-auto-sensitive-data-discovery-check.policy.hcl) policy.
 
 ## Policy Results
 

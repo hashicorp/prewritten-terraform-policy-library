@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.22 - RDS Event Notifications Subscription for Critical Database Security Group Events.
+# An RDS event notifications subscription should be configured for critical database security group events
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-sg-event-notifications-configured-enforcement-level" {
   type = string
@@ -23,6 +30,6 @@ resource_policy "aws_db_event_subscription" "sg_event_notifications" {
 
     enforce {
         condition = local.event_categories == [] || (local.is_enabled && local.has_config_change && local.has_failure)
-        error_message = "RDS event subscription for db-security-group events must be enabled for both 'configuration change' and 'failure' event_categories. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-22 for more details."
+        error_message = "RDS event subscription for db-security-group events must be enabled for both 'configuration change' and 'failure' event_categories"
     }
 }

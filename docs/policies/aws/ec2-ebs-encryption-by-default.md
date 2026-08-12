@@ -10,7 +10,7 @@ This control checks whether account-level encryption is enabled by default for A
 
 When encryption is enabled for your account, Amazon EBS volumes and snapshot copies are encrypted at rest. This adds an additional layer of protection for your data. For more information, see Encryption by default in the Amazon EC2 User Guide.
 
-This rule is covered by the [ec2-ebs-encryption-by-default](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-ebs-encryption-by-default.policy.hcl) policy.
+This rule is covered by the [ec2-ebs-encryption-by-default](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-ebs-encryption-by-default.policy.hcl) policy.
 
 ## Policy Results
 

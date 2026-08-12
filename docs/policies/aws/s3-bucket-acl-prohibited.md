@@ -9,7 +9,7 @@ This control checks whether an Amazon S3 general purpose bucket provides user pe
 
 ACLs are legacy access control mechanisms that predate IAM. Instead of ACLs, we recommend using S3 bucket policies or AWS Identity and Access Management (IAM) policies to manage access to your S3 buckets.
 
-This rule is covered by the [s3-bucket-acl-prohibited](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/s3/s3-bucket-acl-prohibited.policy.hcl) policy.
+This rule is covered by the [s3-bucket-acl-prohibited](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-bucket-acl-prohibited.policy.hcl) policy.
 
 ## Policy Results
 

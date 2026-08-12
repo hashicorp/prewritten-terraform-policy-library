@@ -10,7 +10,7 @@ This control checks whether a security group associated with an Amazon Redshift 
 
 Permitting unrestricted inbound access to the Redshift cluster port (IP address with a /0 suffix) can result in unauthorized access or security incidents. We recommend applying the principal of least privilege access when creating security groups and configuring inbound rules.
 
-This rule is covered by the [redshift-unrestricted-port-access](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/redshift/redshift-unrestricted-port-access.policy.hcl) policy.
+This rule is covered by the [redshift-unrestricted-port-access](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-unrestricted-port-access.policy.hcl) policy.
 
 ## Policy Results
 

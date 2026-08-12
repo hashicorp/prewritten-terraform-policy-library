@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Neptune.5 - Neptune DB clusters should have automated backups enabled.
+# Neptune DB clusters should have automated backups enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "neptune-cluster-backup-retention-check-enforcement-level" {
   type = string
@@ -18,6 +25,6 @@ resource_policy "aws_neptune_cluster" "backup-retention-period" {
     enforcement_level = input.neptune-cluster-backup-retention-check-enforcement-level
     enforce {
         condition = input.min_backup_retention_period >= 1 && input.min_backup_retention_period <= 35 && core::try(attrs.backup_retention_period, 1) >= input.min_backup_retention_period
-        error_message = "The backup retention period for the Neptune cluster is less than the minimum required. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/neptune-controls.html#neptune-5 for more details."
+        error_message = "The backup retention period for the Neptune cluster is less than the minimum required"
     }
 }

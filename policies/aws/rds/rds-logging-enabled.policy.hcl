@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.9 - RDS DB instances should publish logs to CloudWatch Logs.
+# RDS DB instances should publish logs to CloudWatch Logs
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-logging-enabled-enforcement-level" {
   type = string
@@ -25,6 +32,6 @@ resource_policy "aws_db_instance" "rds_logging_enabled" {
 
     enforce {
         condition = core::length(local.required_logs) == 0 || core::length(local.missing_logs) == 0
-        error_message = "RDS DB instance must enable all required CloudWatch log exports for engine '${local.engine}'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-9 for more details."
+        error_message = "RDS DB instance must enable all required CloudWatch log exports for engine '${local.engine}'"
     }
 }

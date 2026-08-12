@@ -12,7 +12,7 @@ This control is intended for RDS DB instances. However, it can also generate fin
 
 Encrypting data at rest reduces the risk that an unauthenticated user gets access to data that is stored on disk. Data in RDS snapshots should be encrypted at rest for an added layer of security.
 
-This rule is covered by the [rds-snapshot-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-snapshot-encrypted.policy.hcl) policy.
+This rule is covered by the [rds-snapshot-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-snapshot-encrypted.policy.hcl) policy.
 
 ## Policy Results
 

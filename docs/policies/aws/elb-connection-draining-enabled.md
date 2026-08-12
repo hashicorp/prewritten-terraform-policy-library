@@ -10,7 +10,7 @@ This control checks whether Classic Load Balancers have connection draining enab
 
 Enabling connection draining on Classic Load Balancers ensures that the load balancer stops sending requests to instances that are de-registering or unhealthy. It keeps the existing connections open. This is particularly useful for instances in Auto Scaling groups, to ensure that connections aren't severed abruptly.
 
-This rule is covered by the [elb-connection-draining-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticloadbalancing/elb-connection-draining-enabled.policy.hcl) policy.
+This rule is covered by the [elb-connection-draining-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elb-connection-draining-enabled.policy.hcl) policy.
 
 ## Policy Results
 

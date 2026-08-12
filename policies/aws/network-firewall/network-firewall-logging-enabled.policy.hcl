@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# NetworkFirewall.2 - Network Firewall Logging Should Be Enabled
+# Network Firewall logging should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "network-firewall-logging-enabled-enforcement-level" {
   type = string
@@ -45,12 +52,12 @@ resource_policy "aws_networkfirewall_logging_configuration" "logging_enabled" {
   # Enforce: At least one log type must be configured
   enforce {
     condition     = local.has_logging
-    error_message = "Network Firewall must have logging enabled for at least one log type (ALERT, FLOW, or TLS). Currently no logging is configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-2 for more details."
+    error_message = "Network Firewall must have logging enabled for at least one log type (ALERT, FLOW, or TLS). Currently no logging is configured"
   }
 
   # Enforce: All configured log destinations must exist and be valid
   enforce {
     condition     = local.has_valid_destinations
-    error_message = "Network Firewall has logging configured but one or more log destinations are missing or invalid. Ensure all log_destination maps contain valid destination information. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-2 for more details."
+    error_message = "Network Firewall has logging configured but one or more log destinations are missing or invalid. Ensure all log_destination maps contain valid destination information"
   }
 }

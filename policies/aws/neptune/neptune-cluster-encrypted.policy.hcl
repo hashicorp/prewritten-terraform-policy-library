@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Neptune.1 - Neptune DB clusters should be encrypted at rest
+# Neptune DB clusters should be encrypted at rest
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "neptune-cluster-encrypted-enforcement-level" {
   type = string
@@ -25,6 +32,6 @@ resource_policy "aws_neptune_cluster" "encrypted-at-rest" {
 
     enforce {
         condition = local.has_encryption && local.valid_kms_key_arn
-        error_message = "Neptune cluster either does not have encryption enabled or uses invalid KMS key. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/neptune-controls.html#neptune-1 for more details."
+        error_message = "Neptune cluster either does not have encryption enabled or uses invalid KMS key"
     }
 }

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EKS.3 - EKS clusters should use encrypted Kubernetes secrets
+# EKS clusters should use encrypted Kubernetes secrets
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "eks-cluster-secrets-encrypted-enforcement-level" {
   type    = string
@@ -26,6 +33,6 @@ resource_policy "aws_eks_cluster" "eks_cluster_encrypted_kubernetes_secrets" {
 
   enforce {
     condition     = local.is_compliant
-    error_message = "Invalid 'encryption_config' attribute present for 'aws_eks_cluster' resources. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/eks-controls.html#eks-3 for more details."
+    error_message = "Invalid 'encryption_config' attribute present for 'aws_eks_cluster' resources."
   }
 }

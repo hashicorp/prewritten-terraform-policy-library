@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ES.4 - Elasticsearch domain error logging to CloudWatch Logs should be enabled.
+# Elasticsearch domain error logging to CloudWatch Logs should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-logs-to-cloudwatch-enforcement-level" {
   type = string
@@ -34,16 +41,16 @@ resource_policy "aws_elasticsearch_domain" "error_logging_enabled" {
 
     enforce {
         condition = local.has_app_logs
-        error_message = "Elasticsearch domain does not have ES_APPLICATION_LOGS configured. Add log_publishing_options block with log_type = 'ES_APPLICATION_LOGS' to enable error logging. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-4 for more details."
+        error_message = "Elasticsearch domain does not have ES_APPLICATION_LOGS configured. Add log_publishing_options block with log_type = 'ES_APPLICATION_LOGS' to enable error logging"
     }
 
     enforce {
         condition = local.is_enabled
-        error_message = "Elasticsearch domain has ES_APPLICATION_LOGS configured but it is disabled. Set 'enabled = true' or remove the enabled attribute (defaults to true). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-4 for more details."
+        error_message = "Elasticsearch domain has ES_APPLICATION_LOGS configured but it is disabled. Set 'enabled = true' or remove the enabled attribute (defaults to true)"
     }
 
     enforce {
         condition = local.has_log_group
-        error_message = "Elasticsearch domain has ES_APPLICATION_LOGS configured but missing cloudwatch_log_group_arn. Specify a valid CloudWatch log group ARN to receive error logs. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-4 for more details."
+        error_message = "Elasticsearch domain has ES_APPLICATION_LOGS configured but missing cloudwatch_log_group_arn. Specify a valid CloudWatch log group ARN to receive error logs"
     }
 }

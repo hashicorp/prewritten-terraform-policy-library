@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: RDS.2 - RDS DB Instances should prohibit public access, as determined by the PubliclyAccessible configuration
+# RDS DB Instances should prohibit public access, as determined by the PubliclyAccessible configuration
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-instance-public-access-check-enforcement-level" {
   type    = string
@@ -18,6 +25,6 @@ resource_policy "aws_db_instance" "rds-instance-should-be-private" {
 
   enforce {
     condition     = !local.publicly_accessible
-    error_message = "Attribute 'publicly_accessible' should be false for aws_db_instance resource. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-2 for more details."
+    error_message = "Attribute 'publicly_accessible' should be false for aws_db_instance resource."
   }
 }

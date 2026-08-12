@@ -18,7 +18,7 @@ The control also verifies that the configuration recorder is enabled, records su
 
 AWS Config performs configuration management for supported AWS resources in your account and delivers log files for those configuration changes. The recorded information includes the configuration item, relationships between configuration items, and configuration changes over time. Global resources are resources that are available in any Region.
 
-This rule is covered by the [config1-aws-config-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/config/config1-aws-config-enabled.policy.hcl) policy.
+This rule is covered by the [config1-aws-config-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/config/config1-aws-config-enabled.policy.hcl) policy.
 
 ## Policy Results
 

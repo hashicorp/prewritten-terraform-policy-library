@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: CloudFront.7 - CloudFront distributions should use custom SSL/TLS certificates
+# CloudFront distributions should use custom SSL/TLS certificates
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudfront-custom-ssl-certificate-enforcement-level" {
   type = string
@@ -26,11 +33,11 @@ resource_policy "aws_cloudfront_distribution" "custom_ssl_required" {
 
   enforce {
     condition = !local.uses_default_cert
-    error_message = "CloudFront distribution is using the default CloudFront SSL/TLS certificate. Configure a custom certificate using 'acm_certificate_arn' or 'iam_certificate_id' in the viewer_certificate block. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-7 for more details."
+    error_message = "CloudFront distribution is using the default CloudFront SSL/TLS certificate. Configure a custom certificate using 'acm_certificate_arn' or 'iam_certificate_id' in the viewer_certificate block"
   }
 
   enforce {
     condition = local.has_custom_cert
-    error_message = "CloudFront distribution must have a custom SSL/TLS certificate configured. Set either 'acm_certificate_arn' (recommended) or 'iam_certificate_id' in the viewer_certificate block. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudfront-controls.html#cloudfront-7 for more details. "
+    error_message = "CloudFront distribution must have a custom SSL/TLS certificate configured. Set either 'acm_certificate_arn' (recommended) or 'iam_certificate_id' in the viewer_certificate block"
   }
 }

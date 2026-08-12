@@ -12,7 +12,7 @@ Enabling instance deletion protection is an additional layer of protection again
 
 While deletion protection is enabled, an RDS DB instance cannot be deleted. Before a deletion request can succeed, deletion protection must be disabled.
 
-This rule is covered by the [rds-instance-deletion-protection-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-instance-deletion-protection-enabled.policy.hcl) policy.
+This rule is covered by the [rds-instance-deletion-protection-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-instance-deletion-protection-enabled.policy.hcl) policy.
 
 ## Policy Results
 

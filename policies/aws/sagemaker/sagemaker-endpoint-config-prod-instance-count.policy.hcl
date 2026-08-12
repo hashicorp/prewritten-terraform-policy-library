@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# SageMaker.4 - Endpoint Production Variants Must Have Instance Count > 1.
+# SageMaker endpoint production variants should have an initial instance count greater than 1
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.47.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-endpoint-config-prod-instance-count-enforcement-level" {
   type = string
@@ -56,12 +63,12 @@ resource_policy "aws_sagemaker_endpoint_configuration" "endpoint_instance_count_
     # Enforce: All instance-based production variants must have initial_instance_count > 1
     enforce {
         condition = local.total_instance_variants == 0 || local.total_instance_variants == local.total_ha_variants
-        error_message = "SageMaker endpoint configuration has production variants with initial_instance_count <= 1. For high availability, set initial_instance_count > 1 for all instance-based variants. Note: Serverless variants are exempt from this requirement. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-4 for more details."
+        error_message = "SageMaker endpoint configuration has production variants with initial_instance_count <= 1. For high availability, set initial_instance_count > 1 for all instance-based variants. Note: Serverless variants are exempt from this requirement"
     }
 
     # Enforce: All instance-based shadow production variants must have initial_instance_count > 1
     enforce {
         condition = local.total_shadow_instance_variants == 0 || local.total_shadow_instance_variants == local.total_shadow_ha_variants
-        error_message = "SageMaker endpoint configuration has shadow production variants with initial_instance_count <= 1. For high availability, set initial_instance_count > 1 for all instance-based shadow variants. Note: Serverless variants are exempt from this requirement. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-4 for more details."
+        error_message = "SageMaker endpoint configuration has shadow production variants with initial_instance_count <= 1. For high availability, set initial_instance_count > 1 for all instance-based shadow variants. Note: Serverless variants are exempt from this requirement"
     }
 }

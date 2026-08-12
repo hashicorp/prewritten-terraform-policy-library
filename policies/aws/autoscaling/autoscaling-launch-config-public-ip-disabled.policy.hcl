@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Autoscaling.5 - Amazon EC2 instances launched using Auto Scaling group launch configurations should not have Public IP addresses
+# Amazon EC2 instances launched using Auto Scaling group launch configurations should not have Public IP addresses
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "autoscaling-launch-config-public-ip-disabled-enforcement-level" {
   type = string
@@ -19,6 +26,6 @@ resource_policy "aws_launch_configuration" "no_public_ip" {
 
     enforce {
         condition = local.has_public_ip == false
-        error_message = "Launch configuration must not assign public IP addresses to instances. Set 'associate_public_ip_address = false' or omit the attribute. Public-facing instances should be accessed through load balancers instead of direct internet exposure. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-5 for more details."
+        error_message = "Launch configuration must not assign public IP addresses to instances. Set 'associate_public_ip_address = false' or omit the attribute. Public-facing instances should be accessed through load balancers instead of direct internet exposure"
     }
 }

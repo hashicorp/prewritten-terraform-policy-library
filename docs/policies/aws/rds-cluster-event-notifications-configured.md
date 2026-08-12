@@ -14,7 +14,7 @@ The control passes if there are no existing event subscriptions in your account.
 
 RDS event notifications uses Amazon SNS to make you aware of changes in the availability or configuration of your RDS resources. These notifications allow for rapid response. For additional information about RDS event notifications, see Using Amazon RDS event notification in the Amazon RDS User Guide.
 
-This rule is covered by the [rds-cluster-event-notifications-configured](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-cluster-event-notifications-configured.policy.hcl) policy.
+This rule is covered by the [rds-cluster-event-notifications-configured](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-cluster-event-notifications-configured.policy.hcl) policy.
 
 ## Policy Results
 

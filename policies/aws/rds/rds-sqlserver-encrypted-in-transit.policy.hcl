@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.41 - RDS for SQL Server DB instances should be encrypted in transit.
+# RDS for SQL Server DB instances should be encrypted in transit
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-sqlserver-encrypted-in-transit-enforcement-level" {
   type = string
@@ -30,6 +37,6 @@ resource_policy "aws_db_instance" "sqlserver_ssl_check" {
   
   enforce {
     condition = local.force_ssl_value != null && !local.ssl_disabled
-    error_message = "RDS SQL Server instance uses parameter group which either does not have the rds.force_ssl parameter explicitly configured or has rds.force_ssl set to '0' (disabled). Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-41 for more details."
+    error_message = "RDS SQL Server instance uses parameter group which either does not have the rds.force_ssl parameter explicitly configured or has rds.force_ssl set to '0' (disabled)"
   }
 }

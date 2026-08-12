@@ -8,7 +8,7 @@
 
 No description available from AWS docs.
 
-This rule is covered by the [dynamodb-pitr-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/dynamodb/dynamodb-pitr-enabled.policy.hcl) policy.
+This rule is covered by the [dynamodb-pitr-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dynamodb-pitr-enabled.policy.hcl) policy.
 
 ## Policy Results
 

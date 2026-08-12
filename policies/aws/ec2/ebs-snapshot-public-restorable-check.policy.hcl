@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.1 - Amazon EBS snapshots should not be publicly restorable
+# Amazon EBS snapshots should not be configured to be publicly restorable
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.62.0, < 7.0.0"
+    }
+  }
+}
 
 input "ebs-snapshot-public-restorable-check-enforcement-level" {
   type = string
@@ -26,6 +33,6 @@ resource_policy "aws_ebs_snapshot_block_public_access" "validate_state" {
   
   enforce {
     condition = local.is_valid_state
-    error_message = "EBS snapshot block public access resource has an invalid state. Must be 'block-all-sharing' or 'block-new-sharing' to comply with EC2.1. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-1 for more details."
+    error_message = "EBS snapshot block public access resource has an invalid state. Must be 'block-all-sharing' or 'block-new-sharing' to comply with EC2.1"
   }
 }

@@ -10,7 +10,7 @@ A VPN tunnel is an encrypted link where data can pass from the customer network 
 
 This control checks that both VPN tunnels provided by AWS Site-to-Site VPN are in UP status. The control fails if one or both tunnels are in DOWN status.
 
-This rule is covered by the [vpc-vpn-2-tunnels-up](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/vpc/vpc-vpn-2-tunnels-up.policy.hcl) policy.
+This rule is covered by the [vpc-vpn-2-tunnels-up](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/vpc-vpn-2-tunnels-up.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks if the Amazon SNS topic access policy allows public access. 
 
 You use an Amazon SNS access policy with a particular topic to restrict who can work with that topic (for example, who can publish messages to it or who can subscribe to it). SNS policies can grant access to other AWS accounts, or to users within your own AWS account. Providing a wildcard (*) in the Principal field of the topic policy and a lack of conditions to limit the topic policy can result in data exfiltration, denial of service, or undesired injection of messages into your service by an attacker.
 
-This rule is covered by the [sns-topic-no-public-access](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/sns/sns-topic-no-public-access.policy.hcl) policy.
+This rule is covered by the [sns-topic-no-public-access](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sns/sns-topic-no-public-access.policy.hcl) policy.
 
 ## Policy Results
 

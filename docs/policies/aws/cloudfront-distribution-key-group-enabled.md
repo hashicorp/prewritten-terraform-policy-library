@@ -10,7 +10,7 @@ This control checks whether an Amazon CloudFront distribution is configured to u
 
 To use signed URLs or signed cookies, you need a signer. A signer is either a trusted key group that you create in CloudFront, or an AWS account that contains a CloudFront key pair. We recommend that you use trusted key groups because with CloudFront key groups, you don't need to use the AWS account root user to manage the public keys for CloudFront signed URLs and signed cookies.
 
-This rule is covered by the [cloudfront-distribution-key-group-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-distribution-key-group-enabled.policy.hcl) policy.
+This rule is covered by the [cloudfront-distribution-key-group-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-distribution-key-group-enabled.policy.hcl) policy.
 
 ## Policy Results
 

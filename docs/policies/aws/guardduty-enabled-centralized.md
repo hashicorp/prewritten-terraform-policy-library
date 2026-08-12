@@ -10,7 +10,7 @@ This control checks whether Amazon GuardDuty is enabled in your GuardDuty accoun
 
 It is highly recommended that you enable GuardDuty in all supported AWS Regions. Doing so allows GuardDuty to generate findings about unauthorized or unusual activity, even in Regions that you do not actively use. This also allows GuardDuty to monitor CloudTrail events for global AWS services such as IAM.
 
-This rule is covered by the [guardduty-enabled-centralized](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/guardduty/guardduty-enabled-centralized.policy.hcl) policy.
+This rule is covered by the [guardduty-enabled-centralized](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/guardduty/guardduty-enabled-centralized.policy.hcl) policy.
 
 ## Policy Results
 

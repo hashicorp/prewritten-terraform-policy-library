@@ -10,7 +10,7 @@ This control checks whether the password policy for an Amazon Cognito user pool 
 
 Strong passwords are a security best practice for Amazon Cognito user pools. Weak passwords can expose users' credentials to systems that guess passwords and try to access data. This is especially the case for applications that are open to the internet. Password policies are a central element of the security of user directories. By using a password policy, you can configure a user pool to require password complexity and other settings that comply with your security standards and requirements.
 
-This rule is covered by the [cognito-user-pool-password-policy-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cognito/cognito-user-pool-password-policy-check.policy.hcl) policy.
+This rule is covered by the [cognito-user-pool-password-policy-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cognito/cognito-user-pool-password-policy-check.policy.hcl) policy.
 
 ## Policy Results
 

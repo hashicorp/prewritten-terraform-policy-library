@@ -10,7 +10,7 @@ This control checks whether EC2 instances have a public IP address. The control 
 
 A public IPv4 address is an IP address that is reachable from the internet. If you launch your instance with a public IP address, then your EC2 instance is reachable from the internet. A private IPv4 address is an IP address that is not reachable from the internet. You can use private IPv4 addresses for communication between EC2 instances in the same VPC or in your connected private network.
 
-This rule is covered by the [ec2-instance-no-public-ip](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-instance-no-public-ip.policy.hcl) policy.
+This rule is covered by the [ec2-instance-no-public-ip](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-instance-no-public-ip.policy.hcl) policy.
 
 ## Policy Results
 

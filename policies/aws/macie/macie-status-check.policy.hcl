@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy : Macie.1 -  Amazon Macie should be enabled
+# Amazon Macie should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "macie-status-check-enforcement-level" {
   type = string
@@ -20,6 +27,6 @@ resource_policy "aws_macie2_account" "macie_enabled" {
 
     enforce {
         condition = local.is_enabled
-        error_message = "Amazon Macie must be enabled for the account. Status is '${local.macie_status}' but must be ENABLED. ${local.remediation_text} Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/macie-controls.html#macie-1 for more details."
+        error_message = "Amazon Macie must be enabled for the account. Status is '${local.macie_status}' but must be ENABLED. ${local.remediation_text}"
     }
 }

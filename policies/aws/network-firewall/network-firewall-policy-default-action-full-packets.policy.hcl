@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy : NetworkFirewall.4 -  The default stateless action for Network Firewall policies should be drop or forward for full packets
+# The default stateless action for Network Firewall policies should be drop or forward for full packets
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "network-firewall-policy-default-action-full-packets-enforcement-level" {
   type = string
@@ -34,11 +41,11 @@ resource_policy "aws_networkfirewall_firewall_policy" "stateless_default_action_
 
     enforce {
         condition = local.input_matches_supported_values
-        error_message = "input.statelessDefaultActions must remain 'aws:drop,aws:forward_to_sfe' because this AWS control is not customizable. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-4 for more details."
+        error_message = "input.statelessDefaultActions must remain 'aws:drop,aws:forward_to_sfe' because this AWS control is not customizable"
     }
 
     enforce {
         condition = local.is_compliant
-        error_message = "Network Firewall policy has non-compliant stateless default action. Current actions: ${local.stateless_actions_display}. The allowed full-packet default actions from input.statelessDefaultActions='${input.statelessDefaultActions}' are aws:drop and aws:forward_to_sfe. The policy fails if aws:pass is selected. Update 'stateless_default_actions' to use a compliant action. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-4 for more details."
+        error_message = "Network Firewall policy has non-compliant stateless default action. Current actions: ${local.stateless_actions_display}. The allowed full-packet default actions from input.statelessDefaultActions='${input.statelessDefaultActions}' are aws:drop and aws:forward_to_sfe. The policy fails if aws:pass is selected. Update 'stateless_default_actions' to use a compliant action"
     }
 }

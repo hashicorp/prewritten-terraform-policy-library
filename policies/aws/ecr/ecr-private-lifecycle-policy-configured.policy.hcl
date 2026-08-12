@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ECR.3 - ECR repositories should have at least one lifecycle policy configured
+# ECR repositories should have at least one lifecycle policy configured
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecr-private-lifecycle-policy-configured-enforcement-level" {
   type = string
@@ -27,6 +34,6 @@ resource_policy "aws_ecr_repository" "lifecycle_policy_required" {
 
     enforce {
         condition = local.has_lifecycle_policy
-        error_message = "ECR repository '${local.repository_name}' must have at least one lifecycle policy configured. Add an 'aws_ecr_lifecycle_policy' resource that references this repository to enable automated image cleanup and comply with ECR.3. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecr-controls.html#ecr-3 for more details."
+        error_message = "ECR repository '${local.repository_name}' must have at least one lifecycle policy configured. Add an 'aws_ecr_lifecycle_policy' resource that references this repository to enable automated image cleanup and comply with ECR.3"
     }
 }

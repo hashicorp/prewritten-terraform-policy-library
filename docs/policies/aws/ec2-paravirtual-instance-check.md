@@ -12,7 +12,7 @@ Linux Amazon Machine Images (AMIs) use one of two types of virtualization: parav
 
 Historically, PV guests had better performance than HVM guests in many cases, but because of enhancements in HVM virtualization and the availability of PV drivers for HVM AMIs, this is no longer true. For more information, see Linux AMI virtualization types in the Amazon EC2 User Guide.
 
-This rule is covered by the [ec2-paravirtual-instance-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-paravirtual-instance-check.policy.hcl) policy.
+This rule is covered by the [ec2-paravirtual-instance-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-paravirtual-instance-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -14,7 +14,7 @@ The control fails if the listener is not configured with TLS or HTTPS for front-
 
 Before you start to use a load balancer, you must add one or more listeners. A listener is a process that uses the configured protocol and port to check for connection requests. Listeners can support both HTTP and HTTPS/TLS protocols. You should always use an HTTPS or TLS listener, so that the load balancer does the work of encryption and decryption in transit.
 
-This rule is covered by the [elb-tls-https-listeners-only](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticloadbalancing/elb-tls-https-listeners-only.policy.hcl) policy.
+This rule is covered by the [elb-tls-https-listeners-only](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elb-tls-https-listeners-only.policy.hcl) policy.
 
 ## Policy Results
 

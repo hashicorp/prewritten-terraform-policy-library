@@ -28,6 +28,18 @@ docs/
     └── aws/                 (one .md per policy — description, category, test output)
 ```
 
+## Prerequisites
+
+### Install tfpolicy
+
+Download and install the `tfpolicy` binary by following the instructions at [Terraform Policy Install](https://developer.hashicorp.com/terraform/policy/install).
+
+### Verify the installation
+
+```bash
+tfpolicy version
+```
+
 ## Usage
 
 ### Validate a policy set
@@ -44,14 +56,8 @@ tfpolicy test policies/aws/s3
 
 ## Documentation
 
-Per-policy documentation lives under `docs/policies/aws/`. Each file includes:
+Per-policy documentation lives under `docs/policies/`. Each file includes:
 
-- A description of the FSBP control
-- The AWS provider and Security Hub category
+- A description of the control
+- The provider and the policy control category
 - Expected `tfpolicy test` output
-
-## Contributing
-
-1. Add the policy under `policies/<provider>/<service>/`.
-2. Add a companion `.policytest.hcl` covering at least one pass and one fail case.
-3. Add a doc file under `docs/policies/<provider>/` following the existing format.

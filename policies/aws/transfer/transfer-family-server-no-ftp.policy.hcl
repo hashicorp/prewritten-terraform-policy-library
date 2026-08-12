@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: Transfer.2 - Transfer Family servers should not use FTP protocol
+# Transfer Family servers should not use FTP protocol for endpoint connection
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "transfer-family-server-no-ftp-enforcement-level" {
   type = string
@@ -26,6 +33,6 @@ resource_policy "aws_transfer_server" "no_ftp_protocol" {
 
     enforce {
         condition = !local.has_ftp
-        error_message = "Transfer Family server uses insecure FTP protocol. FTP transmits data unencrypted, making it vulnerable to person-in-the-middle attacks. Use secure protocols instead: ${core::join(", ", local.allowed_protocols)}. Current protocols: ${core::join(", ", local.protocols)}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/transfer-controls.html#transfer-2 for more details."
+        error_message = "Transfer Family server uses insecure FTP protocol. FTP transmits data unencrypted, making it vulnerable to person-in-the-middle attacks. Use secure protocols instead: ${core::join(", ", local.allowed_protocols)}. Current protocols: ${core::join(", ", local.protocols)}"
     }
 }

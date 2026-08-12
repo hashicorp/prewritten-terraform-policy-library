@@ -10,7 +10,7 @@ This control checks whether an Amazon DynamoDB Accelerator (DAX) cluster is encr
 
 HTTPS (TLS) can be used to help prevent potential attackers from using person-in-the-middle or similar attacks to eavesdrop on or manipulate network traffic. You should only allow encrypted connections over TLS to access DAX clusters. However, encrypting data in transit can affect performance. You should test your application with encryption turned on to understand the performance profile and the impact of TLS.
 
-This rule is covered by the [dax-tls-endpoint-encryption](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/dax/dax-tls-endpoint-encryption.policy.hcl) policy.
+This rule is covered by the [dax-tls-endpoint-encryption](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dax-tls-endpoint-encryption.policy.hcl) policy.
 
 ## Policy Results
 

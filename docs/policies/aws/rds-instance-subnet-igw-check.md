@@ -10,7 +10,7 @@ This control checks whether an Amazon RDS DB instance is deployed in a public su
 
 By provisioning your Amazon RDS resources in private subnets, you can prevent your RDS resources from receiving inbound traffic from the public internet, which can prevent unintended access to your RDS DB instances. If RDS resources are provisioned in a public subnet that is open to the internet, they might be vulnerable to risks such as data exfiltration.
 
-This rule is covered by the [rds-instance-subnet-igw-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/rds/rds-instance-subnet-igw-check.policy.hcl) policy.
+This rule is covered by the [rds-instance-subnet-igw-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-instance-subnet-igw-check.policy.hcl) policy.
 
 ## Policy Results
 

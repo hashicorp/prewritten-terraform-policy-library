@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy : Cognito.2 - Cognito identity pools should not allow unauthenticated identities
+# Cognito identity pools should not allow unauthenticated identities
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cognito-identity-pool-unauth-access-check-enforcement-level" {
   type = string
@@ -20,6 +27,6 @@ resource_policy "aws_cognito_identity_pool" "no_unauthenticated_access" {
     # Enforce that unauthenticated identities are not allowed
     enforce {
         condition = local.allows_unauth == false
-        error_message = "Cognito identity pool must not allow unauthenticated identities. Set 'allow_unauthenticated_identities' to false. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cognito-controls.html#cognito-2 for more details."
+        error_message = "Cognito identity pool must not allow unauthenticated identities. Set 'allow_unauthenticated_identities' to false"
     }
 }

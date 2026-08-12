@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RDS.15 - RDS DB clusters should be configured for multiple Availability Zones.
+# RDS DB clusters should be configured for multiple Availability Zones
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "rds-cluster-multi-az-enabled-enforcement-level" {
   type = string
@@ -25,6 +32,6 @@ resource_policy "aws_rds_cluster" "multi_az_enabled" {
 
     enforce {
         condition = local.az_count >= local.min_required_azs
-        error_message = "RDS DB cluster must be configured with multiple Availability Zones for high availability. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/rds-controls.html#rds-15 for more details."
+        error_message = "RDS DB cluster must be configured with multiple Availability Zones for high availability"
     }
 }

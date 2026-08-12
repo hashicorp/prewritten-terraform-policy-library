@@ -2,7 +2,14 @@
 
 # Policy: ELB.17 - Application and Network Load Balancers with listeners should use recommended security policies
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elbv2-predefined-security-policy-ssl-check-enforcement-level" {
   type = string
@@ -37,6 +44,6 @@ resource_policy "aws_lb_listener" "elb17_recommended_ssl_policy" {
 
     enforce {
         condition = local.is_recommended
-        error_message = "Load Balancer listener '${local.listener_name}' uses SSL policy '${local.ssl_policy}' which is not recommended. Please use one of the following recommended policies: ${core::join(", ", local.recommended_policies)}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-17 for more details."
+        error_message = "Load Balancer listener '${local.listener_name}' uses SSL policy '${local.ssl_policy}' which is not recommended. Please use one of the following recommended policies: ${core::join(", ", local.recommended_policies)}"
     }
 }

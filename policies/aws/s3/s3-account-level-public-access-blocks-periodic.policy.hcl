@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# S3.1 - S3 Block Public Access Settings Enabled. This control checks whether the preceding Amazon S3 block public access settings are configured at the account level for an S3 general purpose bucket. The control fails if one or more of the block public access settings are set to false.
+# S3 general purpose buckets should have block public access settings enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "s3-account-level-public-access-blocks-periodic-enforcement-level" {
   type = string
@@ -20,6 +27,6 @@ resource_policy "aws_s3_account_public_access_block" "block-public-access-enable
 
     enforce {
         condition = local.block_public_acls && local.block_public_policy && local.ignore_public_acls && local.restrict_public_buckets
-        error_message = "S3 account-level public access block must have ALL four settings enabled. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-1 for more details."
+        error_message = "S3 account-level public access block must have ALL four settings enabled"
     }
 }

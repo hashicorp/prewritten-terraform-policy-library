@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# CloudFormation.4: CloudFormation stacks should have associated service roles
+# CloudFormation stacks should have associated service roles
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "cloudformation-stack-service-role-check-enforcement-level" {
   type = string
@@ -21,6 +28,6 @@ resource_policy "aws_cloudformation_stack" "service_role_required" {
 
     enforce {
         condition     = local.has_service_role
-        error_message = "CloudFormation stack must have a service role associated. Set the 'iam_role_arn' attribute to an IAM role ARN that AWS CloudFormation can assume to create the stack. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/cloudformation-controls.html#cloudformation-4 for more details. "
+        error_message = "CloudFormation stack must have a service role associated. Set the 'iam_role_arn' attribute to an IAM role ARN that AWS CloudFormation can assume to create the stack"
     }
 }

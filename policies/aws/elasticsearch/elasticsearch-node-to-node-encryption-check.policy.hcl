@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ES.3 - Elasticsearch domains should encrypt data sent between nodes.
+# Elasticsearch domains should encrypt data sent between nodes
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elasticsearch-node-to-node-encryption-check-enforcement-level" {
   type = string
@@ -19,6 +26,6 @@ resource_policy "aws_elasticsearch_domain" "node_to_node_encryption" {
     
     enforce {
         condition = local.node_to_node_encryption != null && core::try(local.node_to_node_encryption[0].enabled, false) && local.valid_version
-        error_message = "Elasticsearch domain is not encrypting data sent between nodes. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/es-controls.html#es-3 for more details."
+        error_message = "Elasticsearch domain is not encrypting data sent between nodes"
     }
 }

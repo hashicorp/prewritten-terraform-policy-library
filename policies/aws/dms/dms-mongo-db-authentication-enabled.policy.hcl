@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# DMS.11 - DMS endpoints for MongoDB should have an authentication mechanism enabled
+# DMS endpoints for MongoDB should have an authentication mechanism enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-mongo-db-authentication-enabled-enforcement-level" {
   type = string
@@ -31,6 +38,6 @@ resource_policy "aws_dms_endpoint" "dms_mongo_db_authentication_enabled" {
   enforcement_level = input.dms-mongo-db-authentication-enabled-enforcement-level
   enforce {
     condition     = local.is_compliant
-    error_message = "Attribute 'auth_mechanism' shouldn't be 'default' in 'mongodb_settings' for engine of type 'mongodb' in AWS DMS Endpoint. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dms-controls.html#dms-11 for more details."
+    error_message = "Attribute 'auth_mechanism' shouldn't be 'default' in 'mongodb_settings' for engine of type 'mongodb' in AWS DMS Endpoint"
   }
 }

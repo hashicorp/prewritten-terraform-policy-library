@@ -31,6 +31,7 @@ resource "aws_vpc_block_public_access_options" "non_compliant_off" {
 resource "aws_vpc_block_public_access_options" "non_compliant_missing" {
   expect_failure = true
   attrs = {
+    region = "us-east-1"
     # internet_gateway_block_mode not specified, will default to "off" via core::try()
   }
 }

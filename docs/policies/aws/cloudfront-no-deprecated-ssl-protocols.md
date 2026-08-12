@@ -10,7 +10,7 @@ This control checks if Amazon CloudFront distributions are encrypting traffic to
 
 HTTPS (TLS) can be used to help prevent eavesdropping or manipulation of network traffic. Only encrypted connections over HTTPS (TLS) should be allowed.
 
-This rule is covered by the [cloudfront-no-deprecated-ssl-protocols](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-no-deprecated-ssl-protocols.policy.hcl) policy.
+This rule is covered by the [cloudfront-no-deprecated-ssl-protocols](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-no-deprecated-ssl-protocols.policy.hcl) policy.
 
 ## Policy Results
 

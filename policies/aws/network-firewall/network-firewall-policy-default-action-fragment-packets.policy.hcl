@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy : NetworkFirewall.5 - The default stateless action for Network Firewall policies should be drop or forward for fragmented packets
+# The default stateless action for Network Firewall policies should be drop or forward for fragmented packets
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "network-firewall-policy-default-action-fragment-packets-enforcement-level" {
   type = string
@@ -29,16 +36,16 @@ resource_policy "aws_networkfirewall_firewall_policy" "fragment_default_action" 
 
     enforce {
         condition = core::length(local.fragment_actions) > 0
-        error_message = "Network Firewall policy does not have 'stateless_fragment_default_actions' defined. This is a required attribute. Set it to ['aws:drop'] or ['aws:forward_to_sfe']. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-5 for more details."
+        error_message = "Network Firewall policy does not have 'stateless_fragment_default_actions' defined. This is a required attribute. Set it to ['aws:drop'] or ['aws:forward_to_sfe']"
     }
 
     enforce {
         condition = !local.has_pass_action
-        error_message = "Network Firewall policy has 'aws:pass' in stateless_fragment_default_actions [${local.actions_string}]. This allows unintended fragmented traffic. Change to ['aws:drop'] or ['aws:forward_to_sfe']. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-5 for more details."
+        error_message = "Network Firewall policy has 'aws:pass' in stateless_fragment_default_actions [${local.actions_string}]. This allows unintended fragmented traffic. Change to ['aws:drop'] or ['aws:forward_to_sfe']"
     }
 
     enforce {
         condition = local.has_valid_action
-        error_message = "Network Firewall policy must use 'aws:drop' or 'aws:forward_to_sfe' for stateless_fragment_default_actions. Current actions: [${local.actions_string}]. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/networkfirewall-controls.html#networkfirewall-5 for more details."
+        error_message = "Network Firewall policy must use 'aws:drop' or 'aws:forward_to_sfe' for stateless_fragment_default_actions. Current actions: [${local.actions_string}]"
     }
 }

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# RedshiftServerless.1: Amazon Redshift Serverless workgroups should use enhanced VPC routing
+# Amazon Redshift Serverless workgroups should use enhanced VPC routing
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.28.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-serverless-workgroup-routes-within-vpc-enforcement-level" {
   type = string
@@ -18,6 +25,6 @@ resource_policy "aws_redshiftserverless_workgroup" "enhanced_vpc_routing_require
 
     enforce {
         condition     = local.enhanced_vpc_routing == true
-        error_message = "Redshift Serverless workgroup must have enhanced VPC routing enabled. Set 'enhanced_vpc_routing = true' in the workgroup configuration to route traffic through the VPC instead of over the internet. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshiftserverless-controls.html#redshiftserverless-1 for more details."
+        error_message = "Redshift Serverless workgroup must have enhanced VPC routing enabled. Set 'enhanced_vpc_routing = true' in the workgroup configuration to route traffic through the VPC instead of over the internet"
     }
 }

@@ -16,7 +16,7 @@ This control checks whether an Amazon Kinesis data stream has a data retention p
 
 In Kinesis Data Streams, a data stream is an ordered sequence of data records meant to be written to and read from in real time. Data records are stored in shards in your stream temporarily. The time period from when a record is added to when it is no longer accessible is called the retention period. Kinesis Data Streams almost immediately makes records older than the new retention period inaccessible after decreasing the retention period. For example, changing the retention period from 24 hours to 48 hours means that records added to the stream 23 hours 55 minutes prior are still available after 24 hours.
 
-This rule is covered by the [kinesis-stream-backup-retention-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/kinesis/kinesis-stream-backup-retention-check.policy.hcl) policy.
+This rule is covered by the [kinesis-stream-backup-retention-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/kinesis/kinesis-stream-backup-retention-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -10,7 +10,7 @@ This control checks if a Neptune DB cluster has deletion protection enabled. The
 
 Enabling cluster deletion protection offers an additional layer of protection against accidental database deletion or deletion by an unauthorized user. A Neptune DB cluster can't be deleted while deletion protection is enabled. You must first disable deletion protection before a delete request can succeed.
 
-This rule is covered by the [neptune-cluster-deletion-protection-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/neptune/neptune-cluster-deletion-protection-enabled.policy.hcl) policy.
+This rule is covered by the [neptune-cluster-deletion-protection-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/neptune/neptune-cluster-deletion-protection-enabled.policy.hcl) policy.
 
 ## Policy Results
 

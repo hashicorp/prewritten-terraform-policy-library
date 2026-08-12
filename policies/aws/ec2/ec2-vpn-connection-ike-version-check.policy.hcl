@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: EC2.183 - EC2 VPN connections should use IKEv2 protocol
+# EC2 VPN connections should use IKEv2 protocol
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ec2-vpn-connection-ike-version-check-enforcement-level" {
   type = string
@@ -34,11 +41,11 @@ resource_policy "aws_vpn_connection" "ikev2_only" {
 
   enforce {
     condition     = local.tunnel1_ikev2_only
-    error_message = "VPN connection must restrict tunnel 1 to IKEv2 only. Set tunnel1_ike_versions = [\"ikev2\"]. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-183 for more details."
+    error_message = "VPN connection must restrict tunnel 1 to IKEv2 only. Set tunnel1_ike_versions = [\"ikev2\"]"
   }
 
   enforce {
     condition     = local.tunnel2_ikev2_only
-    error_message = "VPN connection must restrict tunnel 2 to IKEv2 only. Set tunnel2_ike_versions = [\"ikev2\"]. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html#ec2-183 for more details."
+    error_message = "VPN connection must restrict tunnel 2 to IKEv2 only. Set tunnel2_ike_versions = [\"ikev2\"]"
   }
 }

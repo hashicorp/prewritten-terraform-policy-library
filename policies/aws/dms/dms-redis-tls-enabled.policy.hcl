@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: DMS.12 - DMS endpoints for Redis OSS should have TLS enabled
+# DMS endpoints for Redis OSS should have TLS enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.29.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-redis-tls-enabled-enforcement-level" {
   type = string
@@ -29,6 +36,6 @@ resource_policy "aws_dms_endpoint" "redis_tls_enabled" {
 
     enforce {
         condition = local.tls_enabled
-        error_message = "DMS endpoint for Redis must have TLS enabled. Current ssl_security_protocol is '${local.ssl_protocol}' but must be 'ssl-encryption' (not 'plaintext'). TLS provides end-to-end security for data in transit during migration. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dms-controls.html#dms-12 for more details. "
+        error_message = "DMS endpoint for Redis must have TLS enabled. Current ssl_security_protocol is '${local.ssl_protocol}' but must be 'ssl-encryption' (not 'plaintext'). TLS provides end-to-end security for data in transit during migration"
     }
 }

@@ -10,7 +10,7 @@ This control checks whether Amazon CloudFront distributions are pointing to non-
 
 When a CloudFront distribution in your account is configured to point to a non-existent bucket, a malicious third party can create the referenced bucket and serve their own content through your distribution. We recommend checking all origins regardless of routing behavior to ensure that your distributions are pointing to appropriate origins.
 
-This rule is covered by the [cloudfront-s3-origin-non-existent-bucket](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/cloudfront/cloudfront-s3-origin-non-existent-bucket.policy.hcl) policy.
+This rule is covered by the [cloudfront-s3-origin-non-existent-bucket](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-s3-origin-non-existent-bucket.policy.hcl) policy.
 
 ## Policy Results
 

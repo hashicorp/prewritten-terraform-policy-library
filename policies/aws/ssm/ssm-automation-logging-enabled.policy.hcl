@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# SSM.6 - SSM Automation CloudWatch Logging Required
+# SSM Automation should have CloudWatch logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.24.0, < 7.0.0"
+    }
+  }
+}
 
 input "ssm-automation-logging-enabled-enforcement-level" {
   type = string
@@ -20,7 +27,7 @@ resource_policy "aws_ssm_service_setting" "automation_logging_settings" {
 
   enforce {
     condition = local.has_value
-    error_message = "SSM service setting '${local.setting_id}' must have a non-empty value configured. For SSM Automation logging, ensure customer-script-log-destination is 'CloudWatch' and customer-script-log-group-name is set. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-6 for more details."
+    error_message = "SSM service setting '${local.setting_id}' must have a non-empty value configured. For SSM Automation logging, ensure customer-script-log-destination is 'CloudWatch' and customer-script-log-group-name is set"
   }
 }
 
@@ -34,6 +41,6 @@ resource_policy "aws_cloudwatch_log_group" "log_group_name_required" {
 
   enforce {
     condition = local.has_name
-    error_message = "CloudWatch log group must have a valid name configured. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ssm-controls.html#ssm-6 for more details."
+    error_message = "CloudWatch log group must have a valid name configured"
   }
 }

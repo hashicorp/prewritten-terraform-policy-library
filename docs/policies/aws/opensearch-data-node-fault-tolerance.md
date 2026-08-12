@@ -10,7 +10,7 @@ This control checks whether OpenSearch domains are configured with at least thre
 
 To achieve cluster-level high availability and fault tolerance, an OpenSearch domain should have at least three data nodes. Deploying an OpenSearch domain with at least three data nodes ensures cluster operations if a node fails.
 
-This rule is covered by the [opensearch-data-node-fault-tolerance](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/opensearch/opensearch-data-node-fault-tolerance.policy.hcl) policy.
+This rule is covered by the [opensearch-data-node-fault-tolerance](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/opensearch/opensearch-data-node-fault-tolerance.policy.hcl) policy.
 
 ## Policy Results
 

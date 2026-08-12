@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: AutoScaling.1 - Auto Scaling groups associated with a Classic Load Balancer should use ELB health checks
+# autoscaling-group-elb-healthcheck-required
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "autoscaling-group-elb-healthcheck-required-enforcement-level" {
   type    = string
@@ -34,6 +41,6 @@ resource_policy "aws_autoscaling_group" "elb_healthcheck_required" {
 
   enforce {
     condition     = local.is_compliant
-    error_message = "Attribute 'health_check_type' must be 'ELB' for 'aws_autoscaling_group' and should be associated with the load balancer resource. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/autoscaling-controls.html#autoscaling-1 for more details."
+    error_message = "Attribute 'health_check_type' must be 'ELB' for 'aws_autoscaling_group' and should be associated with the load balancer resource."
   }
 }

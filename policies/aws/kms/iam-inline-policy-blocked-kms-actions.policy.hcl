@@ -1,8 +1,19 @@
 # Copyright IBM Corp. 2026
 
-# Policy: KMS.2 - IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys
+# IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys
+#
+# NOTE: This policy uses exact string matching for blocked actions. Wildcard patterns (e.g., kms:*) are NOT supported.
+# Users must explicitly list all blocked actions in the CSV format.
+# Example: "kms:Decrypt,kms:ReEncryptFrom,kms:ReEncryptTo,kms:*"
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "iam-inline-policy-blocked-kms-actions-enforcement-level" {
   type    = string
@@ -24,6 +35,6 @@ resource_policy "aws_iam_policy_document" "kms_restrict_decrypt_actions" {
 
   enforce {
     condition     = local.no_blocked_actions
-    error_message = "Actions 'kms:ReEncryptFrom' and 'kms:Decrypt' must not be allowed on all 'KMS keys'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/kms-controls.html#kms-2 for more details."
+    error_message = "Actions 'kms:ReEncryptFrom' and 'kms:Decrypt' must not be allowed on all 'KMS keys'."
   }
 }

@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ELB.14 - Classic Load Balancer Desync Mitigation Mode
+# Classic Load Balancer should be configured with defensive or strictest desync mitigation mode
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "clb-desync-mode-check-enforcement-level" {
   type = string
@@ -28,6 +35,6 @@ resource_policy "aws_elb" "desync_mitigation_mode_check" {
 
   enforce {
     condition     = local.is_compliant
-    error_message = "Classic Load Balancer '${local.elb_name}' has desync_mitigation_mode set to '${local.desync_mode}'. Must be 'defensive' or 'strictest' to protect against HTTP Desync attacks. Current mode '${local.desync_mode}' is not compliant with AWS Security Hub control ELB.14. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-14 for more details."
+    error_message = "Classic Load Balancer '${local.elb_name}' has desync_mitigation_mode set to '${local.desync_mode}'. Must be 'defensive' or 'strictest' to protect against HTTP Desync attacks. Current mode '${local.desync_mode}' is not compliant with AWS Security Hub control ELB.14"
   }
 }

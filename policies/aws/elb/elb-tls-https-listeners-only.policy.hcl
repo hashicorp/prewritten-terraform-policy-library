@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: ELB.3 - Classic Load Balancer listeners should be configured with HTTPS or TLS termination
+# Classic Load Balancer listeners should be configured with HTTPS or TLS termination
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "elb-tls-https-listeners-only-enforcement-level" {
   type = string
@@ -35,6 +42,6 @@ resource_policy "aws_elb" "https_tls_listeners_required" {
 
   enforce {
     condition     = local.all_secure
-    error_message = "Classic Load Balancer '${local.elb_name}' has listeners with non-secure protocols. All listeners must use HTTPS or SSL (TLS) for front-end connections. Non-compliant listeners: ${core::join(", ", local.non_compliant_details)}. Please update listener protocols to HTTPS or SSL. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/elb-controls.html#elb-3 for more details."
+    error_message = "Classic Load Balancer '${local.elb_name}' has listeners with non-secure protocols. All listeners must use HTTPS or SSL (TLS) for front-end connections. Non-compliant listeners: ${core::join(", ", local.non_compliant_details)}. Please update listener protocols to HTTPS or SSL"
   }
 }

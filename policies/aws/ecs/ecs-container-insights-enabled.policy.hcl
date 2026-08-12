@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# ECS.12 - ECS clusters should use Container Insights.
+# ECS clusters should use Container Insights
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "ecs-container-insights-enabled-enforcement-level" {
   type = string
@@ -26,11 +33,11 @@ resource_policy "aws_ecs_cluster" "container_insights_enabled" {
 
     enforce {
         condition = core::length(local.container_insights_settings) > 0
-        error_message = "ECS cluster must define a setting block with name 'containerInsights'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-12 for more details."
+        error_message = "ECS cluster must define a setting block with name 'containerInsights'"
     }
 
     enforce {
         condition = core::length(local.container_insights_disabled) == 0
-        error_message = "ECS cluster setting 'containerInsights' must be set to 'enabled' or 'enhanced'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/ecs-controls.html#ecs-12 for more details."
+        error_message = "ECS cluster setting 'containerInsights' must be set to 'enabled' or 'enhanced'"
     }
 }

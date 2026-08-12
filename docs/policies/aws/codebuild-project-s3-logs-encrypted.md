@@ -10,7 +10,7 @@ This control checks if Amazon S3 logs for an AWS CodeBuild project are encrypted
 
 Encryption of data at rest is a recommended best practice to add a layer of access management around your data. Encrypting the logs at rest reduces the risk that a user not authenticated by AWS will access the data stored on disk. It adds another set of access controls to limit the ability of unauthorized users to access the data.
 
-This rule is covered by the [codebuild-project-s3-logs-encrypted](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/codebuild/codebuild-project-s3-logs-encrypted.policy.hcl) policy.
+This rule is covered by the [codebuild-project-s3-logs-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/codebuild/codebuild-project-s3-logs-encrypted.policy.hcl) policy.
 
 ## Policy Results
 

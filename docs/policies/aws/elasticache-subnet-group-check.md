@@ -10,7 +10,7 @@ This control checks whether an ElastiCache cluster is configured with a custom s
 
 When launching an ElastiCache cluster, a default subnet group is created if one doesn't exist already. The default group uses subnets from the default Virtual Private Cloud (VPC). We recommend using custom subnet groups that are more restrictive of the subnets that the cluster resides in, and the networking that the cluster inherits from the subnets.
 
-This rule is covered by the [elasticache-subnet-group-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/elasticache/elasticache-subnet-group-check.policy.hcl) policy.
+This rule is covered by the [elasticache-subnet-group-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticache/elasticache-subnet-group-check.policy.hcl) policy.
 
 ## Policy Results
 

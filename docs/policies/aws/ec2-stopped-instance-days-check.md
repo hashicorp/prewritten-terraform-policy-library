@@ -10,7 +10,7 @@ This control checks whether an Amazon EC2 instance has been stopped for longer t
 
 When an EC2 instance has not run for a significant period of time, it creates a security risk because the instance is not being actively maintained (analyzed, patched, updated). If it is later launched, the lack of proper maintenance could result in unexpected issues in your AWS environment. To safely maintain an EC2 instance over time in an inactive state, start it periodically for maintenance and then stop it after maintenance. Ideally, this should be an automated process.
 
-This rule is covered by the [ec2-stopped-instance-days-check](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ec2/ec2-stopped-instance-days-check.policy.hcl) policy.
+This rule is covered by the [ec2-stopped-instance-days-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-stopped-instance-days-check.policy.hcl) policy.
 
 ## Policy Results
 

@@ -8,7 +8,7 @@
 
 This control checks whether the Lambda function resource-based policy prohibits public access outside of your account. The control fails if public access is permitted. The control also fails if a Lambda function is invoked from Amazon S3, and the policy doesn't include a condition to limit public access, such as `AWS:SourceAccount`. We recommend using other S3 conditions along with `AWS:SourceAccount` in your bucket policy for more refined access.
 
-This rule is covered by the [lambda-function-public-access-prohibited](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/lambda/lambda-function-public-access-prohibited.policy.hcl) policy.
+This rule is covered by the [lambda-function-public-access-prohibited](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/lambda/lambda-function-public-access-prohibited.policy.hcl) policy.
 
 ## Policy Results
 

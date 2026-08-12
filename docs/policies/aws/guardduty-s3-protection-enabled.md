@@ -12,7 +12,7 @@ In a multi-account environment, the control generates findings in only the deleg
 
 S3 Protection enables GuardDuty to monitor object-level API operations to identify potential security risks for data within your Amazon Simple Storage Service (Amazon S3) buckets. GuardDuty monitors threats against your S3 resources by analyzing AWS CloudTrail management events and CloudTrail S3 data events.
 
-This rule is covered by the [guardduty-s3-protection-enabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/guardduty/guardduty-s3-protection-enabled.policy.hcl) policy.
+This rule is covered by the [guardduty-s3-protection-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/guardduty/guardduty-s3-protection-enabled.policy.hcl) policy.
 
 ## Policy Results
 

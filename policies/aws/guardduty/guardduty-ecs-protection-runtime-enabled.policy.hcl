@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# GuardDuty.12 - GuardDuty ECS Runtime Monitoring should be enabled.
+# GuardDuty ECS Runtime Monitoring should be enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.21.0, < 7.0.0"
+    }
+  }
+}
 
 input "guardduty-ecs-protection-runtime-enabled-enforcement-level" {
   type = string
@@ -26,12 +33,12 @@ resource_policy "aws_guardduty_detector_feature" "ecs_runtime_monitoring" {
 
     enforce {
         condition = local.feature_enabled
-        error_message = "GuardDuty detector feature must have RUNTIME_MONITORING status set to 'ENABLED'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-12 for more details."
+        error_message = "GuardDuty detector feature must have RUNTIME_MONITORING status set to 'ENABLED'"
     }
 
     enforce {
         condition = local.ecs_fargate_enabled
-        error_message = "GuardDuty detector feature must have ECS_FARGATE_AGENT_MANAGEMENT enabled in additional_configuration. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-12 for more details."
+        error_message = "GuardDuty detector feature must have ECS_FARGATE_AGENT_MANAGEMENT enabled in additional_configuration"
     }
 }
 
@@ -52,11 +59,11 @@ resource_policy "aws_guardduty_organization_configuration_feature" "ecs_runtime_
 
     enforce {
         condition = local.feature_enabled
-        error_message = "GuardDuty detector feature must have RUNTIME_MONITORING status set to 'ALL'. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-12 for more details."
+        error_message = "GuardDuty detector feature must have RUNTIME_MONITORING status set to 'ALL'"
     }
 
     enforce {
         condition = local.ecs_fargate_enabled
-        error_message = "GuardDuty detector feature must have ECS_FARGATE_AGENT_MANAGEMENT enabled in additional_configuration. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/guardduty-controls.html#guardduty-12 for more details."
+        error_message = "GuardDuty detector feature must have ECS_FARGATE_AGENT_MANAGEMENT enabled in additional_configuration"
     }
 }

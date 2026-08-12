@@ -10,7 +10,7 @@ This control checks if the privileged parameter in the container definition of A
 
 We recommend that you remove elevated privileges from your ECS task definitions. When the privilege parameter is true, the container is given elevated privileges on the host container instance (similar to the root user).
 
-This rule is covered by the [ecs-containers-nonprivileged](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-containers-nonprivileged.policy.hcl) policy.
+This rule is covered by the [ecs-containers-nonprivileged](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-containers-nonprivileged.policy.hcl) policy.
 
 ## Policy Results
 

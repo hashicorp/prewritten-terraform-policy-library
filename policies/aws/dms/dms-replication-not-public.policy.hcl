@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: DMS.1 - Database Migration Service replication instances should not be public
+# Database Migration Service replication instances should not be public
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "dms-replication-not-public-enforcement-level" {
   type = string
@@ -19,6 +26,6 @@ resource_policy "aws_dms_replication_instance" "not_public" {
 
     enforce {
         condition = local.publicly_accessible == false
-        error_message = "DMS replication instance must not be publicly accessible. The 'publicly_accessible' attribute is set to true, which exposes the instance to the public internet. Set 'publicly_accessible' to false or omit it (defaults to false) to ensure the instance has a private IP address. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/dms-controls.html#dms-1 for more details."
+        error_message = "DMS replication instance must not be publicly accessible. The 'publicly_accessible' attribute is set to true, which exposes the instance to the public internet. Set 'publicly_accessible' to false or omit it (defaults to false) to ensure the instance has a private IP address"
     }
 }

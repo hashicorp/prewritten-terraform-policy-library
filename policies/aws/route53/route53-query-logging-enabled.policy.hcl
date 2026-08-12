@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Route53.2: Route 53 public hosted zones should log DNS queries
+# Route 53 public hosted zones should log DNS queries
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "route53-query-logging-enabled-enforcement-level" {
   type = string
@@ -33,6 +40,6 @@ resource_policy "aws_route53_zone" "dns_query_logging_enabled" {
     
     enforce {
         condition = local.has_query_logging
-        error_message = "Route 53 public hosted zone '${local.zone_name}' must have DNS query logging enabled. Create an aws_route53_query_log resource with zone_id = ${attrs.zone_id}. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/route53-controls.html#route53-2 for more details."
+        error_message = "Route 53 public hosted zone '${local.zone_name}' must have DNS query logging enabled. Create an aws_route53_query_log resource with zone_id = ${attrs.zone_id}"
     }
 }

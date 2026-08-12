@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# SageMaker.11 - SageMaker data quality job definitions should have network isolation enabled.
+# SageMaker data quality job definitions should have network isolation enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.63.0, < 7.0.0"
+    }
+  }
+}
 
 input "sagemaker-data-quality-job-isolation-enforcement-level" {
   type = string
@@ -20,6 +27,6 @@ resource_policy "aws_sagemaker_data_quality_job_definition" "data_quality_networ
 
     enforce {
         condition = local.network_isolation_enabled == true
-        error_message = "SageMaker data quality job definition does not have network isolation enabled. Set 'network_config.enable_network_isolation = true' to reduce attack surface and prevent unauthorized external access. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/sagemaker-controls.html#sagemaker-11 for more details."
+        error_message = "SageMaker data quality job definition does not have network isolation enabled. Set 'network_config.enable_network_isolation = true' to reduce attack surface and prevent unauthorized external access"
     }
 }

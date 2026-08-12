@@ -1,8 +1,15 @@
 # Copyright IBM Corp. 2026
 
-# Policy: OpenSearch.5 - OpenSearch domains should have audit logging enabled
+# OpenSearch domains should have audit logging enabled
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.9.0, < 7.0.0"
+    }
+  }
+}
 
 input "opensearch-audit-logging-enabled-enforcement-level" {
   type    = string
@@ -25,6 +32,6 @@ resource_policy "aws_opensearch_domain" "audit_logging_enabled" {
 
   enforce {
     condition     = local.is_compliant
-    error_message = "Attribute 'enabled' in 'log_publishing_options' should be true and 'log_type' set to 'AUDIT_LOGS' for AWS OpenSearch Domain. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/opensearch-controls.html#opensearch-5 for more details."
+    error_message = "Attribute 'enabled' in 'log_publishing_options' should be true and 'log_type' set to 'AUDIT_LOGS' for AWS OpenSearch Domain."
   }
 }

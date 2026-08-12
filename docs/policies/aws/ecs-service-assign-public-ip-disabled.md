@@ -10,7 +10,7 @@ This control checks whether Amazon ECS services are configured to automatically 
 
 A public IP address is an IP address that is reachable from the internet. If you launch your Amazon ECS instances with a public IP address, then your Amazon ECS instances are reachable from the internet. Amazon ECS services should not be publicly accessible, as this may allow unintended access to your container application servers.
 
-This rule is covered by the [ecs-service-assign-public-ip-disabled](https://github.com/hashicorp/policy-library-for-tfpolicy/blob/main/policies/ecs/ecs-service-assign-public-ip-disabled.policy.hcl) policy.
+This rule is covered by the [ecs-service-assign-public-ip-disabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-service-assign-public-ip-disabled.policy.hcl) policy.
 
 ## Policy Results
 

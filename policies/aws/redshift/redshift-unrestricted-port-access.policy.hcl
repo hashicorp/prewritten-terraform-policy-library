@@ -1,9 +1,16 @@
 # Copyright IBM Corp. 2026
 
-# Redshift.15 - Redshift security groups should allow ingress on the cluster port only from restricted origins.
+# Redshift security groups should allow ingress on the cluster port only from restricted origins
 # This control checks whether a security group associated with an Amazon Redshift cluster has ingress rules that permit access to the cluster port from the internet (0.0.0.0/0 or ::/0). The control fails if the security group ingress rules permit access to the cluster port from the internet.
 
-policy {}
+policy {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0.0, < 7.0.0"
+    }
+  }
+}
 
 input "redshift-unrestricted-port-access-enforcement-level" {
   type = string
@@ -38,6 +45,6 @@ resource_policy "aws_redshift_cluster" "unrestricted-port-access" {
     }
     enforce {
         condition = !local.has_unrestricted_access
-        error_message = "Redshift cluster has unrestricted access to port. Refer to https://docs.aws.amazon.com/securityhub/latest/userguide/redshift-controls.html#redshift-15 for more details."
+        error_message = "Redshift cluster has unrestricted access to port"
     }
 }
