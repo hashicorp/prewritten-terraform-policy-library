@@ -6,10 +6,6 @@ policytest {
   ]
 }
 
-# NOTE: Due to tfpolicy limitations (no JSON parsing, no string pattern matching),
-# this policy can only validate that replication_task_settings is defined.
-# Full validation requires AWS Config rule or Sentinel policy.
-
 # Pass Case 1: Task with replication_task_settings defined
 resource "aws_dms_replication_task" "pass_with_settings" {
   attrs = {

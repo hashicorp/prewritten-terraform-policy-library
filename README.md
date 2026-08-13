@@ -1,6 +1,6 @@
-# Prewritten Terraform Policy Library
+# Prewritten Terraform Policy Library - Beta
 
-A library of prewritten policies for multiple cloud providers.
+A library of prewritten terraform policies for multiple cloud providers.
 
 ## Supported Providers
 
