@@ -26,7 +26,7 @@ resource_policy "aws_sqs_queue_policy" "no_public_access" {
 
     enforce {
         condition = true
-        error_message = "LIMITATION: Cannot validate SQS queue policy for public access. Terraform Policy lacks JSON parsing and string pattern matching functions required to inspect policy documents. Use AWS Config rule 'sqs-queue-no-public-access' instead"
+        error_message = "LIMITATION: Cannot validate SQS queue policy for public access. Terraform policy lacks JSON parsing and string pattern matching functions required to inspect policy documents. Use AWS Config rule 'sqs-queue-no-public-access' instead"
     }
 }
 
@@ -40,6 +40,6 @@ resource_policy "aws_sqs_queue" "no_public_access_inline" {
 
     enforce {
         condition = true
-        error_message = "LIMITATION: Cannot validate SQS queue inline policy for public access. Terraform Policy lacks JSON parsing and string pattern matching functions required to inspect policy documents. Use AWS Config rule 'sqs-queue-no-public-access' instead"
+        error_message = "LIMITATION: Cannot validate SQS queue inline policy for public access. Terraform policy lacks JSON parsing and string pattern matching functions required to inspect policy documents. Use AWS Config rule 'sqs-queue-no-public-access' instead"
     }
 }

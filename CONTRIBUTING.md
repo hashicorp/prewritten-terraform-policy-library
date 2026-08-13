@@ -71,22 +71,22 @@ The following checks run when a PR is opened:
 
 ----
 
-## Terraform Policy Development Environment
+## Terraform policy Development Environment
 
-If you wish to work on the source code for this library, you'll first need to [install](https://developer.hashicorp.com/terraform/policy/install) the Terraform Policy CLI and the version control system [Git](https://git-scm.com/).
+If you wish to work on the source code for this library, you'll first need to [install](https://developer.hashicorp.com/terraform/policy/install) the Terraform policy CLI and the version control system [Git](https://git-scm.com/).
 
-At this time the Terraform Policy development environment is targeting only Linux and Mac OS X systems. While Terraform Policy itself is compatible with Windows, unfortunately the policy tests currently contain Unix-specific assumptions around maximum path lengths, path separators, etc.
+At this time the Terraform policy development environment is targeting only Linux and Mac OS X systems. While Terraform policy itself is compatible with Windows, unfortunately the policy tests currently contain Unix-specific assumptions around maximum path lengths, path separators, etc.
 
 Use Git to clone this repository into a location of your choice.
 
-Switch into the root directory of the cloned repository and ensure that the Terraform Policy CLI is working as expected:
+Switch into the root directory of the cloned repository and ensure that the Terraform policy CLI is working as expected:
 
 ```
 cd prewritten-terraform-policy-library
 tfpolicy version
 ```
 
-If you are planning to make changes to the library, you should run the Terraform Policy test suite before you start just to be sure that everything is initially passing:
+If you are planning to make changes to the library, you should run the Terraform policy test suite before you start just to be sure that everything is initially passing:
 
 ```
 make tests
