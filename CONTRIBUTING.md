@@ -79,7 +79,7 @@ At this time the Terraform Policy development environment is targeting only Linu
 
 Use Git to clone this repository into a location of your choice.
 
-Switch into the root directory of the cloned repository and ensure that the Sentinel CLI is working as expected:
+Switch into the root directory of the cloned repository and ensure that the Terraform Policy CLI is working as expected:
 
 ```
 cd prewritten-terraform-policy-library
