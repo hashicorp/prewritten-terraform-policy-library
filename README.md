@@ -1,4 +1,4 @@
-# Prewritten Terraform Policy Library - Beta
+# Prewritten Terraform policy Library - Beta
 
 A library of prewritten terraform policies for multiple cloud providers.
 
@@ -32,7 +32,7 @@ docs/
 
 ### Install tfpolicy
 
-Download and install the `tfpolicy` binary by following the instructions at [Terraform Policy Install](https://developer.hashicorp.com/terraform/policy/install).
+Download and install the `tfpolicy` binary by following the instructions at [Terraform policy Install](https://developer.hashicorp.com/terraform/policy/install).
 
 ### Verify the installation
 
