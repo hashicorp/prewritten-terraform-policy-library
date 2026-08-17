@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Ensure access to AWSCloudShellFullAccess is restricted
 
 policy {

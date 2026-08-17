@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Ensure an AWS Identity and Access Management (IAM) user, IAM role or IAM group does not have an inline policy
 
 policy {

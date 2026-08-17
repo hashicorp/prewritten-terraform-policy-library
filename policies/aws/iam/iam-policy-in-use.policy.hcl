@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Ensure a support role has been created to manage incidents with AWS Support
 
 policy {

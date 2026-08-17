@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 # Ensure IAM instance roles are used for AWS resource access from instances
 
 policy {
