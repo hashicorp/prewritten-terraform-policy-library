@@ -27,7 +27,6 @@ resource_policy "aws_elastic_beanstalk_environment" "logs_to_cloudwatch" {
 
     # Extract all settings from the environment
     settings = core::try(attrs.setting, [])
-    env_name = attrs.name
     
     # Check for CloudWatch Logs streaming configuration
     # The namespace for CloudWatch Logs is "aws:elasticbeanstalk:cloudwatch:logs"
@@ -66,12 +65,12 @@ resource_policy "aws_elastic_beanstalk_environment" "logs_to_cloudwatch" {
 
   enforce {
     condition = local.logs_enabled
-    error_message = "Elastic Beanstalk environment '${local.env_name}' must be configured to stream logs to CloudWatch Logs. Configure the 'aws:elasticbeanstalk:cloudwatch:logs' namespace with 'StreamLogs' set to 'true'"
+    error_message = "Elastic Beanstalk environment '${attrs.name}' must be configured to stream logs to CloudWatch Logs. Configure the 'aws:elasticbeanstalk:cloudwatch:logs' namespace with 'StreamLogs' set to 'true'"
   }
 
   enforce {
     condition = local.retention_valid
-    error_message = "Elastic Beanstalk environment '${local.env_name}' has invalid RetentionInDays value '${local.retention_value}'. Valid values are: ${core::join(", ", local.valid_retention_values)}"
+    error_message = "Elastic Beanstalk environment '${attrs.name}' has invalid RetentionInDays value '${local.retention_value}'. Valid values are: ${core::join(", ", local.valid_retention_values)}"
   }
 
   enforce {
@@ -81,6 +80,6 @@ resource_policy "aws_elastic_beanstalk_environment" "logs_to_cloudwatch" {
 
   enforce {
     condition = local.retention_matches_input
-    error_message = "Elastic Beanstalk environment '${local.env_name}' must set RetentionInDays = '${input.RetentionInDays}' in the 'aws:elasticbeanstalk:cloudwatch:logs' namespace when the input is configured. Current value: '${local.retention_value}'"
+    error_message = "Elastic Beanstalk environment '${attrs.name}' must set RetentionInDays = '${input.RetentionInDays}' in the 'aws:elasticbeanstalk:cloudwatch:logs' namespace when the input is configured. Current value: '${local.retention_value}'"
   }
 }

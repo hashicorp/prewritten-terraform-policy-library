@@ -32,12 +32,10 @@ resource_policy "aws_elastic_beanstalk_environment" "enhanced_health_reporting_r
       core::try(local.health_reporting_settings[0].value, "") == "enhanced"
     ) : false
     
-    # Environment name for error messages
-    env_name = attrs.name
   }
   
   enforce {
     condition = local.has_enhanced_health
-    error_message = "Elastic Beanstalk environment '${local.env_name}' must have enhanced health reporting enabled. Configure setting with namespace='aws:elasticbeanstalk:healthreporting:system', name='SystemType', value='enhanced'"
+    error_message = "Elastic Beanstalk environment '${attrs.name}' must have enhanced health reporting enabled. Configure setting with namespace='aws:elasticbeanstalk:healthreporting:system', name='SystemType', value='enhanced'"
   }
 }

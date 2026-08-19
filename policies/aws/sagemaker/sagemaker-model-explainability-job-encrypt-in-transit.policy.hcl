@@ -22,8 +22,7 @@ resource_policy "aws_sagemaker_monitoring_schedule" "model_explainability_inter_
 
     locals {
         schedule_config = attrs.monitoring_schedule_config[0]
-        monitoring_type = local.schedule_config.monitoring_type
-        is_model_quality = local.monitoring_type == "ModelExplainability"
+        is_model_quality = local.schedule_config.monitoring_type == "ModelExplainability"
         
         job_definition = core::try(local.schedule_config.monitoring_job_definition, null)
         has_job_definition = local.job_definition != null ? core::length(local.job_definition) > 0 : false

@@ -25,15 +25,10 @@ resource_policy "aws_api_gateway_method_settings" "cache_encryption_required" {
         # Safely extract cache encryption setting
         cache_data_encrypted = core::try(attrs.settings[0].cache_data_encrypted, false)
         
-        # Get method path for error message
-        method_path = attrs.method_path
-        
-        # Get stage name for error message
-        stage_name = attrs.stage_name
     }
 
     enforce {
         condition = local.cache_data_encrypted == true
-        error_message = "API Gateway method '${local.method_path}' in stage '${local.stage_name}' has caching enabled but cache data is not encrypted. Enable cache encryption by setting cache_data_encrypted = true in the method settings"
+        error_message = "API Gateway method '${attrs.method_path}' in stage '${attrs.stage_name}' has caching enabled but cache data is not encrypted. Enable cache encryption by setting cache_data_encrypted = true in the method settings"
     }
 }

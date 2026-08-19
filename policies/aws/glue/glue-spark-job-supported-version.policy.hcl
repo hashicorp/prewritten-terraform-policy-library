@@ -54,9 +54,6 @@ resource_policy "aws_glue_job" "glue_spark_version_check" {
       (local.glue_major == local.min_major && local.glue_minor >= local.min_minor)
     )
 
-    # Use a resource-native identifier for error messages
-    job_name = attrs.name
-
     # Safe version string for error messages
     version_string = local.has_version ? local.glue_version : "not specified"
   }
@@ -64,12 +61,12 @@ resource_policy "aws_glue_job" "glue_spark_version_check" {
   # Enforce: Spark jobs must have glue_version specified
   enforce {
     condition     = !local.is_spark_job || local.has_version
-    error_message = "AWS Glue Spark job '${local.job_name}' must have the 'glue_version' property specified. GlueVersion is null or missing in the job configuration. Add the GlueVersion property to the job's configuration with a value of 3.0 or greater"
+    error_message = "AWS Glue Spark job '${attrs.name}' must have the 'glue_version' property specified. GlueVersion is null or missing in the job configuration. Add the GlueVersion property to the job's configuration with a value of 3.0 or greater"
   }
 
   # Enforce: Spark jobs must use a version >= minimumSupportedGlueVersion
   enforce {
     condition     = !local.is_spark_job || local.version_compliant
-    error_message = "AWS Glue Spark job '${local.job_name}' is configured with glue_version '${local.version_string}', which is earlier than the minimum supported version 3.0. Update the job to use AWS Glue version 3.0 or greater for optimized performance, security, and access to the latest features"
+    error_message = "AWS Glue Spark job '${attrs.name}' is configured with glue_version '${local.version_string}', which is earlier than the minimum supported version 3.0. Update the job to use AWS Glue version 3.0 or greater for optimized performance, security, and access to the latest features"
   }
 }

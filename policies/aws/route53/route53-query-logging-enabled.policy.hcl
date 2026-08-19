@@ -34,12 +34,10 @@ resource_policy "aws_route53_zone" "dns_query_logging_enabled" {
     locals {
         # Check if this zone has query logging configured
         has_query_logging = core::try(local.query_log_map[attrs.zone_id], null) != null
-        
-        zone_name = attrs.name
     }
     
     enforce {
         condition = local.has_query_logging
-        error_message = "Route 53 public hosted zone '${local.zone_name}' must have DNS query logging enabled. Create an aws_route53_query_log resource with zone_id = ${attrs.zone_id}"
+        error_message = "Route 53 public hosted zone '${attrs.name}' must have DNS query logging enabled. Create an aws_route53_query_log resource with zone_id = ${attrs.zone_id}"
     }
 }

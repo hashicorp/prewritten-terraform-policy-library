@@ -30,8 +30,7 @@ resource_policy "aws_config_configuration_recorder" "recorder_configuration" {
     all_supported       = core::try(local.recording_group.all_supported, false)
     include_global      = core::try(local.recording_group.include_global_resource_types, false)
 
-    role_arn                 = attrs.role_arn
-    uses_service_linked_role = core::try(core::length(core::regexall("/aws-service-role/config\\.amazonaws\\.com/AWSServiceRoleForConfig$", local.role_arn)), 0) > 0
+    uses_service_linked_role = core::try(core::length(core::regexall("/aws-service-role/config\\.amazonaws\\.com/AWSServiceRoleForConfig$", attrs.role_arn)), 0) > 0
 
     records_everything = local.has_recording_group && local.all_supported && local.include_global
   }

@@ -29,11 +29,10 @@ resource_policy "aws_fsx_ontap_file_system" "ontap_multi_az_deployment" {
         has_invalid_input = core::contains([
             for deployment_value in local.inputs: deployment_value == "MULTI_AZ_1" || deployment_value == "MULTI_AZ_2"
         ], false)
-        deployment_type = attrs.deployment_type
     }
 
     enforce {
-        condition = !local.has_invalid_input && core::contains(local.inputs, local.deployment_type)
+        condition = !local.has_invalid_input && core::contains(local.inputs, attrs.deployment_type)
         error_message = "FSx for NetApp ONTAP file system is not configured for Multi-AZ deployment. Set deployment_type = 'MULTI_AZ_1' or 'MULTI_AZ_2' for high availability and durability in production workloads"
     }
 }
