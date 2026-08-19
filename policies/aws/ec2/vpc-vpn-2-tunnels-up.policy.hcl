@@ -40,8 +40,8 @@ resource_policy "aws_vpn_connection" "vpn_tunnels_up" {
         both_tunnels_up = local.up_count == 2 && local.total_tunnels == 2
         
         # Get tunnel addresses for error messages
-        tunnel1_address = attrs.tunnel1_address !=null ? core::try(attrs.tunnel1_address, "unknown") : "unknown"
-        tunnel2_address = attrs.tunnel2_address !=null ? core::try(attrs.tunnel2_address, "unknown") : "unknown"
+        tunnel1_address = attrs.tunnel1_address !=null ? attrs.tunnel1_address : "unknown"
+        tunnel2_address = attrs.tunnel2_address !=null ? attrs.tunnel2_address : "unknown"
         
         # Create detailed status message
         status_details = core::join(", ", [

@@ -79,7 +79,7 @@ resource_policy "aws_s3_bucket" "lifecycle_policy_check" {
     enabled_rules = [
       for rule in local.rules :
       rule if (
-        core::try(rule.status, "") == "Enabled" && (
+        rule.status == "Enabled" && (
           core::length(core::try(rule.transition, [])) > 0 ||
           core::try(rule.expiration, null) != null ||
           core::length(core::try(rule.noncurrent_version_transition, [])) > 0 ||
@@ -122,7 +122,7 @@ resource_policy "aws_s3_bucket" "lifecycle_policy_check" {
       for rule in local.enabled_rules :
       rule if core::length([
         for transition in core::try(rule.transition, []) :
-        transition if core::try(transition.storage_class, "") == input.targetTransitionStorageClass
+        transition if transition.storage_class == input.targetTransitionStorageClass
       ]) > 0
     ]) > 0
 
@@ -130,7 +130,7 @@ resource_policy "aws_s3_bucket" "lifecycle_policy_check" {
       for rule in local.enabled_rules :
       rule if core::length([
         for transition in core::try(rule.transition, []) :
-        transition if !core::contains(local.valid_storage_classes, core::try(transition.storage_class, ""))
+        transition if !core::contains(local.valid_storage_classes, transition.storage_class)
       ]) > 0
     ]) == 0
   }

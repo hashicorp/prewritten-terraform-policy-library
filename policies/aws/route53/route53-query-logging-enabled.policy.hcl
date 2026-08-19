@@ -35,7 +35,7 @@ resource_policy "aws_route53_zone" "dns_query_logging_enabled" {
         # Check if this zone has query logging configured
         has_query_logging = core::try(local.query_log_map[attrs.zone_id], null) != null
         
-        zone_name = core::try(attrs.name, attrs.zone_id)
+        zone_name = attrs.name
     }
     
     enforce {

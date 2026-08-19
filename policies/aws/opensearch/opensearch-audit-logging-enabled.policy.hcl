@@ -24,7 +24,7 @@ resource_policy "aws_opensearch_domain" "audit_logging_enabled" {
 
     non_audit_options = [
       for opt in local.log_options : opt
-      if !(core::try(opt.enabled, false) == true && core::try(opt.log_type, "") == "AUDIT_LOGS")
+      if !(core::try(opt.enabled, false) == true && opt.log_type == "AUDIT_LOGS")
     ]
 
     is_compliant = local.has_log_options && core::length(local.non_audit_options) == 0

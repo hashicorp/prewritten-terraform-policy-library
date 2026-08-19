@@ -29,7 +29,7 @@ resource_policy "aws_fsx_ontap_file_system" "ontap_multi_az_deployment" {
         has_invalid_input = core::contains([
             for deployment_value in local.inputs: deployment_value == "MULTI_AZ_1" || deployment_value == "MULTI_AZ_2"
         ], false)
-        deployment_type = core::try(attrs.deployment_type, "SINGLE_AZ_1")
+        deployment_type = attrs.deployment_type
     }
 
     enforce {

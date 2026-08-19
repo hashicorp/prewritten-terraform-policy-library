@@ -19,7 +19,7 @@ input "sns-topic-no-public-access-enforcement-level" {
 resource_policy "aws_sns_topic_policy" "no_public_access" {
   enforcement_level = input.sns-topic-no-public-access-enforcement-level
   # Pre-filter: only evaluate when a policy document is present
-  filter = core::try(attrs.policy, "") != ""
+  filter = attrs.policy != ""
 
   locals {
     # Safely decode the policy JSON; default to empty doc if malformed.

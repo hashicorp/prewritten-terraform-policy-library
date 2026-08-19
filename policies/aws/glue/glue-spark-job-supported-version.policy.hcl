@@ -55,7 +55,7 @@ resource_policy "aws_glue_job" "glue_spark_version_check" {
     )
 
     # Use a resource-native identifier for error messages
-    job_name = core::try(attrs.name, "AWS Glue Spark job")
+    job_name = attrs.name
 
     # Safe version string for error messages
     version_string = local.has_version ? local.glue_version : "not specified"

@@ -19,7 +19,7 @@ input "fsx-openzfs-deployment-type-check-enforcement-level" {
 resource_policy "aws_fsx_openzfs_file_system" "openzfs_multi_az_deployment" {
     enforcement_level = input.fsx-openzfs-deployment-type-check-enforcement-level
     locals {
-        deployment_type = core::try(attrs.deployment_type, "")
+        deployment_type = attrs.deployment_type
     }
 
     enforce {

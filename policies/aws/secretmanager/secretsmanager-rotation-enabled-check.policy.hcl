@@ -38,7 +38,7 @@ resource_policy "aws_secretsmanager_secret" "rotation_enabled_check" {
     # secret's name (e.g. aws_secretsmanager_secret.example.name).
     matching_rotations = [
       for rotation in local.all_secret_rotations : rotation
-      if core::try(rotation.secret_id, "") == local.secret_name
+      if rotation.secret_id == local.secret_name
     ]
 
     has_rotation_enabled = core::length(local.matching_rotations) > 0

@@ -19,7 +19,7 @@ input "elasticache-subnet-group-check-enforcement-level" {
 resource_policy "aws_elasticache_subnet_group" "default-sg" {
     enforcement_level = input.elasticache-subnet-group-check-enforcement-level
     enforce {
-        condition = core::try(attrs.name, "default") != "default"
+        condition = attrs.name != "default"
         error_message = "ElastiCache cluster uses the default subnet group"
     }
 }

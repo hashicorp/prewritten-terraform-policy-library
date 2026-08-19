@@ -27,7 +27,7 @@ resource_policy "aws_elastic_beanstalk_environment" "managed_updates_enabled" {
 
         # Extract all settings from the environment configuration
         all_settings = core::try(attrs.setting, [])
-        env_name = core::try(attrs.name, "Elastic Beanstalk environment")
+        env_name = attrs.name
         
         # Find the managed actions settings
         managed_action_settings = [

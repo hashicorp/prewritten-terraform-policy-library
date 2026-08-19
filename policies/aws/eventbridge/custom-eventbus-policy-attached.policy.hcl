@@ -27,7 +27,7 @@ resource_policy "aws_cloudwatch_event_bus" "custom_bus_policy_required" {
 
     locals {
         # Get the event bus name
-        bus_name = core::try(attrs.name, "")
+        bus_name = attrs.name
         
         # Find policies that reference this event bus
         # Note: event_bus_name in policy defaults to "default" if not specified

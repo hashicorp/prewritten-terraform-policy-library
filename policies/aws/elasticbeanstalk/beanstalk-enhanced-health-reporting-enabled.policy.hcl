@@ -23,8 +23,8 @@ resource_policy "aws_elastic_beanstalk_environment" "enhanced_health_reporting_r
     # Extract all health reporting system type settings
     health_reporting_settings = [
       for setting in core::try(attrs.setting, []) :
-      setting if core::try(setting.namespace, "") == "aws:elasticbeanstalk:healthreporting:system" &&
-                 core::try(setting.name, "") == "SystemType"
+      setting if setting.namespace == "aws:elasticbeanstalk:healthreporting:system" &&
+                 setting.name == "SystemType"
     ]
     
     # Check if enhanced health reporting is configured
@@ -33,7 +33,7 @@ resource_policy "aws_elastic_beanstalk_environment" "enhanced_health_reporting_r
     ) : false
     
     # Environment name for error messages
-    env_name = core::try(attrs.name, "Elastic Beanstalk environment")
+    env_name = attrs.name
   }
   
   enforce {

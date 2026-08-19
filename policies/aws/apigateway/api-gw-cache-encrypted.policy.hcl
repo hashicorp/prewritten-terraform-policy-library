@@ -26,10 +26,10 @@ resource_policy "aws_api_gateway_method_settings" "cache_encryption_required" {
         cache_data_encrypted = core::try(attrs.settings[0].cache_data_encrypted, false)
         
         # Get method path for error message
-        method_path = core::try(attrs.method_path, "unknown")
+        method_path = attrs.method_path
         
         # Get stage name for error message
-        stage_name = core::try(attrs.stage_name, "unknown")
+        stage_name = attrs.stage_name
     }
 
     enforce {

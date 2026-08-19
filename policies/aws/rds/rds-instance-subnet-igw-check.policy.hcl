@@ -57,8 +57,8 @@ resource_policy "aws_db_instance" "no_public_subnet_igw" {
     # Find explicitly associated route table IDs
     explicit_route_table_ids = [
       for assoc in local.explicit_associations :
-      core::try(assoc.route_table_id, "")
-      if core::try(assoc.route_table_id, "") != ""
+      assoc.route_table_id
+      if assoc.route_table_id != ""
     ]
     
     # Get all main route table associations to handle subnets without explicit associations
@@ -69,8 +69,8 @@ resource_policy "aws_db_instance" "no_public_subnet_igw" {
       for subnet in local.db_subnets :
       core::try([
         for main_assoc in local.all_main_associations :
-        core::try(main_assoc.route_table_id, "")
-        if core::try(main_assoc.vpc_id, "") == core::try(subnet.vpc_id, "")
+        main_assoc.route_table_id
+        if main_assoc.vpc_id == subnet.vpc_id
       ][0], "")
       if core::length([
         for assoc in local.explicit_associations :

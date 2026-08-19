@@ -18,7 +18,7 @@ input "dms-mongo-db-authentication-enabled-enforcement-level" {
 
 resource_policy "aws_dms_endpoint" "dms_mongo_db_authentication_enabled" {
   # Only evaluate MongoDB endpoints
-  filter = core::try(attrs.engine_name, "") == "mongodb"
+  filter = attrs.engine_name == "mongodb"
 
   locals {
     # Safely access mongodb_settings block (it's a list of maps in provider schema)

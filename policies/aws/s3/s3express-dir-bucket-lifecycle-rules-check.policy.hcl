@@ -24,7 +24,7 @@ input "expressTargetExpirationDays" {
 resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
   enforcement_level = input.s3express-dir-bucket-lifecycle-rules-check-enforcement-level
   locals {
-    bucket_name = core::try(attrs.bucket, "")
+    bucket_name = attrs.bucket
 
     # Look up the aws_s3_bucket_lifecycle_configuration attached to this
     # directory bucket directly via the getresources filter.
@@ -40,7 +40,7 @@ resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
     enabled_rules = [
       for rule in local.rules :
       rule if (
-        core::try(rule.status, "") == "Enabled" && (
+        rule.status == "Enabled" && (
           core::length(core::try(rule.expiration, [])) > 0 ||
           core::length(core::try(rule.abort_incomplete_multipart_upload, [])) > 0
         )

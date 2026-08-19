@@ -27,7 +27,7 @@ resource_policy "aws_elastic_beanstalk_environment" "logs_to_cloudwatch" {
 
     # Extract all settings from the environment
     settings = core::try(attrs.setting, [])
-    env_name = core::try(attrs.name, "Elastic Beanstalk environment")
+    env_name = attrs.name
     
     # Check for CloudWatch Logs streaming configuration
     # The namespace for CloudWatch Logs is "aws:elasticbeanstalk:cloudwatch:logs"

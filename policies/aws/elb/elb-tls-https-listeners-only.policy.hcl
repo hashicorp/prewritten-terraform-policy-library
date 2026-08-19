@@ -27,7 +27,7 @@ resource_policy "aws_elb" "https_tls_listeners_required" {
     # Identify non-compliant listeners (those not using HTTPS or SSL)
     non_compliant_listeners = [
       for listener in attrs.listener :
-      listener if core::try(listener.lb_protocol, "") != "HTTPS" && core::try(listener.lb_protocol, "") != "SSL"
+      listener if listener.lb_protocol != "HTTPS" && listener.lb_protocol != "SSL"
     ]
 
     # Check if all listeners are compliant (no non-compliant listeners)
@@ -36,7 +36,7 @@ resource_policy "aws_elb" "https_tls_listeners_required" {
     # Build detailed error message with non-compliant listener details
     non_compliant_details = [
       for listener in local.non_compliant_listeners :
-      "Port ${core::try(listener.lb_port, "unknown")} uses ${core::try(listener.lb_protocol, "unknown")} protocol"
+      "Port ${listener.lb_port} uses ${listener.lb_protocol} protocol"
     ]
   }
 

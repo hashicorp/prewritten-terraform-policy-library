@@ -26,7 +26,7 @@ resource_policy "aws_dms_replication_task" "source_logging_enabled" {
         has_settings = local.settings_json != ""
         
         # Task identifier for error messages
-        task_id = core::try(attrs.replication_task_id, "REPLICATION_TASK_ID")
+        task_id = attrs.replication_task_id
     }
 
     # Enforce: replication_task_settings must be defined

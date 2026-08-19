@@ -21,7 +21,7 @@ locals {
 
   elb_attachments = [for att in local.all_attachments : att if core::try(att.elb, null) != null && core::try(att.elb, "") != ""]
 
-  elb_attached_asg_names = [for att in local.elb_attachments : core::try(att.autoscaling_group_name, "")]
+  elb_attached_asg_names = [for att in local.elb_attachments : att.autoscaling_group_name]
 
   has_any_attachment = core::length(local.all_attachments) > 0
 }

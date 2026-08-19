@@ -32,7 +32,7 @@ resource_policy "aws_s3_bucket_acl" "bucket-public-read-acls-prohibited" {
             for grant in core::try(attrs.access_control_policy[0].grant, []) : grant
             if core::try(grant.grantee[0].type, "") == "Group" &&
             (core::contains(core::split("/", core::try(grant.grantee[0].uri, "")), "AllUsers") || core::contains(core::split("/", core::try(grant.grantee[0].uri, "")), "AuthenticatedUsers")) &&
-            core::contains(local.invalid_permissions, core::try(grant.permission, ""))
+            core::contains(local.invalid_permissions, grant.permission)
         ] : []
         
         has_public_grants = core::length(local.public_grants) > 0

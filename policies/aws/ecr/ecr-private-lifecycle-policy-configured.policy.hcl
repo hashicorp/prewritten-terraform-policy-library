@@ -20,7 +20,7 @@ resource_policy "aws_ecr_repository" "lifecycle_policy_required" {
     enforcement_level = input.ecr-private-lifecycle-policy-configured-enforcement-level
     locals {
         # Get the repository name for this resource
-        repository_name = core::try(attrs.name, "")
+        repository_name = attrs.name
 
         # Query lifecycle policies that reference this repository directly
         # using the filter in core::getresources.
