@@ -125,3 +125,12 @@ resource "aws_sns_topic_policy" "fail_wildcard_service_principal" {
     policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"AllowAnyService\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"*\"},\"Action\":\"SNS:Publish\",\"Resource\":\"arn:aws:sns:us-east-1:123456789012:my-topic\"}]}"
   }
 }
+
+# Test 15: FAIL - Wildcard principal with a wildcard condition value remains public
+resource "aws_sns_topic_policy" "fail_wildcard_principal_with_wildcard_condition" {
+  expect_failure = true
+  attrs = {
+    arn = "arn:aws:sns:us-east-1:123456789012:my-topic"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"AllowAnyS3Bucket\",\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"SNS:Publish\",\"Resource\":\"arn:aws:sns:us-east-1:123456789012:my-topic\",\"Condition\":{\"StringLike\":{\"aws:SourceArn\":\"arn:aws:s3:::*\"}}}]}"
+  }
+}
