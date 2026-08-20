@@ -26,14 +26,11 @@ resource_policy "aws_cloudwatch_event_bus" "custom_bus_policy_required" {
     filter = attrs.name != "default"
 
     locals {
-        # Get the event bus name
-        bus_name = core::try(attrs.name, "")
-        
         # Find policies that reference this event bus
         # Note: event_bus_name in policy defaults to "default" if not specified
         matching_policies = [
             for policy in local.all_event_bus_policies :
-            policy if core::try(policy.event_bus_name, "default") == local.bus_name
+            policy if core::try(policy.event_bus_name, "default") == attrs.name
         ]
         
         # Check if at least one policy exists for this bus

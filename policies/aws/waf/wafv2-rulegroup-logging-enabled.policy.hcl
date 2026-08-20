@@ -19,7 +19,6 @@ input "wafv2-rulegroup-logging-enabled-enforcement-level" {
 resource_policy "aws_wafv2_rule_group" "waf_rule_group_cloudwatch_metrics_enabled" {
   enforcement_level = input.wafv2-rulegroup-logging-enabled-enforcement-level
   locals {
-    resource_name = core::try(attrs.name, "unknown")
     resource_visibility_config = core::try(attrs.visibility_config, [])
     resource_has_visibility_config = core::length(local.resource_visibility_config) > 0
     resource_cloudwatch_metrics_enabled = core::try(attrs.visibility_config[0].cloudwatch_metrics_enabled, false)
@@ -39,29 +38,28 @@ resource_policy "aws_wafv2_rule_group" "waf_rule_group_cloudwatch_metrics_enable
 
   enforce {
     condition = local.resource_has_visibility_config
-    error_message = "WAF rule group '${local.resource_name}' must define a visibility_config block with CloudWatch metrics enabled"
+    error_message = "WAF rule group '${attrs.name}' must define a visibility_config block with CloudWatch metrics enabled"
   }
 
   enforce {
     condition = !local.resource_has_visibility_config || local.resource_cloudwatch_metrics_enabled == true
-    error_message = "WAF rule group '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true"
+    error_message = "WAF rule group '${attrs.name}' must set visibility_config.cloudwatch_metrics_enabled to true"
   }
 
   enforce {
     condition = core::length(local.rules_missing_visibility_config) == 0
-    error_message = "Each rule in WAF rule group '${local.resource_name}' must define visibility_config"
+    error_message = "Each rule in WAF rule group '${attrs.name}' must define visibility_config"
   }
 
   enforce {
     condition = core::length(local.rules_missing_visibility_config) > 0 || core::length(local.rules_with_metrics_disabled) == 0
-    error_message = "Each rule in WAF rule group '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true"
+    error_message = "Each rule in WAF rule group '${attrs.name}' must set visibility_config.cloudwatch_metrics_enabled to true"
   }
 }
 
 resource_policy "aws_wafv2_web_acl" "waf_web_acl_cloudwatch_metrics_enabled" {
   enforcement_level = input.wafv2-rulegroup-logging-enabled-enforcement-level
   locals {
-    resource_name = core::try(attrs.name, "unknown")
     resource_visibility_config = core::try(attrs.visibility_config, [])
     resource_has_visibility_config = core::length(local.resource_visibility_config) > 0
     resource_cloudwatch_metrics_enabled = core::try(attrs.visibility_config[0].cloudwatch_metrics_enabled, false)
@@ -81,21 +79,21 @@ resource_policy "aws_wafv2_web_acl" "waf_web_acl_cloudwatch_metrics_enabled" {
 
   enforce {
     condition = local.resource_has_visibility_config
-    error_message = "WAF web ACL '${local.resource_name}' must define a visibility_config block with CloudWatch metrics enabled"
+    error_message = "WAF web ACL '${attrs.name}' must define a visibility_config block with CloudWatch metrics enabled"
   }
 
   enforce {
     condition = !local.resource_has_visibility_config || local.resource_cloudwatch_metrics_enabled == true
-    error_message = "WAF web ACL '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true"
+    error_message = "WAF web ACL '${attrs.name}' must set visibility_config.cloudwatch_metrics_enabled to true"
   }
 
   enforce {
     condition = core::length(local.rules_missing_visibility_config) == 0
-    error_message = "Each rule in WAF web ACL '${local.resource_name}' must define visibility_config"
+    error_message = "Each rule in WAF web ACL '${attrs.name}' must define visibility_config"
   }
 
   enforce {
     condition = core::length(local.rules_missing_visibility_config) > 0 || core::length(local.rules_with_metrics_disabled) == 0
-    error_message = "Each rule in WAF web ACL '${local.resource_name}' must set visibility_config.cloudwatch_metrics_enabled to true"
+    error_message = "Each rule in WAF web ACL '${attrs.name}' must set visibility_config.cloudwatch_metrics_enabled to true"
   }
 }

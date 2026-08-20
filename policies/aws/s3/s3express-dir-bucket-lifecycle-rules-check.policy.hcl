@@ -24,12 +24,10 @@ input "expressTargetExpirationDays" {
 resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
   enforcement_level = input.s3express-dir-bucket-lifecycle-rules-check-enforcement-level
   locals {
-    bucket_name = core::try(attrs.bucket, "")
-
     # Look up the aws_s3_bucket_lifecycle_configuration attached to this
     # directory bucket directly via the getresources filter.
     matching_lifecycles = core::getresources("aws_s3_bucket_lifecycle_configuration", {
-      bucket = local.bucket_name
+      bucket = attrs.bucket
     })
 
     has_lifecycle_resource = core::length(local.matching_lifecycles) > 0
@@ -40,7 +38,7 @@ resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
     enabled_rules = [
       for rule in local.rules :
       rule if (
-        core::try(rule.status, "") == "Enabled" && (
+        rule.status == "Enabled" && (
           core::length(core::try(rule.expiration, [])) > 0 ||
           core::length(core::try(rule.abort_incomplete_multipart_upload, [])) > 0
         )
@@ -65,11 +63,11 @@ resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
 
   enforce {
     condition     = local.has_lifecycle_resource && local.has_active_rules
-    error_message = "S3 directory bucket '${local.bucket_name}' must have an associated 'aws_s3_bucket_lifecycle_configuration' with at least one rule whose status = 'Enabled' and that has either expiration or abort_incomplete_multipart_upload set"
+    error_message = "S3 directory bucket '${attrs.bucket}' must have an associated 'aws_s3_bucket_lifecycle_configuration' with at least one rule whose status = 'Enabled' and that has either expiration or abort_incomplete_multipart_upload set"
   }
 
   enforce {
     condition     = local.has_matching_expiration_days
-    error_message = "S3 directory bucket '${local.bucket_name}' lifecycle configuration must include an enabled rule with expiration.days = ${input.expressTargetExpirationDays} as required by input.expressTargetExpirationDays"
+    error_message = "S3 directory bucket '${attrs.bucket}' lifecycle configuration must include an enabled rule with expiration.days = ${input.expressTargetExpirationDays} as required by input.expressTargetExpirationDays"
   }
 }

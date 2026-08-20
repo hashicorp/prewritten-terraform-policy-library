@@ -20,8 +20,6 @@ resource_policy "aws_emr_cluster" "emr_master_no_public_ip" {
   enforcement_level = input.emr-master-no-public-ip-enforcement-level
   
   locals {
-    cluster_name = core::try(attrs.name, "Amazon EMR cluster")
-
     ec2_attrs     = core::try(attrs.ec2_attributes, {})
     has_ec2_attrs = core::length(core::keys(local.ec2_attrs)) > 0
 

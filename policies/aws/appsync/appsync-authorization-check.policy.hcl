@@ -23,11 +23,8 @@ resource_policy "aws_appsync_graphql_api" "no_api_key_auth" {
         # This list is fixed by the control and is not customizable.
         allowed_auth_types = ["AWS_LAMBDA", "AWS_IAM", "OPENID_CONNECT", "AMAZON_COGNITO_USER_POOLS"]
         
-        # Get primary authentication type (required attribute)
-        primary_auth_type = core::try(attrs.authentication_type, "")
-        
         # Check if primary authentication uses API_KEY
-        primary_uses_api_key = local.primary_auth_type == "API_KEY"
+        primary_uses_api_key = attrs.authentication_type == "API_KEY"
         
         # Get additional authentication providers (optional attribute)
         additional_providers = core::try(attrs.additional_authentication_provider, [])
@@ -35,7 +32,7 @@ resource_policy "aws_appsync_graphql_api" "no_api_key_auth" {
         # Check if any additional provider uses API_KEY
         additional_api_key_providers = [
             for provider in local.additional_providers :
-            provider if core::try(provider.authentication_type, "") == "API_KEY"
+            provider if provider.authentication_type == "API_KEY"
         ]
         
         has_additional_api_key = core::length(local.additional_api_key_providers) > 0

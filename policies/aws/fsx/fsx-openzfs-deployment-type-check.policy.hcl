@@ -18,12 +18,9 @@ input "fsx-openzfs-deployment-type-check-enforcement-level" {
 
 resource_policy "aws_fsx_openzfs_file_system" "openzfs_multi_az_deployment" {
     enforcement_level = input.fsx-openzfs-deployment-type-check-enforcement-level
-    locals {
-        deployment_type = core::try(attrs.deployment_type, "")
-    }
 
     enforce {
-        condition = local.deployment_type == "MULTI_AZ_1"
+        condition = attrs.deployment_type == "MULTI_AZ_1"
         error_message = "FSx for OpenZFS file system is not configured for Multi-AZ deployment. Set deployment_type = 'MULTI_AZ_1' for high availability and durability in production workloads"
     }
 }

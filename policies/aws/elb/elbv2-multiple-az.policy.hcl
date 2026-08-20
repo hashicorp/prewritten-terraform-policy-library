@@ -40,27 +40,27 @@ resource_policy "aws_lb" "multiple_az_required" {
 
         matching_listeners = [
             for listener in local.all_listeners :
-            listener if core::try(listener.load_balancer_arn, "") == local.lb_arn
+            listener if listener.load_balancer_arn == local.lb_arn
         ]
 
         listener_target_group_arns = [
             for action in core::flatten([
                 for listener in local.matching_listeners :
-                core::try(listener.default_action, [])
+                listener.default_action
             ]) :
             core::try(action.target_group_arn, "") if core::try(action.target_group_arn, "") != ""
         ]
 
         matching_attachments = [
             for attachment in local.all_target_group_attachments :
-            attachment if core::contains(local.listener_target_group_arns, core::try(attachment.target_group_arn, ""))
+            attachment if core::contains(local.listener_target_group_arns, attachment.target_group_arn)
         ]
 
         matching_instances = [
             for instance in local.all_instances :
             instance if core::contains([
                 for attachment in local.matching_attachments :
-                core::try(attachment.target_id, "")
+                attachment.target_id
             ], core::try(instance.id, ""))
         ]
 

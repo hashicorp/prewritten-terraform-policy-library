@@ -31,7 +31,7 @@ resource_policy "aws_api_gateway_stage" "waf_association_required" {
     # Check if this stage has a WAF association by looking for matching resource_arn
     matching_associations = [
       for assoc in local.all_waf_associations :
-      assoc if core::try(assoc.resource_arn, "") == local.stage_arn
+      assoc if assoc.resource_arn == local.stage_arn
     ]
     has_waf_association = core::length(local.matching_associations) > 0
     

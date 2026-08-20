@@ -30,8 +30,7 @@ resource_policy "aws_config_configuration_recorder" "recorder_configuration" {
     all_supported       = core::try(local.recording_group.all_supported, false)
     include_global      = core::try(local.recording_group.include_global_resource_types, false)
 
-    role_arn                 = core::try(attrs.role_arn, "")
-    uses_service_linked_role = core::try(core::length(core::regexall("/aws-service-role/config\\.amazonaws\\.com/AWSServiceRoleForConfig$", local.role_arn)), 0) > 0
+    uses_service_linked_role = core::try(core::length(core::regexall("/aws-service-role/config\\.amazonaws\\.com/AWSServiceRoleForConfig$", attrs.role_arn)), 0) > 0
 
     records_everything = local.has_recording_group && local.all_supported && local.include_global
   }
@@ -60,7 +59,7 @@ resource_policy "aws_config_configuration_recorder_status" "recorder_enabled" {
 resource_policy "aws_config_delivery_channel" "delivery_channel_configuration" {
   enforcement_level = input.config1-aws-config-enabled-enforcement-level
   enforce {
-    condition     = core::try(attrs.s3_bucket_name, "") != ""
+    condition     = attrs.s3_bucket_name != ""
     error_message = "AWS Config delivery channel must have a non-empty s3_bucket_name configured"
   }
 }

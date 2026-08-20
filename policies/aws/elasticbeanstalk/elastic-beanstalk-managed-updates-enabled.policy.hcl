@@ -27,7 +27,6 @@ resource_policy "aws_elastic_beanstalk_environment" "managed_updates_enabled" {
 
         # Extract all settings from the environment configuration
         all_settings = core::try(attrs.setting, [])
-        env_name = core::try(attrs.name, "Elastic Beanstalk environment")
         
         # Find the managed actions settings
         managed_action_settings = [
@@ -61,7 +60,7 @@ resource_policy "aws_elastic_beanstalk_environment" "managed_updates_enabled" {
 
     enforce {
         condition = local.managed_updates_enabled
-        error_message = "Elastic Beanstalk environment '${local.env_name}' must have managed platform updates enabled. Set 'ManagedActionsEnabled' to 'true' in the 'aws:elasticbeanstalk:managedactions' namespace"
+        error_message = "Elastic Beanstalk environment '${attrs.name}' must have managed platform updates enabled. Set 'ManagedActionsEnabled' to 'true' in the 'aws:elasticbeanstalk:managedactions' namespace"
     }
 
     enforce {
@@ -71,6 +70,6 @@ resource_policy "aws_elastic_beanstalk_environment" "managed_updates_enabled" {
 
     enforce {
         condition = local.update_level_matches
-        error_message = "Elastic Beanstalk environment '${local.env_name}' must set UpdateLevel = '${input.UpdateLevel}' in the 'aws:elasticbeanstalk:managedactions:platformupdate' namespace when the input is configured. Current value: '${local.update_level}'"
+        error_message = "Elastic Beanstalk environment '${attrs.name}' must set UpdateLevel = '${input.UpdateLevel}' in the 'aws:elasticbeanstalk:managedactions:platformupdate' namespace when the input is configured. Current value: '${local.update_level}'"
     }
 }

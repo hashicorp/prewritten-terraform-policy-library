@@ -22,8 +22,7 @@ resource_policy "aws_sagemaker_monitoring_schedule" "model_bias_isolation" {
 
     locals {
         schedule_config = attrs.monitoring_schedule_config[0]
-        monitoring_type = core::try(local.schedule_config.monitoring_type, "")
-        is_model_bias = local.monitoring_type == "ModelBias"
+        is_model_bias = local.schedule_config.monitoring_type == "ModelBias"
         
         job_definition = core::try(local.schedule_config.monitoring_job_definition, null)
         has_job_definition = local.job_definition != null ? core::length(local.job_definition) > 0 : false

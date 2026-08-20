@@ -32,8 +32,8 @@ resource_policy "aws_lb" "http_to_https_redirect" {
       for listener in local.alb_http_to_https_listeners :
       listener
       if local.lb_arn != ""
-        && core::try(listener.load_balancer_arn, "") != ""
-        && core::try(listener.load_balancer_arn, "") == local.lb_arn
+        && listener.load_balancer_arn != ""
+        && listener.load_balancer_arn == local.lb_arn
         && core::try(listener.protocol, "") == "HTTP"
         && core::try(listener.port, 0) == 80
     ]
@@ -46,27 +46,27 @@ resource_policy "aws_lb" "http_to_https_redirect" {
 
     default_actions = core::flatten([
       for listener in local.http_port_80_listeners :
-      core::try(listener.default_action, [])
+      listener.default_action
     ])
 
     listener_rule_actions = core::flatten([
       for rule in local.alb_http_to_https_listener_rules :
-      core::try(rule.action, [])
-      if core::try(rule.listener_arn, "") != ""
-        && core::contains(local.http_port_80_listener_arns, core::try(rule.listener_arn, ""))
+      rule.action
+      if rule.listener_arn != ""
+        && core::contains(local.http_port_80_listener_arns, rule.listener_arn)
     ])
 
     default_https_redirect_actions = [
       for action in local.default_actions :
       action
-      if core::try(action.type, "") == "redirect"
+      if action.type == "redirect"
         && core::try(action.redirect.protocol, "") == "HTTPS"
     ]
 
     rule_https_redirect_actions = [
       for action in local.listener_rule_actions :
       action
-      if core::try(action.type, "") == "redirect"
+      if action.type == "redirect"
         && core::try(action.redirect.protocol, "") == "HTTPS"
     ]
 
@@ -74,19 +74,19 @@ resource_policy "aws_lb" "http_to_https_redirect" {
       for listener in local.http_port_80_listeners :
       listener
       if core::length([
-        for action in core::try(listener.default_action, []) :
+        for action in listener.default_action :
         action
-        if core::try(action.type, "") == "redirect"
+        if action.type == "redirect"
           && core::try(action.redirect.protocol, "") == "HTTPS"
       ]) + core::length([
         for rule in local.alb_http_to_https_listener_rules :
         rule
         if core::try(listener.arn, "") != ""
-          && core::try(rule.listener_arn, "") == core::try(listener.arn, "")
+          && rule.listener_arn == core::try(listener.arn, "")
           && core::length([
-            for action in core::try(rule.action, []) :
+            for action in rule.action :
             action
-            if core::try(action.type, "") == "redirect"
+            if action.type == "redirect"
               && core::try(action.redirect.protocol, "") == "HTTPS"
           ]) > 0
       ]) == 0

@@ -18,11 +18,7 @@ input "sqs-queue-no-public-access-enforcement-level" {
 
 resource_policy "aws_sqs_queue_policy" "no_public_access" {
     enforcement_level = input.sqs-queue-no-public-access-enforcement-level
-    locals {
-        policy_value = core::try(attrs.policy, null)
-    }
-    
-    filter = local.policy_value != null
+    filter = attrs.policy != null
 
     enforce {
         condition = true
