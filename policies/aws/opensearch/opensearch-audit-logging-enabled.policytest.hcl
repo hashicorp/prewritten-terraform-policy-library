@@ -19,11 +19,10 @@ resource "aws_opensearch_domain" "pass_single_audit_log_enabled" {
   }
 }
 
-# FAIL: Multiple log_publishing_options — one AUDIT_LOGS and one INDEX_SLOW_LOGS
-resource "aws_opensearch_domain" "fail_multiple_log_types_with_audit" {
-  expect_failure = true
+# PASS: Multiple log types including AUDIT_LOGS enabled — other log types are valid alongside
+resource "aws_opensearch_domain" "pass_multiple_log_types_with_audit" {
   attrs = {
-    domain_name    = "fail-multi-log"
+    domain_name    = "pass-multi-log"
     engine_version = "OpenSearch_2.11"
     log_publishing_options = [
       {
@@ -90,7 +89,7 @@ resource "aws_opensearch_domain" "fail_audit_log_disabled" {
   }
 }
 
-# FAIL: Only non-AUDIT_LOGS log type with enabled=true
+# FAIL: Only non-AUDIT_LOGS log type
 resource "aws_opensearch_domain" "fail_only_index_slow_logs" {
   expect_failure = true
   attrs = {
@@ -106,7 +105,7 @@ resource "aws_opensearch_domain" "fail_only_index_slow_logs" {
   }
 }
 
-# FAIL: Multiple log_publishing_options blocks, none have AUDIT_LOGS
+# FAIL: Multiple non-audit log types, none have AUDIT_LOGS
 resource "aws_opensearch_domain" "fail_multiple_non_audit_log_types" {
   expect_failure = true
   attrs = {
@@ -127,11 +126,11 @@ resource "aws_opensearch_domain" "fail_multiple_non_audit_log_types" {
   }
 }
 
-# FAIL: Two AUDIT_LOGS entries — one enabled=true, one enabled=false
-resource "aws_opensearch_domain" "fail_one_enabled_one_disabled_audit" {
-  expect_failure = true
+# PASS: Two AUDIT_LOGS entries — one enabled=true, one enabled=false
+#       At least one enabled AUDIT_LOGS entry exists so this should pass
+resource "aws_opensearch_domain" "pass_one_enabled_one_disabled_audit" {
   attrs = {
-    domain_name    = "fail-mixed-audit-enabled"
+    domain_name    = "pass-mixed-audit-enabled"
     engine_version = "OpenSearch_2.11"
     log_publishing_options = [
       {

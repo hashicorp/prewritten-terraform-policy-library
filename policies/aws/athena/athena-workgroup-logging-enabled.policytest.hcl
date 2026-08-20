@@ -1,50 +1,89 @@
 # Copyright IBM Corp. 2026
 
 policytest {
-    targets = [
-        "athena-workgroup-logging-enabled.policy.hcl"
-    ]
+  targets = [
+    "athena-workgroup-logging-enabled.policy.hcl"
+  ]
 }
 
-# Test 1: PASS - CloudWatch metrics publishing is enabled
+# --------------- PASS cases ---------------
+
+# Test 1: PASS - publish_cloudwatch_metrics_enabled = true
 resource "aws_athena_workgroup" "pass_logging_enabled" {
   attrs = {
-    name = "athena-workgroup-logging-enabled"
+    name = "compliant-workgroup"
     configuration = [
-        {
-            publish_cloudwatch_metrics_enabled = true
-        }
+      {
+        publish_cloudwatch_metrics_enabled = true
+      }
     ]
   }
 }
 
-# Test 2: FAIL - CloudWatch metrics publishing is disabled
+# Test 2: PASS - publish_cloudwatch_metrics_enabled = true alongside other config
+resource "aws_athena_workgroup" "pass_logging_enabled_with_result_config" {
+  attrs = {
+    name = "compliant-workgroup-with-s3"
+    configuration = [
+      {
+        publish_cloudwatch_metrics_enabled = true
+        result_configuration = [
+          {
+            output_location = "s3://my-athena-results/query-results/"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+# --------------- FAIL cases ---------------
+
+# Test 3: FAIL - publish_cloudwatch_metrics_enabled = false
 resource "aws_athena_workgroup" "fail_logging_disabled" {
   expect_failure = true
   attrs = {
-    name = "athena-workgroup-logging-disabled"
+    name = "non-compliant-disabled"
     configuration = [
-        {
-            publish_cloudwatch_metrics_enabled = false
-        }
+      {
+        publish_cloudwatch_metrics_enabled = false
+      }
     ]
   }
 }
 
-# Test 3: PASS - Missing publish_cloudwatch_metrics_enabled defaults to true
-resource "aws_athena_workgroup" "pass_logging_missing_flag" {
+# Test 4: FAIL - configuration block present but publish_cloudwatch_metrics_enabled absent (defaults false)
+resource "aws_athena_workgroup" "fail_logging_absent" {
+  expect_failure = true
   attrs = {
-    name = "athena-workgroup-logging-missing-flag"
+    name = "non-compliant-absent-flag"
     configuration = [
-        {}
+      {}
     ]
   }
 }
 
-# Test 4: PASS - Missing configuration defaults to true
-resource "aws_athena_workgroup" "pass_logging_missing_configuration" {
+# Test 5: FAIL - no configuration block at all
+resource "aws_athena_workgroup" "fail_no_configuration" {
+  expect_failure = true
   attrs = {
-    name = "athena-workgroup-logging-missing-config"
+    name = "non-compliant-no-config"
   }
 }
 
+# Test 6: FAIL - only result_configuration set, no publish_cloudwatch_metrics_enabled
+resource "aws_athena_workgroup" "fail_s3_only_not_sufficient" {
+  expect_failure = true
+  attrs = {
+    name = "non-compliant-s3-only"
+    configuration = [
+      {
+        result_configuration = [
+          {
+            output_location = "s3://my-athena-results/query-results/"
+          }
+        ]
+      }
+    ]
+  }
+}

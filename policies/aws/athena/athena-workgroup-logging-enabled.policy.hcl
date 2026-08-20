@@ -12,14 +12,26 @@ policy {
 }
 
 input "athena-workgroup-logging-enabled-enforcement-level" {
-  type = string
+  type    = string
   default = "advisory"
 }
 
-resource_policy "aws_athena_workgroup" "logging-enabled" {
-    enforcement_level = input.athena-workgroup-logging-enabled-enforcement-level
-    enforce {
-        condition = core::try(attrs.configuration[0].publish_cloudwatch_metrics_enabled, true)
-        error_message = "Athena workgroup does not have logging enabled"
-    }
+resource_policy "aws_athena_workgroup" "logging_enabled" {
+  enforcement_level = input.athena-workgroup-logging-enabled-enforcement-level
+
+  locals {
+    # configuration block is optional in Terraform — default to empty list if absent.
+    configuration = core::try(attrs.configuration, [])
+    has_config    = core::length(local.configuration) > 0
+
+    # The AWS Config rule athena-workgroup-logging-enabled evaluates
+    # PublishCloudWatchMetricsEnabled as the logging signal.
+    # Default to false — a missing configuration block means logging is not enabled.
+    publish_cloudwatch_metrics_enabled = local.has_config ? core::try(local.configuration[0].publish_cloudwatch_metrics_enabled, false) : false
+  }
+
+  enforce {
+    condition     = local.publish_cloudwatch_metrics_enabled
+    error_message = "Athena workgroup does not have logging enabled. Set configuration.publish_cloudwatch_metrics_enabled = true to enable CloudWatch metrics logging for this workgroup."
+  }
 }
