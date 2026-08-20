@@ -19,19 +19,22 @@ input "opensearch-audit-logging-enabled-enforcement-level" {
 resource_policy "aws_opensearch_domain" "audit_logging_enabled" {
   enforcement_level = input.opensearch-audit-logging-enabled-enforcement-level
   locals {
-    log_options     = core::try([for opt in attrs.log_publishing_options : opt], [])
-    has_log_options = core::length(local.log_options) > 0
 
-    non_audit_options = [
+    log_options = core::try([for opt in attrs.log_publishing_options : opt], [])
+
+    # Pass if at least one log_publishing_options entry has log_type = "AUDIT_LOGS"
+    # and enabled = true. Other log types (INDEX_SLOW_LOGS, SEARCH_SLOW_LOGS, etc.)
+    # are valid alongside AUDIT_LOGS and must not cause a failure.
+    audit_log_entries = [
       for opt in local.log_options : opt
-      if !(core::try(opt.enabled, false) == true && core::try(opt.log_type, "") == "AUDIT_LOGS")
+      if core::try(opt.enabled, false) == true && core::try(opt.log_type, "") == "AUDIT_LOGS"
     ]
 
-    is_compliant = local.has_log_options && core::length(local.non_audit_options) == 0
+    has_audit_logging = core::length(local.audit_log_entries) > 0
   }
 
   enforce {
-    condition     = local.is_compliant
-    error_message = "Attribute 'enabled' in 'log_publishing_options' should be true and 'log_type' set to 'AUDIT_LOGS' for AWS OpenSearch Domain."
+    condition     = local.has_audit_logging
+    error_message = "OpenSearch domain must have at least one log_publishing_options block with log_type = 'AUDIT_LOGS' and enabled = true."
   }
 }
