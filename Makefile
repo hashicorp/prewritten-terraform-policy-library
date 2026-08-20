@@ -1,28 +1,32 @@
-POLICIES_DIR := policies/aws
+POLICIES_DIR := policies
 
 .PHONY: test
 test:
 ifndef folder
 	$(error folder is not set. Usage: make test folder=<service-folder>  e.g. make test folder=s3)
 endif
+	tfpolicy validate --policies=$(if $(filter policies/%,$(folder)),$(folder),$(POLICIES_DIR)/$(folder))
 	tfpolicy test --policies=$(if $(filter policies/%,$(folder)),$(folder),$(POLICIES_DIR)/$(folder))
 
 .PHONY: tests
 tests:
-	@FAILED=""; \
-	for dir in $(POLICIES_DIR)/*/; do \
-		dir=$${dir%/}; \
-		echo "==> Testing $$dir"; \
-		if ! tfpolicy test --policies="$$dir"; then \
-			failed="$$failed $$dir"; \
-		fi; \
-	done; \
-	if [ -n "$$failed" ]; then \
+	@echo "==> Collecting all policies into tmp/"; \
+	rm -rf tmp && mkdir -p tmp; \
+	find $(POLICIES_DIR) -maxdepth 3 -type f \( -name "*.policy.hcl" -o -name "*.policytest.hcl" \) -exec cp {} tmp/ \; ; \
+	echo "==> Validating tmp/"; \
+	if ! tfpolicy validate --policies=tmp; then \
+		rm -rf tmp; \
 		echo ""; \
-		echo "failed:"; \
-		echo "$$failed" | tr ' ' '\n' | grep -v '^$$'; \
+		echo "Validation failed."; \
 		exit 1; \
-	else \
+	fi; \
+	echo "==> Testing tmp/"; \
+	if ! tfpolicy test --policies=tmp; then \
+		rm -rf tmp; \
 		echo ""; \
-		echo "All tests passed."; \
-	fi
+		echo "Tests failed."; \
+		exit 1; \
+	fi; \
+	rm -rf tmp; \
+	echo ""; \
+	echo "All tests passed."
