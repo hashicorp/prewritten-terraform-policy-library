@@ -6,7 +6,14 @@ policytest {
   ]
 }
 
-# Test 1: PASS - SQS queue policy with specific AWS account principal
+# ======================== PASS cases ========================
+
+# Test 1: PASS - Queue with standalone policy restricted to specific AWS account
+resource "aws_sqs_queue" "pass_specific_account_principal" {
+  attrs = {
+    name = "my-queue"
+  }
+}
 resource "aws_sqs_queue_policy" "pass_specific_account_principal" {
   attrs = {
     queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
@@ -14,113 +21,148 @@ resource "aws_sqs_queue_policy" "pass_specific_account_principal" {
   }
 }
 
-# Test 2: FAIL - SQS queue policy with wildcard (*) as Principal string
-resource "aws_sqs_queue_policy" "fail_wildcard_principal" {
-  expect_failure = true
+# Test 2: PASS - Queue with no policy at all (private by default)
+resource "aws_sqs_queue" "pass_no_policy" {
   attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
-    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+    name = "my-private-queue"
   }
 }
 
-# Test 3: FAIL - SQS queue policy with wildcard (*) in Principal.AWS string
-resource "aws_sqs_queue_policy" "fail_wildcard_principal_aws" {
-  expect_failure = true
+# Test 3: PASS - Wildcard principal but Deny effect (not public access)
+resource "aws_sqs_queue" "pass_wildcard_deny_effect" {
   attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
-    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"*\"},\"Action\":\"sqs:ReceiveMessage\",\"Resource\":\"*\"}]}"
+    name = "my-deny-queue"
   }
 }
-
-# Test 4: FAIL - SQS queue with inline policy containing wildcard Principal
-resource "aws_sqs_queue" "fail_inline_wildcard_principal" {
-  expect_failure = true
-  attrs = {
-    name   = "my-public-queue"
-    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
-  }
-}
-
-# Test 5: PASS - SQS queue with inline policy restricted to specific principals
-resource "aws_sqs_queue" "pass_inline_specific_principal" {
-  attrs = {
-    name   = "my-compliant-queue"
-    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:role/MyRole\"},\"Action\":\"sqs:*\",\"Resource\":\"*\"}]}"
-  }
-}
-
-# Test 6: PASS - SQS queue without policy (filtered out, not evaluated)
-resource "aws_sqs_queue" "no_policy" {
-  attrs = {
-    name = "my-queue-no-policy"
-  }
-}
-
-# Test 7: PASS - Wildcard principal but Deny effect (not public access)
 resource "aws_sqs_queue_policy" "pass_wildcard_deny_effect" {
   attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-deny-queue"
     policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"sqs:*\",\"Resource\":\"*\"}]}"
   }
 }
 
-# Test 8: PASS - Wildcard principal but restrictive Condition present
+# Test 4: PASS - Wildcard principal but restrictive Condition present
+resource "aws_sqs_queue" "pass_wildcard_with_condition" {
+  attrs = {
+    name = "my-conditioned-queue"
+  }
+}
 resource "aws_sqs_queue_policy" "pass_wildcard_with_condition" {
   attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-conditioned-queue"
     policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\",\"Condition\":{\"ArnEquals\":{\"aws:SourceArn\":\"arn:aws:sns:us-east-1:123456789012:my-topic\"}}}]}"
   }
 }
 
-# Test 9: FAIL - Wildcard principal in list form: "Principal": {"AWS": ["*"]}
-resource "aws_sqs_queue_policy" "fail_wildcard_aws_principal_list" {
-  expect_failure = true
+# Test 5: PASS - Single-object Statement with specific principal
+resource "aws_sqs_queue" "pass_single_object_statement_specific" {
   attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
-    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+    name = "my-single-stmt-queue"
   }
 }
-
-# Test 10: FAIL - Wildcard principal in mixed list: "Principal": {"AWS": ["arn:...:root", "*"]}
-resource "aws_sqs_queue_policy" "fail_wildcard_aws_principal_mixed_list" {
-  expect_failure = true
-  attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
-    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"arn:aws:iam::123456789012:root\",\"*\"]},\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
-  }
-}
-
-# Test 11: FAIL - NotPrincipal with Effect: Allow is effectively public
-resource "aws_sqs_queue_policy" "fail_not_principal_allow" {
-  expect_failure = true
-  attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
-    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"NotPrincipal\":{\"AWS\":\"arn:aws:iam::123456789012:root\"},\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
-  }
-}
-
-# Test 12: FAIL - Single-object Statement (not an array) with wildcard principal
-resource "aws_sqs_queue_policy" "fail_single_object_statement_wildcard" {
-  expect_failure = true
-  attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
-    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}}"
-  }
-}
-
-# Test 13: PASS - Single-object Statement (not an array) with specific principal
 resource "aws_sqs_queue_policy" "pass_single_object_statement_specific" {
   attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-single-stmt-queue"
     policy    = "{\"Version\":\"2012-10-17\",\"Statement\":{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:root\"},\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}}"
   }
 }
 
-# Test 14: FAIL - Wildcard Service principal
-resource "aws_sqs_queue_policy" "fail_wildcard_service_principal" {
+# ======================== FAIL cases ========================
+
+# Test 6: FAIL - Wildcard (*) as Principal string
+resource "aws_sqs_queue" "fail_wildcard_principal" {
   expect_failure = true
   attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
+    name = "my-public-queue"
+  }
+}
+resource "aws_sqs_queue_policy" "fail_wildcard_principal" {
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-public-queue"
+    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# Test 7: FAIL - Wildcard (*) in Principal.AWS string
+resource "aws_sqs_queue" "fail_wildcard_principal_aws" {
+  expect_failure = true
+  attrs = {
+    name = "my-public-aws-queue"
+  }
+}
+resource "aws_sqs_queue_policy" "fail_wildcard_principal_aws" {
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-public-aws-queue"
+    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"*\"},\"Action\":\"sqs:ReceiveMessage\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# Test 8: FAIL - Wildcard principal in list form {"AWS": ["*"]}
+resource "aws_sqs_queue" "fail_wildcard_aws_principal_list" {
+  expect_failure = true
+  attrs = {
+    name = "my-list-wildcard-queue"
+  }
+}
+resource "aws_sqs_queue_policy" "fail_wildcard_aws_principal_list" {
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-list-wildcard-queue"
+    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# Test 9: FAIL - Wildcard in mixed list {"AWS": ["arn:...:root", "*"]}
+resource "aws_sqs_queue" "fail_wildcard_aws_principal_mixed_list" {
+  expect_failure = true
+  attrs = {
+    name = "my-mixed-wildcard-queue"
+  }
+}
+resource "aws_sqs_queue_policy" "fail_wildcard_aws_principal_mixed_list" {
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-mixed-wildcard-queue"
+    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"arn:aws:iam::123456789012:root\",\"*\"]},\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# Test 10: FAIL - NotPrincipal with Effect: Allow is effectively public
+resource "aws_sqs_queue" "fail_not_principal_allow" {
+  expect_failure = true
+  attrs = {
+    name = "my-notprincipal-queue"
+  }
+}
+resource "aws_sqs_queue_policy" "fail_not_principal_allow" {
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-notprincipal-queue"
+    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"NotPrincipal\":{\"AWS\":\"arn:aws:iam::123456789012:root\"},\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# Test 11: FAIL - Single-object Statement with wildcard principal
+resource "aws_sqs_queue" "fail_single_object_statement_wildcard" {
+  expect_failure = true
+  attrs = {
+    name = "my-single-wildcard-queue"
+  }
+}
+resource "aws_sqs_queue_policy" "fail_single_object_statement_wildcard" {
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-single-wildcard-queue"
+    policy    = "{\"Version\":\"2012-10-17\",\"Statement\":{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}}"
+  }
+}
+
+# Test 12: FAIL - Wildcard Service principal
+resource "aws_sqs_queue" "fail_wildcard_service_principal" {
+  expect_failure = true
+  attrs = {
+    name = "my-service-wildcard-queue"
+  }
+}
+resource "aws_sqs_queue_policy" "fail_wildcard_service_principal" {
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-service-wildcard-queue"
     policy    = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"*\"},\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
   }
 }
