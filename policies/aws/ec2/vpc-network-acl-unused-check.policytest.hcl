@@ -39,28 +39,6 @@ resource "aws_network_acl" "fail_empty_subnet_ids" {
   }
 }
 
-# Scenario 6: Default network ACL with no associations (PASS)
-resource "aws_default_network_acl" "pass_default_no_associations" {
-  attrs = {
-    default_network_acl_id = "acl-default123"
-    subnet_ids = null
-    tags = {
-      Name = "default-nacl"
-    }
-  }
-}
-
-# Scenario 7: Default network ACL with associations (PASS)
-resource "aws_default_network_acl" "pass_default_with_associations" {
-  attrs = {
-    default_network_acl_id = "acl-default123"
-    subnet_ids = ["subnet-11111111", "subnet-22222222"]
-    tags = {
-      Name = "default-nacl"
-    }
-  }
-}
-
 # Scenario 8: Network ACL with multiple subnet associations (PASS)
 resource "aws_network_acl" "pass_multiple_subnets" {
   attrs = {
@@ -75,10 +53,22 @@ resource "aws_network_acl" "pass_multiple_subnets" {
 # Additional test: Network ACL with single subnet (PASS)
 resource "aws_network_acl" "pass_single_subnet" {
   attrs = {
-    vpc_id = "vpc-12345678"
+    vpc_id     = "vpc-12345678"
     subnet_ids = ["subnet-11111111"]
     tags = {
       Name = "single-subnet-nacl"
+    }
+  }
+}
+
+# Additional test: Network ACL with subnet_ids attribute absent entirely (FAIL)
+# core::try(..., false) should catch this and return false
+resource "aws_network_acl" "fail_missing_subnet_ids_attr" {
+  expect_failure = true
+  attrs = {
+    vpc_id = "vpc-12345678"
+    tags = {
+      Name = "no-subnet-attr-nacl"
     }
   }
 }

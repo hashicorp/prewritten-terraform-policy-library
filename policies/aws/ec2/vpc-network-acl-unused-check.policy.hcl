@@ -34,11 +34,8 @@ resource_policy "aws_network_acl" "unused_nacl_check" {
 }
 
 
-resource_policy "aws_default_network_acl" "allow_default_nacl" {
-  enforcement_level = input.vpc-network-acl-unused-check-enforcement-level
-  
-  enforce {
-    condition     = true
-    error_message = "This should never fail - default network ACLs are always compliant"
-  }
-}
+# aws_default_network_acl is intentionally excluded from this check.
+# Default NACLs are automatically created by AWS for every VPC and cannot
+# be deleted — they will always exist regardless of subnet associations.
+# The "unused NACL" hygiene concern applies only to custom aws_network_acl
+# resources, which can be freely created and deleted by users.

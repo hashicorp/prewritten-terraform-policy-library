@@ -12,34 +12,111 @@ policy {
 }
 
 input "sqs-queue-no-public-access-enforcement-level" {
-  type = string
+  type    = string
   default = "advisory"
 }
 
 resource_policy "aws_sqs_queue_policy" "no_public_access" {
-    enforcement_level = input.sqs-queue-no-public-access-enforcement-level
-    locals {
-        policy_value = core::try(attrs.policy, null)
-    }
-    
-    filter = local.policy_value != null
+  enforcement_level = input.sqs-queue-no-public-access-enforcement-level
+  # Pre-filter: only evaluate when a policy document is present
+  filter = core::try(attrs.policy, "") != ""
 
-    enforce {
-        condition = true
-        error_message = "LIMITATION: Cannot validate SQS queue policy for public access. Terraform policy lacks JSON parsing and string pattern matching functions required to inspect policy documents. Use AWS Config rule 'sqs-queue-no-public-access' instead"
-    }
+  locals {
+    # Safely decode the policy JSON; default to empty doc if malformed.
+    policy_doc = core::try(core::jsondecode(attrs.policy), {})
+
+    raw_statements = core::try(local.policy_doc.Statement, [])
+
+    # Public statements when Statement is an array.
+    public_statements_from_list = core::try([
+      for stmt in local.raw_statements : stmt
+      if (
+        core::try(stmt.Effect, "") == "Allow" &&
+        (
+          core::try(stmt.Principal, "") == "*" ||
+          core::contains(core::try([for p in stmt.Principal : p], []), "*") ||
+          core::try(stmt.Principal.AWS, "") == "*" ||
+          core::contains(core::try([for v in stmt.Principal.AWS : v], []), "*") ||
+          core::try(stmt.Principal.Service, "") == "*" ||
+          core::contains(core::try([for v in stmt.Principal.Service : v], []), "*") ||
+          core::try(stmt.Principal.Federated, "") == "*" ||
+          core::contains(core::try([for v in stmt.Principal.Federated : v], []), "*") ||
+          core::try(stmt.Principal.CanonicalUser, "") == "*" ||
+          core::contains(core::try([for v in stmt.Principal.CanonicalUser : v], []), "*") ||
+          core::try(stmt.NotPrincipal, null) != null
+        ) &&
+        core::try(stmt.Condition, null) == null
+      )
+    ], [])
+
+    # Single-object form: treat as a one-element list when it has an Effect key.
+    single_stmt_is_public = core::try(local.raw_statements.Effect, "") == "Allow" && (
+      core::try(local.raw_statements.Principal, "") == "*" ||
+      core::try(local.raw_statements.Principal.AWS, "") == "*" ||
+      core::try(local.raw_statements.Principal.Service, "") == "*" ||
+      core::try(local.raw_statements.Principal.Federated, "") == "*" ||
+      core::try(local.raw_statements.Principal.CanonicalUser, "") == "*" ||
+      core::try(local.raw_statements.NotPrincipal, null) != null
+    ) && core::try(local.raw_statements.Condition, null) == null
+
+    public_statement_count = core::length(local.public_statements_from_list) + (local.single_stmt_is_public ? 1 : 0)
+
+    is_compliant = local.public_statement_count == 0
+  }
+
+  enforce {
+    condition     = local.is_compliant
+    error_message = "SQS queue policy allows public access. The policy contains ${local.public_statement_count} statement(s) with a wildcard (*) Principal (or NotPrincipal with Allow) and no Condition. Remove wildcard principals or add restrictive conditions."
+  }
 }
 
 resource_policy "aws_sqs_queue" "no_public_access_inline" {
-    enforcement_level = input.sqs-queue-no-public-access-enforcement-level
-    locals {
-        policy_value = core::try(attrs.policy, null)
-    }
-    
-    filter = local.policy_value != null
+  enforcement_level = input.sqs-queue-no-public-access-enforcement-level
+  # Only evaluate queues that have an inline policy defined
+  filter = core::try(attrs.policy, null) != null && core::try(attrs.policy, "") != ""
 
-    enforce {
-        condition = true
-        error_message = "LIMITATION: Cannot validate SQS queue inline policy for public access. Terraform policy lacks JSON parsing and string pattern matching functions required to inspect policy documents. Use AWS Config rule 'sqs-queue-no-public-access' instead"
-    }
+  locals {
+    policy_doc = core::try(core::jsondecode(attrs.policy), {})
+
+    raw_statements = core::try(local.policy_doc.Statement, [])
+
+    public_statements_from_list = core::try([
+      for stmt in local.raw_statements : stmt
+      if (
+        core::try(stmt.Effect, "") == "Allow" &&
+        (
+          core::try(stmt.Principal, "") == "*" ||
+          core::contains(core::try([for p in stmt.Principal : p], []), "*") ||
+          core::try(stmt.Principal.AWS, "") == "*" ||
+          core::contains(core::try([for v in stmt.Principal.AWS : v], []), "*") ||
+          core::try(stmt.Principal.Service, "") == "*" ||
+          core::contains(core::try([for v in stmt.Principal.Service : v], []), "*") ||
+          core::try(stmt.Principal.Federated, "") == "*" ||
+          core::contains(core::try([for v in stmt.Principal.Federated : v], []), "*") ||
+          core::try(stmt.Principal.CanonicalUser, "") == "*" ||
+          core::contains(core::try([for v in stmt.Principal.CanonicalUser : v], []), "*") ||
+          core::try(stmt.NotPrincipal, null) != null
+        ) &&
+        core::try(stmt.Condition, null) == null
+      )
+    ], [])
+
+    single_stmt_is_public = core::try(local.raw_statements.Effect, "") == "Allow" && (
+      core::try(local.raw_statements.Principal, "") == "*" ||
+      core::try(local.raw_statements.Principal.AWS, "") == "*" ||
+      core::try(local.raw_statements.Principal.Service, "") == "*" ||
+      core::try(local.raw_statements.Principal.Federated, "") == "*" ||
+      core::try(local.raw_statements.Principal.CanonicalUser, "") == "*" ||
+      core::try(local.raw_statements.NotPrincipal, null) != null
+    ) && core::try(local.raw_statements.Condition, null) == null
+
+    public_statement_count = core::length(local.public_statements_from_list) + (local.single_stmt_is_public ? 1 : 0)
+
+    is_compliant = local.public_statement_count == 0
+  }
+
+  enforce {
+    condition     = local.is_compliant
+    error_message = "SQS queue has an inline policy that allows public access. The policy contains ${local.public_statement_count} statement(s) with a wildcard (*) Principal (or NotPrincipal with Allow) and no Condition. Remove wildcard principals or add restrictive conditions."
+  }
 }
