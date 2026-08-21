@@ -19,12 +19,11 @@ input "dms-endpoint-ssl-configured-enforcement-level" {
 resource_policy "aws_dms_endpoint" "certificate_arn_required" {
   enforcement_level = input.dms-endpoint-ssl-configured-enforcement-level
   locals {
-    certificate_arn     = core::try(attrs.certificate_arn, null)
-    has_certificate_arn = local.certificate_arn != null && local.certificate_arn != ""
+    ssl_mode = core::try(attrs.ssl_mode, "none")
   }
 
   enforce {
-    condition     = local.has_certificate_arn
-    error_message = "Attribute 'certificate_arn' must not be empty for 'aws_dms_endpoint' resources."
+    condition = local.ssl_mode != "none" 
+    error_message = "Attribute 'ssl_mode' must be set to any of 'require', 'verify-ca' or 'verify-full' for 'aws_dms_endpoint' resources."
   }
 }
