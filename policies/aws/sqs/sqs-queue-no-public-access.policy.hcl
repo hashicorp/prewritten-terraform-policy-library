@@ -20,13 +20,27 @@ resource_policy "aws_sqs_queue_policy" "no_public_access" {
     enforcement_level = input.sqs-queue-no-public-access-enforcement-level
     locals {
         policy_value = core::try(attrs.policy, null)
+        policy_doc   = local.policy_value != null ? core::jsondecode(local.policy_value) : null
+        statements   = local.policy_doc != null ? core::try(local.policy_doc.Statement, []) : []
+
+        # A statement is publicly accessible when Effect=Allow, Principal=* and no
+        # restrictive Condition is present.
+        public_statements = [
+            for s in local.statements : s
+            if core::try(s.Effect, "") == "Allow"
+            && (
+                core::try(s.Principal, "") == "*" ||
+                core::try(s.Principal.AWS, "") == "*"
+            )
+            && core::try(s.Condition, null) == null
+        ]
     }
-    
+
     filter = local.policy_value != null
 
     enforce {
-        condition = true
-        error_message = "LIMITATION: Cannot validate SQS queue policy for public access. Terraform policy lacks JSON parsing and string pattern matching functions required to inspect policy documents. Use AWS Config rule 'sqs-queue-no-public-access' instead"
+        condition     = core::length(local.public_statements) == 0
+        error_message = "SQS queue policy allows public access: found ${core::length(local.public_statements)} statement(s) with Effect=Allow, Principal=* and no restrictive Condition. Restrict access using IAM conditions (e.g. aws:PrincipalOrgID) or remove the wildcard principal."
     }
 }
 
@@ -34,12 +48,24 @@ resource_policy "aws_sqs_queue" "no_public_access_inline" {
     enforcement_level = input.sqs-queue-no-public-access-enforcement-level
     locals {
         policy_value = core::try(attrs.policy, null)
+        policy_doc   = local.policy_value != null ? core::jsondecode(local.policy_value) : null
+        statements   = local.policy_doc != null ? core::try(local.policy_doc.Statement, []) : []
+
+        public_statements = [
+            for s in local.statements : s
+            if core::try(s.Effect, "") == "Allow"
+            && (
+                core::try(s.Principal, "") == "*" ||
+                core::try(s.Principal.AWS, "") == "*"
+            )
+            && core::try(s.Condition, null) == null
+        ]
     }
-    
+
     filter = local.policy_value != null
 
     enforce {
-        condition = true
-        error_message = "LIMITATION: Cannot validate SQS queue inline policy for public access. Terraform policy lacks JSON parsing and string pattern matching functions required to inspect policy documents. Use AWS Config rule 'sqs-queue-no-public-access' instead"
+        condition     = core::length(local.public_statements) == 0
+        error_message = "SQS queue inline policy allows public access: found ${core::length(local.public_statements)} statement(s) with Effect=Allow, Principal=* and no restrictive Condition. Restrict access using IAM conditions (e.g. aws:PrincipalOrgID) or remove the wildcard principal."
     }
 }
