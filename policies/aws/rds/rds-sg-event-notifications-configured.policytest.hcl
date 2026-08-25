@@ -35,8 +35,8 @@ resource "aws_db_event_subscription" "pass_with_all_categories" {
   }
 }
 
-# Test 4: FAIL - Subscription with only maintenance category
-resource "aws_db_event_subscription" "fail_missing_failure_category" {
+# Test 4: FAIL - Subscription with only failure category (missing configuration change)
+resource "aws_db_event_subscription" "fail_missing_config_change_category" {
   expect_failure = true
   attrs = {
     source_type = "db-security-group"
@@ -46,8 +46,8 @@ resource "aws_db_event_subscription" "fail_missing_failure_category" {
   }
 }
 
-# Test 5: FAIL - Subscription with only failure category
-resource "aws_db_event_subscription" "fail_missing_maintenance_category" {
+# Test 5: FAIL - Subscription with only configuration change category (missing failure)
+resource "aws_db_event_subscription" "fail_missing_failure_category" {
   expect_failure = true
   attrs = {
     source_type = "db-security-group"
@@ -88,16 +88,49 @@ resource "aws_db_event_subscription" "fail_wrong_categories" {
   }
 }
 
-# Test 9: PASS - No subscriptions
-resource "aws_db_event_subscription" "pass_no_subscriptions" {
+# Test 9: PASS - No event_categories attribute set (empty list default), subscription is enabled
+resource "aws_db_event_subscription" "pass_no_event_categories_attr" {
   attrs = {
     source_type = "db-security-group"
+    enabled     = true
+    sns_topic   = "arn:aws:sns:us-east-1:123456789012:rds-events"
   }
 }
 
-# Test 10: No subscriptions (filtered out - db-instance not db-cluster)
+# Test 10: PASS - source_type absent (empty string) with both required categories and enabled
+resource "aws_db_event_subscription" "pass_no_source_type_with_required_categories" {
+  attrs = {
+    event_categories = ["configuration change", "failure"]
+    enabled          = true
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+  }
+}
+
+# Test 11: FAIL - source_type absent (empty string), only one required category present
+resource "aws_db_event_subscription" "fail_no_source_type_missing_failure" {
+  expect_failure = true
+  attrs = {
+    event_categories = ["configuration change"]
+    enabled          = true
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+  }
+}
+
+# Test 12: FAIL - source_type absent (empty string), subscription disabled
+resource "aws_db_event_subscription" "fail_no_source_type_disabled" {
+  expect_failure = true
+  attrs = {
+    event_categories = ["configuration change", "failure"]
+    enabled          = false
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+  }
+}
+
+# Test 13: PASS - source_type is db-instance (filtered out, not evaluated)
 resource "aws_db_event_subscription" "pass_db_instance_filtered_out" {
   attrs = {
-    source_type = "db-instance"
+    source_type      = "db-instance"
+    event_categories = ["availability"]
+    enabled          = false
   }
 }

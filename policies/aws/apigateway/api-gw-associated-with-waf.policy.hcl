@@ -26,7 +26,7 @@ resource_policy "aws_api_gateway_stage" "waf_association_required" {
   locals {
     # Construct the stage ARN for lookup
     # Format: arn:aws:apigateway:{region}::/restapis/{rest-api-id}/stages/{stage-name}
-    stage_arn = "arn:aws:apigateway:*::/restapis/${attrs.rest_api_id}/stages/${attrs.stage_name}"
+    stage_arn = core::try(attrs.arn, "")
     
     # Check if this stage has a WAF association by looking for matching resource_arn
     matching_associations = [
