@@ -28,17 +28,10 @@ locals {
 resource_policy "aws_secretsmanager_secret" "rotation_enabled_check" {
   enforcement_level = input.secretsmanager-rotation-enabled-check-enforcement-level
   locals {
-    secret_name = core::try(attrs.name, "unnamed")
-
-    # A rotation matches this secret if its secret_id attribute equals our name.
-    # Matching by name (not by .id or .arn) keeps this policy evaluable at plan
-    # time, where aws_secretsmanager_secret.id and .arn are "known after apply".
-    # The aws_secretsmanager_secret_rotation.secret_id argument accepts a secret
-    # name, ARN, or ID -- users running this policy at plan time should pass the
-    # secret's name (e.g. aws_secretsmanager_secret.example.name).
+    secret_id = core::try(attrs.id, "")
     matching_rotations = [
       for rotation in local.all_secret_rotations : rotation
-      if core::try(rotation.secret_id, "") == local.secret_name
+      if core::try(rotation.secret_id, "") == local.secret_id
     ]
 
     has_rotation_enabled = core::length(local.matching_rotations) > 0

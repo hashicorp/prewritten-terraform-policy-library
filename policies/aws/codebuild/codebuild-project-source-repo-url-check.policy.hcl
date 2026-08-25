@@ -18,48 +18,40 @@ input "codebuild-project-source-repo-url-check-enforcement-level" {
 
 resource_policy "aws_codebuild_project" "bitbucket_credentials_check" {
     enforcement_level = input.codebuild-project-source-repo-url-check-enforcement-level
-    # Filter to only Bitbucket projects
-    filter = core::try(attrs.source[0].type, "") == "BITBUCKET"
 
     locals {
-        # Extract primary source configuration
-        primary_source = core::try(attrs.source[0], null)
-        primary_auth_type = core::try(local.primary_source.auth.type, "")
-        
-        # Check if primary source has proper auth configuration
-        primary_has_proper_auth = local.primary_auth_type == "CODECONNECTIONS" || local.primary_auth_type == "SECRETS_MANAGER"
-        
-        # Extract secondary sources
+        # Primary source
+        primary_source_raw = core::try(attrs.source, null)
+        primary_source = local.primary_source_raw != null ? local.primary_source_raw : []
+        primary_type     = core::try(local.primary_source[0].type, "")
+        primary_location = core::try(local.primary_source[0].location, "")
+
+        primary_has_embedded_credentials = (
+            local.primary_type == "BITBUCKET" &&
+            core::try(core::regex("://[^/@]+@", local.primary_location), "") != ""
+        )
+
+        # Secondary sources
         secondary_sources = core::try(attrs.secondary_sources, [])
-        
-        # Check each secondary source for Bitbucket type
-        bitbucket_secondary_sources = [
+
+        secondary_credential_violations = [
             for source in local.secondary_sources :
-            source if core::try(source.type, "") == "BITBUCKET"
+            source
+            if core::try(source.type, "") == "BITBUCKET" &&
+               core::try(
+                   core::regex("://[^/@]+@", core::try(source.location, "")),
+                   ""
+               ) != ""
         ]
-        
-        # Check if any secondary source lacks proper auth
-        secondary_auth_violations = [
-            for source in local.bitbucket_secondary_sources :
-            source if !(
-                core::try(source.auth.type, "") == "CODECONNECTIONS" ||
-                core::try(source.auth.type, "") == "SECRETS_MANAGER"
-            )
-        ]
-        
-        # Overall compliance check
-        secondary_compliant = core::length(local.secondary_auth_violations) == 0
     }
 
-    # Check primary source has proper authentication
     enforce {
-        condition = local.primary_has_proper_auth
-        error_message = "CodeBuild project must use CODECONNECTIONS or SECRETS_MANAGER authentication for Bitbucket source. Current auth type: '${local.primary_auth_type}'. Configure OAuth or AWS CodeStar Connections for secure authentication"
+        condition = !local.primary_has_embedded_credentials
+        error_message = "CodeBuild project Bitbucket source.location must not contain embedded credentials (user:password@host or user:token@host)."
     }
 
-    # Check secondary sources have proper authentication
     enforce {
-        condition = local.secondary_compliant
-        error_message = "CodeBuild project has ${core::length(local.secondary_auth_violations)} secondary Bitbucket source(s) without proper authentication. Configure CODECONNECTIONS or SECRETS_MANAGER authentication for all secondary sources"
+        condition = core::length(local.secondary_credential_violations) == 0
+        error_message = "CodeBuild project secondary Bitbucket source locations must not contain embedded credentials (user:password@host or user:token@host)."
     }
 }

@@ -35,13 +35,12 @@ resource_policy "aws_sfn_state_machine" "logging_enabled" {
         # Safe access to logging configuration (it's a block, so use [0]).
         # Resolve the list first, then index, so a non-list value can't crash before try() catches it.
         logging_config_list = core::try(attrs.logging_configuration, [])
-        logging_config      = core::length(local.logging_config_list) > 0 ? core::try(local.logging_config_list[0], null) : null
 
         # Extract logging level with safe fallback
-        log_level = core::try(local.logging_config.level, "OFF")
+        log_level = core::try(local.logging_config_list[0].level, "OFF")
 
         # Extract log destination with safe fallback
-        log_destination = core::try(local.logging_config.log_destination, "")
+        log_destination = core::try(local.logging_config_list[0].log_destination, "")
 
         # Valid logging levels (excluding OFF)
         valid_levels = ["ALL", "ERROR", "FATAL"]

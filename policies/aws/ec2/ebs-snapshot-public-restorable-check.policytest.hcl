@@ -11,8 +11,9 @@ resource "aws_ebs_snapshot_block_public_access" "pass_block_all_sharing" {
   }
 }
 
-# Test 2: PASS - Block public access configured with 'block-new-sharing'
-resource "aws_ebs_snapshot_block_public_access" "pass_block_new_sharing" {
+# Test 2: FAIL - Block public access configured with 'block-new-sharing' (only 'block-all-sharing' is compliant)
+resource "aws_ebs_snapshot_block_public_access" "fail_block_new_sharing" {
+  expect_failure = true
   attrs = {
     state = "block-new-sharing"
   }
@@ -50,8 +51,9 @@ resource "aws_ebs_snapshot_block_public_access" "pass_with_region" {
   }
 }
 
-# Test 7: PASS - Another valid configuration with block-new-sharing and region
-resource "aws_ebs_snapshot_block_public_access" "pass_block_new_with_region" {
+# Test 7: FAIL - block-new-sharing with region is still non-compliant
+resource "aws_ebs_snapshot_block_public_access" "fail_block_new_with_region" {
+  expect_failure = true
   attrs = {
     state = "block-new-sharing"
     region = "us-west-2"
