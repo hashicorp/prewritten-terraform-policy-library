@@ -16,31 +16,21 @@ input "elasticsearch-logs-to-cloudwatch-enforcement-level" {
   default = "advisory"
 }
 
-input "es_log_types" {
-    type = string
-    default = "ES_APPLICATION_LOGS"
-}
-
 resource_policy "aws_elasticsearch_domain" "error_logging_enabled" {
     enforcement_level = input.elasticsearch-logs-to-cloudwatch-enforcement-level
-    filter = core::try(attrs.log_publishing_options, null) != null || core::length(core::try(attrs.log_publishing_options, [])) > 0
 
     locals {
-        inputs = core::split(",", input.es_log_types)
-        has_valid_input = core::contains(local.inputs, "ES_APPLICATION_LOGS")
-        app_log_configs = [
-            for log_config in core::try(attrs.log_publishing_options, []) : log_config
-            if log_config.log_type == "ES_APPLICATION_LOGS" || (local.has_valid_input ? core::contains(local.inputs, log_config.log_type) : false)
-        ]
+        es_log_type = "ES_APPLICATION_LOGS"
+        log_publishing_options_raw = core::try(attrs.log_publishing_options, null)
+        log_publishing_options = local.log_publishing_options_raw != null ? local.log_publishing_options_raw : []
         
-        has_app_logs = core::length(local.app_log_configs) > 0
-        is_enabled = local.has_app_logs ? core::try(local.app_log_configs[0].enabled, true) : false
-        
-        has_log_group = local.has_app_logs ? core::try(local.app_log_configs[0].cloudwatch_log_group_arn, "") != "" : false
+        has_app_logs = core::try(local.log_publishing_options[0].log_type, "") == local.es_log_type
+        is_enabled = core::try(local.log_publishing_options[0].enabled, true)
+        has_log_group = core::try(local.log_publishing_options[0].cloudwatch_log_group_arn, "") != ""
     }
 
     enforce {
-        condition = local.has_app_logs
+        condition = local.has_app_logs == true
         error_message = "Elasticsearch domain does not have ES_APPLICATION_LOGS configured. Add log_publishing_options block with log_type = 'ES_APPLICATION_LOGS' to enable error logging"
     }
 

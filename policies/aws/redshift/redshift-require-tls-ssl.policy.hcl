@@ -24,10 +24,10 @@ resource_policy "aws_redshift_cluster" "encryption_in_transit_required" {
   enforcement_level = input.redshift-require-tls-ssl-enforcement-level
   locals {
     # Get the parameter group name (custom or default)
-    param_group_name = core::try(attrs.cluster_parameter_group_name, "default.redshift-1.0")
+    param_group_name = core::try(attrs.cluster_parameter_group_name, "default.redshift-2.0")
     
     # Check if using default parameter group
-    is_default_param_group = local.param_group_name == "default.redshift-1.0"
+    is_default_param_group = local.param_group_name == "default.redshift-2.0"
     
     # Find matching custom parameter group
     matching_param_groups = [
@@ -35,23 +35,22 @@ resource_policy "aws_redshift_cluster" "encryption_in_transit_required" {
       pg if pg.name == local.param_group_name
     ]
     
-    has_custom_param_group = core::length(local.matching_param_groups) > 0
-    
     # Check require_ssl parameter in custom parameter group
-    require_ssl_count = local.has_custom_param_group ? core::length([
+    require_ssl_count = core::length([
       for pg in local.matching_param_groups :
       pg if core::length([
         for param in core::try(pg.parameter, []) :
         param if param.name == "require_ssl" && param.value == "true"
       ]) > 0
-    ]) : 0
+    ]) > 0
     
-    require_ssl_enabled = local.require_ssl_count > 0
+    # Default.redshift-2.0 has require_ssl set to 'true' by default
+    require_ssl_enabled = local.is_default_param_group || local.require_ssl_count
   }
 
   # Enforce: Cluster must use a custom parameter group with require_ssl = true
   enforce {
-    condition = !local.is_default_param_group && local.require_ssl_enabled
-    error_message = "Redshift cluster must use a custom parameter group with require_ssl parameter set to 'true' to encrypt connections in transit. Current parameter group: '${local.param_group_name}'"
+    condition = local.require_ssl_enabled
+    error_message = "Redshift cluster must have require_ssl parameter set to 'true' to encrypt connections in transit. Current parameter group: '${local.param_group_name}'"
   }
 }

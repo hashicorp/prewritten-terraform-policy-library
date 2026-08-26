@@ -24,17 +24,16 @@ resource_policy "aws_ssm_document" "ssm_document_not_public" {
         owner = core::try(attrs.owner, "")
         
         # Get permissions configuration if it exists
-        permissions = core::try(attrs.permissions, null)
-        
-        # Check if permissions exist and extract account_ids
-        has_permissions = local.permissions != null
-        account_ids = local.has_permissions ? core::try(local.permissions.account_ids, []) : []
+        permissions_raw = core::try(attrs.permissions, null)
+        permissions = local.permissions_raw != null ? local.permissions_raw : []
+        permissions_type = core::try(local.permissions[0].type, "")
+        account_ids = core::try(local.permissions[0].account_ids, [])
         
         # Check if document is owned by Self (the account)
         is_self_owned = local.owner == "Self"
         
         # Check if permissions contain "All" (public access)
-        is_public = local.has_permissions && core::contains(local.account_ids, "All")
+        is_public = local.permissions_type == "Share" && core::contains(local.account_ids, "All")
     }
 
     # Only evaluate documents owned by Self
