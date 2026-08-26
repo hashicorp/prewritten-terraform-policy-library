@@ -68,3 +68,31 @@ resource "aws_elasticache_cluster" "fail_missing_sg" {
     cluster_id = "my-memcached-cluster"
   }
 }
+
+# Test 7: PASS - ElastiCache replication group with a custom subnet group
+resource "aws_elasticache_replication_group" "pass_rg_custom_subnet" {
+  attrs = {
+    replication_group_id = "my-rg-compliant"
+    description          = "compliant replication group"
+    subnet_group_name    = "custom-subnet-group"
+  }
+}
+
+# Test 8: FAIL - ElastiCache replication group with explicit default subnet group
+resource "aws_elasticache_replication_group" "fail_rg_explicit_default" {
+  expect_failure = true
+  attrs = {
+    replication_group_id = "my-rg-default"
+    description          = "non-compliant replication group"
+    subnet_group_name    = "default"
+  }
+}
+
+# Test 9: FAIL - ElastiCache replication group with no subnet_group_name (implicit default)
+resource "aws_elasticache_replication_group" "fail_rg_missing_subnet" {
+  expect_failure = true
+  attrs = {
+    replication_group_id = "my-rg-no-subnet"
+    description          = "replication group without subnet group"
+  }
+}

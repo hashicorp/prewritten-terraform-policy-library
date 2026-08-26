@@ -6,54 +6,85 @@ policytest {
     ]
 }
 
-# Test 1: PASS - EKS node group is running a supported Kubernetes version
-resource "aws_eks_node_group" "pass_ng_supported_version" {
+# ---------------------------------------------------------------------------
+# PASS cases
+# ---------------------------------------------------------------------------
+
+# Test 1: PASS - Node group with exactly the minimum supported version
+resource "aws_eks_node_group" "pass_ng_min_version" {
     attrs = {
-        cluster_name = "example-cluster-supported"
-        node_group_name = "example"
-        node_role_arn = "arn:aws:iam::123456789012:role/eks-cluster-role"
+        cluster_name    = "example-cluster"
+        node_group_name = "ng-min"
+        node_role_arn   = "arn:aws:iam::123456789012:role/eks-node-role"
+        version         = "1.33"
     }
 }
 
-resource "aws_eks_cluster" "example_cluster_supported" {
-    skip = true
+# Test 2: PASS - Node group with a newer supported version
+resource "aws_eks_node_group" "pass_ng_newer_version" {
     attrs = {
-        name = "example-cluster-supported"
-        version = "1.33"
+        cluster_name    = "example-cluster"
+        node_group_name = "ng-newer"
+        node_role_arn   = "arn:aws:iam::123456789012:role/eks-node-role"
+        version         = "1.34"
     }
 }
 
-# Test 2: FAIL - EKS node group is running an unsupported Kubernetes version
+# ---------------------------------------------------------------------------
+# FAIL cases
+# ---------------------------------------------------------------------------
+
+# Test 3: FAIL - Reads attrs.version directly and correctly fails it.
 resource "aws_eks_node_group" "fail_ng_unsupported_version" {
     expect_failure = true
     attrs = {
-        cluster_name = "example-cluster-unsupported"
-        node_group_name = "example"
-        node_role_arn = "arn:aws:iam::123456789012:role/eks-cluster-role"
+        cluster_name    = "example-cluster"
+        node_group_name = "ng-old"
+        node_role_arn   = "arn:aws:iam::123456789012:role/eks-node-role"
+        version         = "1.30"
     }
 }
 
-resource "aws_eks_cluster" "example_cluster_unsupported" {
+# Test 4: FAIL - Node group with version one below minimum (boundary)
+resource "aws_eks_node_group" "fail_ng_just_below_min" {
+    expect_failure = true
+    attrs = {
+        cluster_name    = "example-cluster"
+        node_group_name = "ng-boundary"
+        node_role_arn   = "arn:aws:iam::123456789012:role/eks-node-role"
+        version         = "1.32"
+    }
+}
+
+# Test 5: FAIL - Node group with no version attribute set.
+# The old policy defaulted to the cluster version (or "1.33") and passed silently.
+# The fixed policy defaults to "" and fails closed.
+resource "aws_eks_node_group" "fail_ng_no_version" {
+    expect_failure = true
+    attrs = {
+        cluster_name    = "example-cluster"
+        node_group_name = "ng-no-version"
+        node_role_arn   = "arn:aws:iam::123456789012:role/eks-node-role"
+    }
+}
+
+# Test 6: FAIL - Node group with old version even though cluster has a compliant version.
+# This is the core bug scenario: the old policy would pass this because it read
+# the cluster version (1.33) not the node group version (1.28).
+resource "aws_eks_node_group" "fail_ng_old_version_compliant_cluster" {
+    expect_failure = true
+    attrs = {
+        cluster_name    = "compliant-cluster"
+        node_group_name = "ng-stale"
+        node_role_arn   = "arn:aws:iam::123456789012:role/eks-node-role"
+        version         = "1.28"
+    }
+}
+
+resource "aws_eks_cluster" "compliant_cluster" {
     skip = true
     attrs = {
-        name = "example-cluster-unsupported"
-        version = "1.30"
-    }
-}
-
-# Test 3: PASS - EKS node group is running a higher version than minimum supported
-resource "aws_eks_node_group" "pass_ng_higher_version" {
-    attrs = {
-        cluster_name = "example-cluster-higher"
-        node_group_name = "example"
-        node_role_arn = "arn:aws:iam::123456789012:role/eks-cluster-role"
-    }
-}
-
-resource "aws_eks_cluster" "example_cluster_higher" {
-    skip = true
-    attrs = {
-        name = "example-cluster-higher"
-        version = "1.35"
+        name    = "compliant-cluster"
+        version = "1.33"
     }
 }

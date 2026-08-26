@@ -89,23 +89,29 @@ resource_policy "aws_network_acl_rule" "no_unrestricted_ssh_rdp" {
     filter = core::try(attrs.egress, false) == false && attrs.rule_action == "allow"
 
     locals {
-        from_port = core::try(attrs.from_port, 0)
-        to_port = core::try(attrs.to_port, 0)
-        cidr_block = core::try(attrs.cidr_block, "")
+        from_port       = core::try(attrs.from_port, 0)
+        to_port         = core::try(attrs.to_port, 0)
+        cidr_block      = core::try(attrs.cidr_block, "")
         ipv6_cidr_block = core::try(attrs.ipv6_cidr_block, "")
-        
+        protocol        = core::try(attrs.protocol, "")
+
+        # "-1" means all-traffic and must be treated as a matching protocol,
+        # mirroring the aws_network_acl inline-rule block above.
+        # for protocol="-1", causing a false-positive failure on restricted rules.
+        is_matching_protocol = local.protocol == "tcp" || local.protocol == "udp" || local.protocol == "-1"
+
         is_unrestricted = local.cidr_block == "0.0.0.0/0" || local.ipv6_cidr_block == "::/0"
-        allows_ssh = local.from_port <= 22 && local.to_port >= 22
-        allows_rdp = local.from_port <= 3389 && local.to_port >= 3389
+        allows_ssh      = local.from_port <= 22 && local.to_port >= 22
+        allows_rdp      = local.from_port <= 3389 && local.to_port >= 3389
     }
 
     enforce {
-        condition = (core::try(attrs.protocol, "") == "tcp" || core::try(attrs.protocol, "") == "udp") && !(local.is_unrestricted && local.allows_ssh)
+        condition     = !local.is_matching_protocol || !(local.is_unrestricted && local.allows_ssh)
         error_message = "Network ACL rule allows unrestricted SSH access (port 22) from 0.0.0.0/0 or ::/0. Change the cidr_block or ipv6_cidr_block to a specific range"
     }
 
     enforce {
-        condition = (core::try(attrs.protocol, "") == "tcp" || core::try(attrs.protocol, "") == "udp") && !(local.is_unrestricted && local.allows_rdp)
+        condition     = !local.is_matching_protocol || !(local.is_unrestricted && local.allows_rdp)
         error_message = "Network ACL rule allows unrestricted RDP access (port 3389) from 0.0.0.0/0 or ::/0. Change the cidr_block or ipv6_cidr_block to a specific range"
     }
 }

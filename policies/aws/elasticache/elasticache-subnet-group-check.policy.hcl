@@ -27,7 +27,16 @@ resource_policy "aws_elasticache_subnet_group" "default-sg" {
 resource_policy "aws_elasticache_cluster" "default-subnet-group" {
     enforcement_level = input.elasticache-subnet-group-check-enforcement-level
     enforce {
-        condition = core::try(attrs.subnet_group_name, "default") != "default"
+        condition     = core::try(attrs.subnet_group_name, "default") != "default"
         error_message = "ElastiCache cluster uses the default subnet group"
+    }
+}
+
+# aws_elasticache_replication_group also has a subnet_group_name attribute 
+resource_policy "aws_elasticache_replication_group" "default-subnet-group" {
+    enforcement_level = input.elasticache-subnet-group-check-enforcement-level
+    enforce {
+        condition     = core::try(attrs.subnet_group_name, "default") != "default"
+        error_message = "ElastiCache replication group uses the default subnet group. Set subnet_group_name to a custom subnet group."
     }
 }

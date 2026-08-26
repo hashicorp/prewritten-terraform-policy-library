@@ -46,12 +46,33 @@ resource_policy "aws_iam_policy" "deny_full_admin_privileges" {
             stmt if (
                 core::try(stmt.Effect, "") == "Allow" &&
                 (
-                    core::try(stmt.Action, "") == "*" ||
-                    core::try(core::contains(stmt.Action, "*"), false)
-                ) &&
-                (
-                    core::try(stmt.Resource, "") == "*" ||
-                    core::try(core::contains(stmt.Resource, "*"), false)
+                    # Standard wildcard: Action=* + Resource=*
+                    (
+                        (
+                            core::try(stmt.Action, "") == "*" ||
+                            core::try(core::contains(stmt.Action, "*"), false)
+                        ) &&
+                        (
+                            core::try(stmt.Resource, "") == "*" ||
+                            core::try(core::contains(stmt.Resource, "*"), false)
+                        )
+                    ) ||
+                    # NotAction + Resource=* : grants all actions except a denylist — effectively admin.
+                    (
+                        core::try(stmt.NotAction, null) != null &&
+                        (
+                            core::try(stmt.Resource, "") == "*" ||
+                            core::try(core::contains(stmt.Resource, "*"), false)
+                        )
+                    ) ||
+                    # NotResource + Action=* : grants an action on all resources except a denylist — effectively admin.
+                    (
+                        core::try(stmt.NotResource, null) != null &&
+                        (
+                            core::try(stmt.Action, "") == "*" ||
+                            core::try(core::contains(stmt.Action, "*"), false)
+                        )
+                    )
                 )
             )
         ]
