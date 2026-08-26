@@ -31,24 +31,32 @@ resource_policy "aws_ecs_task_definition" "ecs20_nonroot_user_linux" {
     # Check each container for user configuration
     container_checks = [
       for container in local.container_defs : {
-        name = container.name
+        name     = container.name
         has_user = core::try(container.user, null) != null
         user_value = core::try(container.user, "")
-        is_root = core::contains(["root", "0"], core::try(container.user, ""))
-        is_compliant = (
-          core::try(container.user, null) != null &&
-          !core::contains(["root", "0"], core::try(container.user, ""))
+        # Detect root identity in all supported formats:
+        #   "root"      — name-only
+        #   "0"         — UID-only
+        #   "0:1000"    — root UID with non-root GID
+        #   "0:0"       — root UID with root GID
+        #   "root:app"  — root username with non-root group
+        # core::regex() returns the matched string (truthy) or null (falsy).
+        is_root = (
+          core::try(container.user, "") == "root" ||
+          core::try(container.user, "") == "0" ||
+          core::length(core::regexall("^0(:|$)", core::try(container.user, ""))) > 0 ||
+          core::length(core::regexall("^root(:|$)", core::try(container.user, ""))) > 0
         )
       }
     ]
-    
+
     # Find containers without user configured
     containers_missing_user = [
       for check in local.container_checks :
       check.name if !check.has_user
     ]
-    
-    # Find containers configured as root
+
+    # Find containers configured as root (exact or UID:GID / username:group formats)
     containers_as_root = [
       for check in local.container_checks :
       check.name if check.has_user && check.is_root

@@ -36,6 +36,9 @@ resource_policy "aws_s3_bucket" "ssl_required" {
     single_wrapped = core::try(local.raw_stmts.Effect, "") != "" ? [local.raw_stmts] : []
     statements     = core::concat(local.list_stmts, local.single_wrapped)
 
+    bucket_arn        = "arn:aws:s3:::${local.bucket_name}"
+    bucket_object_arn = "arn:aws:s3:::${local.bucket_name}/*"
+
     ssl_only_statements = [
       for stmt in local.statements :
       stmt if (
@@ -53,6 +56,15 @@ resource_policy "aws_s3_bucket" "ssl_required" {
         (
           core::try(stmt.Condition.Bool["aws:SecureTransport"], "") == "false" ||
           core::try(stmt.Condition.Bool["aws:SecureTransport"], true) == false
+        ) &&
+        (
+          
+          (
+            core::try(stmt.Resource, "") == local.bucket_arn ||
+            core::try(stmt.Resource, "") == local.bucket_object_arn ||
+            core::try(core::contains(stmt.Resource, local.bucket_arn), false) ||
+            core::try(core::contains(stmt.Resource, local.bucket_object_arn), false)
+          )
         )
       )
     ]

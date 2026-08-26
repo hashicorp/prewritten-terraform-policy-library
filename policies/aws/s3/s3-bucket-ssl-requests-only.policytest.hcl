@@ -192,12 +192,42 @@ resource "aws_s3_bucket" "narrow_action" {
 resource "aws_s3_bucket_policy" "action_list_with_s3_star_pol" {
   attrs = {
     bucket = "action-list-with-s3-star"
-    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":[\"s3:*\"],\"Resource\":\"arn:aws:s3:::action-list-with-s3-star/*\",\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}]}"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":[\"s3:*\"],\"Resource\":[\"arn:aws:s3:::action-list-with-s3-star\",\"arn:aws:s3:::action-list-with-s3-star/*\"],\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}]}"
   }
 }
 
 resource "aws_s3_bucket" "action_list_with_s3_star" {
   attrs = {
     bucket = "action-list-with-s3-star"
+  }
+}
+
+# Test 15: FAIL - Deny statement targets a DIFFERENT bucket's ARN (not this bucket)
+
+resource "aws_s3_bucket_policy" "wrong_resource_bucket_pol" {
+  attrs = {
+    bucket = "wrong-resource-bucket"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:*\",\"Resource\":[\"arn:aws:s3:::some-other-bucket\",\"arn:aws:s3:::some-other-bucket/*\"],\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}]}"
+  }
+}
+
+resource "aws_s3_bucket" "wrong_resource_bucket" {
+  expect_failure = true
+  attrs = {
+    bucket = "wrong-resource-bucket"
+  }
+}
+
+# Test 16: PASS - Resource is just the bucket ARN string (not a list, still valid)
+resource "aws_s3_bucket_policy" "resource_string_bucket_arn_pol" {
+  attrs = {
+    bucket = "resource-string-bucket"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:*\",\"Resource\":\"arn:aws:s3:::resource-string-bucket\",\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}]}"
+  }
+}
+
+resource "aws_s3_bucket" "resource_string_bucket" {
+  attrs = {
+    bucket = "resource-string-bucket"
   }
 }
