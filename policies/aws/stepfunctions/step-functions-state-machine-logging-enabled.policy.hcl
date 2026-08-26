@@ -40,7 +40,8 @@ resource_policy "aws_sfn_state_machine" "logging_enabled" {
         log_level = core::try(local.logging_config_list[0].level, "OFF")
 
         # Extract log destination with safe fallback
-        log_destination = core::try(local.logging_config_list[0].log_destination, "")
+        log_destination_raw = core::try(local.logging_config_list[0].log_destination, null)
+        log_destination = local.log_destination_raw != null ? local.log_destination_raw : ""
 
         # Valid logging levels (excluding OFF)
         valid_levels = ["ALL", "ERROR", "FATAL"]
@@ -55,7 +56,7 @@ resource_policy "aws_sfn_state_machine" "logging_enabled" {
         meets_required_level = !local.has_log_level_input || local.actual_level_rank >= local.required_level_rank
 
         # Check if log destination is specified
-        has_log_destination = local.log_destination != "" && local.log_destination != null
+        has_log_destination = local.log_destination != ""
 
         # Per Terraform AWS provider, log_destination ARN must end with ":*"
         log_destination_suffix_parts = core::split(":*", local.log_destination)
@@ -99,7 +100,7 @@ resource_policy "aws_sfn_state_machine" "logging_enabled" {
     # Enforce: log_destination ARN must end with ":*" per AWS provider requirement
     enforce {
         condition = !local.has_log_destination || local.has_valid_log_destination_suffix
-        error_message = "Step Functions state machine logging_configuration.log_destination must be a CloudWatch log group ARN ending with ':*'. Current value: '${local.log_destination}'"
+        error_message = "Step Functions state machine logging_configuration.log_destination must be a CloudWatch log group ARN ending with ':*'."
     }
 
     # Enforce: when input.cloudWatchLogGroupArns is provided, log_destination must match one of them
