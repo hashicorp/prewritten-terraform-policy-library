@@ -83,3 +83,47 @@ resource "aws_cloudwatch_event_bus" "non_compliant_bus" {
     name = "non-compliant-bus"
   }
 }
+
+# Test 7: FAIL - Policy document is valid JSON but has an empty Statement array.
+resource "aws_cloudwatch_event_bus" "bus_empty_statement" {
+  expect_failure = true
+  attrs = {
+    name = "bus-empty-statement"
+  }
+}
+
+resource "aws_cloudwatch_event_bus_policy" "empty_statement_policy" {
+  attrs = {
+    event_bus_name = "bus-empty-statement"
+    policy         = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
+  }
+}
+
+# Test 8: FAIL - Policy document is valid JSON but Statement key is missing entirely.
+resource "aws_cloudwatch_event_bus" "bus_no_statement_key" {
+  expect_failure = true
+  attrs = {
+    name = "bus-no-statement-key"
+  }
+}
+
+resource "aws_cloudwatch_event_bus_policy" "no_statement_key_policy" {
+  attrs = {
+    event_bus_name = "bus-no-statement-key"
+    policy         = "{\"Version\":\"2012-10-17\"}"
+  }
+}
+
+# Test 9: PASS - Policy document is valid JSON with at least one Statement
+resource "aws_cloudwatch_event_bus" "bus_valid_statement" {
+  attrs = {
+    name = "bus-valid-statement"
+  }
+}
+
+resource "aws_cloudwatch_event_bus_policy" "valid_statement_policy" {
+  attrs = {
+    event_bus_name = "bus-valid-statement"
+    policy         = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:root\"},\"Action\":\"events:PutEvents\",\"Resource\":\"*\"}]}"
+  }
+}

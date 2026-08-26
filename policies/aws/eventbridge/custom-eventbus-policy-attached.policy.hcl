@@ -49,7 +49,22 @@ resource_policy "aws_cloudwatch_event_bus" "custom_bus_policy_required" {
     # Enforce: Policy document must not be empty (short-circuits when no policy
     # is attached so the previous enforce owns that diagnostic).
     enforce {
-        condition = !local.has_policy || core::try(local.matching_policies[0].policy, "") != ""
-        error_message = "EventBridge event bus has an associated aws_cloudwatch_event_bus_policy, but the policy document is empty or null. A valid IAM policy document must be provided"
+        condition     = !local.has_policy || core::try(local.matching_policies[0].policy, "") != ""
+        error_message = "EventBridge event bus has an associated aws_cloudwatch_event_bus_policy, but the policy document is empty or null. A valid IAM policy document must be provided."
+    }
+
+    # Enforce: Policy document must parse as valid JSON and contain at least one
+    # Statement. An empty Statement array satisfies the non-empty string check above
+    # but provides no actual access control
+    enforce {
+        condition     = !local.has_policy || (
+            core::length(
+                core::try(
+                    core::jsondecode(core::try(local.matching_policies[0].policy, "{}")).Statement,
+                    []
+                )
+            ) > 0
+        )
+        error_message = "EventBridge event bus policy document must contain valid JSON with at least one Statement entry."
     }
 }

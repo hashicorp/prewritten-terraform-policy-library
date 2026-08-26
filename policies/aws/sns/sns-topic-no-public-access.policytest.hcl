@@ -125,3 +125,37 @@ resource "aws_sns_topic_policy" "fail_wildcard_service_principal" {
     policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"AllowAnyService\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"*\"},\"Action\":\"SNS:Publish\",\"Resource\":\"arn:aws:sns:us-east-1:123456789012:my-topic\"}]}"
   }
 }
+
+# Test 15: FAIL - Wildcard principal with a non-restrictive Condition key.
+# This policy only exempts known access-scoping keys.
+resource "aws_sns_topic_policy" "fail_wildcard_non_restrictive_condition" {
+  expect_failure = true
+  attrs = {
+    arn    = "arn:aws:sns:us-east-1:123456789012:my-topic"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"SNS:Publish\",\"Resource\":\"arn:aws:sns:us-east-1:123456789012:my-topic\",\"Condition\":{\"StringLike\":{\"aws:UserAgent\":\"*curl*\"}}}]}"
+  }
+}
+
+# Test 16: PASS - Wildcard principal with aws:PrincipalOrgID condition (restrictive)
+resource "aws_sns_topic_policy" "pass_wildcard_org_id_condition" {
+  attrs = {
+    arn    = "arn:aws:sns:us-east-1:123456789012:my-topic"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"SNS:Publish\",\"Resource\":\"arn:aws:sns:us-east-1:123456789012:my-topic\",\"Condition\":{\"StringEquals\":{\"aws:PrincipalOrgID\":\"o-xxxx\"}}}]}"
+  }
+}
+
+# Test 17: PASS - Wildcard principal with aws:SourceAccount condition (restrictive)
+resource "aws_sns_topic_policy" "pass_wildcard_source_account_condition" {
+  attrs = {
+    arn    = "arn:aws:sns:us-east-1:123456789012:my-topic"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"SNS:Publish\",\"Resource\":\"arn:aws:sns:us-east-1:123456789012:my-topic\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"123456789012\"}}}]}"
+  }
+}
+
+# Test 18: PASS - Wildcard principal with aws:SourceVpce condition (restrictive)
+resource "aws_sns_topic_policy" "pass_wildcard_source_vpce_condition" {
+  attrs = {
+    arn    = "arn:aws:sns:us-east-1:123456789012:my-topic"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"SNS:Publish\",\"Resource\":\"arn:aws:sns:us-east-1:123456789012:my-topic\",\"Condition\":{\"StringLike\":{\"aws:SourceVpce\":\"vpce-*\"}}}]}"
+  }
+}

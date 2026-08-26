@@ -28,6 +28,9 @@ resource_policy "aws_sns_topic_policy" "no_public_access" {
     raw_statements = core::try(local.policy_doc.Statement, [])
 
     # Public statements when Statement is an array.
+    # A Condition is only treated as restrictive when it contains one of the
+    # known access-scoping keys. Presence of any arbitrary Condition (e.g.
+    # StringLike on aws:UserAgent) is not sufficient.
     public_statements_from_list = core::try([
       for stmt in local.raw_statements : stmt
       if (
@@ -45,7 +48,13 @@ resource_policy "aws_sns_topic_policy" "no_public_access" {
           core::contains(core::try([for v in stmt.Principal.CanonicalUser : v], []), "*") ||
           core::try(stmt.NotPrincipal, null) != null
         ) &&
-        core::try(stmt.Condition, null) == null
+        !(
+          core::try(stmt.Condition, null) != null && (
+            core::try(stmt.Condition.StringEquals["aws:PrincipalOrgID"], null) != null ||
+            core::try(stmt.Condition.StringEquals["aws:SourceAccount"], null) != null ||
+            core::try(stmt.Condition.StringLike["aws:SourceVpce"], null) != null
+          )
+        )
       )
     ], [])
 
@@ -57,7 +66,13 @@ resource_policy "aws_sns_topic_policy" "no_public_access" {
       core::try(local.raw_statements.Principal.Federated, "") == "*" ||
       core::try(local.raw_statements.Principal.CanonicalUser, "") == "*" ||
       core::try(local.raw_statements.NotPrincipal, null) != null
-    ) && core::try(local.raw_statements.Condition, null) == null
+    ) && !(
+      core::try(local.raw_statements.Condition, null) != null && (
+        core::try(local.raw_statements.Condition.StringEquals["aws:PrincipalOrgID"], null) != null ||
+        core::try(local.raw_statements.Condition.StringEquals["aws:SourceAccount"], null) != null ||
+        core::try(local.raw_statements.Condition.StringLike["aws:SourceVpce"], null) != null
+      )
+    )
 
     public_statement_count = core::length(local.public_statements_from_list) + (local.single_stmt_is_public ? 1 : 0)
 
@@ -98,7 +113,13 @@ resource_policy "aws_sns_topic" "no_public_access_inline" {
           core::contains(core::try([for v in stmt.Principal.CanonicalUser : v], []), "*") ||
           core::try(stmt.NotPrincipal, null) != null
         ) &&
-        core::try(stmt.Condition, null) == null
+        !(
+          core::try(stmt.Condition, null) != null && (
+            core::try(stmt.Condition.StringEquals["aws:PrincipalOrgID"], null) != null ||
+            core::try(stmt.Condition.StringEquals["aws:SourceAccount"], null) != null ||
+            core::try(stmt.Condition.StringLike["aws:SourceVpce"], null) != null
+          )
+        )
       )
     ], [])
 
@@ -109,7 +130,13 @@ resource_policy "aws_sns_topic" "no_public_access_inline" {
       core::try(local.raw_statements.Principal.Federated, "") == "*" ||
       core::try(local.raw_statements.Principal.CanonicalUser, "") == "*" ||
       core::try(local.raw_statements.NotPrincipal, null) != null
-    ) && core::try(local.raw_statements.Condition, null) == null
+    ) && !(
+      core::try(local.raw_statements.Condition, null) != null && (
+        core::try(local.raw_statements.Condition.StringEquals["aws:PrincipalOrgID"], null) != null ||
+        core::try(local.raw_statements.Condition.StringEquals["aws:SourceAccount"], null) != null ||
+        core::try(local.raw_statements.Condition.StringLike["aws:SourceVpce"], null) != null
+      )
+    )
 
     public_statement_count = core::length(local.public_statements_from_list) + (local.single_stmt_is_public ? 1 : 0)
 
