@@ -24,7 +24,8 @@ input "eks_log_types" {
 resource_policy "aws_eks_cluster" "audit_logging_enabled" {
     enforcement_level = input.eks-cluster-log-enabled-enforcement-level
     locals {
-        enabled_log_types = core::try(attrs.enabled_cluster_log_types, [])
+        enabled_log_types_raw = core::try(attrs.enabled_cluster_log_types, null)
+        enabled_log_types = local.enabled_log_types_raw != null ? local.enabled_log_types_raw : []
         audit_enabled = core::contains(local.enabled_log_types, "audit")
         valid_input = core::contains(core::split(",", input.eks_log_types), "audit")
         input_logs_not_enabled = local.valid_input ? core::contain([
