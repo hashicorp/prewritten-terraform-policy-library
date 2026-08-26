@@ -81,3 +81,4 @@ resource "aws_inspector2_organization_configuration" "fail_no_lambda_config" {
     ]
   }
 }
+

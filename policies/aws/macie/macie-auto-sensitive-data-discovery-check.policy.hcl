@@ -20,7 +20,7 @@ input "macie-auto-sensitive-data-discovery-check-enforcement-level" {
 #   - AWS Console: Macie > Settings > Automated sensitive data discovery
 #   - AWS CLI: aws macie2 update-automated-discovery-configuration --status ENABLED
 
-resource_policy "aws_macie2_account" "macie_enabled" {
+resource_policy "aws_macie2_account" "macie_enabled_for_discovery" {
   enforcement_level = input.macie-auto-sensitive-data-discovery-check-enforcement-level
   filter = core::try(attrs.status, null) != null
 
