@@ -21,7 +21,8 @@ resource_policy "aws_rds_cluster" "aurora_mysql_audit_logging" {
     filter = core::try(attrs.engine, "") == "aurora-mysql"
 
     locals {
-        log_exports = core::try(attrs.enabled_cloudwatch_logs_exports, [])
+        log_exports_raw = core::try(attrs.enabled_cloudwatch_logs_exports, null)
+        log_exports = local.log_exports_raw != null ? local.log_exports_raw : []
     }
 
     enforce {

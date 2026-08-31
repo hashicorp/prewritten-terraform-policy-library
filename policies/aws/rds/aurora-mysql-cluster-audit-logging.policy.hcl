@@ -22,7 +22,8 @@ resource_policy "aws_rds_cluster" "audit_logging_enabled" {
   
   locals {
     param_group_name = core::try(attrs.db_cluster_parameter_group_name, "")
-    cloudwatch_logs = core::try(attrs.enabled_cloudwatch_logs_exports, [])
+    cloudwatch_logs_raw = core::try(attrs.enabled_cloudwatch_logs_exports, null)
+    cloudwatch_logs = local.cloudwatch_logs_raw != null ? local.cloudwatch_logs_raw : []
     audit_log_exported = core::contains(local.cloudwatch_logs, "audit")
     aurora_mysql_all_parameter_groups = core::getresources("aws_rds_cluster_parameter_group", {
       name = local.param_group_name
