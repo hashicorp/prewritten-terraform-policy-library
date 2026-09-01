@@ -28,6 +28,6 @@ resource_policy "aws_ebs_snapshot_block_public_access" "validate_state" {
   
   enforce {
     condition = local.is_fully_blocked
-    error_message = "EBS snapshot block public access resource has an invalid state. Must be 'block-all-sharing' or 'block-new-sharing' to comply with EC2.1"
+    error_message = "EBS snapshot block public access resource has an invalid state. Must be 'block-all-sharing' to comply with EC2.1"
   }
 }
