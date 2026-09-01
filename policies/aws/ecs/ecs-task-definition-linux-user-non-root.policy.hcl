@@ -40,7 +40,7 @@ resource_policy "aws_ecs_task_definition" "ecs20_nonroot_user_linux" {
         #   "0:1000"    — root UID with non-root GID
         #   "0:0"       — root UID with root GID
         #   "root:app"  — root username with non-root group
-        # core::regex() returns the matched string (truthy) or null (falsy).
+        # core::regexall() returns a list of matches (empty list = no match).
         is_root = (
           core::try(container.user, "") == "root" ||
           core::try(container.user, "") == "0" ||
