@@ -27,7 +27,6 @@ resource_policy "aws_sagemaker_monitoring_schedule" "model_bias_encryption" {
         
         job_definition_raw = core::try(local.monitoring_schedule_config[0].monitoring_job_definition, null)
         job_definition = local.job_definition_raw != null ? local.job_definition_raw : []
-        has_job_definition = core::length(local.job_definition) > 0
         
         network_config_raw = core::try(local.job_definition[0].network_config, null)
         network_config = local.network_config_raw != null ? local.network_config_raw : []

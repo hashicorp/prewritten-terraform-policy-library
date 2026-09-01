@@ -36,7 +36,7 @@ resource_policy "aws_redshift_cluster" "encryption_in_transit_required" {
     ]
     
     # Check require_ssl parameter in custom parameter group
-    require_ssl_count = core::length([
+    require_ssl_param_found = core::length([
       for pg in local.matching_param_groups :
       pg if core::length([
         for param in core::try(pg.parameter, []) :
@@ -45,7 +45,7 @@ resource_policy "aws_redshift_cluster" "encryption_in_transit_required" {
     ]) > 0
     
     # Default.redshift-2.0 has require_ssl set to 'true' by default
-    require_ssl_enabled = local.is_default_param_group || local.require_ssl_count
+    require_ssl_enabled = local.is_default_param_group || local.require_ssl_param_found
   }
 
   # Enforce: Cluster must use a custom parameter group with require_ssl = true

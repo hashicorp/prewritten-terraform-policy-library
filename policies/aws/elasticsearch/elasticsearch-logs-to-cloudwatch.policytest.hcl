@@ -103,9 +103,8 @@ resource "aws_elasticsearch_domain" "fail_missing_log_group_arn" {
   }
 }
 
-# Test 8: FAIL - ES_APPLICATION_LOGS is not at index [0]; policy only evaluates first entry
+# Test 8: PASS - ES_APPLICATION_LOGS is present at a non-zero index
 resource "aws_elasticsearch_domain" "fail_app_logs_not_first" {
-  expect_failure = true
   attrs = {
     domain_name    = "app-logs-not-first-domain"
     elasticsearch_version = "7.10"
