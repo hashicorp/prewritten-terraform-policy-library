@@ -18,16 +18,13 @@ input "msk-connect-connector-encrypted-enforcement-level" {
 
 resource_policy "aws_mskconnect_connector" "encryption_in_transit_required" {
     enforcement_level = input.msk-connect-connector-encrypted-enforcement-level
-    # Pre-filter to only evaluate connectors that have encryption_in_transit config
-    filter = core::try(attrs.kafka_cluster_encryption_in_transit, null) != null && core::length(core::try(attrs.kafka_cluster_encryption_in_transit, [])) > 0
 
     locals {
-        # Safe access to encryption_in_transit configuration
-        # kafka_cluster_encryption_in_transit is a block (list of maps)
-        encryption_config = core::try(attrs.kafka_cluster_encryption_in_transit[0], null)
+        kafka_encryption_in_transit_raw = core::try(attrs.kafka_cluster_encryption_in_transit, null)
+        kafka_encryption_in_transit = local.kafka_encryption_in_transit_raw != null ? local.kafka_encryption_in_transit_raw : []
         
         # Extract encryption type with safe fallback
-        encryption_type = core::try(local.encryption_config.encryption_type, "PLAINTEXT")
+        encryption_type = core::try(local.kafka_encryption_in_transit[0].encryption_type, "PLAINTEXT")
         
         # Check if encryption is properly configured
         is_encrypted = local.encryption_type == "TLS"
