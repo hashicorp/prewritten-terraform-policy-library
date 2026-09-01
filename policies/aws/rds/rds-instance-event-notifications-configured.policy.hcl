@@ -32,7 +32,7 @@ resource_policy "aws_db_event_subscription" "critical_events_configured" {
     }
 
     enforce {
-        condition = local.event_categories == [] || (local.is_enabled && local.all_categories_present)
+        condition = local.is_enabled && (local.event_categories == [] || local.all_categories_present)
         error_message = "RDS event subscription must include all critical event categories: 'maintenance', 'configuration change', and 'failure'"
     }
 }

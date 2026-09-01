@@ -9,7 +9,7 @@ policytest {
 resource "aws_wafv2_web_acl_association" "stage_with_waf" {
   skip = true
   attrs = {
-    resource_arn = "arn:aws:apigateway:*::/restapis/abc123/stages/prod"
+    resource_arn = "arn:aws:apigateway:us-east-1::/restapis/abc123/stages/prod"
     web_acl_arn = "arn:aws:wafv2:us-east-1:123456789012:regional/webacl/test-acl/a1b2c3d4"
   }
 }
@@ -19,6 +19,7 @@ resource "aws_api_gateway_stage" "stage_with_waf_association" {
     rest_api_id = "abc123"
     stage_name = "prod"
     deployment_id = "dep123"
+    arn = "arn:aws:apigateway:us-east-1::/restapis/abc123/stages/prod"
   }
 }
 
@@ -46,7 +47,7 @@ resource "aws_api_gateway_stage" "stage_with_web_acl_arn" {
 resource "aws_wafv2_web_acl_association" "multi_stage_waf" {
   skip = true
   attrs = {
-    resource_arn = "arn:aws:apigateway:*::/restapis/mno345/stages/production"
+    resource_arn = "arn:aws:apigateway:us-west-2::/restapis/mno345/stages/production"
     web_acl_arn = "arn:aws:wafv2:us-west-2:123456789012:regional/webacl/prod-acl/q7r8s9t0"
   }
 }
@@ -56,6 +57,7 @@ resource "aws_api_gateway_stage" "multi_stage_protected" {
     rest_api_id = "mno345"
     stage_name = "production"
     deployment_id = "dep999"
+    arn = "arn:aws:apigateway:us-west-2::/restapis/mno345/stages/production"
   }
 }
 

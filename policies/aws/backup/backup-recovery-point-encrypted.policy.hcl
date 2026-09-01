@@ -16,16 +16,16 @@ input "backup-recovery-point-encrypted-enforcement-level" {
   default = "advisory"
 }
 
-resource_policy "aws_backup_framework" "backup_recovery_point_encrypted" {
+resource_policy "aws_backup_vault" "backup_recovery_point_encrypted" {
   enforcement_level = input.backup-recovery-point-encrypted-enforcement-level
 
   locals {
-    controls = [for c in core::try(attrs.control, []) : c]
-    control_names = local.controls != [] ? [for c in local.controls : core::try(c.name, "")] : []
-    has_encryption_control = core::contains(local.control_names, "BACKUP_RECOVERY_POINT_ENCRYPTED")
-    }
+    kms_key_arn = core::try(attrs.kms_key_arn, "")
+    is_encrypted = local.kms_key_arn != ""
+  }
+
   enforce {
-    condition     = local.has_encryption_control
-    error_message = "AWS Backup Framework Recovery Point must be encrypted at rest. Add a control block with name = 'BACKUP_RECOVERY_POINT_ENCRYPTED'"
+    condition     = local.is_encrypted
+    error_message = "AWS Backup vault '${attrs.name}' must have kms_key_arn configured so recovery points are encrypted at rest"
   }
 }
