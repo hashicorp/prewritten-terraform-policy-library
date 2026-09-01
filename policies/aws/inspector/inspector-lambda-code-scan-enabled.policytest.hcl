@@ -96,4 +96,3 @@ resource "aws_inspector2_organization_configuration" "fail_lambda_lambda_code_di
     ]
   }
 }
-
