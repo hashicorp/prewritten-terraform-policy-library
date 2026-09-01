@@ -20,7 +20,8 @@ input "redshift-unrestricted-port-access-enforcement-level" {
 resource_policy "aws_redshift_cluster" "unrestricted-port-access" {
     enforcement_level = input.redshift-unrestricted-port-access-enforcement-level
     locals {
-        cluster_sgs = core::try(attrs.vpc_security_group_ids, [])
+        cluster_sgs_raw = core::try(attrs.vpc_security_group_ids, null)
+        cluster_sgs = local.cluster_sgs_raw != null ? local.cluster_sgs_raw : []
         
         # Flatten all ingress rules from all security groups into a single list
         redshift_all_ingress_rules = core::length(local.cluster_sgs) > 0 ? core::flatten([

@@ -19,8 +19,10 @@ input "ec2-vpn-connection-ike-version-check-enforcement-level" {
 resource_policy "aws_vpn_connection" "ikev2_only" {
   enforcement_level = input.ec2-vpn-connection-ike-version-check-enforcement-level
   locals {
-    tunnel1_ike_versions = core::try(attrs.tunnel1_ike_versions, [])
-    tunnel2_ike_versions = core::try(attrs.tunnel2_ike_versions, [])
+    tunnel1_ike_versions_raw = core::try(attrs.tunnel1_ike_versions, null)
+    tunnel1_ike_versions = local.tunnel1_ike_versions_raw != null ? local.tunnel1_ike_versions_raw : []
+    tunnel2_ike_versions_raw = core::try(attrs.tunnel2_ike_versions, null)
+    tunnel2_ike_versions = local.tunnel2_ike_versions_raw != null ? local.tunnel2_ike_versions_raw : []
 
     tunnel1_invalid_versions = [
       for version in local.tunnel1_ike_versions :

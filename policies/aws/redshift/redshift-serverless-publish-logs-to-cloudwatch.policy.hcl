@@ -19,7 +19,8 @@ input "redshift-serverless-publish-logs-to-cloudwatch-enforcement-level" {
 resource_policy "aws_redshiftserverless_namespace" "require_cloudwatch_log_exports" {
     enforcement_level = input.redshift-serverless-publish-logs-to-cloudwatch-enforcement-level
     locals {
-        log_exports = core::try(attrs.log_exports, [])
+        log_exports_raw = core::try(attrs.log_exports, null)
+        log_exports = local.log_exports_raw != null ? local.log_exports_raw : []
         has_connection_log = core::contains(local.log_exports, "connectionlog")
         has_user_log = core::contains(local.log_exports, "userlog")
     }
