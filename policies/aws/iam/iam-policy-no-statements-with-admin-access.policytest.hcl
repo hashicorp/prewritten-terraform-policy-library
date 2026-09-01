@@ -62,3 +62,51 @@ resource "aws_iam_role" "role_with_boundary" {
     permissions_boundary = "arn:aws:iam::123456789012:policy/permissions-boundary-admin"
   }
 }
+
+# FAIL - NotAction with Resource=* grants all actions except denylist (effectively admin)
+resource "aws_iam_policy" "fail_not_action_resource_star" {
+  expect_failure = true
+  attrs = {
+    arn    = "arn:aws:iam::123456789012:policy/not-action-admin"
+    name   = "not-action-admin"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"NotAction\":[\"iam:CreateUser\",\"iam:DeleteUser\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# FAIL - NotAction as string with Resource=* (single excluded action)
+resource "aws_iam_policy" "fail_not_action_string_resource_star" {
+  expect_failure = true
+  attrs = {
+    arn    = "arn:aws:iam::123456789012:policy/not-action-string-admin"
+    name   = "not-action-string-admin"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"NotAction\":\"iam:CreateUser\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# FAIL - Action=* with NotResource (grants all actions on all resources except denylist)
+resource "aws_iam_policy" "fail_action_star_not_resource" {
+  expect_failure = true
+  attrs = {
+    arn    = "arn:aws:iam::123456789012:policy/action-star-not-resource"
+    name   = "action-star-not-resource"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"*\",\"NotResource\":[\"arn:aws:s3:::sensitive-bucket\"]}]}"
+  }
+}
+
+# PASS - NotAction with Deny (denylist pattern — not an admin grant)
+resource "aws_iam_policy" "pass_not_action_deny" {
+  attrs = {
+    arn    = "arn:aws:iam::123456789012:policy/not-action-deny"
+    name   = "not-action-deny"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"NotAction\":[\"s3:GetObject\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# PASS - NotAction with restricted Resource (not a wildcard resource)
+resource "aws_iam_policy" "pass_not_action_restricted_resource" {
+  attrs = {
+    arn    = "arn:aws:iam::123456789012:policy/not-action-restricted"
+    name   = "not-action-restricted"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"NotAction\":[\"iam:*\"],\"Resource\":\"arn:aws:s3:::my-bucket/*\"}]}"
+  }
+}

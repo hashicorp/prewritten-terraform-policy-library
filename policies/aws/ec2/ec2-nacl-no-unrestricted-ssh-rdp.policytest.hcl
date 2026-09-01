@@ -406,3 +406,95 @@ resource "aws_network_acl_rule" "fail_rule_port_range_rdp" {
     to_port        = 3400
   }
 }
+
+# Test 26: FAIL - aws_network_acl_rule protocol="-1" unrestricted SSH (0.0.0.0/0)
+# The fixed policy now treats "-1" as a matching protocol and correctly flags this.
+resource "aws_network_acl_rule" "fail_rule_all_protocols_ssh" {
+  expect_failure = true
+  attrs = {
+    network_acl_id = "acl-12345678"
+    rule_number    = 100
+    egress         = false
+    protocol       = "-1"
+    rule_action    = "allow"
+    cidr_block     = "0.0.0.0/0"
+    from_port      = 22
+    to_port        = 22
+  }
+}
+
+# Test 27: FAIL - aws_network_acl_rule protocol="-1" unrestricted RDP (0.0.0.0/0)
+resource "aws_network_acl_rule" "fail_rule_all_protocols_rdp" {
+  expect_failure = true
+  attrs = {
+    network_acl_id = "acl-12345678"
+    rule_number    = 100
+    egress         = false
+    protocol       = "-1"
+    rule_action    = "allow"
+    cidr_block     = "0.0.0.0/0"
+    from_port      = 3389
+    to_port        = 3389
+  }
+}
+
+# Test 28: PASS - aws_network_acl_rule protocol="-1" but RESTRICTED cidr (not 0.0.0.0/0)
+# The policy correctly passes it: is_matching_protocol=true but is_unrestricted=false.
+resource "aws_network_acl_rule" "pass_rule_all_protocols_restricted_ssh" {
+  attrs = {
+    network_acl_id = "acl-12345678"
+    rule_number    = 100
+    egress         = false
+    protocol       = "-1"
+    rule_action    = "allow"
+    cidr_block     = "10.0.0.0/8"
+    from_port      = 22
+    to_port        = 22
+  }
+}
+
+# Test 29: PASS - aws_network_acl_rule protocol="-1" restricted cidr for RDP
+resource "aws_network_acl_rule" "pass_rule_all_protocols_restricted_rdp" {
+  attrs = {
+    network_acl_id = "acl-12345678"
+    rule_number    = 100
+    egress         = false
+    protocol       = "-1"
+    rule_action    = "allow"
+    cidr_block     = "192.168.1.0/24"
+    from_port      = 3389
+    to_port        = 3389
+  }
+}
+
+# Test 26: FAIL - aws_network_acl_rule with protocol="-1" (all-traffic), from_port=0, to_port=0
+# The Terraform provider sets from_port=0 and to_port=0 for all-traffic rules.
+# The old code evaluated (0 <= 22 && 0 >= 22) = false, silently passing this rule.
+# The fix treats protocol="-1" as covering all ports regardless of from/to values.
+resource "aws_network_acl_rule" "fail_rule_all_traffic_unrestricted" {
+  expect_failure = true
+  attrs = {
+    network_acl_id = "acl-12345678"
+    rule_number    = 100
+    egress         = false
+    protocol       = "-1"
+    rule_action    = "allow"
+    cidr_block     = "0.0.0.0/0"
+    from_port      = 0
+    to_port        = 0
+  }
+}
+
+# Test 27: PASS - aws_network_acl_rule with protocol="-1" but restricted CIDR
+resource "aws_network_acl_rule" "pass_rule_all_traffic_restricted_cidr" {
+  attrs = {
+    network_acl_id = "acl-12345678"
+    rule_number    = 100
+    egress         = false
+    protocol       = "-1"
+    rule_action    = "allow"
+    cidr_block     = "10.0.0.0/8"
+    from_port      = 0
+    to_port        = 0
+  }
+}
