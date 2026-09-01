@@ -16,16 +16,28 @@ input "efs-automatic-backups-enabled-enforcement-level" {
   default = "advisory"
 }
 
-resource_policy "aws_efs_backup_policy" "automatic_backups_enabled" {
+# Evaluate every aws_efs_file_system and require an associated
+# aws_efs_backup_policy with status == "ENABLED".
+resource_policy "aws_efs_file_system" "automatic_backups_enabled" {
     enforcement_level = input.efs-automatic-backups-enabled-enforcement-level
     locals {
-        backup_policy_list = core::try(attrs.backup_policy, [])
-        has_backup_policy = core::length(local.backup_policy_list) > 0
-        backup_status = local.has_backup_policy ? core::try(local.backup_policy_list[0].status, "DISABLED") : "DISABLED"
+        filesystem_id = core::try(attrs.id, "")
+
+        # Look up any aws_efs_backup_policy resources scoped to this file system.
+        backup_policies = core::getresources("aws_efs_backup_policy", {
+            file_system_id = local.filesystem_id
+        })
+
+        has_backup_policy = core::length(local.backup_policies) > 0
+
+        # backup_policy is a list block on the resource; read the first element's status.
+        backup_status = local.has_backup_policy ? core::try(local.backup_policies[0].backup_policy[0].status, "DISABLED") : "DISABLED"
+
+        is_enabled = local.backup_status == "ENABLED"
     }
 
     enforce {
-        condition = local.has_backup_policy && local.backup_status == "ENABLED"
-        error_message = "EFS backup policy does not have automatic backups enabled. The backup_policy.status must be set to 'ENABLED' to ensure data protection and recovery capabilities"
+        condition     = local.is_enabled
+        error_message = "EFS file system '${local.filesystem_id}' does not have automatic backups enabled. An aws_efs_backup_policy resource with status = 'ENABLED' must be associated with this file system."
     }
 }

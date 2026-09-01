@@ -53,11 +53,11 @@ resource_policy "aws_ecs_task_definition" "windows_non_admin_user" {
       if core::try(container.user, null) == null || core::try(container.user, "") == ""
     ]
     
-    # Find containers with administrator user
+    # Find containers with administrator user.
     containers_with_admin = [
       for container in local.containers :
       core::try(container.name, "unnamed")
-      if core::try(container.user, "") == "containeradministrator"
+      if core::lower(core::try(container.user, "")) == "containeradministrator"
     ]
     
     has_user_violations = core::length(local.containers_without_user) > 0

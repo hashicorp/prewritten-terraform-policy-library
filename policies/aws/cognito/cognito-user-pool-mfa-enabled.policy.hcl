@@ -22,13 +22,13 @@ resource_policy "aws_cognito_user_pool" "mfa_enabled" {
         # Extract sign-in policy configuration
         sign_in_policy = core::try(attrs.sign_in_policy, [])
         has_sign_in_policy = core::length(local.sign_in_policy) > 0
-        
+
         # Get allowed first auth factors (empty list if not configured)
         allowed_first_auth_factors = local.has_sign_in_policy ? core::try(local.sign_in_policy[0].allowed_first_auth_factors, []) : []
-        
-        # Check if password-only sign-in is configured
-        has_password_auth = core::contains(local.allowed_first_auth_factors, "PASSWORD")
-        
+
+      
+        has_password_auth = !local.has_sign_in_policy || core::contains(local.allowed_first_auth_factors, "PASSWORD")
+
         # Get MFA configuration (defaults to "OFF" if not specified)
         mfa_configuration = core::try(attrs.mfa_configuration, "OFF")
         
