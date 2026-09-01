@@ -90,14 +90,49 @@ resource "aws_route53_query_log" "log3" {
 resource "aws_route53_zone" "public_empty_vpc" {
   attrs = {
     zone_id = "Z4444444444444"
-    name = "emptyvpc.com"
-    vpc = []
+    name    = "emptyvpc.com"
+    vpc     = []
   }
 }
 
 resource "aws_route53_query_log" "log4" {
   attrs = {
-    zone_id = "Z4444444444444"
+    zone_id                  = "Z4444444444444"
     cloudwatch_log_group_arn = "arn:aws:logs:us-east-1:123456789012:log-group:/aws/route53/emptyvpc.com"
+  }
+}
+
+# Test 6: FAIL - Query log resource exists but cloudwatch_log_group_arn is empty
+# This is the core bug the fix addresses: presence of the log resource alone is
+# not sufficient — the ARN must be non-empty (checklist #9: presence-only check).
+resource "aws_route53_zone" "public_zone_empty_arn" {
+  expect_failure = true
+  attrs = {
+    zone_id = "Z5555555555555"
+    name    = "emptyarn.com"
+    vpc     = null
+  }
+}
+
+resource "aws_route53_query_log" "log_empty_arn" {
+  attrs = {
+    zone_id                  = "Z5555555555555"
+    cloudwatch_log_group_arn = ""
+  }
+}
+
+# Test 7: FAIL - Query log resource exists but cloudwatch_log_group_arn is absent
+resource "aws_route53_zone" "public_zone_missing_arn" {
+  expect_failure = true
+  attrs = {
+    zone_id = "Z6666666666666"
+    name    = "missingarn.com"
+    vpc     = null
+  }
+}
+
+resource "aws_route53_query_log" "log_missing_arn" {
+  attrs = {
+    zone_id = "Z6666666666666"
   }
 }

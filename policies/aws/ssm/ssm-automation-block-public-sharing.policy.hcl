@@ -16,22 +16,49 @@ input "ssm-automation-block-public-sharing-enforcement-level" {
   default = "advisory"
 }
 
-# Check account-level block public sharing setting
-resource_policy "aws_ssm_service_setting" "block_public_sharing" {
-    enforcement_level = input.ssm-automation-block-public-sharing-enforcement-level
-    locals {
-        setting_id = core::try(attrs.setting_id, "")
-        setting_value = core::try(attrs.setting_value, "")
-        required_setting_id = "/ssm/documents/console/public-sharing-permission"
-    }
-    
-    enforce {
-        condition = local.setting_id == local.required_setting_id
-        error_message = "This policy must evaluate the SSM block public sharing service setting. Ensure setting_id is '${local.required_setting_id}'"
-    }
+locals {
+  required_setting_id = "/ssm/documents/console/public-sharing-permission"
 
-    enforce {
-        condition = local.setting_value == "Disable"
-        error_message = "SSM block public sharing must be enabled at the account level. Set the SSM service setting value to 'Disable' to prevent public sharing of SSM documents"
-    }
+  # Collect all aws_ssm_service_setting resources in the plan so we can:
+  # 1. Scope the value-check to only the correct setting_id (via filter)
+  # 2. Detect when the required setting resource is absent entirely (existence check)
+  all_ssm_settings = core::getresources("aws_ssm_service_setting", {})
+
+  matching_public_sharing_settings = [
+    for s in local.all_ssm_settings :
+    s if core::try(s.setting_id, "") == local.required_setting_id
+  ]
+}
+
+# Check the value of the public-sharing-permission setting when it is present.
+# filter scopes evaluation to only the required setting_id — unrelated
+# aws_ssm_service_setting resources (e.g. activation-tier) are not evaluated
+# (checklist #4: engine/type scope in filter, not condition).
+resource_policy "aws_ssm_service_setting" "block_public_sharing" {
+  enforcement_level = input.ssm-automation-block-public-sharing-enforcement-level
+  filter = core::try(attrs.setting_id, "") == local.required_setting_id
+
+  locals {
+    setting_value = core::try(attrs.setting_value, "")
+  }
+
+  enforce {
+    condition     = local.setting_value == "Disable"
+    error_message = "SSM block public sharing must be set to 'Disable' to prevent public sharing of SSM documents. Current value: '${local.setting_value}'. Set setting_value = \"Disable\" on the aws_ssm_service_setting resource with setting_id '${local.required_setting_id}'."
+  }
+}
+
+# Existence check — fails when no aws_ssm_service_setting resource for the
+# required setting_id is present in the plan at all (checklist #13: existence
+# checks for required singletons). Anchored to any aws_ssm_service_setting
+# resource so the enforce block fires at least once.
+resource_policy "aws_ssm_service_setting" "block_public_sharing_exists" {
+  enforcement_level = input.ssm-automation-block-public-sharing-enforcement-level
+  # Only run this check once — trigger on the first setting resource in the plan.
+  filter = core::length(local.all_ssm_settings) > 0
+
+  enforce {
+    condition     = core::length(local.matching_public_sharing_settings) > 0
+    error_message = "No aws_ssm_service_setting resource found with setting_id '${local.required_setting_id}'. Add an aws_ssm_service_setting resource with setting_id = \"${local.required_setting_id}\" and setting_value = \"Disable\" to block public sharing of SSM documents."
+  }
 }
