@@ -18,8 +18,14 @@ input "neptune-cluster-deletion-protection-enabled-enforcement-level" {
 
 resource_policy "aws_neptune_cluster" "deletion-protection-enabled" {
     enforcement_level = input.neptune-cluster-deletion-protection-enabled-enforcement-level
+
+    locals {
+      deletion_protection = core::try(attrs.deletion_protection, null)
+      is_compliant = (local.deletion_protection != null) && (local.deletion_protection == true)
+    }
+    
     enforce {
-        condition = core::try(attrs.deletion_protection, false)
+        condition = local.is_compliant
         error_message = "The Neptune cluster does not have deletion protection enabled"
     }
 }
