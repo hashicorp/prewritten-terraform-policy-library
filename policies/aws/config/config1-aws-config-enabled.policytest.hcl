@@ -9,11 +9,11 @@ resource "aws_config_configuration_recorder" "pass_complete_configuration" {
   attrs = {
     name = "default"
     role_arn = "arn:aws:iam::123456789012:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
-    recording_group = {
+    recording_group = [{
       all_supported = true
       include_global_resource_types = true
       resource_types = []
-    }
+    }]
   }
 }
 
@@ -30,11 +30,11 @@ resource "aws_config_configuration_recorder" "fail_all_supported_false" {
   attrs = {
     name = "default"
     role_arn = "arn:aws:iam::123456789012:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
-    recording_group = {
+    recording_group = [{
       all_supported = false
       include_global_resource_types = true
       resource_types = ["AWS::EC2::Instance"]
-    }
+    }]
   }
 }
 
@@ -50,11 +50,11 @@ resource "aws_config_configuration_recorder" "fail_include_global_false" {
   attrs = {
     name = "default"
     role_arn = "arn:aws:iam::123456789012:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
-    recording_group = {
+    recording_group = [{
       all_supported = true
       include_global_resource_types = false
       resource_types = []
-    }
+    }]
   }
 }
 
@@ -70,7 +70,7 @@ resource "aws_config_configuration_recorder" "fail_no_recording_group" {
   attrs = {
     name = "default"
     role_arn = "arn:aws:iam::123456789012:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
-    recording_group = {}
+    recording_group = [{}]
   }
 }
 
@@ -131,11 +131,11 @@ resource "aws_config_configuration_recorder" "pass_complete_setup_recorder" {
   attrs = {
     name = "complete-setup"
     role_arn = "arn:aws:iam::123456789012:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
-    recording_group = {
+    recording_group = [{
       all_supported = true
       include_global_resource_types = true
       resource_types = []
-    }
+    }]
   }
 }
 
