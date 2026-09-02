@@ -23,16 +23,11 @@ resource_policy "aws_ebs_snapshot_block_public_access" "validate_state" {
   locals {
     # Safe access to state attribute
     state_value = core::try(attrs.state, "")
-    
-    # Valid blocking states
-    valid_states = ["block-all-sharing", "block-new-sharing"]
-    
-    # Check if state is valid
-    is_valid_state = core::contains(local.valid_states, local.state_value)
+    is_fully_blocked = local.state_value == "block-all-sharing"
   }
   
   enforce {
-    condition = local.is_valid_state
-    error_message = "EBS snapshot block public access resource has an invalid state. Must be 'block-all-sharing' or 'block-new-sharing' to comply with EC2.1"
+    condition = local.is_fully_blocked
+    error_message = "EBS snapshot block public access resource has an invalid state. Must be 'block-all-sharing' to comply with EC2.1"
   }
 }

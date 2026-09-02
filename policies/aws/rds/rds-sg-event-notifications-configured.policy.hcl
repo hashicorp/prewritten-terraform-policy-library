@@ -29,7 +29,7 @@ resource_policy "aws_db_event_subscription" "sg_event_notifications" {
     }
 
     enforce {
-        condition = local.event_categories == [] || (local.is_enabled && local.has_config_change && local.has_failure)
+        condition = local.is_enabled && (local.event_categories == [] || (local.has_config_change && local.has_failure))
         error_message = "RDS event subscription for db-security-group events must be enabled for both 'configuration change' and 'failure' event_categories"
     }
 }

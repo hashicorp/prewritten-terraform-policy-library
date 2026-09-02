@@ -19,7 +19,7 @@ resource "aws_secretsmanager_secret" "rotation_schedule_only" {
 
 resource "aws_secretsmanager_secret_rotation" "rotation_schedule_only" {
   attrs = {
-    secret_id = "rotation-schedule-only"
+    secret_id = "rotation-schedule-only-id"
     rotation_rules = [
       {
         schedule_expression = "rate(30 days)"

@@ -79,8 +79,9 @@ resource "aws_sagemaker_data_quality_job_definition" "encryption_disabled" {
   }
 }
 
-# Test 3: SKIP - No network_config defined (policy filter excludes this)
+# Test 3: FAIL - No network_config defined (encryption defaults to false)
 resource "aws_sagemaker_data_quality_job_definition" "no_network_config" {
+  expect_failure = true
   attrs = {
     name = "data-quality-job-no-network"
     role_arn = "arn:aws:iam::123456789012:role/SageMakerRole"

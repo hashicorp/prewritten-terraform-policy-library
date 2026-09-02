@@ -19,11 +19,12 @@ input "neptune-cluster-cloudwatch-log-export-enabled-enforcement-level" {
 resource_policy "aws_neptune_cluster" "audit-logging-enabled" {
     enforcement_level = input.neptune-cluster-cloudwatch-log-export-enabled-enforcement-level
     locals {
-        log_enabled = core::try(attrs.enable_cloudwatch_logs_exports, [])
+        log_enabled_raw = core::try(attrs.enable_cloudwatch_logs_exports, null)
+        log_enabled = local.log_enabled_raw != null ? local.log_enabled_raw : []
     }
 
     enforce {
-        condition = local.log_enabled != [] && core::contains(local.log_enabled, "audit")
+        condition = core::contains(local.log_enabled, "audit")
         error_message = "The Neptune cluster does not have audit logging enabled"
     }
 }

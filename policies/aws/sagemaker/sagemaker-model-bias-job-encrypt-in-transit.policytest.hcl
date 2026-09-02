@@ -185,7 +185,7 @@ resource "aws_sagemaker_monitoring_schedule" "fail_no_network_config" {
   }
 }
 
-# Test 4: PASS - DataQuality monitoring (not ModelQuality, should be ignored)
+# Test 4: PASS - DataQuality monitoring (not ModelBias, should be ignored)
 resource "aws_sagemaker_monitoring_schedule" "pass_data_quality_monitoring" {
   attrs = {
     monitoring_schedule_config = [
@@ -240,8 +240,9 @@ resource "aws_sagemaker_monitoring_schedule" "pass_data_quality_monitoring" {
   }
 }
 
-# Test 5: PASS - Monitoring schedule without inline job definition
-resource "aws_sagemaker_monitoring_schedule" "pass_no_inline_job_definition" {
+# Test 5: FAIL - Monitoring schedule without inline job definition (no job_definition → encryption_enabled = false)
+resource "aws_sagemaker_monitoring_schedule" "fail_no_inline_job_definition" {
+  expect_failure = true
   attrs = {
     monitoring_schedule_config = [
       {

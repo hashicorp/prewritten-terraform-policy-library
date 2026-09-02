@@ -16,20 +16,16 @@ input "rds-instance-deletion-protection-enabled-enforcement-level" {
   default = "advisory"
 }
 
-input "database_engines" {
-    type = string
-    default = "mariadb,mysql,custom-oracle-ee,oracle-ee-cdb,oracle-se2-cdb,oracle-ee,oracle-se2,oracle-se1,oracle-se,postgres,sqlserver-ee,sqlserver-se,sqlserver-ex,sqlserver-web"
-}
-
 resource_policy "aws_db_instance" "deletion_protection_enabled" {
     enforcement_level = input.rds-instance-deletion-protection-enabled-enforcement-level
+    filter = local.is_supported_engine
     locals {
         engine = core::try(attrs.engine, "")
-        supported_engine = [for engine in core::split(",", core::trimspace(input.database_engines)) : core::trimspace(engine)]
-        is_supported_engine = core::contains(local.supported_engine, local.engine)
+        supported_engines = ["mariadb", "mysql", "custom-oracle-ee", "oracle-ee-cdb", "oracle-se2-cdb", "oracle-ee", "oracle-se2", "oracle-se1", "oracle-se", "postgres", "sqlserver-ee", "sqlserver-se", "sqlserver-ex", "sqlserver-web"]
+        is_supported_engine = core::contains(local.supported_engines, local.engine)
     }
     enforce {
-        condition = local.is_supported_engine && core::try(attrs.deletion_protection, false) == true
+        condition = core::try(attrs.deletion_protection, false) == true
         error_message = "RDS DB instances should have deletion protection enabled"
     }
 }

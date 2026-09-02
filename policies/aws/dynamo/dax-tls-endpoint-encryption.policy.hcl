@@ -19,8 +19,8 @@ input "dax-tls-endpoint-encryption-enforcement-level" {
 resource_policy "aws_dax_cluster" "dax_tls_encryption" {
     enforcement_level = input.dax-tls-endpoint-encryption-enforcement-level
     locals {
-        # Safe access to cluster_endpoint_encryption_type with default "NONE"
-        encryption_type = core::try(attrs.cluster_endpoint_encryption_type, "NONE")
+        encryption_type_raw = core::try(attrs.cluster_endpoint_encryption_type, null)
+        encryption_type = local.encryption_type_raw != null ? local.encryption_type_raw : "NONE"
         
         # Check if TLS is enabled
         is_tls_enabled = local.encryption_type == "TLS"

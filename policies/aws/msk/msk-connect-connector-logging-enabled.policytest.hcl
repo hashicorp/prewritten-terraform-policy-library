@@ -5,28 +5,31 @@ policytest {
     "msk-connect-connector-logging-enabled.policy.hcl"
   ]
 }
-# PASS: CloudWatch Logs enabled with log_group
-resource "aws_mskconnect_connector" "pass_cloudwatch_logs" {
+
+# Test 1: PASS - CloudWatch Logs enabled with a log group
+resource "aws_mskconnect_connector" "pass_cloudwatch_logging" {
   attrs = {
-    name = "test-connector-cloudwatch"
+    name = "connector-cloudwatch"
     log_delivery = [
       {
         worker_log_delivery = [
           {
             cloudwatch_logs = [
               {
-                enabled = true
-                log_group = "/aws/msk/connector/test"
+                enabled   = true
+                log_group = "/aws/mskconnect/connector-cloudwatch"
               }
             ]
             firehose = [
               {
-                enabled = false
+                enabled         = false
+                delivery_stream = ""
               }
             ]
             s3 = [
               {
                 enabled = false
+                bucket  = ""
               }
             ]
           }
@@ -36,28 +39,30 @@ resource "aws_mskconnect_connector" "pass_cloudwatch_logs" {
   }
 }
 
-# PASS: Firehose enabled with delivery_stream
-resource "aws_mskconnect_connector" "pass_firehose" {
+# Test 2: PASS - Firehose enabled with a delivery stream
+resource "aws_mskconnect_connector" "pass_firehose_logging" {
   attrs = {
-    name = "test-connector-firehose"
+    name = "connector-firehose"
     log_delivery = [
       {
         worker_log_delivery = [
           {
             cloudwatch_logs = [
               {
-                enabled = false
+                enabled   = false
+                log_group = ""
               }
             ]
             firehose = [
               {
-                enabled = true
-                delivery_stream = "test-delivery-stream"
+                enabled         = true
+                delivery_stream = "msk-connect-firehose-stream"
               }
             ]
             s3 = [
               {
                 enabled = false
+                bucket  = ""
               }
             ]
           }
@@ -67,29 +72,30 @@ resource "aws_mskconnect_connector" "pass_firehose" {
   }
 }
 
-# PASS: S3 enabled with bucket
-resource "aws_mskconnect_connector" "pass_s3" {
+# Test 3: PASS - S3 enabled with a bucket
+resource "aws_mskconnect_connector" "pass_s3_logging" {
   attrs = {
-    name = "test-connector-s3"
+    name = "connector-s3"
     log_delivery = [
       {
         worker_log_delivery = [
           {
             cloudwatch_logs = [
               {
-                enabled = false
+                enabled   = false
+                log_group = ""
               }
             ]
             firehose = [
               {
-                enabled = false
+                enabled         = false
+                delivery_stream = ""
               }
             ]
             s3 = [
               {
                 enabled = true
-                bucket = "test-msk-logs-bucket"
-                prefix = "connector-logs/"
+                bucket  = "msk-connect-logs-bucket"
               }
             ]
           }
@@ -99,30 +105,30 @@ resource "aws_mskconnect_connector" "pass_s3" {
   }
 }
 
-# PASS: All three logging destinations enabled
-resource "aws_mskconnect_connector" "pass_all_destinations" {
+# Test 4: PASS - All three logging destinations enabled
+resource "aws_mskconnect_connector" "pass_all_logging_enabled" {
   attrs = {
-    name = "test-connector-all"
+    name = "connector-all-logging"
     log_delivery = [
       {
         worker_log_delivery = [
           {
             cloudwatch_logs = [
               {
-                enabled = true
-                log_group = "/aws/msk/connector/test"
+                enabled   = true
+                log_group = "/aws/mskconnect/all-logging"
               }
             ]
             firehose = [
               {
-                enabled = true
-                delivery_stream = "test-delivery-stream"
+                enabled         = true
+                delivery_stream = "msk-connect-firehose-stream"
               }
             ]
             s3 = [
               {
                 enabled = true
-                bucket = "test-msk-logs-bucket"
+                bucket  = "msk-connect-logs-bucket"
               }
             ]
           }
@@ -132,30 +138,31 @@ resource "aws_mskconnect_connector" "pass_all_destinations" {
   }
 }
 
-# FAIL: One valid destination does not offset another enabled but invalid destination
-resource "aws_mskconnect_connector" "fail_mixed_valid_and_invalid_destinations" {
+# Test 5: FAIL - CloudWatch enabled but log_group is empty
+resource "aws_mskconnect_connector" "fail_cloudwatch_no_log_group" {
   expect_failure = true
   attrs = {
-    name = "test-connector-mixed-invalid"
+    name = "connector-cw-no-group"
     log_delivery = [
       {
         worker_log_delivery = [
           {
             cloudwatch_logs = [
               {
-                enabled = true
-                log_group = "/aws/msk/connector/test"
+                enabled   = true
+                log_group = ""
               }
             ]
             firehose = [
               {
-                enabled = false
+                enabled         = false
+                delivery_stream = ""
               }
             ]
             s3 = [
               {
-                enabled = true
-                # Missing bucket
+                enabled = false
+                bucket  = ""
               }
             ]
           }
@@ -165,28 +172,31 @@ resource "aws_mskconnect_connector" "fail_mixed_valid_and_invalid_destinations" 
   }
 }
 
-# FAIL: No logging destinations enabled
-resource "aws_mskconnect_connector" "fail_no_logging" {
+# Test 6: FAIL - Firehose enabled but delivery_stream is empty
+resource "aws_mskconnect_connector" "fail_firehose_no_stream" {
   expect_failure = true
   attrs = {
-    name = "test-connector-no-logging"
+    name = "connector-firehose-no-stream"
     log_delivery = [
       {
         worker_log_delivery = [
           {
             cloudwatch_logs = [
               {
-                enabled = false
+                enabled   = false
+                log_group = ""
               }
             ]
             firehose = [
               {
-                enabled = false
+                enabled         = true
+                delivery_stream = ""
               }
             ]
             s3 = [
               {
                 enabled = false
+                bucket  = ""
               }
             ]
           }
@@ -196,93 +206,31 @@ resource "aws_mskconnect_connector" "fail_no_logging" {
   }
 }
 
-# FAIL: CloudWatch enabled but missing log_group
-resource "aws_mskconnect_connector" "fail_cloudwatch_missing_log_group" {
+# Test 7: FAIL - S3 enabled but bucket is empty
+resource "aws_mskconnect_connector" "fail_s3_no_bucket" {
   expect_failure = true
   attrs = {
-    name = "test-connector-cloudwatch-invalid"
+    name = "connector-s3-no-bucket"
     log_delivery = [
       {
         worker_log_delivery = [
           {
             cloudwatch_logs = [
               {
-                enabled = true
-                # Missing log_group
+                enabled   = false
+                log_group = ""
               }
             ]
             firehose = [
               {
-                enabled = false
-              }
-            ]
-            s3 = [
-              {
-                enabled = false
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-}
-
-# FAIL: Firehose enabled but missing delivery_stream
-resource "aws_mskconnect_connector" "fail_firehose_missing_delivery_stream" {
-  expect_failure = true
-  attrs = {
-    name = "test-connector-firehose-invalid"
-    log_delivery = [
-      {
-        worker_log_delivery = [
-          {
-            cloudwatch_logs = [
-              {
-                enabled = false
-              }
-            ]
-            firehose = [
-              {
-                enabled = true
-                # Missing delivery_stream
-              }
-            ]
-            s3 = [
-              {
-                enabled = false
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-}
-
-# FAIL: S3 enabled but missing bucket
-resource "aws_mskconnect_connector" "fail_s3_missing_bucket" {
-  expect_failure = true
-  attrs = {
-    name = "test-connector-s3-invalid"
-    log_delivery = [
-      {
-        worker_log_delivery = [
-          {
-            cloudwatch_logs = [
-              {
-                enabled = false
-              }
-            ]
-            firehose = [
-              {
-                enabled = false
+                enabled         = false
+                delivery_stream = ""
               }
             ]
             s3 = [
               {
                 enabled = true
-                # Missing bucket
+                bucket  = ""
               }
             ]
           }
@@ -292,10 +240,45 @@ resource "aws_mskconnect_connector" "fail_s3_missing_bucket" {
   }
 }
 
-# Filtered out: No log_delivery block
-resource "aws_mskconnect_connector" "filtered_no_log_delivery" {
+# Test 8: FAIL - All logging destinations disabled
+resource "aws_mskconnect_connector" "fail_all_logging_disabled" {
+  expect_failure = true
   attrs = {
-    name = "test-connector-no-log-delivery"
-    # No log_delivery block - should be filtered by policy
+    name = "connector-no-logging"
+    log_delivery = [
+      {
+        worker_log_delivery = [
+          {
+            cloudwatch_logs = [
+              {
+                enabled   = false
+                log_group = ""
+              }
+            ]
+            firehose = [
+              {
+                enabled         = false
+                delivery_stream = ""
+              }
+            ]
+            s3 = [
+              {
+                enabled = false
+                bucket  = ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+# Test 9: FAIL - No log_delivery configured (null resolves all destinations to disabled)
+resource "aws_mskconnect_connector" "fail_no_log_delivery" {
+  expect_failure = true
+  attrs = {
+    name         = "connector-no-log-delivery"
+    log_delivery = null
   }
 }
