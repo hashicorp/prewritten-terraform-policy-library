@@ -23,18 +23,19 @@ resource_policy "aws_cloudfront_distribution" "sni_required" {
 
     locals {
         # Extract viewer_certificate configuration safely
-        viewer_cert = core::try(attrs.viewer_certificate[0], null)
+        viewer_cert_raw = core::try(attrs.viewer_certificate, null)
+        viewer_cert = local.viewer_cert_raw != null ? local.viewer_cert_raw : []
         
         # Check if using custom certificate (ACM or IAM)
-        has_acm_cert = local.viewer_cert != null && core::try(local.viewer_cert.acm_certificate_arn, null) != null
-        has_iam_cert = local.viewer_cert != null && core::try(local.viewer_cert.iam_certificate_id, null) != null
+        has_acm_cert = (core::try(local.viewer_cert[0].acm_certificate_arn, null) != null) && (core::try(local.viewer_cert[0].acm_certificate_arn, "") != "")
+        has_iam_cert = (core::try(local.viewer_cert[0].iam_certificate_id, null) != null) && (core::try(local.viewer_cert[0].iam_certificate_id, "") != "")
         uses_custom_cert = local.has_acm_cert || local.has_iam_cert
         
         # Check if using CloudFront default certificate
-        uses_default_cert = local.viewer_cert != null && core::try(local.viewer_cert.cloudfront_default_certificate, false) == true
+        uses_default_cert = core::try(local.viewer_cert[0].cloudfront_default_certificate, false) == true
         
         # Extract SSL support method
-        ssl_support_method = core::try(local.viewer_cert.ssl_support_method, "")
+        ssl_support_method = core::try(local.viewer_cert[0].ssl_support_method, "")
         
         # Check if using dedicated IP (violation)
         uses_dedicated_ip = local.ssl_support_method == "vip" || local.ssl_support_method == "static-ip"

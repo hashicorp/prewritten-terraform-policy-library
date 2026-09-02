@@ -6,97 +6,35 @@ policytest {
     ]
 }
 
-# Test 1: PASS - Recovery point is encrypted
-resource "aws_backup_framework" "pass_encrypted" {
+# Test 1: PASS - Backup vault with kms_key_arn configured
+resource "aws_backup_vault" "pass_encrypted" {
     attrs = {
-        name = "test-framework-pass-encrypted"
-        control = [{
-            name = "BACKUP_RECOVERY_POINT_ENCRYPTED"
-        }]
+        name        = "encrypted-vault"
+        kms_key_arn = "arn:aws:kms:us-east-1:123456789012:key/a1b2c3d4-e5f6-7890-abcd-ef1234567890"
     }
 }
 
-# Test 2: FAIL - Recovery point is not encrypted
-resource "aws_backup_framework" "fail_encrypted" {
+# Test 2: FAIL - Backup vault with no kms_key_arn
+resource "aws_backup_vault" "fail_no_kms_key" {
     expect_failure = true
     attrs = {
-        name = "test-framework-fail-encrypted"
-        control = {
-            name = "BACKUP_RECOVERY_POINT_MANUAL_DELETION_DISABLED"
-        }
+        name = "unencrypted-vault"
     }
 }
 
-# Test 3: FAIL - Empty control block
-resource "aws_backup_framework" "fail_empty" {
+# Test 3: FAIL - Backup vault with empty kms_key_arn
+resource "aws_backup_vault" "fail_empty_kms_key" {
     expect_failure = true
     attrs = {
-        name = "test-framework-fail-empty"
+        name        = "empty-kms-key-vault"
+        kms_key_arn = ""
     }
 }
 
-# Test 4: PASS - Multiple control blocks including the encryption control
-resource "aws_backup_framework" "pass_multiple_controls_with_encryption" {
+# Test 4: PASS - Backup vault with a different valid kms_key_arn
+resource "aws_backup_vault" "pass_encrypted_second" {
     attrs = {
-        name = "test-framework-pass-multiple-controls"
-        control = [
-            {
-                name = "BACKUP_RECOVERY_POINT_MINIMUM_RETENTION_CHECK"
-            },
-            {
-                name = "BACKUP_RECOVERY_POINT_ENCRYPTED"
-            },
-            {
-                name = "BACKUP_RECOVERY_POINT_MANUAL_DELETION_DISABLED"
-            }
-        ]
-    }
-}
-
-# Test 5: FAIL - Multiple control blocks but missing the encryption control
-resource "aws_backup_framework" "fail_multiple_controls_without_encryption" {
-    expect_failure = true
-    attrs = {
-        name = "test-framework-fail-multiple-controls-no-encryption"
-        control = [
-            {
-                name = "BACKUP_RECOVERY_POINT_MINIMUM_RETENTION_CHECK"
-            },
-            {
-                name = "BACKUP_RECOVERY_POINT_MANUAL_DELETION_DISABLED"
-            },
-            {
-                name = "BACKUP_PLAN_MIN_FREQUENCY_AND_MIN_RETENTION_CHECK"
-            }
-        ]
-    }
-}
-
-# Test 6: FAIL - Control block present but with empty name
-resource "aws_backup_framework" "fail_control_empty_name" {
-    expect_failure = true
-    attrs = {
-        name = "test-framework-fail-control-empty-name"
-        control = [
-            {
-                name = ""
-            }
-        ]
-    }
-}
-
-# Test 7: FAIL - Control block with similar but incorrect name
-resource "aws_backup_framework" "fail_similar_control_name" {
-    expect_failure = true
-    attrs = {
-        name = "test-framework-fail-similar-name"
-        control = [
-            {
-                name = "BACKUP_RECOVERY_POINT_ENCRYPT"
-            },
-            {
-                name = "BACKUP_RECOVERY_POINT_ENCRYPTED_CHECK"
-            }
-        ]
+        name        = "encrypted-vault-2"
+        kms_key_arn = "arn:aws:kms:us-west-2:123456789012:key/b2c3d4e5-f6a7-8901-bcde-f12345678901"
     }
 }

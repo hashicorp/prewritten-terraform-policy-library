@@ -28,11 +28,30 @@ resource "aws_redshift_parameter_group" "custom_with_ssl" {
   }
 }
 
-# Fail case: Cluster using default parameter group
-resource "aws_redshift_cluster" "fail_default_param_group" {
+# Pass case: Cluster using the default.redshift-2.0 parameter group (require_ssl is true by default)
+resource "aws_redshift_cluster" "pass_default_redshift_2_param_group" {
+  attrs = {
+    cluster_identifier = "default-2-cluster"
+    cluster_parameter_group_name = "default.redshift-2.0"
+    node_type = "dc2.large"
+    master_username = "admin"
+  }
+}
+
+# Pass case: Cluster with no cluster_parameter_group_name set (falls back to default.redshift-2.0)
+resource "aws_redshift_cluster" "pass_no_param_group_name" {
+  attrs = {
+    cluster_identifier = "no-param-group-cluster"
+    node_type = "dc2.large"
+    master_username = "admin"
+  }
+}
+
+# Fail case: Cluster using default.redshift-1.0 parameter group (not whitelisted, no custom param group found)
+resource "aws_redshift_cluster" "fail_default_redshift_1_param_group" {
   expect_failure = true
   attrs = {
-    cluster_identifier = "default-cluster"
+    cluster_identifier = "default-1-cluster"
     cluster_parameter_group_name = "default.redshift-1.0"
     node_type = "dc2.large"
     master_username = "admin"

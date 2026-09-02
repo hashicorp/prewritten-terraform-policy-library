@@ -22,11 +22,12 @@ resource_policy "aws_elasticache_cluster" "auto-minor-version-upgrade-check" {
 
     locals {
         engine_version = core::try(attrs.engine_version, "")
-        engine_version_condition = local.engine_version != "" ? core::parseint(core::split(".", local.engine_version)[0], 10) >= 6 : true
+        engine_version_condition = local.engine_version != "" ? core::semverconstraint(local.engine_version, ">= 6.0.0"): true
+        auto_minor_version_upgrade = core::try(attrs.auto_minor_version_upgrade, true)
     }
 
     enforce {
-        condition = core::try(attrs.auto_minor_version_upgrade, true) && local.engine_version_condition
+        condition = local.auto_minor_version_upgrade && local.engine_version_condition
         error_message = "ElastiCache clusters should have automatic minor version upgrades enabled"
     }
 }

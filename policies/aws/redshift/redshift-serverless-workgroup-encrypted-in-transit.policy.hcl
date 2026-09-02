@@ -20,7 +20,8 @@ resource_policy "aws_redshiftserverless_workgroup" "require_ssl_encryption" {
     enforcement_level = input.redshift-serverless-workgroup-encrypted-in-transit-enforcement-level
     locals {
         # Extract config_parameter block (it's a list of maps)
-        config_params = core::try(attrs.config_parameter, [])
+        config_params_raw = core::try(attrs.config_parameter, null)
+        config_params = local.config_params_raw != null ? local.config_params_raw : []
         
         # Find require_ssl parameter in config_parameter list
         require_ssl_params = [
@@ -44,7 +45,7 @@ resource_policy "aws_redshiftserverless_workgroup" "require_ssl_encryption" {
     }
 
     enforce {
-        condition = !local.has_require_ssl || local.ssl_enabled
+        condition = local.ssl_enabled
         error_message = "Redshift Serverless workgroup has require_ssl set to a value other than 'true'. It must be set to 'true' to enforce SSL encryption for data in transit"
     }
 }

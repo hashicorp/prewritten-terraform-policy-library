@@ -6,14 +6,14 @@ policytest {
     ]
 }
 
-# Test 1: PASS - db-instance subscription with all required event categories
+# Test 1: PASS - db-instance subscription with all three required event categories, enabled explicitly
 resource "aws_db_event_subscription" "pass_all_required_categories" {
   attrs = {
-    name = "rds-instance-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    source_type = "db-instance"
+    name             = "rds-instance-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    source_type      = "db-instance"
     event_categories = ["maintenance", "configuration change", "failure"]
-    enabled = true
+    enabled          = true
   }
 }
 
@@ -21,11 +21,11 @@ resource "aws_db_event_subscription" "pass_all_required_categories" {
 resource "aws_db_event_subscription" "fail_missing_maintenance" {
   expect_failure = true
   attrs = {
-    name = "rds-instance-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    source_type = "db-instance"
+    name             = "rds-instance-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    source_type      = "db-instance"
     event_categories = ["configuration change", "failure"]
-    enabled = true
+    enabled          = true
   }
 }
 
@@ -33,11 +33,11 @@ resource "aws_db_event_subscription" "fail_missing_maintenance" {
 resource "aws_db_event_subscription" "fail_missing_config_change" {
   expect_failure = true
   attrs = {
-    name = "rds-instance-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    source_type = "db-instance"
+    name             = "rds-instance-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    source_type      = "db-instance"
     event_categories = ["maintenance", "failure"]
-    enabled = true
+    enabled          = true
   }
 }
 
@@ -45,85 +45,105 @@ resource "aws_db_event_subscription" "fail_missing_config_change" {
 resource "aws_db_event_subscription" "fail_missing_failure" {
   expect_failure = true
   attrs = {
-    name = "rds-instance-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    source_type = "db-instance"
+    name             = "rds-instance-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    source_type      = "db-instance"
     event_categories = ["maintenance", "configuration change"]
-    enabled = true
+    enabled          = true
   }
 }
 
-# Test 5: PASS - db-instance subscription with no event_categories specified
-resource "aws_db_event_subscription" "fail_no_categories" {
+# Test 5: PASS - db-instance subscription with no event_categories attribute (defaults to [], condition passes)
+resource "aws_db_event_subscription" "pass_no_event_categories_attr" {
   attrs = {
-    name = "rds-instance-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    name        = "rds-instance-events"
+    sns_topic   = "arn:aws:sns:us-east-1:123456789012:rds-events"
     source_type = "db-instance"
-    enabled = true
+    enabled     = true
   }
 }
 
-# Test 6: FAIL - db-instance subscription with all categories but enabled is false
+# Test 6: FAIL - db-instance subscription with all required categories but enabled is false
 resource "aws_db_event_subscription" "fail_disabled_subscription" {
   expect_failure = true
   attrs = {
-    name = "rds-instance-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    source_type = "db-instance"
+    name             = "rds-instance-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    source_type      = "db-instance"
     event_categories = ["maintenance", "configuration change", "failure"]
-    enabled = false
+    enabled          = false
   }
 }
 
-# Test 7: PASS - unspecified source_type (defaults to all sources) with all required categories
-resource "aws_db_event_subscription" "pass_unspecified_source_type" {
-  attrs = {
-    name = "rds-all-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    event_categories = ["maintenance", "configuration change", "failure"]
-    enabled = true
-  }
-}
-
-# Test 8: FAIL - unspecified source_type but missing required categories
-resource "aws_db_event_subscription" "fail_unspecified_source_missing_categories" {
-  expect_failure = true
-  attrs = {
-    name = "rds-all-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    event_categories = ["maintenance"]
-    enabled = true
-  }
-}
-
-# Test 9: PASS - subscription with different source_type (should be filtered out)
-resource "aws_db_event_subscription" "pass_different_source_type_filtered" {
-  attrs = {
-    name = "rds-param-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    source_type = "db-parameter-group"
-    event_categories = ["configuration change"]
-    enabled = true
-  }
-}
-
-# Test 10: PASS - enabled defaults to true when not specified
+# Test 7: PASS - db-instance subscription with all required categories, enabled omitted (defaults to true)
 resource "aws_db_event_subscription" "pass_enabled_default_true" {
   attrs = {
-    name = "rds-instance-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    source_type = "db-instance"
+    name             = "rds-instance-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    source_type      = "db-instance"
     event_categories = ["maintenance", "configuration change", "failure"]
   }
 }
 
-# Test 11: PASS - subscription with extra event categories beyond required ones
+# Test 8: PASS - db-instance subscription with extra categories beyond required ones
 resource "aws_db_event_subscription" "pass_extra_categories" {
   attrs = {
-    name = "rds-instance-events"
-    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
-    source_type = "db-instance"
+    name             = "rds-instance-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    source_type      = "db-instance"
     event_categories = ["maintenance", "configuration change", "failure", "availability", "backup"]
-    enabled = true
+    enabled          = true
+  }
+}
+
+# Test 9: PASS - source_type absent (empty string) with all three required categories and enabled
+resource "aws_db_event_subscription" "pass_no_source_type_with_required_categories" {
+  attrs = {
+    name             = "rds-all-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    event_categories = ["maintenance", "configuration change", "failure"]
+    enabled          = true
+  }
+}
+
+# Test 10: FAIL - source_type absent (empty string), only maintenance present (missing two categories)
+resource "aws_db_event_subscription" "fail_no_source_type_missing_categories" {
+  expect_failure = true
+  attrs = {
+    name             = "rds-all-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    event_categories = ["maintenance"]
+    enabled          = true
+  }
+}
+
+# Test 11: FAIL - source_type absent (empty string), subscription disabled
+resource "aws_db_event_subscription" "fail_no_source_type_disabled" {
+  expect_failure = true
+  attrs = {
+    name             = "rds-all-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    event_categories = ["maintenance", "configuration change", "failure"]
+    enabled          = false
+  }
+}
+
+# Test 12: PASS - source_type absent (empty string), no event_categories (defaults to [], condition passes)
+resource "aws_db_event_subscription" "pass_no_source_type_no_categories" {
+  attrs = {
+    name      = "rds-all-events"
+    sns_topic = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    enabled   = true
+  }
+}
+
+# Test 13: PASS - source_type is db-parameter-group (filtered out, not evaluated)
+resource "aws_db_event_subscription" "pass_different_source_type_filtered" {
+  attrs = {
+    name             = "rds-param-events"
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+    source_type      = "db-parameter-group"
+    event_categories = ["configuration change"]
+    enabled          = true
   }
 }

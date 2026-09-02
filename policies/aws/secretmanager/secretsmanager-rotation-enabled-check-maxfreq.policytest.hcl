@@ -22,7 +22,7 @@ resource "aws_secretsmanager_secret" "excessive_frequency_secret" {
 
 resource "aws_secretsmanager_secret_rotation" "excessive_frequency_secret" {
   attrs = {
-    secret_id = "excessive-frequency-secret"
+    secret_id = "excessive-frequency-secret-id"
     rotation_rules = [
       {
         automatically_after_days = 120
@@ -42,7 +42,7 @@ resource "aws_secretsmanager_secret" "within_frequency_secret" {
 
 resource "aws_secretsmanager_secret_rotation" "within_frequency_secret" {
   attrs = {
-    secret_id = "within-frequency-secret"
+    secret_id = "within-frequency-secret-id"
     rotation_rules = [
       {
         automatically_after_days = 60
@@ -62,7 +62,7 @@ resource "aws_secretsmanager_secret" "at_limit_secret" {
 
 resource "aws_secretsmanager_secret_rotation" "at_limit_secret" {
   attrs = {
-    secret_id = "at-limit-secret"
+    secret_id = "at-limit-secret-id"
     rotation_rules = [
       {
         automatically_after_days = 90

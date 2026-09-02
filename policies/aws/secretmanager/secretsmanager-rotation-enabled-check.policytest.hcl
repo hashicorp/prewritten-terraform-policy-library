@@ -17,7 +17,7 @@ resource "aws_secretsmanager_secret" "compliant_secret" {
 
 resource "aws_secretsmanager_secret_rotation" "compliant_secret" {
   attrs = {
-    secret_id = "compliant-secret"
+    secret_id = "compliant-secret-id"
     rotation_rules = [
       {
         automatically_after_days = 30
@@ -47,7 +47,7 @@ resource "aws_secretsmanager_secret" "threshold_secret" {
 
 resource "aws_secretsmanager_secret_rotation" "threshold_secret" {
   attrs = {
-    secret_id = "threshold-secret"
+    secret_id = "threshold-secret-id"
     rotation_rules = [
       {
         automatically_after_days = 120
@@ -56,18 +56,18 @@ resource "aws_secretsmanager_secret_rotation" "threshold_secret" {
   }
 }
 
-# Test 4: PASS - Secret matched by name (id/arn are unknown at plan time, so the policy matches only by name)
-resource "aws_secretsmanager_secret" "matched_by_arn" {
+# Test 4: PASS - Secret matched by id (policy matches rotation.secret_id against attrs.id)
+resource "aws_secretsmanager_secret" "matched_by_id" {
   attrs = {
-    arn  = "arn:aws:secretsmanager:us-east-1:123456789012:secret:matched-arn"
-    name = "matched-by-arn"
-    id   = "matched-by-arn-id"
+    arn  = "arn:aws:secretsmanager:us-east-1:123456789012:secret:matched-id"
+    name = "matched-by-id"
+    id   = "matched-by-id"
   }
 }
 
-resource "aws_secretsmanager_secret_rotation" "matched_by_arn" {
+resource "aws_secretsmanager_secret_rotation" "matched_by_id" {
   attrs = {
-    secret_id = "matched-by-arn"
+    secret_id = "matched-by-id"
     rotation_rules = [
       {
         automatically_after_days = 7

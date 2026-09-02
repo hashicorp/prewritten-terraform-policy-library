@@ -29,7 +29,7 @@ resource_policy "aws_db_event_subscription" "cluster_event_notifications" {
     }
 
     enforce {
-        condition = local.event_categories == [] || (local.is_enabled && local.has_maintenance && local.has_failure)
+        condition = local.is_enabled && (local.event_categories == [] || (local.has_maintenance && local.has_failure))
         error_message = "RDS event subscription for db-cluster must be enabled for both 'maintenance' and 'failure' event_categories"
     }
 }

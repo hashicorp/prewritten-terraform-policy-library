@@ -122,13 +122,13 @@ resource "aws_mskconnect_connector" "fail_plaintext" {
   }
 }
 
-# Test 3: FILTERED - Connector without encryption_in_transit configuration
-# This resource should be filtered out by the policy's filter clause
-resource "aws_mskconnect_connector" "filtered_no_config" {
+# Test 3: FAIL - Connector without encryption_in_transit configuration (defaults to PLAINTEXT)
+resource "aws_mskconnect_connector" "fail_no_encryption_config" {
+  expect_failure = true
   attrs = {
     name                   = "no-encryption-config-connector"
     kafkaconnect_version   = "2.7.1"
-    # kafka_cluster_encryption_in_transit is not set
+    # kafka_cluster_encryption_in_transit not set, encryption_type defaults to PLAINTEXT
     capacity = [
       {
         autoscaling = []
@@ -177,7 +177,66 @@ resource "aws_mskconnect_connector" "filtered_no_config" {
   }
 }
 
-# Test 4: FAIL - Connector with empty encryption_in_transit block (defaults to PLAINTEXT)
+# Test 4: FAIL - Connector with TLS_PLAINTEXT (mixed mode, not fully encrypted)
+resource "aws_mskconnect_connector" "fail_tls_plaintext" {
+  expect_failure = true
+  attrs = {
+    name                   = "tls-plaintext-connector"
+    kafkaconnect_version   = "2.7.1"
+    kafka_cluster_encryption_in_transit = [
+      {
+        encryption_type = "TLS_PLAINTEXT"
+      }
+    ]
+    capacity = [
+      {
+        autoscaling = []
+        provisioned_capacity = [
+          {
+            mcu_count    = 2
+            worker_count = 1
+          }
+        ]
+      }
+    ]
+    connector_configuration = {
+      "connector.class" = "com.example.Connector"
+    }
+    kafka_cluster = [
+      {
+        apache_kafka_cluster = [
+          {
+            bootstrap_servers = "broker-1:9092"
+            vpc = [
+              {
+                security_groups = ["sg-12345"]
+                subnets         = ["subnet-12345"]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    kafka_cluster_client_authentication = [
+      {
+        authentication_type = "NONE"
+      }
+    ]
+    plugin = [
+      {
+        custom_plugin = [
+          {
+            arn      = "arn:aws:kafkaconnect:us-east-1:123456789012:custom-plugin/example"
+            revision = 1
+          }
+        ]
+      }
+    ]
+    service_execution_role_arn = "arn:aws:iam::123456789012:role/service-role"
+  }
+}
+
+# Test 5: FAIL - Connector with empty encryption_in_transit block (defaults to PLAINTEXT)
 resource "aws_mskconnect_connector" "fail_empty_config" {
   expect_failure = true
   attrs = {

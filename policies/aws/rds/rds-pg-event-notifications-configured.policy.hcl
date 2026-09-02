@@ -28,7 +28,7 @@ resource_policy "aws_db_event_subscription" "parameter_group_events" {
     }
 
     enforce {
-        condition = local.event_categories == [] || (local.is_enabled && local.has_config_change)
+        condition = local.is_enabled && (local.event_categories == [] || local.has_config_change)
         error_message = "RDS event subscription must include 'configuration change' in event_categories"
     }
 }
