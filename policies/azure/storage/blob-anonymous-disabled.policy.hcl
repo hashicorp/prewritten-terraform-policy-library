@@ -13,13 +13,16 @@ policy {
 
 resource_policy "azurerm_storage_account" "blob_anonymous_access_disabled" {
   locals {
+    account_kind     = core::try(attrs.account_kind, "StorageV2")
+    unsupported_kind = core::contains(["FileStorage", "BlockBlobStorage"], local.account_kind)
+
     allow_public_raw = core::try(attrs.allow_nested_items_to_be_public, null)
     allow_public     = local.allow_public_raw == null ? false : local.allow_public_raw
   }
 
   enforcement_level = "advisory"
   enforce {
-    condition     = local.allow_public == false
+    condition     = local.unsupported_kind || local.allow_public == false
     error_message = "Storage accounts must set allow_nested_items_to_be_public to false to disable anonymous blob access."
   }
 }

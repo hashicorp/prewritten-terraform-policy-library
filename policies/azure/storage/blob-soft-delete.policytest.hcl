@@ -28,7 +28,7 @@ resource "azurerm_storage_account" "pass_lower_boundary" {
     account_kind             = "StorageV2"
     blob_properties = {
       delete_retention_policy = {
-        days = 1
+        days = 7
       }
     }
   }
@@ -47,6 +47,25 @@ resource "azurerm_storage_account" "pass_upper_boundary" {
         days = 365
       }
     }
+  }
+}
+
+# blob_properties supplied as a list (provider list-form); policy must handle both forms.
+resource "azurerm_storage_account" "pass_blob_properties_list_form" {
+  attrs = {
+    name                     = "listformblobacct"
+    resource_group_name      = "validation-resource-group"
+    location                 = "eastus"
+    account_tier             = "Standard"
+    account_replication_type = "LRS"
+    account_kind             = "StorageV2"
+    blob_properties = [
+      {
+        delete_retention_policy = {
+          days = 7
+        }
+      }
+    ]
   }
 }
 
@@ -99,7 +118,7 @@ resource "azurerm_storage_account" "fail_below_retention_range" {
     account_kind             = "StorageV2"
     blob_properties = {
       delete_retention_policy = {
-        days = 0
+        days = 6
       }
     }
   }
@@ -122,8 +141,8 @@ resource "azurerm_storage_account" "fail_above_retention_range" {
   }
 }
 
-resource "azurerm_storage_account" "fail_storage_v1_without_blob_properties" {
-  expect_failure = true
+# Storage (V1) accounts cannot have blob_properties configured; enforcement is skipped.
+resource "azurerm_storage_account" "pass_storage_v1_unsupported_kind" {
   attrs = {
     name                     = "storagevoneaccount"
     resource_group_name      = "validation-resource-group"
@@ -131,5 +150,35 @@ resource "azurerm_storage_account" "fail_storage_v1_without_blob_properties" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "Storage"
+  }
+}
+
+# FileStorage accounts have no blob containers; enforcement is skipped.
+resource "azurerm_storage_account" "pass_file_storage_unsupported_kind" {
+  attrs = {
+    name                     = "filestoragekindacct"
+    resource_group_name      = "validation-resource-group"
+    location                 = "eastus"
+    account_tier             = "Premium"
+    account_replication_type = "LRS"
+    account_kind             = "FileStorage"
+  }
+}
+
+# days = 1 is below the CIS minimum of 7; must fail.
+resource "azurerm_storage_account" "fail_days_below_cis_minimum" {
+  expect_failure = true
+  attrs = {
+    name                     = "belowcisminacct"
+    resource_group_name      = "validation-resource-group"
+    location                 = "eastus"
+    account_tier             = "Standard"
+    account_replication_type = "LRS"
+    account_kind             = "StorageV2"
+    blob_properties = {
+      delete_retention_policy = {
+        days = 1
+      }
+    }
   }
 }

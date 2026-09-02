@@ -200,3 +200,141 @@ resource "azurerm_network_security_group" "fail_wildcard_destination_port" {
     }]
   }
 }
+
+resource "azurerm_network_security_group" "fail_any_source_prefix" {
+  expect_failure = true
+  attrs = {
+    name                = "fail-any-source-prefix"
+    location            = "East US"
+    resource_group_name = "validation-resource-group"
+    security_rule = [{
+      name                       = "udp-dns-any-source"
+      priority                   = 190
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Udp"
+      source_port_range          = "*"
+      destination_port_range     = "53"
+      source_address_prefix      = "Any"
+      destination_address_prefix = "*"
+    }]
+  }
+}
+
+resource "azurerm_network_security_group" "fail_bare_0000_source" {
+  expect_failure = true
+  attrs = {
+    name                = "fail-bare-0000-source"
+    location            = "East US"
+    resource_group_name = "validation-resource-group"
+    security_rule = [{
+      name                       = "udp-ntp-bare-ip"
+      priority                   = 200
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Udp"
+      source_port_range          = "*"
+      destination_port_range     = "123"
+      source_address_prefix      = "0.0.0.0"
+      destination_address_prefix = "*"
+    }]
+  }
+}
+
+resource "azurerm_network_security_group" "fail_cidr_ending_in_slash0" {
+  expect_failure = true
+  attrs = {
+    name                = "fail-cidr-slash0"
+    location            = "East US"
+    resource_group_name = "validation-resource-group"
+    security_rule = [{
+      name                       = "udp-snmp-slash0-cidr"
+      priority                   = 210
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Udp"
+      source_port_range          = "*"
+      destination_port_range     = "161"
+      source_address_prefix      = "10.0.0.0/0"
+      destination_address_prefix = "*"
+    }]
+  }
+}
+
+resource "azurerm_network_security_group" "fail_singular_range_covers_port" {
+  expect_failure = true
+  attrs = {
+    name                = "fail-singular-range-covers-port"
+    location            = "East US"
+    resource_group_name = "validation-resource-group"
+    security_rule = [{
+      name                       = "udp-range-covers-dns"
+      priority                   = 220
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Udp"
+      source_port_range          = "*"
+      destination_port_range     = "50-100"
+      source_address_prefix      = "0.0.0.0/0"
+      destination_address_prefix = "*"
+    }]
+  }
+}
+
+resource "azurerm_network_security_group" "fail_inclusive_boundary" {
+  expect_failure = true
+  attrs = {
+    name                = "fail-inclusive-boundary"
+    location            = "East US"
+    resource_group_name = "validation-resource-group"
+    security_rule = [{
+      name                       = "udp-dns-range-boundary"
+      priority                   = 230
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Udp"
+      source_port_range          = "*"
+      destination_port_range     = "53-53"
+      source_address_prefix      = "0.0.0.0/0"
+      destination_address_prefix = "*"
+    }]
+  }
+}
+
+resource "azurerm_network_security_group" "pass_range_outside_restricted_ports" {
+  attrs = {
+    name                = "pass-range-outside-restricted-ports"
+    location            = "East US"
+    resource_group_name = "validation-resource-group"
+    security_rule = [{
+      name                       = "udp-non-restricted-range"
+      priority                   = 240
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Udp"
+      source_port_range          = "*"
+      destination_port_range     = "2000-3000"
+      source_address_prefix      = "0.0.0.0/0"
+      destination_address_prefix = "*"
+    }]
+  }
+}
+
+resource "azurerm_network_security_group" "pass_service_tag_port_range" {
+  attrs = {
+    name                = "pass-service-tag-port-range"
+    location            = "East US"
+    resource_group_name = "validation-resource-group"
+    security_rule = [{
+      name                       = "udp-https-service-tag"
+      priority                   = 250
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Udp"
+      source_port_range          = "*"
+      destination_port_range     = "Https"
+      source_address_prefix      = "0.0.0.0/0"
+      destination_address_prefix = "*"
+    }]
+  }
+}
