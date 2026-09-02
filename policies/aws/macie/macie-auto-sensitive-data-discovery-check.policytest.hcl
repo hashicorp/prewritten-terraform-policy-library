@@ -6,6 +6,8 @@ policytest {
   ]
 }
 
+# --------------- PASS cases ---------------
+
 # Test 1: PASS - Macie enabled with finding_publishing_frequency configured
 resource "aws_macie2_account" "pass_macie_enabled_with_frequency" {
   attrs = {
@@ -14,12 +16,14 @@ resource "aws_macie2_account" "pass_macie_enabled_with_frequency" {
   }
 }
 
-# Test 2: PASS - Macie enabled without finding_publishing_frequency (not required for Macie.2)
+# Test 2: PASS - Macie enabled without optional finding_publishing_frequency
 resource "aws_macie2_account" "pass_macie_enabled_no_frequency" {
   attrs = {
     status = "ENABLED"
   }
 }
+
+# --------------- FAIL cases ---------------
 
 # Test 3: FAIL - Macie status is PAUSED
 resource "aws_macie2_account" "fail_macie_paused" {
@@ -30,7 +34,17 @@ resource "aws_macie2_account" "fail_macie_paused" {
   }
 }
 
-# Test 4: FILTERED - No status attribute (filtered out by policy)
+# Test 4: FAIL - Macie status explicitly DISABLED
+resource "aws_macie2_account" "fail_macie_disabled" {
+  expect_failure = true
+  attrs = {
+    status = "DISABLED"
+  }
+}
+
+# --------------- FILTERED cases ---------------
+
+# Test 5: FILTERED - No status attribute (filtered out, not evaluated)
 resource "aws_macie2_account" "filtered_no_status" {
   attrs = {
     finding_publishing_frequency = "SIX_HOURS"

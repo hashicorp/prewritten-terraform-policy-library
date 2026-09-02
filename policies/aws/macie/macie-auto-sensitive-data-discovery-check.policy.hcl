@@ -16,12 +16,12 @@ input "macie-auto-sensitive-data-discovery-check-enforcement-level" {
   default = "advisory"
 }
 
-resource_policy "aws_macie2_account" "automated_discovery_enabled" {
-    enforcement_level = input.macie-auto-sensitive-data-discovery-check-enforcement-level
-    filter = core::try(attrs.status, null) != null
+resource_policy "aws_macie2_account" "macie_enabled_for_discovery" {
+  enforcement_level = input.macie-auto-sensitive-data-discovery-check-enforcement-level
+  filter = core::try(attrs.status, null) != null
 
-    enforce {
-        condition = core::try(attrs.status, "") == "ENABLED"
-        error_message = "Amazon Macie must be enabled (status = \"ENABLED\") on the aws_macie2_account resource so that automated sensitive data discovery can be configured. Note: the Terraform AWS provider does not expose automated sensitive data discovery configuration; after enabling Macie, enable automated discovery via the AWS Console (Macie > Settings > Automated discovery) or `aws macie2 update-automated-discovery-configuration`"
-    }
+  enforce {
+    condition     = core::try(attrs.status, "") == "ENABLED"
+    error_message = "Amazon Macie must be enabled (status = \"ENABLED\") as a prerequisite for automated sensitive data discovery. This policy validates Macie is enabled only — it CANNOT validate whether automated sensitive data discovery is turned on, as the Terraform AWS provider does not expose that setting. After enabling Macie, enable automated discovery via the AWS Console (Macie > Settings > Automated sensitive data discovery) or `aws macie2 update-automated-discovery-configuration --status ENABLED`."
+  }
 }

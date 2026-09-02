@@ -84,7 +84,7 @@ resource "aws_inspector2_organization_configuration" "fail_no_lambda_code_config
   }
 }
 
-# Test 9: FAIL - Lambda and Lmabda Code scanning disabled
+# Test 9: FAIL - Lambda and Lambda Code scanning disabled
 resource "aws_inspector2_organization_configuration" "fail_lambda_lambda_code_disabled" {
   expect_failure = true
   attrs = {
