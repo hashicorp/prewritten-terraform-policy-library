@@ -6,7 +6,9 @@ policytest{
   ]
 }
 
-# Test 1: SQS queue policy with specific AWS account principal (would pass if validation worked)
+# --------------- PASS cases ---------------
+
+# Test 1: PASS - Policy with a specific AWS account principal (not a wildcard)
 resource "aws_sqs_queue_policy" "pass_specific_account_principal" {
   attrs = {
     queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
@@ -14,31 +16,15 @@ resource "aws_sqs_queue_policy" "pass_specific_account_principal" {
   }
 }
 
-# Test 2: SQS queue policy with wildcard (*) as Principal (would fail if validation worked)
-resource "aws_sqs_queue_policy" "fail_wildcard_principal" {
+# Test 2: PASS - Wildcard principal BUT a restrictive Condition narrows access
+resource "aws_sqs_queue_policy" "pass_wildcard_with_condition" {
   attrs = {
     queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
-    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:PrincipalOrgID\":\"o-exampleorgid\"}}}]}"
   }
 }
 
-# Test 3: SQS queue policy with wildcard (*) in Principal.AWS (would fail if validation worked)
-resource "aws_sqs_queue_policy" "fail_wildcard_principal_aws" {
-  attrs = {
-    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
-    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"*\"},\"Action\":\"sqs:ReceiveMessage\",\"Resource\":\"*\"}]}"
-  }
-}
-
-# Test 4: SQS queue with inline policy containing wildcard Principal (would fail if validation worked)
-resource "aws_sqs_queue" "fail_inline_wildcard_principal" {
-  attrs = {
-    name = "my-public-queue"
-    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
-  }
-}
-
-# Test 5: SQS queue with inline policy restricted to specific principals (would pass if validation worked)
+# Test 3: PASS - Inline policy with a specific role principal (not a wildcard)
 resource "aws_sqs_queue" "pass_inline_specific_principal" {
   attrs = {
     name = "my-compliant-queue"
@@ -46,9 +32,62 @@ resource "aws_sqs_queue" "pass_inline_specific_principal" {
   }
 }
 
-# Test 6: SQS queue without policy (filtered out, not evaluated)
-resource "aws_sqs_queue" "no_policy" {
+# Test 4: PASS - Queue with no policy attribute (filtered out, not evaluated)
+resource "aws_sqs_queue" "pass_no_policy" {
   attrs = {
     name = "my-queue-no-policy"
+  }
+}
+
+# Test 5: PASS - Queue policy resource with no policy attribute (filtered out)
+resource "aws_sqs_queue_policy" "pass_no_policy_attr" {
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
+  }
+}
+
+# --------------- FAIL cases ---------------
+
+# Test 6: FAIL - Policy with Principal="*" and no Condition
+resource "aws_sqs_queue_policy" "fail_wildcard_principal" {
+  expect_failure = true
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# Test 7: FAIL - Policy with Principal.AWS="*" and no Condition
+resource "aws_sqs_queue_policy" "fail_wildcard_principal_aws" {
+  expect_failure = true
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"*\"},\"Action\":\"sqs:ReceiveMessage\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# Test 8: FAIL - Inline queue policy with Principal="*" and no Condition
+resource "aws_sqs_queue" "fail_inline_wildcard_principal" {
+  expect_failure = true
+  attrs = {
+    name = "my-public-queue"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# Test 9: FAIL - Principal.AWS in list form ["*"] — must be caught same as string "*"
+resource "aws_sqs_queue_policy" "fail_wildcard_aws_list_form" {
+  expect_failure = true
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
+    policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":\"sqs:SendMessage\",\"Resource\":\"*\"}]}"
+  }
+}
+
+# Test 10: PASS - empty-string policy value is filtered out 
+resource "aws_sqs_queue_policy" "pass_empty_string_policy" {
+  attrs = {
+    queue_url = "https://sqs.us-east-1.amazonaws.com/123456789012/my-queue"
+    policy    = ""
   }
 }
