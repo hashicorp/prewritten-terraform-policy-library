@@ -25,10 +25,11 @@ input "includeConfigServiceLinkedRoleCheck" {
 resource_policy "aws_config_configuration_recorder" "recorder_configuration" {
   enforcement_level = input.config1-aws-config-enabled-enforcement-level
   locals {
-    recording_group     = core::try(attrs.recording_group, {})
-    has_recording_group = core::length(core::keys(local.recording_group)) > 0
-    all_supported       = core::try(local.recording_group.all_supported, false)
-    include_global      = core::try(local.recording_group.include_global_resource_types, false)
+    recording_group_raw = core::try(attrs.recording_group, null)
+    recording_group     = local.recording_group_raw != null ? local.recording_group_raw : []
+    has_recording_group = core::length(local.recording_group) > 0
+    all_supported       = core::try(local.recording_group[0].all_supported, false)
+    include_global      = core::try(local.recording_group[0].include_global_resource_types, false)
 
     role_arn                 = core::try(attrs.role_arn, "")
     uses_service_linked_role = core::try(core::length(core::regexall("/aws-service-role/config\\.amazonaws\\.com/AWSServiceRoleForConfig$", local.role_arn)), 0) > 0

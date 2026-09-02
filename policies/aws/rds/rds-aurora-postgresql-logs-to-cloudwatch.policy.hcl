@@ -21,7 +21,8 @@ resource_policy "aws_rds_cluster" "aurora_postgresql_cloudwatch_logs" {
     filter = attrs.engine == "aurora-postgresql"
 
     locals {
-        log_exports = core::try(attrs.enabled_cloudwatch_logs_exports, [])
+        log_exports_raw = core::try(attrs.enabled_cloudwatch_logs_exports, null)
+        log_exports = local.log_exports_raw != null ? local.log_exports_raw : []
     }
 
     enforce {

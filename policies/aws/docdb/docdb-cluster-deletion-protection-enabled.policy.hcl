@@ -18,8 +18,14 @@ input "docdb-cluster-deletion-protection-enabled-enforcement-level" {
 
 resource_policy "aws_docdb_cluster" "deletion-protection-enabled" {
     enforcement_level = input.docdb-cluster-deletion-protection-enabled-enforcement-level
+
+    locals {
+      deletion_protection = core::try(attrs.deletion_protection, null)
+      is_compliant = (local.deletion_protection != null) && (local.deletion_protection == true)
+    }
+    
     enforce {
-        condition = core::try(attrs.deletion_protection, false)
+        condition = local.is_compliant
         error_message = "The DocumentDB cluster does not have deletion protection enabled"
     }
 }

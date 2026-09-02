@@ -18,8 +18,12 @@ input "rds-cluster-iam-authentication-enabled-enforcement-level" {
 
 resource_policy "aws_rds_cluster" "iam_authentication_enabled" {
     enforcement_level = input.rds-cluster-iam-authentication-enabled-enforcement-level
+    locals {
+      db_auth_enabled_raw = core::try(attrs.iam_database_authentication_enabled, null)
+      db_auth_enabled = local.db_auth_enabled_raw != null ? local.db_auth_enabled_raw : false
+    }
     enforce {
-        condition = core::try(attrs.iam_database_authentication_enabled, false)
+        condition = local.db_auth_enabled == true
         error_message = "RDS cluster does not have IAM database authentication enabled. Set 'iam_database_authentication_enabled = true' to enable password-free authentication with IAM"
     }
 }

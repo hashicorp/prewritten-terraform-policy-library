@@ -18,8 +18,13 @@ input "neptune-cluster-copy-tags-to-snapshot-enabled-enforcement-level" {
 
 resource_policy "aws_neptune_cluster" "copy-tags-to-snapshot" {
     enforcement_level = input.neptune-cluster-copy-tags-to-snapshot-enabled-enforcement-level
+
+    locals {
+      copy_tags_to_snapshot = core::try(attrs.copy_tags_to_snapshot, null)
+      is_compliant = (local.copy_tags_to_snapshot != null) && (local.copy_tags_to_snapshot == true)
+    }
     enforce {
-        condition = core::try(attrs.copy_tags_to_snapshot, false)
+        condition = local.is_compliant
         error_message = "The Neptune DB cluster does not have copy tags to snapshot enabled"
     }
 }

@@ -20,7 +20,8 @@ resource_policy "aws_rds_cluster" "backtracking_enabled" {
     enforcement_level = input.aurora-mysql-backtracking-enabled-enforcement-level
     filter = core::try(attrs.engine, "") == "aurora-mysql"
     locals {
-        backtrack_window = core::try(attrs.backtrack_window, 0)
+        backtrack_window_raw = core::try(attrs.backtrack_window, null)
+        backtrack_window = local.backtrack_window_raw != null ? local.backtrack_window_raw : 0
     }
     enforce {
         condition = local.backtrack_window > 0 && local.backtrack_window <= 259200
