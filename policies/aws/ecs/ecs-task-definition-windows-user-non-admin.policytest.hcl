@@ -159,6 +159,54 @@ EOT
   }
 }
 
+# FAIL: Canonical casing "ContainerAdministrator" 
+resource "aws_ecs_task_definition" "fail_windows_canonical_casing" {
+  expect_failure = true
+  attrs = {
+    family = "test-task"
+    runtime_platform = [{
+      operating_system_family = "WINDOWS_SERVER_2022_CORE"
+      cpu_architecture        = "X86_64"
+    }]
+    container_definitions = <<EOT
+[
+  {
+    "name": "app-container",
+    "image": "mcr.microsoft.com/windows/servercore:ltsc2022",
+    "cpu": 256,
+    "memory": 512,
+    "essential": true,
+    "user": "ContainerAdministrator"
+  }
+]
+EOT
+  }
+}
+
+# FAIL: All-uppercase "CONTAINERADMINISTRATOR" 
+resource "aws_ecs_task_definition" "fail_windows_uppercase" {
+  expect_failure = true
+  attrs = {
+    family = "test-task"
+    runtime_platform = [{
+      operating_system_family = "WINDOWS_SERVER_2019_FULL"
+      cpu_architecture        = "X86_64"
+    }]
+    container_definitions = <<EOT
+[
+  {
+    "name": "app-container",
+    "image": "mcr.microsoft.com/windows/servercore:ltsc2019",
+    "cpu": 256,
+    "memory": 512,
+    "essential": true,
+    "user": "CONTAINERADMINISTRATOR"
+  }
+]
+EOT
+  }
+}
+
 # PASS: Windows Server 2016 Full with all containers having non-admin users
 resource "aws_ecs_task_definition" "pass_windows_2016_full_all_custom_users" {
   attrs = {

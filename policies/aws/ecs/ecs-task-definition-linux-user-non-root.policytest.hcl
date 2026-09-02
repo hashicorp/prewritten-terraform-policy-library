@@ -223,6 +223,66 @@ EOT
   }
 }
 
+# Fail Case 6: user = "0:0" (root UID with root GID) 
+resource "aws_ecs_task_definition" "fail_root_uid_gid" {
+  expect_failure = true
+  attrs = {
+    family = "test-task"
+    container_definitions = <<EOT
+[
+  {
+    "name": "app-container",
+    "image": "nginx:latest",
+    "cpu": 256,
+    "memory": 512,
+    "essential": true,
+    "user": "0:0"
+  }
+]
+EOT
+  }
+}
+
+# Fail Case 7: user = "0:1000" (root UID with non-root GID) 
+resource "aws_ecs_task_definition" "fail_root_uid_nonroot_gid" {
+  expect_failure = true
+  attrs = {
+    family = "test-task"
+    container_definitions = <<EOT
+[
+  {
+    "name": "app-container",
+    "image": "nginx:latest",
+    "cpu": 256,
+    "memory": 512,
+    "essential": true,
+    "user": "0:1000"
+  }
+]
+EOT
+  }
+}
+
+# Fail Case 8: user = "root:app" (root username with non-root group) 
+resource "aws_ecs_task_definition" "fail_root_username_nonroot_group" {
+  expect_failure = true
+  attrs = {
+    family = "test-task"
+    container_definitions = <<EOT
+[
+  {
+    "name": "app-container",
+    "image": "nginx:latest",
+    "cpu": 256,
+    "memory": 512,
+    "essential": true,
+    "user": "root:app"
+  }
+]
+EOT
+  }
+}
+
 # Filter Test 1: Windows task definition should be filtered out (not evaluated)
 resource "aws_ecs_task_definition" "filter_windows_excluded" {
   attrs = {

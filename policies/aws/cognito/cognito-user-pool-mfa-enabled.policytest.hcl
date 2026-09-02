@@ -121,3 +121,32 @@ resource "aws_cognito_user_pool" "fail_mfa_optional_no_method" {
     mfa_configuration = "OPTIONAL"
   }
 }
+
+# Test 10: FAIL - Traditional pool with NO sign_in_policy and MFA OFF.
+resource "aws_cognito_user_pool" "fail_no_sign_in_policy_mfa_off" {
+  expect_failure = true
+  attrs = {
+    name              = "test-pool-traditional-no-mfa"
+    mfa_configuration = "OFF"
+  }
+}
+
+# Test 11: FAIL - Traditional pool with NO sign_in_policy and MFA not set at all
+# (defaults to "OFF"). 
+resource "aws_cognito_user_pool" "fail_no_sign_in_policy_no_mfa_attr" {
+  expect_failure = true
+  attrs = {
+    name = "test-pool-traditional-mfa-default"
+  }
+}
+
+# Test 12: PASS - Traditional pool with NO sign_in_policy but MFA ON with a method configured.
+resource "aws_cognito_user_pool" "pass_no_sign_in_policy_mfa_on" {
+  attrs = {
+    name              = "test-pool-traditional-mfa-on"
+    mfa_configuration = "ON"
+    software_token_mfa_configuration = {
+      enabled = true
+    }
+  }
+}
