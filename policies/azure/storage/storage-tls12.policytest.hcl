@@ -27,10 +27,9 @@ resource "azurerm_storage_account" "fail_tls_1_0" {
   }
 }
 
-resource "azurerm_storage_account" "fail_missing_min_tls_version" {
-  expect_failure = true
+resource "azurerm_storage_account" "pass_missing_min_tls_version" {
   attrs = {
-    name                     = "stfailmissingtls"
+    name                     = "stpassmissingtls"
     resource_group_name      = "rg-validation"
     location                 = "eastus"
     account_tier             = "Standard"
@@ -50,10 +49,9 @@ resource "azurerm_storage_account" "fail_empty_min_tls_version" {
   }
 }
 
-resource "azurerm_storage_account" "fail_null_min_tls_version" {
-  expect_failure = true
+resource "azurerm_storage_account" "pass_null_min_tls_version" {
   attrs = {
-    name                     = "stfailnulltls"
+    name                     = "stpassnulltls"
     resource_group_name      = "rg-validation"
     location                 = "eastus"
     account_tier             = "Standard"

@@ -39,7 +39,11 @@ resource_policy "azurerm_storage_account" "allow_trusted_microsoft_services" {
 
   enforcement_level = "advisory"
   enforce {
-    condition     = local.configuration_valid && (!local.in_scope || local.trusted_services)
-    error_message = "Storage accounts must use either inline or standalone network rules, not both, and rules with public access plus a default action of Deny must include AzureServices in bypass."
+    condition     = local.configuration_valid
+    error_message = "Storage account must not define both inline network_rules and a standalone azurerm_storage_account_network_rules resource simultaneously — use one or the other."
+  }
+  enforce {
+    condition     = !local.in_scope || local.trusted_services
+    error_message = "Storage account network rules have a default action of Deny but 'AzureServices' is not included in the bypass list."
   }
 }
