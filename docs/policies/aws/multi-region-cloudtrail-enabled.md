@@ -1,4 +1,4 @@
-# multi-region-cloudtrail-enabled
+# Multi-Region CloudTrail Logging Enabled
 
 | Provider            | Category |
 | ------------------- | -------- |

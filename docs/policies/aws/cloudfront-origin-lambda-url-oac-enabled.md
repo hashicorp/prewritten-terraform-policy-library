@@ -1,4 +1,4 @@
-# cloudfront-origin-lambda-url-oac-enabled
+# CloudFront Lambda Function URL Must Use Origin Access Control
 
 | Provider            | Category |
 | ------------------- | -------- |

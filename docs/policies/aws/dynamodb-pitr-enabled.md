@@ -1,4 +1,4 @@
-# dynamodb-pitr-enabled
+# DynamoDB Point-in-Time Recovery Enabled
 
 | Provider            | Category |
 | ------------------- | -------- |
