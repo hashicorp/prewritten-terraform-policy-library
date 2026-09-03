@@ -1,4 +1,4 @@
-# DynamoDB Point-in-Time Recovery Enabled
+# DynamoDB tables should have point-in-time recovery enabled
 
 | Provider            | Category |
 | ------------------- | -------- |
@@ -6,7 +6,9 @@
 
 ## Description
 
-This control checks whether point-in-time recovery (PITR) is enabled for Amazon DynamoDB tables. The control fails if PITR is not enabled for a DynamoDB table.
+This control checks whether point-in-time recovery (PITR) is enabled for an Amazon DynamoDB table.
+
+Backups help you to recover more quickly from a security incident. They also strengthen the resilience of your systems. DynamoDB point-in-time recovery automates backups for DynamoDB tables. It reduces the time to recover from accidental delete or write operations. DynamoDB tables that have PITR enabled can be restored to any point in time in the last 35 days.
 
 This rule is covered by the [dynamodb-pitr-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dynamodb-pitr-enabled.policy.hcl) policy.
 

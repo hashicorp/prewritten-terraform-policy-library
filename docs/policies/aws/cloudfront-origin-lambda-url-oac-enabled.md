@@ -1,4 +1,4 @@
-# CloudFront Lambda Function URL Must Use Origin Access Control
+# CloudFront distributions should use origin access control for Lambda function URL origins
 
 | Provider            | Category |
 | ------------------- | -------- |
@@ -6,7 +6,9 @@
 
 ## Description
 
-This control checks whether an Amazon CloudFront distribution uses origin access control (OAC) for Lambda function URL origins. The control fails if a CloudFront distribution uses a Lambda function URL origin without enabling OAC.
+This control checks whether an Amazon CloudFront distribution with an AWS Lambda function URL as an origin has origin access control (OAC) enabled. The control fails if the CloudFront distribution has a Lambda function URL as an origin and OAC isn't enabled.
+
+An AWS Lambda function URL is a dedicated HTTPS endpoint for a Lambda function. If a Lambda function URL is the origin for a CloudFront distribution, the function URL must be publicly accessible. Therefore, as a security best practice, you should create an OAC and add it to the Lambda function URL in a distribution. OAC uses IAM service principals to authenticate requests between CloudFront and the function URL. It also supports the use of resource-based policies to allow invocation of a function only if a request is on behalf of a CloudFront distribution specified in the policy.
 
 This rule is covered by the [cloudfront-origin-lambda-url-oac-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-origin-lambda-url-oac-enabled.policy.hcl) policy.
 
