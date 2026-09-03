@@ -1,4 +1,4 @@
-# cloudfront-origin-lambda-url-oac-enabled
+# CloudFront Lambda Function URL Must Use Origin Access Control
 
 | Provider            | Category |
 | ------------------- | -------- |
@@ -6,7 +6,7 @@
 
 ## Description
 
-No description available from AWS docs.
+This control checks whether an Amazon CloudFront distribution uses origin access control (OAC) for Lambda function URL origins. The control fails if a CloudFront distribution uses a Lambda function URL origin without enabling OAC.
 
 This rule is covered by the [cloudfront-origin-lambda-url-oac-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-origin-lambda-url-oac-enabled.policy.hcl) policy.
 

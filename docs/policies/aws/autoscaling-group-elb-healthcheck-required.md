@@ -1,4 +1,4 @@
-# autoscaling-group-elb-healthcheck-required
+# Auto Scaling Group ELB Health Check Required
 
 | Provider            | Category |
 | ------------------- | -------- |
