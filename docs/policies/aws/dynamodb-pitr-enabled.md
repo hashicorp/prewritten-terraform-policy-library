@@ -6,7 +6,9 @@
 
 ## Description
 
-No description available from AWS docs.
+This control checks whether point-in-time recovery (PITR) is enabled for Amazon DynamoDB tables. The control fails if PITR is not enabled for a DynamoDB table.
+
+Refer to [AWS Security Hub documentation](https://docs.aws.amazon.com/securityhub/latest/userguide/dynamodb-controls.html#dynamodb-2) for details.
 
 This rule is covered by the [dynamodb-pitr-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dynamodb-pitr-enabled.policy.hcl) policy.
 
