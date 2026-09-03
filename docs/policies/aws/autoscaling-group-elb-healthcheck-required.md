@@ -1,4 +1,4 @@
-# Auto Scaling Group ELB Health Check Required
+# Auto Scaling groups associated with a load balancer should use ELB health checks
 
 | Provider            | Category |
 | ------------------- | -------- |

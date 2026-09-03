@@ -1,4 +1,4 @@
-# Multi-Region CloudTrail Logging Enabled
+# CloudTrail should be enabled and configured with at least one multi-Region trail that includes read and write management events
 
 | Provider            | Category |
 | ------------------- | -------- |
