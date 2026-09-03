@@ -20,6 +20,6 @@ resource_policy "azurerm_storage_account" "minimum_tls_version_1_2" {
   enforcement_level = "advisory"
   enforce {
     condition     = local.is_compliant
-    error_message = "Storage accounts must set min_tls_version to TLS1_2."
+    error_message = "Storage accounts must set min_tls_version to TLS1_2 or omit the attribute to use the provider default of TLS1_2."
   }
 }

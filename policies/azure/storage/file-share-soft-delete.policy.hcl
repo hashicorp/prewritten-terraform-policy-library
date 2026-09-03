@@ -13,7 +13,8 @@ policy {
 
 resource_policy "azurerm_storage_account" "file_share_soft_delete" {
   locals {
-    account_kind      = core::try(attrs.account_kind, "StorageV2")
+    account_kind_raw  = core::try(attrs.account_kind, null)
+    account_kind      = local.account_kind_raw == null ? "StorageV2" : local.account_kind_raw
     is_supported_kind = core::contains(["StorageV2", "FileStorage"], local.account_kind)
 
     share_properties_raw = core::try(attrs.share_properties[0], core::try(attrs.share_properties, null))

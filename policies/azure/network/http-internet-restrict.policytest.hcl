@@ -179,3 +179,47 @@ resource "azurerm_network_security_group" "pass_inbound_deny_https" {
     }]
   }
 }
+
+resource "azurerm_network_security_group" "fail_wildcard_destination_port" {
+  expect_failure = true
+  attrs = {
+    name                = "wildcard-port-http"
+    location            = "eastus"
+    resource_group_name = "example-resource-group"
+    security_rule = [{
+      name                       = "allow-all-ports"
+      priority                   = 170
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "*"
+      destination_port_ranges    = []
+      source_address_prefix      = "0.0.0.0/0"
+      source_address_prefixes    = []
+      destination_address_prefix = "*"
+    }]
+  }
+}
+
+resource "azurerm_network_security_group" "fail_any_source_prefix" {
+  expect_failure = true
+  attrs = {
+    name                = "any-source-https"
+    location            = "eastus"
+    resource_group_name = "example-resource-group"
+    security_rule = [{
+      name                       = "allow-any-source-https"
+      priority                   = 180
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "443"
+      destination_port_ranges    = []
+      source_address_prefix      = "Any"
+      source_address_prefixes    = []
+      destination_address_prefix = "*"
+    }]
+  }
+}
