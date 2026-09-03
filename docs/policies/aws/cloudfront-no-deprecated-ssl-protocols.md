@@ -1,14 +1,14 @@
-# CloudFront distributions should encrypt traffic to custom origins
+# CloudFront distributions should not use deprecated SSL protocols between edge locations and custom origins
 
 | Provider            | Category |
 | ------------------- | -------- |
-| Amazon Web Services | Encryption of data-in-transit |
+| Amazon Web Services | CLOUDFRONT |
 
 ## Description
 
-This control checks if Amazon CloudFront distributions are encrypting traffic to custom origins. This control fails for a CloudFront distribution whose origin protocol policy allows 'http-only'. This control also fails if the distribution's origin protocol policy is 'match-viewer' while the viewer protocol policy is 'allow-all'.
+This control checks if Amazon CloudFront distributions are using deprecated SSL protocols for HTTPS communication between CloudFront edge locations and your custom origins. This control fails if a CloudFront distribution has a CustomOriginConfig where OriginSslProtocols includes SSLv3.
 
-HTTPS (TLS) can be used to help prevent eavesdropping or manipulation of network traffic. Only encrypted connections over HTTPS (TLS) should be allowed.
+In 2015, the Internet Engineering Task Force (IETF) officially announced that SSL 3.0 should be deprecated due to the protocol being insufficiently secure. It is recommended that you use TLSv1.2 or later for HTTPS communication to your custom origins.
 
 This rule is covered by the [cloudfront-no-deprecated-ssl-protocols](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-no-deprecated-ssl-protocols.policy.hcl) policy.
 
