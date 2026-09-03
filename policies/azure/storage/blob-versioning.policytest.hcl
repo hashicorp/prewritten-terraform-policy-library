@@ -29,6 +29,33 @@ resource "azurerm_storage_account" "pass_storage_v1_outside_scope" {
   }
 }
 
+resource "azurerm_storage_account" "pass_file_storage_outside_scope" {
+  attrs = {
+    name                     = "passfilestorageacct"
+    resource_group_name      = "validation-resource-group"
+    location                 = "West Europe"
+    account_tier             = "Premium"
+    account_replication_type = "LRS"
+    account_kind             = "FileStorage"
+  }
+}
+
+resource "azurerm_storage_account" "pass_blob_properties_list_form" {
+  attrs = {
+    name                     = "passlistformacct"
+    resource_group_name      = "validation-resource-group"
+    location                 = "West Europe"
+    account_tier             = "Standard"
+    account_replication_type = "LRS"
+    account_kind             = "StorageV2"
+    blob_properties = [
+      {
+        versioning_enabled = true
+      }
+    ]
+  }
+}
+
 resource "azurerm_storage_account" "fail_versioning_disabled" {
   expect_failure = true
   attrs = {

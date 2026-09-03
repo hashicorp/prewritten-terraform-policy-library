@@ -118,3 +118,26 @@ resource "azurerm_storage_account" "fail_retention_above_maximum" {
     }]
   }
 }
+
+resource "azurerm_storage_account" "pass_unsupported_kind_blob" {
+  attrs = {
+    name                     = "passunsupportedblob"
+    resource_group_name      = "validation-resource-group"
+    location                 = "eastus"
+    account_tier             = "Standard"
+    account_replication_type = "LRS"
+    account_kind             = "BlobStorage"
+  }
+}
+
+resource "azurerm_storage_account" "pass_unsupported_kind_block_blob" {
+  attrs = {
+    name                     = "passunsupportedblockblob"
+    resource_group_name      = "validation-resource-group"
+    location                 = "eastus"
+    account_tier             = "Standard"
+    account_replication_type = "LRS"
+    account_kind             = "BlockBlobStorage"
+  }
+}
+

@@ -14,7 +14,7 @@ policy {
 resource_policy "azurerm_storage_account" "cross_tenant_replication_disabled" {
   locals {
     cross_tenant_replication_enabled_raw = core::try(attrs.cross_tenant_replication_enabled, null)
-    cross_tenant_replication_enabled     = local.cross_tenant_replication_enabled_raw == null ? false : local.cross_tenant_replication_enabled_raw
+    cross_tenant_replication_enabled     = local.cross_tenant_replication_enabled_raw == null ? true : local.cross_tenant_replication_enabled_raw
   }
 
   enforcement_level = "advisory"
