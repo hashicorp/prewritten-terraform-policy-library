@@ -19,13 +19,13 @@ resource_policy "azurerm_role_assignment" "subscription_owner_count" {
     scope_raw          = core::try(attrs.scope, null)
     scope              = local.scope_raw != null ? local.scope_raw : ""
     role_name_raw      = core::try(attrs.role_definition_name, null)
-    role_name          = local.role_name_raw != null ? core::lower(local.role_name_raw) : ""
+    role_name          = local.role_name_raw != null ? local.role_name_raw : ""
     role_id_raw        = core::try(attrs.role_definition_id, null)
-    role_id            = local.role_id_raw != null ? core::lower(local.role_id_raw) : ""
-    is_owner           = local.role_name == "owner" || core::endswith(local.role_id, "8e3af657-a8ff-443c-a75c-2fe8c4bcb635")
-    is_subscription    = core::try(core::regex("^/subscriptions/[^/]+$", core::lower(local.scope)), null) != null
+    role_id            = local.role_id_raw != null ? local.role_id_raw : ""
+    is_owner           = local.role_name == "Owner" || core::endswith(local.role_id, "8e3af657-a8ff-443c-a75c-2fe8c4bcb635")
+    is_subscription    = core::try(core::regex("^/subscriptions/[^/]+$", local.scope), null) != null
     assignments        = core::getresources("azurerm_role_assignment", { scope = local.scope })
-    owner_assignments  = [for assignment in local.assignments : assignment if (core::try(assignment.role_definition_name, null) != null ? core::lower(assignment.role_definition_name) == "owner" : false) || (core::try(assignment.role_definition_id, null) != null ? core::endswith(core::lower(assignment.role_definition_id), "8e3af657-a8ff-443c-a75c-2fe8c4bcb635") : false)]
+    owner_assignments  = [for assignment in local.assignments : assignment if (core::try(assignment.role_definition_name, null) != null ? assignment.role_definition_name == "Owner" : false) || (core::try(assignment.role_definition_id, null) != null ? core::endswith(assignment.role_definition_id, "8e3af657-a8ff-443c-a75c-2fe8c4bcb635") : false)]
     owner_count        = core::length(local.owner_assignments)
     compliant          = local.owner_count >= 2 && local.owner_count <= 3
   }

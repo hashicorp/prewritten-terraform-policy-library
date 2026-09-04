@@ -30,7 +30,7 @@ resource "azurerm_role_assignment" "pass_maximum_three_owners" {
   attrs = {
     scope                = "/subscriptions/00000000-0000-0000-0000-000000000003"
     role_definition_name = null
-    role_definition_id   = "/subscriptions/00000000-0000-0000-0000-000000000003/providers/Microsoft.Authorization/roleDefinitions/8E3AF657-A8FF-443C-A75C-2FE8C4BCB635"
+    role_definition_id   = "/subscriptions/00000000-0000-0000-0000-000000000003/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
     principal_id         = "30000000-0000-0000-0000-000000000001"
     principal_type       = "User"
   }
