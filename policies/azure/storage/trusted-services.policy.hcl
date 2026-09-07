@@ -15,8 +15,8 @@ policy {
 # created storage account ID resolve during apply rather than during plan evaluation.
 resource_policy "azurerm_storage_account" "allow_trusted_microsoft_services" {
   locals {
-    public_network_access_raw = core::try(attrs.public_network_access_enabled, null)
-    public_network_access     = local.public_network_access_raw == null ? true : local.public_network_access_raw
+    public_network_access_raw = core::try(attrs.public_network_access, null)
+    public_network_access     = local.public_network_access_raw == null ? "Enabled" : local.public_network_access_raw
 
     inline_rules         = core::try(attrs.network_rules, null)
     has_inline_rules     = local.inline_rules != null
@@ -31,8 +31,8 @@ resource_policy "azurerm_storage_account" "allow_trusted_microsoft_services" {
     standalone_bypass     = local.standalone_bypass_raw != null ? local.standalone_bypass_raw : []
 
     configuration_valid  = !(local.has_inline_rules && local.has_standalone_rules)
-    inline_in_scope     = local.public_network_access && local.has_inline_rules && local.inline_default == "Deny"
-    standalone_in_scope = local.public_network_access && !local.has_inline_rules && local.has_standalone_rules && local.standalone_default == "Deny"
+    inline_in_scope     = local.public_network_access == "Enabled" && local.has_inline_rules && local.inline_default == "Deny"
+    standalone_in_scope = local.public_network_access == "Enabled" && !local.has_inline_rules && local.has_standalone_rules && local.standalone_default == "Deny"
     in_scope            = local.inline_in_scope || local.standalone_in_scope
     trusted_services    = local.inline_in_scope ? core::contains(local.inline_bypass, "AzureServices") : core::contains(local.standalone_bypass, "AzureServices")
   }

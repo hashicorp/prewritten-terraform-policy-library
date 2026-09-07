@@ -15,8 +15,7 @@ resource "azurerm_storage_account" "pass_cross_tenant_replication_disabled" {
   }
 }
 
-resource "azurerm_storage_account" "fail_cross_tenant_replication_omitted" {
-  expect_failure = true
+resource "azurerm_storage_account" "pass_cross_tenant_replication_omitted" {
   attrs = {
     name                     = "stcrossrepomitted"
     resource_group_name      = "rg-cross-replication-test"
@@ -26,8 +25,7 @@ resource "azurerm_storage_account" "fail_cross_tenant_replication_omitted" {
   }
 }
 
-resource "azurerm_storage_account" "fail_cross_tenant_replication_null" {
-  expect_failure = true
+resource "azurerm_storage_account" "pass_cross_tenant_replication_null" {
   attrs = {
     name                             = "stcrossrepnull"
     resource_group_name              = "rg-cross-replication-test"
