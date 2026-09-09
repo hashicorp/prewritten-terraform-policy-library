@@ -18,14 +18,12 @@ resource_policy "azurerm_storage_account" "file_share_soft_delete" {
     is_supported_kind = core::contains(["StorageV2", "FileStorage"], local.account_kind)
 
     share_properties_raw = core::try(attrs.share_properties, null)
-    share_properties     = local.share_properties_raw != null ? local.share_properties_raw : []
-    retention_policy_raw = core::try(local.share_properties[0].retention_policy, null)
-    retention_policy     = local.retention_policy_raw != null ? local.retention_policy_raw : []
+    retention_policy_raw = core::try(attrs.share_properties[0].retention_policy, core::try(attrs.share_properties.retention_policy, null))
 
     has_share_properties       = local.share_properties_raw != null
     has_retention_policy       = local.retention_policy_raw != null
-    retention_days             = core::try(local.retention_policy[0].days, core::try(local.retention_policy.days, 0))
-    has_valid_retention_period = local.retention_days >= 1 && local.retention_days <= 365
+    retention_days             = core::try(local.retention_policy_raw[0].days, core::try(local.retention_policy_raw.days, null))
+    has_valid_retention_period = core::try(local.retention_days >= 1 && local.retention_days <= 365, false)
 
     is_compliant = !local.is_supported_kind || (local.has_share_properties && local.has_retention_policy && local.has_valid_retention_period)
   }
