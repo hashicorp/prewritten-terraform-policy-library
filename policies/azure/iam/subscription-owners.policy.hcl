@@ -11,9 +11,6 @@ policy {
   }
 }
 
-# LIMITATION: The count includes only azurerm_role_assignment resources visible to
-# the current tfpolicy evaluation. It cannot discover role assignments managed
-# outside Terraform or subscriptions represented by no role assignment resource.
 resource_policy "azurerm_role_assignment" "subscription_owner_count" {
   locals {
     scope_raw          = core::try(attrs.scope, null)

@@ -11,8 +11,6 @@ policy {
   }
 }
 
-# NOTE: Standalone azurerm_storage_account_network_rules lookups that depend on a newly
-# created storage account ID resolve during apply rather than during plan evaluation.
 resource_policy "azurerm_storage_account" "allow_trusted_microsoft_services" {
   locals {
     public_network_access_enabled_raw = core::try(attrs.public_network_access_enabled, null)
