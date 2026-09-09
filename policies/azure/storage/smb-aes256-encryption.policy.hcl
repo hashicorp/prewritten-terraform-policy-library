@@ -17,10 +17,8 @@ resource_policy "azurerm_storage_account" "require_smb_aes256_encryption" {
     is_supported_kind = core::contains(["StorageV2", "FileStorage"], local.account_kind)
 
     share_properties_raw = core::try(attrs.share_properties, null)
-    share_properties     = local.share_properties_raw != null ? local.share_properties_raw : []
-    smb_raw              = core::try(local.share_properties[0].smb, null)
-    smb                  = local.smb_raw != null ? local.smb_raw : []
-    encryption_types_raw = core::try(local.smb[0].channel_encryption_type, core::try(local.smb.channel_encryption_type, null))
+    smb_raw              = core::try(attrs.share_properties[0].smb, core::try(attrs.share_properties.smb, null))
+    encryption_types_raw = core::try(local.smb_raw[0].channel_encryption_type, core::try(local.smb_raw.channel_encryption_type, null))
     encryption_types     = local.encryption_types_raw != null ? local.encryption_types_raw : []
     has_aes_256_gcm      = core::contains(local.encryption_types, "AES-256-GCM")
     weak_encryption_types = [for encryption_type in local.encryption_types : encryption_type
