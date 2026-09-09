@@ -10,6 +10,11 @@ policy {
   }
 }
 
+input "smb-aes256-encryption-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 resource_policy "azurerm_storage_account" "require_smb_aes256_encryption" {
   locals {
     account_kind_raw  = core::try(attrs.account_kind, null)
@@ -26,7 +31,7 @@ resource_policy "azurerm_storage_account" "require_smb_aes256_encryption" {
     ]
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.smb-aes256-encryption-enforcement-level
   enforce {
     condition     = !local.is_supported_kind || (local.has_aes_256_gcm && core::length(local.weak_encryption_types) == 0)
     error_message = "Storage accounts with SMB file shares must allow AES-256-GCM channel encryption and must not allow AES-128-CCM or AES-128-GCM. Configure share_properties.smb.channel_encryption_type with only AES-256-GCM."

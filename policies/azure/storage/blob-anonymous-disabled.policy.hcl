@@ -11,6 +11,11 @@ policy {
   }
 }
 
+input "blob-anonymous-disabled-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 # NOTE: FileStorage and BlockBlobStorage account kinds do not support the
 # allow_nested_items_to_be_public attribute — the azurerm provider rejects it
 # at plan time for these kinds.
@@ -23,7 +28,7 @@ resource_policy "azurerm_storage_account" "blob_anonymous_access_disabled" {
     allow_public     = local.allow_public_raw == null ? true : local.allow_public_raw
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.blob-anonymous-disabled-enforcement-level
   enforce {
     condition     = local.unsupported_kind || local.allow_public == false
     error_message = "Storage accounts must set allow_nested_items_to_be_public to false to disable anonymous blob access."

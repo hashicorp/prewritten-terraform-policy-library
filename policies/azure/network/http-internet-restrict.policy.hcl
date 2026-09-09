@@ -11,6 +11,11 @@ policy {
   }
 }
 
+input "http-internet-restrict-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 resource_policy "azurerm_network_security_group" "restrict_internet_http_https_access" {
   locals {
     security_rules_raw = core::try(attrs.security_rule, null)
@@ -29,7 +34,7 @@ resource_policy "azurerm_network_security_group" "restrict_internet_http_https_a
     violations_multiple_ports = [for rule in local.inbound_allow_tcp_rules : rule if core::length([for port in rule.destination_port_ranges : port if core::contains(["80", "443", "*"], port) || (core::length(core::split("-", port)) == 2 && core::try(core::parseint(core::split("-", port)[0], 10), -1) <= 80 && core::try(core::parseint(core::split("-", port)[1], 10), -1) >= 80) || (core::length(core::split("-", port)) == 2 && core::try(core::parseint(core::split("-", port)[0], 10), -1) <= 443 && core::try(core::parseint(core::split("-", port)[1], 10), -1) >= 443)]) > 0 && (core::contains(["0.0.0.0/0", "Internet", "*"], rule.source_address_prefix) || core::length([for source in rule.source_address_prefixes : source if core::contains(["0.0.0.0/0", "Internet", "*"], source)]) > 0)]
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.http-internet-restrict-enforcement-level
   enforce {
     condition     = core::length(local.violations_single_port) == 0 && core::length(local.violations_multiple_ports) == 0
     error_message = "Network security groups must not allow inbound HTTP or HTTPS traffic from Internet-level sources. Remove the rule or narrow its source address prefixes."

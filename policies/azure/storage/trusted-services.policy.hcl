@@ -11,6 +11,11 @@ policy {
   }
 }
 
+input "trusted-services-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 resource_policy "azurerm_storage_account" "allow_trusted_microsoft_services" {
   locals {
     public_network_access_enabled_raw = core::try(attrs.public_network_access_enabled, null)
@@ -35,7 +40,7 @@ resource_policy "azurerm_storage_account" "allow_trusted_microsoft_services" {
     trusted_services    = local.inline_in_scope ? core::contains(local.inline_bypass, "AzureServices") : core::contains(local.standalone_bypass, "AzureServices")
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.trusted-services-enforcement-level
   enforce {
     condition     = local.configuration_valid
     error_message = "Storage account must not define both inline network_rules and a standalone azurerm_storage_account_network_rules resource simultaneously — use one or the other."

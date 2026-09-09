@@ -11,6 +11,11 @@ policy {
   }
 }
 
+input "file-share-soft-delete-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 resource_policy "azurerm_storage_account" "file_share_soft_delete" {
   locals {
     account_kind_raw  = core::try(attrs.account_kind, null)
@@ -28,7 +33,7 @@ resource_policy "azurerm_storage_account" "file_share_soft_delete" {
     is_compliant = !local.is_supported_kind || (local.has_share_properties && local.has_retention_policy && local.has_valid_retention_period)
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.file-share-soft-delete-enforcement-level
   enforce {
     condition     = local.is_compliant
     error_message = "Azure Storage Accounts must enable file-share soft delete by configuring share_properties.retention_policy.days between 1 and 365 days."
