@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run tfpolicy tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install tfpolicy (latest)
+        run: |
+          LATEST_VERSION=$(curl -fsSL https://releases.hashicorp.com/tfpolicy/index.json \
+            | grep -o '"[0-9]*\.[0-9]*\.[0-9]*"' \
+            | tr -d '"' \
+            | sort -V \
+            | tail -1)
+          echo "Installing tfpolicy ${LATEST_VERSION}"
+          curl -fsSL "https://releases.hashicorp.com/tfpolicy/${LATEST_VERSION}/tfpolicy_${LATEST_VERSION}_linux_amd64.zip" \
+            -o /tmp/tfpolicy.zip
+          unzip -q /tmp/tfpolicy.zip -d /tmp/tfpolicy
+          sudo mv /tmp/tfpolicy/tfpolicy /usr/local/bin/tfpolicy
+          sudo chmod +x /usr/local/bin/tfpolicy
+          tfpolicy version
+
+      - name: Run policy tests
+        run: make tests
