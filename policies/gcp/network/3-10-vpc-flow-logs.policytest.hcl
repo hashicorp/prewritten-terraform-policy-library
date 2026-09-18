@@ -11,11 +11,44 @@ resource "google_compute_subnetwork" "pass_compliant_flow_logs" {
     region        = "us-central1"
     network       = "validation-network"
     purpose       = "PRIVATE"
-    log_config = {
+    log_config = [{
       aggregation_interval = "INTERVAL_5_SEC"
       flow_sampling        = 1
       metadata             = "INCLUDE_ALL_METADATA"
-    }
+    }]
+  }
+}
+
+resource "google_compute_subnetwork" "pass_explicit_filter_expr_true" {
+  attrs = {
+    name          = "compliant-subnetwork-explicit-filter"
+    ip_cidr_range = "10.0.1.0/24"
+    region        = "us-central1"
+    network       = "validation-network"
+    purpose       = "PRIVATE"
+    log_config = [{
+      aggregation_interval = "INTERVAL_5_SEC"
+      flow_sampling        = 1
+      metadata             = "INCLUDE_ALL_METADATA"
+      filter_expr          = "true"
+    }]
+  }
+}
+
+resource "google_compute_subnetwork" "fail_filter_expr_false" {
+  expect_failure = true
+  attrs = {
+    name          = "no-export-subnetwork"
+    ip_cidr_range = "10.0.2.0/24"
+    region        = "us-central1"
+    network       = "validation-network"
+    purpose       = "PRIVATE"
+    log_config = [{
+      aggregation_interval = "INTERVAL_5_SEC"
+      flow_sampling        = 1
+      metadata             = "INCLUDE_ALL_METADATA"
+      filter_expr          = "false"
+    }]
   }
 }
 
@@ -70,11 +103,11 @@ resource "google_compute_subnetwork" "fail_wrong_aggregation_interval" {
     region        = "us-central1"
     network       = "validation-network"
     purpose       = "PRIVATE"
-    log_config = {
+    log_config = [{
       aggregation_interval = "INTERVAL_30_SEC"
       flow_sampling        = 1
       metadata             = "INCLUDE_ALL_METADATA"
-    }
+    }]
   }
 }
 
@@ -86,11 +119,11 @@ resource "google_compute_subnetwork" "fail_wrong_flow_sampling" {
     region        = "us-central1"
     network       = "validation-network"
     purpose       = "PRIVATE"
-    log_config = {
+    log_config = [{
       aggregation_interval = "INTERVAL_5_SEC"
       flow_sampling        = 0.5
       metadata             = "INCLUDE_ALL_METADATA"
-    }
+    }]
   }
 }
 
@@ -102,10 +135,10 @@ resource "google_compute_subnetwork" "fail_wrong_metadata" {
     region        = "us-central1"
     network       = "validation-network"
     purpose       = "PRIVATE"
-    log_config = {
+    log_config = [{
       aggregation_interval = "INTERVAL_5_SEC"
       flow_sampling        = 1
       metadata             = "EXCLUDE_ALL_METADATA"
-    }
+    }]
   }
 }

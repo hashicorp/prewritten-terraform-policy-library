@@ -27,6 +27,18 @@ resource "google_compute_firewall" "fail_unrestricted_tcp_22" {
   }
 }
 
+resource "google_compute_firewall" "fail_unrestricted_numeric_tcp_22" {
+  expect_failure = true
+  attrs = {
+    name          = "internet-ssh-numeric-protocol"
+    network       = "default"
+    direction     = "INGRESS"
+    disabled      = false
+    source_ranges = ["0.0.0.0/0"]
+    allow         = [{ protocol = "6", ports = ["22"] }]
+  }
+}
+
 resource "google_compute_firewall" "fail_unrestricted_all_ports_omitted" {
   expect_failure = true
   attrs = {
@@ -125,5 +137,57 @@ resource "google_compute_firewall" "pass_null_allow" {
     disabled      = false
     source_ranges = ["0.0.0.0/0"]
     allow         = null
+  }
+}
+
+# source_ranges accepts IPv6 as well as IPv4, so "::/0" is just as open to
+# the internet as "0.0.0.0/0".
+resource "google_compute_firewall" "fail_unrestricted_ipv6" {
+  expect_failure = true
+  attrs = {
+    name          = "ipv6-internet-ssh"
+    network       = "default"
+    direction     = "INGRESS"
+    disabled      = false
+    source_ranges = ["::/0"]
+    allow         = [{ protocol = "tcp", ports = ["22"] }]
+  }
+}
+
+# Non-canonical spellings of the all-addresses range are matched on their
+# "/0" prefix length rather than on the literal address text.
+resource "google_compute_firewall" "fail_unrestricted_ipv6_expanded" {
+  expect_failure = true
+  attrs = {
+    name          = "ipv6-expanded-internet-ssh"
+    network       = "default"
+    direction     = "INGRESS"
+    disabled      = false
+    source_ranges = ["0:0:0:0:0:0:0:0/0"]
+    allow         = [{ protocol = "tcp", ports = ["22"] }]
+  }
+}
+
+resource "google_compute_firewall" "fail_unrestricted_dual_stack" {
+  expect_failure = true
+  attrs = {
+    name          = "dual-stack-internet-ssh"
+    network       = "default"
+    direction     = "INGRESS"
+    disabled      = false
+    source_ranges = ["0.0.0.0/0", "::/0"]
+    allow         = [{ protocol = "tcp", ports = ["22"] }]
+  }
+}
+
+# A bounded IPv6 prefix is not unrestricted and must still pass.
+resource "google_compute_firewall" "pass_trusted_ipv6_range" {
+  attrs = {
+    name          = "trusted-ipv6-ssh"
+    network       = "default"
+    direction     = "INGRESS"
+    disabled      = false
+    source_ranges = ["2001:db8::/32"]
+    allow         = [{ protocol = "tcp", ports = ["22"] }]
   }
 }
