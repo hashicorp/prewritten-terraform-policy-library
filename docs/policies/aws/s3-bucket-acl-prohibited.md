@@ -15,30 +15,28 @@ This rule is covered by the [s3-bucket-acl-prohibited](https://github.com/hashic
 
 ```bash
 trace:
-      # s3-bucket-acl-prohibited.policytest.hcl...
-      running
-      # resource.aws_s3_bucket.bucket_pass...
-      running
-      # resource.aws_s3_bucket.bucket_pass...
-      pass
-      # resource.aws_s3_bucket_ownership_controls.ownership_controls_pass...
-      running
-      # resource.aws_s3_bucket_ownership_controls.ownership_controls_pass...
-      pass
-      # resource.aws_s3_bucket.bucket_acl_fail...
-      running
-      # resource.aws_s3_bucket.bucket_acl_fail...
-      pass
-      # resource.aws_s3_bucket_acl.bucket_acl_fail...
-      running
-      # resource.aws_s3_bucket_acl.bucket_acl_fail...
-      pass
-      # resource.aws_s3_bucket_ownership_controls.ownership_controls_fail...
-      running
-      # resource.aws_s3_bucket_ownership_controls.ownership_controls_fail...
-      pass
-      # s3-bucket-acl-prohibited.policytest.hcl...
-      pass
+      # s3-bucket-acl-prohibited.policytest.hcl... running
+      # resource.aws_s3_bucket.fail_canned_private... running
+      # resource.aws_s3_bucket.fail_canned_private... pass
+      # resource.aws_s3_bucket_acl.fail_canned_private_acl... running
+      # resource.aws_s3_bucket_acl.fail_canned_private_acl... pass
+      # resource.aws_s3_bucket.fail_canned_public_read... running
+      # resource.aws_s3_bucket.fail_canned_public_read... pass
+      # resource.aws_s3_bucket_acl.fail_canned_public_read_acl... running
+      # resource.aws_s3_bucket_acl.fail_canned_public_read_acl... pass
+      # resource.aws_s3_bucket.fail_acp_grants... running
+      # resource.aws_s3_bucket.fail_acp_grants... pass
+      # resource.aws_s3_bucket_acl.fail_acp_grants_acl... running
+      # resource.aws_s3_bucket_acl.fail_acp_grants_acl... pass
+      # resource.aws_s3_bucket.pass_no_acl_resource... running
+      # resource.aws_s3_bucket.pass_no_acl_resource... pass
+      # resource.aws_s3_bucket.pass_acl_resource_without_grants... running
+      # resource.aws_s3_bucket.pass_acl_resource_without_grants... pass
+      # resource.aws_s3_bucket_acl.pass_acl_resource_without_grants_acl... running
+      # resource.aws_s3_bucket_acl.pass_acl_resource_without_grants_acl... pass
+      # resource.aws_s3_bucket.fail_direct_canned_acl... running
+      # resource.aws_s3_bucket.fail_direct_canned_acl... pass
+      # s3-bucket-acl-prohibited.policytest.hcl... pass
 ```
 
 ---

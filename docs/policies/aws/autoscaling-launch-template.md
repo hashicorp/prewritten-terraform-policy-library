@@ -16,22 +16,18 @@ This rule is covered by the [autoscaling-launch-template](https://github.com/has
 
 ```bash
 trace:
-	# autoscaling-launch-template.policytest.hcl...
-	running
-	# resource.aws_autoscaling_group.pass_with_launch_template...
-	running
-	# resource.aws_autoscaling_group.pass_with_launch_template...
-	pass
-	# resource.aws_autoscaling_group.fail_with_launch_configuration...
-	running
-	# resource.aws_autoscaling_group.fail_with_launch_configuration...
-	pass
-	# resource.aws_autoscaling_group.fail_missing_both...
-	running
-	# resource.aws_autoscaling_group.fail_missing_both...
-	pass
-	# autoscaling-launch-template.policytest.hcl...
-	pass
+	# autoscaling-launch-template.policytest.hcl... running
+	# resource.aws_autoscaling_group.with_template... running
+	# resource.aws_autoscaling_group.with_template... pass
+	# resource.aws_autoscaling_group.with_mixed_policy... running
+	# resource.aws_autoscaling_group.with_mixed_policy... pass
+	# resource.aws_autoscaling_group.with_both... running
+	# resource.aws_autoscaling_group.with_both... pass
+	# resource.aws_autoscaling_group.only_config... running
+	# resource.aws_autoscaling_group.only_config... pass
+	# resource.aws_autoscaling_group.no_launch_method... running
+	# resource.aws_autoscaling_group.no_launch_method... pass
+	# autoscaling-launch-template.policytest.hcl... pass
 ```
 
 ---

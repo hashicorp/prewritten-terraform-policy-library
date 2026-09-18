@@ -29,6 +29,12 @@ trace:
       # resource.aws_elasticache_cluster.fail_explicit_default_sg... pass
       # resource.aws_elasticache_cluster.fail_missing_sg... running
       # resource.aws_elasticache_cluster.fail_missing_sg... pass
+      # resource.aws_elasticache_replication_group.pass_rg_custom_subnet... running
+      # resource.aws_elasticache_replication_group.pass_rg_custom_subnet... pass
+      # resource.aws_elasticache_replication_group.fail_rg_explicit_default... running
+      # resource.aws_elasticache_replication_group.fail_rg_explicit_default... pass
+      # resource.aws_elasticache_replication_group.fail_rg_missing_subnet... running
+      # resource.aws_elasticache_replication_group.fail_rg_missing_subnet... pass
       # elasticache-subnet-group-check.policytest.hcl... pass
 ```
 

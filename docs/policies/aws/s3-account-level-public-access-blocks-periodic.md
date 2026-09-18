@@ -37,8 +37,8 @@ trace:
       # resource.aws_s3_account_public_access_block.fail_all_settings_disabled... pass
       # resource.aws_s3_account_public_access_block.fail_multiple_settings_disabled... running
       # resource.aws_s3_account_public_access_block.fail_multiple_settings_disabled... pass
-      # resource.aws_s3_account_public_access_block.fail_settings_not_configured... running
-      # resource.aws_s3_account_public_access_block.fail_settings_not_configured... pass
+      # resource.aws_s3_account_public_access_block.pass_settings_not_configured... running
+      # resource.aws_s3_account_public_access_block.pass_settings_not_configured... pass
       # s3-account-level-public-access-blocks-periodic.policytest.hcl... pass
 ```
 

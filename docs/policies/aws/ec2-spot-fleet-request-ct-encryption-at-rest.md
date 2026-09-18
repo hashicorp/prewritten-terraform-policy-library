@@ -18,46 +18,26 @@ This rule is covered by the [ec2-spot-fleet-request-ct-encryption-at-rest](https
 
 ```bash
 trace:
-      # ec2-spot-fleet-request-ct-encryption-at-rest.policytest.hcl...
-      running
-      # resource.aws_spot_fleet_request.pass_encrypted_volumes...
-      running
-      # resource.aws_spot_fleet_request.pass_encrypted_volumes...
-      pass
-      # resource.aws_spot_fleet_request.fail_unencrypted_root_device...
-      running
-      # resource.aws_spot_fleet_request.fail_unencrypted_root_device...
-      pass
-      # resource.aws_spot_fleet_request.fail_unencrypted_ebs_device...
-      running
-      # resource.aws_spot_fleet_request.fail_unencrypted_ebs_device...
-      pass
-      # resource.aws_spot_fleet_request.fail_both_unencrypted...
-      running
-      # resource.aws_spot_fleet_request.fail_both_unencrypted...
-      pass
-      # resource.aws_spot_fleet_request.fail_multiple_specs_mixed...
-      running
-      # resource.aws_spot_fleet_request.fail_multiple_specs_mixed...
-      pass
-      # resource.aws_spot_fleet_request.fail_explicit_false...
-      running
-      # resource.aws_spot_fleet_request.fail_explicit_false...
-      pass
-      # resource.aws_spot_fleet_request.filtered_launch_template...
-      running
-      # resource.aws_spot_fleet_request.filtered_launch_template...
-      pass
-      # resource.aws_spot_fleet_request.filtered_no_launch_spec...
-      running
-      # resource.aws_spot_fleet_request.filtered_no_launch_spec...
-      pass
-      # resource.aws_spot_fleet_request.pass_multiple_specs_all_encrypted...
-      running
-      # resource.aws_spot_fleet_request.pass_multiple_specs_all_encrypted...
-      pass
-      # ec2-spot-fleet-request-ct-encryption-at-rest.policytest.hcl...
-      pass
+      # ec2-spot-fleet-request-ct-encryption-at-rest.policytest.hcl... running
+      # resource.aws_spot_fleet_request.pass_encrypted_volumes... running
+      # resource.aws_spot_fleet_request.pass_encrypted_volumes... pass
+      # resource.aws_spot_fleet_request.fail_unencrypted_root_device... running
+      # resource.aws_spot_fleet_request.fail_unencrypted_root_device... pass
+      # resource.aws_spot_fleet_request.fail_unencrypted_ebs_device... running
+      # resource.aws_spot_fleet_request.fail_unencrypted_ebs_device... pass
+      # resource.aws_spot_fleet_request.fail_both_unencrypted... running
+      # resource.aws_spot_fleet_request.fail_both_unencrypted... pass
+      # resource.aws_spot_fleet_request.fail_multiple_specs_mixed... running
+      # resource.aws_spot_fleet_request.fail_multiple_specs_mixed... pass
+      # resource.aws_spot_fleet_request.fail_explicit_false... running
+      # resource.aws_spot_fleet_request.fail_explicit_false... pass
+      # resource.aws_spot_fleet_request.fail_launch_template_no_spec... running
+      # resource.aws_spot_fleet_request.fail_launch_template_no_spec... pass
+      # resource.aws_spot_fleet_request.fail_no_launch_spec... running
+      # resource.aws_spot_fleet_request.fail_no_launch_spec... pass
+      # resource.aws_spot_fleet_request.pass_multiple_specs_all_encrypted... running
+      # resource.aws_spot_fleet_request.pass_multiple_specs_all_encrypted... pass
+      # ec2-spot-fleet-request-ct-encryption-at-rest.policytest.hcl... pass
 ```
 
 ---

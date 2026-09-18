@@ -17,22 +17,38 @@ This rule is covered by the [emr-master-no-public-ip](https://github.com/hashico
 
 ```bash
 trace:
-      # emr-master-no-public-ip.policytest.hcl...
-      running
-      # resource.aws_emr_cluster.pass_private_subnet_with_subnet_id...
-      running
-      # resource.aws_emr_cluster.pass_private_subnet_with_subnet_id...
-      pass
-      # resource.aws_emr_cluster.fail_public_subnet_with_subnet_id...
-      running
-      # resource.aws_emr_cluster.fail_public_subnet_with_subnet_id...
-      pass
-      # resource.aws_emr_cluster.fail_missing_subnet_config...
-      running
-      # resource.aws_emr_cluster.fail_missing_subnet_config...
-      pass
-      # emr-master-no-public-ip.policytest.hcl...
-      pass
+      # emr-master-no-public-ip.policytest.hcl... running
+      # resource.aws_emr_cluster.pass_private_subnet_with_subnet_id... running
+      # resource.aws_emr_cluster.pass_private_subnet_with_subnet_id... pass
+      # resource.aws_subnet.private_subnet_1... running
+      # resource.aws_subnet.private_subnet_1... pass
+      # resource.aws_emr_cluster.fail_public_subnet_with_subnet_id... running
+      # resource.aws_emr_cluster.fail_public_subnet_with_subnet_id... pass
+      # resource.aws_subnet.public_subnet_1... running
+      # resource.aws_subnet.public_subnet_1... pass
+      # resource.aws_emr_cluster.pass_private_subnet_with_subnet_ids... running
+      # resource.aws_emr_cluster.pass_private_subnet_with_subnet_ids... pass
+      # resource.aws_subnet.private_subnet_2... running
+      # resource.aws_subnet.private_subnet_2... pass
+      # resource.aws_subnet.private_subnet_3... running
+      # resource.aws_subnet.private_subnet_3... pass
+      # resource.aws_emr_cluster.fail_public_subnet_with_subnet_ids... running
+      # resource.aws_emr_cluster.fail_public_subnet_with_subnet_ids... pass
+      # resource.aws_subnet.public_subnet_2... running
+      # resource.aws_subnet.public_subnet_2... pass
+      # resource.aws_subnet.private_subnet_4... running
+      # resource.aws_subnet.private_subnet_4... pass
+      # resource.aws_emr_cluster.fail_missing_ec2_attributes... running
+      # resource.aws_emr_cluster.fail_missing_ec2_attributes... pass
+      # resource.aws_emr_cluster.fail_missing_subnet_config... running
+      # resource.aws_emr_cluster.fail_missing_subnet_config... pass
+      # resource.aws_emr_cluster.fail_mixed_subnet_ids_non_first_public... running
+      # resource.aws_emr_cluster.fail_mixed_subnet_ids_non_first_public... pass
+      # resource.aws_subnet.mixed_private_subnet... running
+      # resource.aws_subnet.mixed_private_subnet... pass
+      # resource.aws_subnet.mixed_public_subnet... running
+      # resource.aws_subnet.mixed_public_subnet... pass
+      # emr-master-no-public-ip.policytest.hcl... pass
 ```
 
 ---

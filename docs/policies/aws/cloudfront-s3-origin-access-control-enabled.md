@@ -16,50 +16,46 @@ This rule is covered by the [cloudfront-s3-origin-access-control-enabled](https:
 
 ```bash
 trace:
-      # cloudfront-s3-origin-access-control-enabled.policytest.hcl...
-      running
-      # resource.aws_cloudfront_distribution.pass_s3_origin_with_oac...
-      running
-      # resource.aws_cloudfront_distribution.pass_s3_origin_with_oac...
-      pass
-      # resource.aws_cloudfront_distribution.fail_s3_origin_without_oac...
-      running
-      # resource.aws_cloudfront_distribution.fail_s3_origin_without_oac...
-      pass
-      # resource.aws_cloudfront_distribution.pass_multiple_s3_origins_all_with_oac...
-      running
-      # resource.aws_cloudfront_distribution.pass_multiple_s3_origins_all_with_oac...
-      pass
-      # resource.aws_cloudfront_distribution.fail_multiple_s3_origins_partial_oac...
-      running
-      # resource.aws_cloudfront_distribution.fail_multiple_s3_origins_partial_oac...
-      pass
-      # resource.aws_cloudfront_distribution.pass_custom_origin_only...
-      running
-      # resource.aws_cloudfront_distribution.pass_custom_origin_only...
-      pass
-      # resource.aws_cloudfront_distribution.pass_s3_website_origin_with_oac...
-      running
-      # resource.aws_cloudfront_distribution.pass_s3_website_origin_with_oac...
-      pass
-      # resource.aws_cloudfront_origin_access_control.pass_oac_correct_config...
-      running
-      # resource.aws_cloudfront_origin_access_control.pass_oac_correct_config...
-      pass
-      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_signing_behavior...
-      running
-      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_signing_behavior...
-      pass
-      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_signing_protocol...
-      running
-      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_signing_protocol...
-      pass
-      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_origin_type...
-      running
-      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_origin_type...
-      pass
-      # cloudfront-s3-origin-access-control-enabled.policytest.hcl...
-      pass
+      # cloudfront-s3-origin-access-control-enabled.policytest.hcl... running
+      # resource.aws_cloudfront_distribution.pass_s3_origin_with_oac... running
+      # resource.aws_cloudfront_distribution.pass_s3_origin_with_oac... pass
+      # resource.aws_cloudfront_distribution.fail_s3_origin_without_oac... running
+      # resource.aws_cloudfront_distribution.fail_s3_origin_without_oac... pass
+      # resource.aws_cloudfront_distribution.pass_multiple_s3_origins_all_with_oac... running
+      # resource.aws_cloudfront_distribution.pass_multiple_s3_origins_all_with_oac... pass
+      # resource.aws_cloudfront_distribution.fail_multiple_s3_origins_partial_oac... running
+      # resource.aws_cloudfront_distribution.fail_multiple_s3_origins_partial_oac... pass
+      # resource.aws_cloudfront_distribution.pass_custom_origin_only... running
+      # resource.aws_cloudfront_distribution.pass_custom_origin_only... pass
+      # resource.aws_cloudfront_distribution.pass_s3_website_origin_with_oac... running
+      # resource.aws_cloudfront_distribution.pass_s3_website_origin_with_oac... pass
+      # resource.aws_cloudfront_origin_access_control.pass_oac_correct_config... running
+      # resource.aws_cloudfront_origin_access_control.pass_oac_correct_config... pass
+      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_signing_behavior... running
+      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_signing_behavior... pass
+      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_signing_protocol... running
+      # resource.aws_cloudfront_origin_access_control.fail_oac_wrong_signing_protocol... pass
+      # resource.aws_cloudfront_origin_access_control.pass_oac_non_s3_origin_type... running
+      # resource.aws_cloudfront_origin_access_control.pass_oac_non_s3_origin_type... pass
+      # resource.aws_cloudfront_distribution.fail_null_origin... running
+      # resource.aws_cloudfront_distribution.fail_null_origin... pass
+      # resource.aws_cloudfront_distribution.fail_empty_origin... running
+      # resource.aws_cloudfront_distribution.fail_empty_origin... pass
+      # resource.aws_cloudfront_distribution.fail_s3_origin_oac_id_null... running
+      # resource.aws_cloudfront_distribution.fail_s3_origin_oac_id_null... pass
+      # resource.aws_cloudfront_distribution.fail_s3_origin_oac_id_empty_string... running
+      # resource.aws_cloudfront_distribution.fail_s3_origin_oac_id_empty_string... pass
+      # resource.aws_cloudfront_distribution.pass_mixed_custom_and_s3_with_oac... running
+      # resource.aws_cloudfront_distribution.pass_mixed_custom_and_s3_with_oac... pass
+      # resource.aws_cloudfront_distribution.fail_mixed_custom_and_s3_without_oac... running
+      # resource.aws_cloudfront_distribution.fail_mixed_custom_and_s3_without_oac... pass
+      # resource.aws_cloudfront_origin_access_control.fail_oac_null_signing_behavior... running
+      # resource.aws_cloudfront_origin_access_control.fail_oac_null_signing_behavior... pass
+      # resource.aws_cloudfront_origin_access_control.fail_oac_null_signing_protocol... running
+      # resource.aws_cloudfront_origin_access_control.fail_oac_null_signing_protocol... pass
+      # resource.aws_cloudfront_origin_access_control.fail_oac_missing_both_signing_attrs... running
+      # resource.aws_cloudfront_origin_access_control.fail_oac_missing_both_signing_attrs... pass
+      # cloudfront-s3-origin-access-control-enabled.policytest.hcl... pass
 ```
 
 ---

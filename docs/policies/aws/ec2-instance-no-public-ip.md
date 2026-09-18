@@ -16,38 +16,24 @@ This rule is covered by the [ec2-instance-no-public-ip](https://github.com/hashi
 
 ```bash
 trace:
-      # ec2-instance-no-public-ip.policytest.hcl...
-      running
-      # resource.aws_instance.pass_no_attribute...
-      running
-      # resource.aws_instance.pass_no_attribute...
-      pass
-      # resource.aws_instance.pass_explicit_false...
-      running
-      # resource.aws_instance.pass_explicit_false...
-      pass
-      # resource.aws_instance.fail_explicit_true...
-      running
-      # resource.aws_instance.fail_explicit_true...
-      pass
-      # resource.aws_instance.pass_network_interface_false...
-      running
-      # resource.aws_instance.pass_network_interface_false...
-      pass
-      # resource.aws_instance.fail_network_interface_true...
-      running
-      # resource.aws_instance.fail_network_interface_true...
-      pass
-      # resource.aws_instance.fail_multiple_ni_one_public...
-      running
-      # resource.aws_instance.fail_multiple_ni_one_public...
-      pass
-      # resource.aws_instance.pass_both_configurations...
-      running
-      # resource.aws_instance.pass_both_configurations...
-      pass
-      # ec2-instance-no-public-ip.policytest.hcl...
-      pass
+      # ec2-instance-no-public-ip.policytest.hcl... running
+      # resource.aws_instance.pass_no_attribute... running
+      # resource.aws_instance.pass_no_attribute... pass
+      # resource.aws_subnet.private_subnet... running
+      # resource.aws_subnet.private_subnet... pass
+      # resource.aws_instance.pass_explicit_false... running
+      # resource.aws_instance.pass_explicit_false... pass
+      # resource.aws_instance.fail_explicit_true... running
+      # resource.aws_instance.fail_explicit_true... pass
+      # resource.aws_instance.fail_subnet_auto_assigns_public... running
+      # resource.aws_instance.fail_subnet_auto_assigns_public... pass
+      # resource.aws_subnet.auto_public_subnet... running
+      # resource.aws_subnet.auto_public_subnet... pass
+      # resource.aws_instance.pass_subnet_private... running
+      # resource.aws_instance.pass_subnet_private... pass
+      # resource.aws_subnet.explicitly_private_subnet... running
+      # resource.aws_subnet.explicitly_private_subnet... pass
+      # ec2-instance-no-public-ip.policytest.hcl... pass
 ```
 
 ---
