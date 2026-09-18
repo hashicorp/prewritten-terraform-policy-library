@@ -1,0 +1,53 @@
+# Ensure That Compute Instances Have Confidential Computing Enabled
+
+| Provider | Category |
+| -------- | -------- |
+| Google Cloud Platform | Compute security |
+
+## Description
+
+This control checks that a `google_compute_instance` includes a `confidential_instance_config` block with `enable_confidential_compute` explicitly set to `true`. Unlike Shielded VM settings, Confidential Computing has no provider-side default of `true` — it must be explicitly enabled, so an instance that omits the block, omits the field, or sets it to `false` is flagged. Confidential Computing is only available on the N2D, C2D, and N3D machine families, so instances using other machine types (e.g. `e2-micro`, `n1-standard-1`) are out of scope for this control.
+
+Confidential Computing encrypts data in-use, while it is being processed in memory, using hardware-based Trusted Execution Environments so that the underlying hypervisor and cloud provider cannot access memory contents in plaintext. Without it enabled, workloads that process sensitive data (e.g. secrets, PII, or regulated data) leave that data exposed to memory-level attacks during processing, even if the data is otherwise encrypted at rest and in transit.
+
+This rule is covered by the [4-11-confidential-vm](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/gcp/compute/4-11-confidential-vm.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+   # 4-11-confidential-vm.policytest.hcl... 
+   running
+   # resource.google_compute_instance.pass_confidential_computing_enabled... 
+   running
+   # resource.google_compute_instance.pass_confidential_computing_enabled... 
+   pass
+   # resource.google_compute_instance.fail_missing_confidential_config... 
+   running
+   # resource.google_compute_instance.fail_missing_confidential_config... 
+   pass
+   # resource.google_compute_instance.fail_missing_enable_attribute... 
+   running
+   # resource.google_compute_instance.fail_missing_enable_attribute... 
+   pass
+   # resource.google_compute_instance.fail_null_enable_attribute... 
+   running
+   # resource.google_compute_instance.fail_null_enable_attribute... 
+   pass
+   # resource.google_compute_instance.fail_confidential_computing_disabled... 
+   running
+   # resource.google_compute_instance.fail_confidential_computing_disabled... 
+   pass
+   # resource.google_compute_instance.pass_unsupported_machine_type_missing_config... 
+   running
+   # resource.google_compute_instance.pass_unsupported_machine_type_missing_config... 
+   pass
+   # resource.google_compute_instance.pass_c2d_case_insensitive_match... 
+   running
+   # resource.google_compute_instance.pass_c2d_case_insensitive_match... 
+   pass
+   # 4-11-confidential-vm.policytest.hcl... 
+   pass
+```
+
+---
