@@ -19,12 +19,20 @@ input "trusted-services-enforcement-level" {
 resource_policy "azurerm_storage_account" "allow_trusted_microsoft_services" {
   locals {
     public_network_access_enabled_raw = core::try(attrs.public_network_access_enabled, null)
-    public_network_access_enabled     = local.public_network_access_enabled_raw == null ? true : local.public_network_access_enabled_raw
+    public_network_access_enabled     = local.public_network_access_enabled_raw != null ? local.public_network_access_enabled_raw : true
 
-    inline_rules         = core::try(attrs.network_rules, null)
-    has_inline_rules     = local.inline_rules != null
-    inline_default       = core::try(local.inline_rules.default_action, "")
-    inline_bypass_raw    = core::try(local.inline_rules.bypass, null)
+    # network_rules is a list-typed block. An explicitly empty list (`network_rules = []`)
+    # is not null, so a bare null check is not enough to guard the [0] index below —
+    # coalesce to [] and test the length, otherwise indexing an empty list aborts
+    # policy evaluation. Note tfpolicy's && does NOT short-circuit, so the null must be
+    # removed before core::length sees it rather than guarded by a preceding condition.
+    inline_rules_raw     = core::try(attrs.network_rules, null)
+    inline_rules         = local.inline_rules_raw != null ? local.inline_rules_raw : []
+    has_inline_rules     = core::length(local.inline_rules) > 0
+    inline_rule          = local.has_inline_rules ? local.inline_rules[0] : null
+    inline_default_raw   = core::try(local.inline_rule.default_action, null)
+    inline_default       = local.inline_default_raw != null ? local.inline_default_raw : ""
+    inline_bypass_raw    = core::try(local.inline_rule.bypass, null)
     inline_bypass        = local.inline_bypass_raw != null ? local.inline_bypass_raw : []
 
     standalone_rules      = core::getresources("azurerm_storage_account_network_rules", { storage_account_id = attrs.id })

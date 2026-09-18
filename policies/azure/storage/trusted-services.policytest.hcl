@@ -13,10 +13,10 @@ resource "azurerm_storage_account" "pass_inline_azure_services" {
     account_tier                  = "Standard"
     account_replication_type      = "LRS"
     public_network_access_enabled = true
-    network_rules = {
+    network_rules = [{
       default_action = "Deny"
       bypass         = ["AzureServices"]
-    }
+    }]
   }
 }
 
@@ -30,9 +30,9 @@ resource "azurerm_storage_account" "fail_inline_bypass_omitted" {
     account_tier                  = "Standard"
     account_replication_type      = "LRS"
     public_network_access_enabled = true
-    network_rules = {
+    network_rules = [{
       default_action = "Deny"
-    }
+    }]
   }
 }
 
@@ -46,10 +46,10 @@ resource "azurerm_storage_account" "fail_inline_bypass_empty" {
     account_tier                  = "Standard"
     account_replication_type      = "LRS"
     public_network_access_enabled = true
-    network_rules = {
+    network_rules = [{
       default_action = "Deny"
       bypass         = []
-    }
+    }]
   }
 }
 
@@ -63,10 +63,10 @@ resource "azurerm_storage_account" "fail_inline_bypass_null" {
     account_tier                  = "Standard"
     account_replication_type      = "LRS"
     public_network_access_enabled = true
-    network_rules = {
+    network_rules = [{
       default_action = "Deny"
       bypass         = null
-    }
+    }]
   }
 }
 
@@ -144,10 +144,10 @@ resource "azurerm_storage_account" "fail_inline_and_standalone_combined" {
     account_tier                  = "Standard"
     account_replication_type      = "LRS"
     public_network_access_enabled = true
-    network_rules = {
+    network_rules = [{
       default_action = "Deny"
       bypass         = ["AzureServices"]
-    }
+    }]
   }
 }
 
@@ -169,9 +169,9 @@ resource "azurerm_storage_account" "pass_public_access_disabled" {
     account_tier                  = "Standard"
     account_replication_type      = "LRS"
     public_network_access_enabled = false
-    network_rules = {
+    network_rules = [{
       default_action = "Deny"
-    }
+    }]
   }
 }
 
@@ -184,9 +184,9 @@ resource "azurerm_storage_account" "pass_default_action_allow" {
     account_tier                  = "Standard"
     account_replication_type      = "LRS"
     public_network_access_enabled = true
-    network_rules = {
+    network_rules = [{
       default_action = "Allow"
-    }
+    }]
   }
 }
 
@@ -199,5 +199,19 @@ resource "azurerm_storage_account" "pass_no_network_rules" {
     account_tier                  = "Standard"
     account_replication_type      = "LRS"
     public_network_access_enabled = true
+  }
+}
+
+# Regression: an explicitly empty network_rules list must not abort policy evaluation.
+resource "azurerm_storage_account" "pass_empty_network_rules_list" {
+  attrs = {
+    id                            = "/subscriptions/test/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/passemptyrules"
+    name                          = "passemptyrules"
+    resource_group_name           = "rg"
+    location                      = "eastus"
+    account_tier                  = "Standard"
+    account_replication_type      = "LRS"
+    public_network_access_enabled = true
+    network_rules                 = []
   }
 }
