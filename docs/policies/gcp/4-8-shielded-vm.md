@@ -1,0 +1,53 @@
+# Ensure Compute Instances Are Launched With Shielded VM Enabled
+
+| Provider | Category |
+| -------- | -------- |
+| Google Cloud Platform | Compute security |
+
+## Description
+
+This control checks that a `google_compute_instance` includes a `shielded_instance_config` block with `enable_vtpm`, `enable_integrity_monitoring`, and `enable_secure_boot` all resolving to `true`. When `shielded_instance_config` is present but a field is omitted, the Google provider defaults `enable_vtpm` and `enable_integrity_monitoring` to `true`, but defaults `enable_secure_boot` to `false` — so an instance that omits the block entirely, leaves `enable_secure_boot` unset, or explicitly sets any of the three fields to `false`, is flagged.
+
+Shielded VM protects against rootkits and bootkits: secure boot verifies that only signed, trusted boot software runs; the virtual Trusted Platform Module (vTPM) enables integrity monitoring to verify the instance's boot integrity; and continuous monitoring flags unexpected changes in boot measurements. Instances without all three enabled lose part of this tamper-detection layer, making it harder to detect if the boot process or kernel has been compromised by persistent, low-level malware.
+
+This rule is covered by the [4-8-shielded-vm](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/gcp/compute/4-8-shielded-vm.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+   # 4-8-shielded-vm.policytest.hcl... 
+   running
+   # resource.google_compute_instance.pass_required_controls_enabled... 
+   running
+   # resource.google_compute_instance.pass_required_controls_enabled... 
+   pass
+   # resource.google_compute_instance.fail_missing_shielded_config... 
+   running
+   # resource.google_compute_instance.fail_missing_shielded_config... 
+   pass
+   # resource.google_compute_instance.fail_null_shielded_config... 
+   running
+   # resource.google_compute_instance.fail_null_shielded_config... 
+   pass
+   # resource.google_compute_instance.pass_partial_shielded_config_uses_defaults... 
+   running
+   # resource.google_compute_instance.pass_partial_shielded_config_uses_defaults... 
+   pass
+   # resource.google_compute_instance.fail_vtpm_disabled... 
+   running
+   # resource.google_compute_instance.fail_vtpm_disabled... 
+   pass
+   # resource.google_compute_instance.fail_integrity_monitoring_disabled... 
+   running
+   # resource.google_compute_instance.fail_integrity_monitoring_disabled... 
+   pass
+   # resource.google_compute_instance.fail_secure_boot_disabled... 
+   running
+   # resource.google_compute_instance.fail_secure_boot_disabled... 
+   pass
+   # 4-8-shielded-vm.policytest.hcl... 
+   pass
+```
+
+---
