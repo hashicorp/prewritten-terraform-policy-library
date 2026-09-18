@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -29,7 +29,8 @@ resource_policy "aws_codebuild_report_group" "encryption_required" {
         # Check encryption settings
         has_s3_destination = local.s3_destination != null && core::length(local.s3_destination) > 0
         encryption_key = core::try(local.s3_destination[0].encryption_key, "")
-        encryption_disabled = core::try(local.s3_destination[0].encryption_disabled, false)
+        encryption_disabled_raw = core::try(local.s3_destination[0].encryption_disabled, null)
+        encryption_disabled     = local.encryption_disabled_raw != null ? local.encryption_disabled_raw : false
         
         # Validation checks
         has_encryption_key = local.encryption_key != ""

@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -22,10 +22,12 @@ resource_policy "aws_elasticsearch_domain" "dedicated_master_nodes" {
         cluster_config = core::try(attrs.cluster_config, [])
         
         # Check if dedicated master is enabled (default to false if not set)
-        dedicated_master_enabled = core::try(local.cluster_config[0].dedicated_master_enabled, false)
-        
+        dedicated_master_enabled_raw = core::try(local.cluster_config[0].dedicated_master_enabled, null)
+        dedicated_master_enabled = local.dedicated_master_enabled_raw != null ? local.dedicated_master_enabled_raw : false
+
         # Get dedicated master count (default to 0 if not set)
-        dedicated_master_count = core::try(local.cluster_config[0].dedicated_master_count, 0)
+        dedicated_master_count_raw = core::try(local.cluster_config[0].dedicated_master_count, null)
+        dedicated_master_count = local.dedicated_master_count_raw != null ? local.dedicated_master_count_raw : 0
     }
 
     enforce {

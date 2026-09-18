@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -39,7 +39,8 @@ resource_policy "aws_secretsmanager_secret" "rotation_enabled_check" {
     # Frequency check (only meaningful when a rotation is found and input is provided).
     matching_rotation     = core::try(local.matching_rotations[0], {})
     rotation_rules        = core::try(local.matching_rotation.rotation_rules, [])
-    rotation_days         = core::length(local.rotation_rules) > 0 ? core::try(local.rotation_rules[0].automatically_after_days, 0) : 0
+    rotation_days_raw     = core::length(local.rotation_rules) > 0 ? core::try(local.rotation_rules[0].automatically_after_days, null) : null
+    rotation_days         = local.rotation_days_raw != null ? local.rotation_days_raw : 0
     frequency_input       = input.maximumAllowedRotationFrequency
     frequency_input_valid = local.frequency_input == 0 || (local.frequency_input >= 1 && local.frequency_input <= 365)
     frequency_exceeds_max = local.frequency_input > 0 && local.rotation_days > 0 && local.rotation_days > local.frequency_input

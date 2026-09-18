@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -33,7 +33,8 @@ resource_policy "aws_elb" "logging_enabled" {
     locals {
         access_logs_attr = core::try(attrs.access_logs, null)
         has_access_logs = local.access_logs_attr != null ? core::length(local.access_logs_attr) > 0 : false
-        logging_enabled = local.has_access_logs ? core::try(local.access_logs_attr[0].enabled, true) : false
+        logging_enabled_raw = local.has_access_logs ? core::try(local.access_logs_attr[0].enabled, null) : null
+        logging_enabled = local.has_access_logs ? (local.logging_enabled_raw != null ? local.logging_enabled_raw : true) : false
 
         elb_s3_bucket_name = local.has_access_logs ? core::try(local.access_logs_attr[0].bucket, "") : ""
     }
@@ -57,7 +58,8 @@ resource_policy "aws_lb" "logging_enabled" {
     locals {
         access_logs_attr = core::try(attrs.access_logs, null)
         has_access_logs = local.access_logs_attr != null ? core::length(local.access_logs_attr) > 0 : false
-        logging_enabled = local.has_access_logs ? core::try(local.access_logs_attr[0].enabled, false) : false
+        logging_enabled_raw = local.has_access_logs ? core::try(local.access_logs_attr[0].enabled, null) : null
+        logging_enabled = local.has_access_logs ? (local.logging_enabled_raw != null ? local.logging_enabled_raw : false) : false
 
         elb_s3_bucket_name = local.has_access_logs ? core::try(local.access_logs_attr[0].bucket, "") : ""
     }

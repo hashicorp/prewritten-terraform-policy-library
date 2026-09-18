@@ -18,54 +18,40 @@ This rule is covered by the [encrypted-volumes](https://github.com/hashicorp/pre
 
 ```bash
 trace:
-      # encrypted-volumes.policytest.hcl...
-      running
-      # resource.aws_ebs_volume.encrypted...
-      running
-      # resource.aws_ebs_volume.encrypted...
-      pass
-      # resource.aws_ebs_volume.unencrypted...
-      running
-      # resource.aws_ebs_volume.unencrypted...
-      pass
-      # resource.aws_ebs_volume.no_encryption_attr...
-      running
-      # resource.aws_ebs_volume.no_encryption_attr...
-      pass
-      # resource.aws_instance.encrypted_ebs...
-      running
-      # resource.aws_instance.encrypted_ebs...
-      pass
-      # resource.aws_instance.unencrypted_ebs...
-      running
-      # resource.aws_instance.unencrypted_ebs...
-      pass
-      # resource.aws_instance.mixed_encryption...
-      running
-      # resource.aws_instance.mixed_encryption...
-      pass
-      # resource.aws_instance.no_ebs...
-      running
-      # resource.aws_instance.no_ebs...
-      pass
-      # resource.aws_instance.encrypted_root...
-      running
-      # resource.aws_instance.encrypted_root...
-      pass
-      # resource.aws_instance.unencrypted_root...
-      running
-      # resource.aws_instance.unencrypted_root...
-      pass
-      # resource.aws_instance.root_no_encryption_attr...
-      running
-      # resource.aws_instance.root_no_encryption_attr...
-      pass
-      # resource.aws_instance.no_root_config...
-      running
-      # resource.aws_instance.no_root_config...
-      pass
-      # encrypted-volumes.policytest.hcl...
-      pass
+      # encrypted-volumes.policytest.hcl... running
+      # resource.aws_ebs_volume.encrypted... running
+      # resource.aws_ebs_volume.encrypted... pass
+      # resource.aws_ebs_volume.unencrypted... running
+      # resource.aws_ebs_volume.unencrypted... pass
+      # resource.aws_ebs_volume.no_encryption_attr... running
+      # resource.aws_ebs_volume.no_encryption_attr... pass
+      # resource.aws_instance.encrypted_ebs... running
+      # resource.aws_instance.encrypted_ebs... pass
+      # resource.aws_instance.unencrypted_ebs... running
+      # resource.aws_instance.unencrypted_ebs... pass
+      # resource.aws_instance.mixed_encryption... running
+      # resource.aws_instance.mixed_encryption... pass
+      # resource.aws_instance.no_ebs... running
+      # resource.aws_instance.no_ebs... pass
+      # resource.aws_instance.encrypted_root... running
+      # resource.aws_instance.encrypted_root... pass
+      # resource.aws_instance.unencrypted_root... running
+      # resource.aws_instance.unencrypted_root... pass
+      # resource.aws_instance.root_no_encryption_attr... running
+      # resource.aws_instance.root_no_encryption_attr... pass
+      # resource.aws_instance.no_root_config... running
+      # resource.aws_instance.no_root_config... pass
+      # resource.aws_launch_template.pass_lt_encrypted... running
+      # resource.aws_launch_template.pass_lt_encrypted... pass
+      # resource.aws_launch_template.pass_lt_no_mappings... running
+      # resource.aws_launch_template.pass_lt_no_mappings... pass
+      # resource.aws_launch_template.fail_lt_unencrypted... running
+      # resource.aws_launch_template.fail_lt_unencrypted... pass
+      # resource.aws_launch_template.fail_lt_missing_encrypted... running
+      # resource.aws_launch_template.fail_lt_missing_encrypted... pass
+      # resource.aws_launch_template.fail_lt_mixed_encryption... running
+      # resource.aws_launch_template.fail_lt_mixed_encryption... pass
+      # encrypted-volumes.policytest.hcl... pass
 ```
 
 ---

@@ -25,7 +25,9 @@ resource_policy "azurerm_storage_account" "azure_blob_soft_delete" {
     has_blob_properties         = local.blob_properties_raw != null
     delete_retention_policy_raw = core::try(attrs.blob_properties[0].delete_retention_policy, core::try(attrs.blob_properties.delete_retention_policy, null))
     has_delete_retention_policy = local.delete_retention_policy_raw != null
-    retention_days              = core::try(local.delete_retention_policy_raw[0].days, core::try(local.delete_retention_policy_raw.days, 7))
+    retention_days_indexed          = core::try(local.delete_retention_policy_raw[0].days, null)
+    retention_days_object           = core::try(local.delete_retention_policy_raw.days, null)
+    retention_days                  = local.retention_days_indexed != null ? local.retention_days_indexed : (local.retention_days_object != null ? local.retention_days_object : 7)
     has_valid_blob_retention_period = local.retention_days >= 7 && local.retention_days <= 365
   }
 

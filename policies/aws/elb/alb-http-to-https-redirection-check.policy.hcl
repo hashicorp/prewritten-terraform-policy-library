@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -60,14 +60,14 @@ resource_policy "aws_lb" "http_to_https_redirect" {
       for action in local.default_actions :
       action
       if core::try(action.type, "") == "redirect"
-        && core::try(action.redirect.protocol, "") == "HTTPS"
+        && core::try(action.redirect[0].protocol, "") == "HTTPS"
     ]
 
     rule_https_redirect_actions = [
       for action in local.listener_rule_actions :
       action
       if core::try(action.type, "") == "redirect"
-        && core::try(action.redirect.protocol, "") == "HTTPS"
+        && core::try(action.redirect[0].protocol, "") == "HTTPS"
     ]
 
     http_port_80_listeners_without_redirect = [
@@ -77,7 +77,7 @@ resource_policy "aws_lb" "http_to_https_redirect" {
         for action in core::try(listener.default_action, []) :
         action
         if core::try(action.type, "") == "redirect"
-          && core::try(action.redirect.protocol, "") == "HTTPS"
+          && core::try(action.redirect[0].protocol, "") == "HTTPS"
       ]) + core::length([
         for rule in local.alb_http_to_https_listener_rules :
         rule
@@ -87,7 +87,7 @@ resource_policy "aws_lb" "http_to_https_redirect" {
             for action in core::try(rule.action, []) :
             action
             if core::try(action.type, "") == "redirect"
-              && core::try(action.redirect.protocol, "") == "HTTPS"
+              && core::try(action.redirect[0].protocol, "") == "HTTPS"
           ]) > 0
       ]) == 0
     ]

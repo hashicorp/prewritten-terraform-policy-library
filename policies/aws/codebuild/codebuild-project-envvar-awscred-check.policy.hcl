@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -19,23 +19,24 @@ input "codebuild-project-envvar-awscred-check-enforcement-level" {
 resource_policy "aws_codebuild_project" "no_plaintext_credentials" {
     enforcement_level = input.codebuild-project-envvar-awscred-check-enforcement-level
     # Filter to only check projects that have environment variables defined
-    filter = attrs.environment != null && core::length(attrs.environment) > 0 && core::try(attrs.environment[0].environment_variable, null) != null && core::length(core::try(attrs.environment[0].environment_variable, [])) > 0
+    filter = attrs.environment != null && core::length(attrs.environment) > 0 && core::try(attrs.environment[0].environment_variable, null) != null && core::length(core::try(attrs.environment[0].environment_variable, null) != null ? attrs.environment[0].environment_variable : []) > 0
 
     locals {
         # Extract environment variables from the environment block
-        env_vars = core::try(attrs.environment[0].environment_variable, [])
+        env_vars_raw = core::try(attrs.environment[0].environment_variable, null)
+        env_vars     = local.env_vars_raw != null ? local.env_vars_raw : []
         
         # Find any plaintext AWS credential variables
         plaintext_access_key_vars = [
             for var in local.env_vars :
             var if var.name == "AWS_ACCESS_KEY_ID" && 
-                   (core::try(var.type, "PLAINTEXT") == "PLAINTEXT")
+                   (core::try(var.type, null) != null ? var.type : "PLAINTEXT") == "PLAINTEXT"
         ]
         
         plaintext_secret_key_vars = [
             for var in local.env_vars :
             var if var.name == "AWS_SECRET_ACCESS_KEY" && 
-                   (core::try(var.type, "PLAINTEXT") == "PLAINTEXT")
+                   (core::try(var.type, null) != null ? var.type : "PLAINTEXT") == "PLAINTEXT"
         ]
         
         # Check if any plaintext credentials exist

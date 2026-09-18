@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -24,7 +24,8 @@ resource_policy "aws_msk_cluster" "disable_unauthenticated_access" {
         has_client_auth = local.client_auth != null
         
         # Check if unauthenticated access is explicitly enabled
-        unauthenticated_value = core::try(local.client_auth.unauthenticated, false)
+        unauthenticated_value_raw = core::try(local.client_auth.unauthenticated, null)
+        unauthenticated_value     = local.unauthenticated_value_raw != null ? local.unauthenticated_value_raw : false
         unauthenticated_enabled = local.has_client_auth && local.unauthenticated_value
         
         # Check for SASL authentication mechanisms

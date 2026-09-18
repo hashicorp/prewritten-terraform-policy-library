@@ -14,10 +14,10 @@ resource "aws_cognito_user_pool" "pass_mfa_on_sms" {
       allowed_first_auth_factors = ["PASSWORD"]
     }]
     mfa_configuration = "ON"
-    sms_configuration = {
+    sms_configuration = [{
       external_id = "test-external-id"
       sns_caller_arn = "arn:aws:iam::123456789012:role/service-role/CognitoSNSRole"
-    }
+    }]
   }
 }
 
@@ -29,9 +29,9 @@ resource "aws_cognito_user_pool" "pass_mfa_optional_software_token" {
       allowed_first_auth_factors = ["PASSWORD"]
     }]
     mfa_configuration = "OPTIONAL"
-    software_token_mfa_configuration = {
+    software_token_mfa_configuration = [{
       enabled = true
-    }
+    }]
   }
 }
 
@@ -43,10 +43,10 @@ resource "aws_cognito_user_pool" "pass_mfa_on_email" {
       allowed_first_auth_factors = ["PASSWORD"]
     }]
     mfa_configuration = "ON"
-    email_mfa_configuration = {
+    email_mfa_configuration = [{
       message = "Your verification code is {####}"
       subject = "Your verification code"
-    }
+    }]
   }
 }
 
@@ -69,9 +69,9 @@ resource "aws_cognito_user_pool" "pass_multiple_auth_mfa_on" {
       allowed_first_auth_factors = ["PASSWORD", "EMAIL_OTP"]
     }]
     mfa_configuration = "ON"
-    software_token_mfa_configuration = {
+    software_token_mfa_configuration = [{
       enabled = true
-    }
+    }]
   }
 }
 
@@ -145,8 +145,8 @@ resource "aws_cognito_user_pool" "pass_no_sign_in_policy_mfa_on" {
   attrs = {
     name              = "test-pool-traditional-mfa-on"
     mfa_configuration = "ON"
-    software_token_mfa_configuration = {
+    software_token_mfa_configuration = [{
       enabled = true
-    }
+    }]
   }
 }

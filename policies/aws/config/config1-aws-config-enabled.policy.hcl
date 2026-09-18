@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -28,8 +28,10 @@ resource_policy "aws_config_configuration_recorder" "recorder_configuration" {
     recording_group_raw = core::try(attrs.recording_group, null)
     recording_group     = local.recording_group_raw != null ? local.recording_group_raw : []
     has_recording_group = core::length(local.recording_group) > 0
-    all_supported       = core::try(local.recording_group[0].all_supported, false)
-    include_global      = core::try(local.recording_group[0].include_global_resource_types, false)
+    all_supported_raw   = core::try(local.recording_group[0].all_supported, null)
+    all_supported       = local.all_supported_raw != null ? local.all_supported_raw : false
+    include_global_raw  = core::try(local.recording_group[0].include_global_resource_types, null)
+    include_global      = local.include_global_raw != null ? local.include_global_raw : false
 
     role_arn                 = core::try(attrs.role_arn, "")
     uses_service_linked_role = core::try(core::length(core::regexall("/aws-service-role/config\\.amazonaws\\.com/AWSServiceRoleForConfig$", local.role_arn)), 0) > 0

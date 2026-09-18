@@ -18,46 +18,32 @@ This rule is covered by the [cognito-user-pool-mfa-enabled](https://github.com/h
 
 ```bash
 trace:
-      # cognito-user-pool-mfa-enabled.policytest.hcl...
-      running
-      # resource.aws_cognito_user_pool.pass_mfa_on_sms...
-      running
-      # resource.aws_cognito_user_pool.pass_mfa_on_sms...
-      pass
-      # resource.aws_cognito_user_pool.pass_mfa_optional_software_token...
-      running
-      # resource.aws_cognito_user_pool.pass_mfa_optional_software_token...
-      pass
-      # resource.aws_cognito_user_pool.pass_mfa_on_email...
-      running
-      # resource.aws_cognito_user_pool.pass_mfa_on_email...
-      pass
-      # resource.aws_cognito_user_pool.pass_no_password_auth...
-      running
-      # resource.aws_cognito_user_pool.pass_no_password_auth...
-      pass
-      # resource.aws_cognito_user_pool.pass_multiple_auth_mfa_on...
-      running
-      # resource.aws_cognito_user_pool.pass_multiple_auth_mfa_on...
-      pass
-      # resource.aws_cognito_user_pool.fail_mfa_off...
-      running
-      # resource.aws_cognito_user_pool.fail_mfa_off...
-      pass
-      # resource.aws_cognito_user_pool.fail_mfa_on_no_method...
-      running
-      # resource.aws_cognito_user_pool.fail_mfa_on_no_method...
-      pass
-      # resource.aws_cognito_user_pool.fail_mfa_not_specified...
-      running
-      # resource.aws_cognito_user_pool.fail_mfa_not_specified...
-      pass
-      # resource.aws_cognito_user_pool.fail_mfa_optional_no_method...
-      running
-      # resource.aws_cognito_user_pool.fail_mfa_optional_no_method...
-      pass
-      # cognito-user-pool-mfa-enabled.policytest.hcl...
-      pass
+      # cognito-user-pool-mfa-enabled.policytest.hcl... running
+      # resource.aws_cognito_user_pool.pass_mfa_on_sms... running
+      # resource.aws_cognito_user_pool.pass_mfa_on_sms... pass
+      # resource.aws_cognito_user_pool.pass_mfa_optional_software_token... running
+      # resource.aws_cognito_user_pool.pass_mfa_optional_software_token... pass
+      # resource.aws_cognito_user_pool.pass_mfa_on_email... running
+      # resource.aws_cognito_user_pool.pass_mfa_on_email... pass
+      # resource.aws_cognito_user_pool.pass_no_password_auth... running
+      # resource.aws_cognito_user_pool.pass_no_password_auth... pass
+      # resource.aws_cognito_user_pool.pass_multiple_auth_mfa_on... running
+      # resource.aws_cognito_user_pool.pass_multiple_auth_mfa_on... pass
+      # resource.aws_cognito_user_pool.fail_mfa_off... running
+      # resource.aws_cognito_user_pool.fail_mfa_off... pass
+      # resource.aws_cognito_user_pool.fail_mfa_on_no_method... running
+      # resource.aws_cognito_user_pool.fail_mfa_on_no_method... pass
+      # resource.aws_cognito_user_pool.fail_mfa_not_specified... running
+      # resource.aws_cognito_user_pool.fail_mfa_not_specified... pass
+      # resource.aws_cognito_user_pool.fail_mfa_optional_no_method... running
+      # resource.aws_cognito_user_pool.fail_mfa_optional_no_method... pass
+      # resource.aws_cognito_user_pool.fail_no_sign_in_policy_mfa_off... running
+      # resource.aws_cognito_user_pool.fail_no_sign_in_policy_mfa_off... pass
+      # resource.aws_cognito_user_pool.fail_no_sign_in_policy_no_mfa_attr... running
+      # resource.aws_cognito_user_pool.fail_no_sign_in_policy_no_mfa_attr... pass
+      # resource.aws_cognito_user_pool.pass_no_sign_in_policy_mfa_on... running
+      # resource.aws_cognito_user_pool.pass_no_sign_in_policy_mfa_on... pass
+      # cognito-user-pool-mfa-enabled.policytest.hcl... pass
 ```
 
 ---

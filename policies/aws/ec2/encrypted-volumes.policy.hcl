@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -79,10 +79,12 @@ resource_policy "aws_launch_template" "ebs_encryption_required" {
         # Each mapping may have an ebs block; absence means no explicit setting.
         # mapping.ebs may be a single object rather than a list depending on plan
         # serialization. core::try catches the [0] indexing failure and returns
-        # false (conservative — treats as unencrypted).
+        # "false" (conservative — treats as unencrypted).
+        # aws_launch_template's block_device_mappings[*].ebs.encrypted is a
+        # string ("true"/"false") in the provider schema, not a bool.
         unencrypted_ebs_mappings = [
             for mapping in local.block_mappings :
-            mapping if core::try(mapping.ebs[0].encrypted, false) != true
+            mapping if core::try(mapping.ebs[0].encrypted, "false") != "true"
         ]
         all_ebs_encrypted = core::length(local.unencrypted_ebs_mappings) == 0
     }

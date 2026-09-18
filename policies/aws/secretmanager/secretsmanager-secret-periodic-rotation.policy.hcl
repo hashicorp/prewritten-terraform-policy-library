@@ -12,7 +12,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -33,7 +33,8 @@ resource_policy "aws_secretsmanager_secret_rotation" "rotation_frequency_check" 
         rotation_rules_list      = core::try(attrs.rotation_rules, [])
         has_rotation_rules       = core::length(local.rotation_rules_list) > 0
         rotation_rules           = core::try(local.rotation_rules_list[0], {})
-        automatically_after_days = core::try(local.rotation_rules.automatically_after_days, 0)
+        automatically_after_days_raw = core::try(local.rotation_rules.automatically_after_days, null)
+        automatically_after_days     = local.automatically_after_days_raw != null ? local.automatically_after_days_raw : 0
         has_rotation_frequency   = local.automatically_after_days > 0
         threshold                = input.maxDaysSinceRotation
         valid_threshold          = local.threshold >= 1 && local.threshold <= 180

@@ -102,14 +102,16 @@ resource "aws_ecs_capacity_provider" "fail_termination_protection_not_set" {
   }
 }
 
-# Test 6: Filtered out - Capacity provider using managed_instances_provider (should not be evaluated)
+# Test 6: Filtered out - managed_instances_provider capacity providers have no
+# auto_scaling_group_provider block, so the policy filter excludes them entirely.
+# infrastructure_role_arn is just a valid placeholder to make the block non-empty.
 resource "aws_ecs_capacity_provider" "filtered_managed_instances_provider" {
   attrs = {
     name = "managed-instances-provider"
     cluster = "my-cluster"
     managed_instances_provider = [
       {
-        instance_type = "t3.medium"
+        infrastructure_role_arn = "arn:aws:iam::123456789012:role/ecsInfrastructureRole"
       }
     ]
   }

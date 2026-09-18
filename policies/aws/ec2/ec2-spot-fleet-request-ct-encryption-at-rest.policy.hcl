@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -23,23 +23,24 @@ resource_policy "aws_spot_fleet_request" "ebs_encryption_required" {
         launch_specs = core::try(attrs.launch_specification, [])
         has_launch_specs = core::try(core::length(local.launch_specs) > 0, false)
         
-        # Check root block devices for encryption
+        # root_block_device/ebs_block_device are set-typed blocks in the provider schema
+        # (unordered), so they must be iterated with a for-expression rather than
+        # indexed with [0].
         unencrypted_root_devices = [
             for idx, spec in local.launch_specs :
-            idx if core::try(spec.root_block_device, null) != null &&
-                   core::length(core::try(spec.root_block_device, [])) > 0 &&
-                   core::try(spec.root_block_device[0].encrypted, false) != true
+            idx if core::length([
+                for rbd in (core::try(spec.root_block_device, null) != null ? spec.root_block_device : []) :
+                rbd if core::try(rbd.encrypted, false) != true
+            ]) > 0
         ]
         
         # Check EBS block devices for encryption - check each spec
         specs_with_unencrypted_ebs = [
             for idx, spec in local.launch_specs :
-            idx if core::try(spec.ebs_block_device, null) != null &&
-                   core::length(core::try(spec.ebs_block_device, [])) > 0 &&
-                   core::length([
-                       for device in core::try(spec.ebs_block_device, []) :
-                       device if core::try(device.encrypted, false) != true
-                   ]) > 0
+            idx if core::length([
+                for device in (core::try(spec.ebs_block_device, null) != null ? spec.ebs_block_device : []) :
+                device if core::try(device.encrypted, false) != true
+            ]) > 0
         ]
         
         # Check if there are any unencrypted volumes

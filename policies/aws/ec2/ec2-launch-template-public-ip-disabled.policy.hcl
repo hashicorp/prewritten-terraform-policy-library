@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -21,9 +21,11 @@ resource_policy "aws_launch_template" "no_public_ip" {
     filter = core::length(core::try(attrs.network_interfaces, [])) > 0
 
     locals {
+        # network_interfaces.associate_public_ip_address is a string ("true"/"false")
+        # in the provider schema, not a bool.
         interfaces_with_public_ip = [
             for ni in core::try(attrs.network_interfaces, []) : ni
-            if core::try(ni.associate_public_ip_address, false) == true
+            if core::try(ni.associate_public_ip_address, "false") == "true"
         ]
     }
 

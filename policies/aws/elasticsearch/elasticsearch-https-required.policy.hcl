@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -22,7 +22,8 @@ resource_policy "aws_elasticsearch_domain" "tls_security_policy" {
 
     locals {
         endpoint_options = core::try(attrs.domain_endpoint_options[0], {})
-        enforce_https = core::try(local.endpoint_options.enforce_https, true)
+        enforce_https_raw = core::try(local.endpoint_options.enforce_https, null)
+        enforce_https = local.enforce_https_raw != null ? local.enforce_https_raw : true
         tls_policy = core::try(local.endpoint_options.tls_security_policy, "")
     }
 

@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -28,12 +28,12 @@ resource_policy "aws_wafv2_rule_group" "waf_rule_group_cloudwatch_metrics_enable
 
     rules_missing_visibility_config = [
       for rule in local.rules : rule.name
-      if core::length(core::try(rule.visibility_config, [])) == 0
+      if core::length(core::try(rule.visibility_config, null) != null ? rule.visibility_config : []) == 0
     ]
 
     rules_with_metrics_disabled = [
       for rule in local.rules : rule.name
-      if core::length(core::try(rule.visibility_config, [])) > 0 && core::try(rule.visibility_config[0].cloudwatch_metrics_enabled, false) != true
+      if core::length(core::try(rule.visibility_config, null) != null ? rule.visibility_config : []) > 0 && core::try(rule.visibility_config[0].cloudwatch_metrics_enabled, false) != true
     ]
   }
 
@@ -70,12 +70,12 @@ resource_policy "aws_wafv2_web_acl" "waf_web_acl_cloudwatch_metrics_enabled" {
 
     rules_missing_visibility_config = [
       for rule in local.rules : rule.name
-      if core::length(core::try(rule.visibility_config, [])) == 0
+      if core::length(core::try(rule.visibility_config, null) != null ? rule.visibility_config : []) == 0
     ]
 
     rules_with_metrics_disabled = [
       for rule in local.rules : rule.name
-      if core::length(core::try(rule.visibility_config, [])) > 0 && core::try(rule.visibility_config[0].cloudwatch_metrics_enabled, false) != true
+      if core::length(core::try(rule.visibility_config, null) != null ? rule.visibility_config : []) > 0 && core::try(rule.visibility_config[0].cloudwatch_metrics_enabled, false) != true
     ]
   }
 

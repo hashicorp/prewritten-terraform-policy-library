@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -22,11 +22,12 @@ resource_policy "aws_emr_cluster" "emr_master_no_public_ip" {
   locals {
     cluster_name = core::try(attrs.name, "Amazon EMR cluster")
 
-    ec2_attrs     = core::try(attrs.ec2_attributes, {})
+    ec2_attrs     = core::try(attrs.ec2_attributes[0], {})
     has_ec2_attrs = core::length(core::keys(local.ec2_attrs)) > 0
 
     subnet_id  = local.has_ec2_attrs ? core::try(local.ec2_attrs.subnet_id, null) : null
-    subnet_ids = local.has_ec2_attrs ? core::try(local.ec2_attrs.subnet_ids, []) : []
+    subnet_ids_raw = local.has_ec2_attrs ? core::try(local.ec2_attrs.subnet_ids, null) : null
+    subnet_ids = local.subnet_ids_raw != null ? local.subnet_ids_raw : []
 
     candidate_subnets = local.subnet_id != null ? [local.subnet_id] : local.subnet_ids
 

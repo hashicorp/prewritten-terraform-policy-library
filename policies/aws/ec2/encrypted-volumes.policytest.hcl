@@ -175,7 +175,7 @@ resource "aws_launch_template" "pass_lt_encrypted" {
     block_device_mappings = [
       {
         device_name = "/dev/xvda"
-        ebs = [{ encrypted = true, volume_size = 20, volume_type = "gp3" }]
+        ebs = [{ encrypted = "true", volume_size = 20, volume_type = "gp3" }]
       }
     ]
   }
@@ -197,7 +197,7 @@ resource "aws_launch_template" "fail_lt_unencrypted" {
     block_device_mappings = [
       {
         device_name = "/dev/xvda"
-        ebs = [{ encrypted = false, volume_size = 20, volume_type = "gp3" }]
+        ebs = [{ encrypted = "false", volume_size = 20, volume_type = "gp3" }]
       }
     ]
   }
@@ -225,11 +225,11 @@ resource "aws_launch_template" "fail_lt_mixed_encryption" {
     block_device_mappings = [
       {
         device_name = "/dev/xvda"
-        ebs = [{ encrypted = true, volume_size = 20, volume_type = "gp3" }]
+        ebs = [{ encrypted = "true", volume_size = 20, volume_type = "gp3" }]
       },
       {
         device_name = "/dev/xvdb"
-        ebs = [{ encrypted = false, volume_size = 50, volume_type = "gp3" }]
+        ebs = [{ encrypted = "false", volume_size = 50, volume_type = "gp3" }]
       }
     ]
   }

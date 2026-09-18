@@ -10,7 +10,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -80,9 +80,9 @@ resource_policy "aws_s3_bucket" "lifecycle_policy_check" {
       for rule in local.rules :
       rule if (
         core::try(rule.status, "") == "Enabled" && (
-          core::length(core::try(rule.transition, [])) > 0 ||
+          core::length(core::try(rule.transition, null) != null ? rule.transition : []) > 0 ||
           core::try(rule.expiration, null) != null ||
-          core::length(core::try(rule.noncurrent_version_transition, [])) > 0 ||
+          core::length(core::try(rule.noncurrent_version_transition, null) != null ? rule.noncurrent_version_transition : []) > 0 ||
           core::try(rule.noncurrent_version_expiration, null) != null ||
           core::try(rule.abort_incomplete_multipart_upload, null) != null
         )
@@ -108,7 +108,7 @@ resource_policy "aws_s3_bucket" "lifecycle_policy_check" {
     has_matching_transition_days = !local.has_transition_days_input || core::length([
       for rule in local.enabled_rules :
       rule if core::length([
-        for transition in core::try(rule.transition, []) :
+        for transition in (core::try(rule.transition, null) != null ? rule.transition : []) :
         transition if core::try(transition.days, 0) == input.targetTransitionDays
       ]) > 0
     ]) > 0
@@ -121,7 +121,7 @@ resource_policy "aws_s3_bucket" "lifecycle_policy_check" {
     has_matching_transition_storage_class = !local.has_transition_storage_class_input || core::length([
       for rule in local.enabled_rules :
       rule if core::length([
-        for transition in core::try(rule.transition, []) :
+        for transition in (core::try(rule.transition, null) != null ? rule.transition : []) :
         transition if core::try(transition.storage_class, "") == input.targetTransitionStorageClass
       ]) > 0
     ]) > 0
@@ -129,7 +129,7 @@ resource_policy "aws_s3_bucket" "lifecycle_policy_check" {
     has_only_valid_transition_storage_classes = core::length([
       for rule in local.enabled_rules :
       rule if core::length([
-        for transition in core::try(rule.transition, []) :
+        for transition in (core::try(rule.transition, null) != null ? rule.transition : []) :
         transition if !core::contains(local.valid_storage_classes, core::try(transition.storage_class, ""))
       ]) > 0
     ]) == 0

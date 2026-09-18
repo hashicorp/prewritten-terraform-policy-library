@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -23,7 +23,8 @@ resource_policy "aws_cloudfront_distribution" "custom_ssl_required" {
     viewer_cert = core::try(attrs.viewer_certificate[0], null)
     
     # Check if using default CloudFront certificate
-    uses_default_cert = core::try(local.viewer_cert.cloudfront_default_certificate, false)
+    uses_default_cert_raw = core::try(local.viewer_cert.cloudfront_default_certificate, null)
+    uses_default_cert     = local.uses_default_cert_raw != null ? local.uses_default_cert_raw : false
     
     # Check if custom certificate is configured
     has_acm_cert = core::try(local.viewer_cert.acm_certificate_arn, null) != null

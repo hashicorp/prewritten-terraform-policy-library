@@ -16,50 +16,50 @@ This rule is covered by the [alb-http-to-https-redirection-check](https://github
 
 ```bash
 trace:
-      # alb-http-to-https-redirection-check.policytest.hcl...
-      running
-      # resource.aws_lb.default_action_redirect...
-      running
-      # resource.aws_lb.default_action_redirect...
-      pass
-      # resource.aws_lb.listener_rule_redirect...
-      running
-      # resource.aws_lb.listener_rule_redirect...
-      pass
-      # resource.aws_lb.no_listener...
-      running
-      # resource.aws_lb.no_listener...
-      pass
-      # resource.aws_lb.http_no_redirect...
-      running
-      # resource.aws_lb.http_no_redirect...
-      pass
-      # resource.aws_lb.http_to_http...
-      running
-      # resource.aws_lb.http_to_http...
-      pass
-      # resource.aws_lb.http_8080_only...
-      running
-      # resource.aws_lb.http_8080_only...
-      pass
-      # resource.aws_lb.computed_empty_arn_default_action...
-      running
-      # resource.aws_lb.computed_empty_arn_default_action...
-      pass
-      # resource.aws_lb.computed_empty_arn_listener_rule...
-      running
-      # resource.aws_lb.computed_empty_arn_listener_rule...
-      pass
-      # resource.aws_lb.mixed_http_listeners...
-      running
-      # resource.aws_lb.mixed_http_listeners...
-      pass
-      # resource.aws_lb.network_load_balancer...
-      running
-      # resource.aws_lb.network_load_balancer...
-      pass
-      # alb-http-to-https-redirection-check.policytest.hcl...
-      pass
+      # alb-http-to-https-redirection-check.policytest.hcl... running
+      # resource.aws_lb.default_action_redirect... running
+      # resource.aws_lb.default_action_redirect... pass
+      # resource.aws_lb_listener.default_action_redirect... running
+      # resource.aws_lb_listener.default_action_redirect... pass
+      # resource.aws_lb.listener_rule_redirect... running
+      # resource.aws_lb.listener_rule_redirect... pass
+      # resource.aws_lb_listener.listener_rule_redirect... running
+      # resource.aws_lb_listener.listener_rule_redirect... pass
+      # resource.aws_lb_listener_rule.listener_rule_redirect... running
+      # resource.aws_lb_listener_rule.listener_rule_redirect... pass
+      # resource.aws_lb.no_listener... running
+      # resource.aws_lb.no_listener... pass
+      # resource.aws_lb.http_no_redirect... running
+      # resource.aws_lb.http_no_redirect... pass
+      # resource.aws_lb_listener.http_no_redirect... running
+      # resource.aws_lb_listener.http_no_redirect... pass
+      # resource.aws_lb.http_to_http... running
+      # resource.aws_lb.http_to_http... pass
+      # resource.aws_lb_listener.http_to_http... running
+      # resource.aws_lb_listener.http_to_http... pass
+      # resource.aws_lb.http_8080_only... running
+      # resource.aws_lb.http_8080_only... pass
+      # resource.aws_lb_listener.http_8080_only... running
+      # resource.aws_lb_listener.http_8080_only... pass
+      # resource.aws_lb.computed_empty_arn_default_action... running
+      # resource.aws_lb.computed_empty_arn_default_action... pass
+      # resource.aws_lb_listener.computed_empty_arn_default_action... running
+      # resource.aws_lb_listener.computed_empty_arn_default_action... pass
+      # resource.aws_lb.computed_empty_arn_listener_rule... running
+      # resource.aws_lb.computed_empty_arn_listener_rule... pass
+      # resource.aws_lb_listener.computed_empty_arn_listener_rule... running
+      # resource.aws_lb_listener.computed_empty_arn_listener_rule... pass
+      # resource.aws_lb_listener_rule.computed_empty_arn_listener_rule... running
+      # resource.aws_lb_listener_rule.computed_empty_arn_listener_rule... pass
+      # resource.aws_lb.mixed_http_listeners... running
+      # resource.aws_lb.mixed_http_listeners... pass
+      # resource.aws_lb_listener.mixed_http_listeners_redirect... running
+      # resource.aws_lb_listener.mixed_http_listeners_redirect... pass
+      # resource.aws_lb_listener.mixed_http_listeners_no_redirect... running
+      # resource.aws_lb_listener.mixed_http_listeners_no_redirect... pass
+      # resource.aws_lb.network_load_balancer... running
+      # resource.aws_lb.network_load_balancer... pass
+      # alb-http-to-https-redirection-check.policytest.hcl... pass
 ```
 
 ---

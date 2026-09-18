@@ -12,9 +12,9 @@ resource "azurerm_storage_account" "pass_provider_default_days" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties = {
-      delete_retention_policy = {}
-    }
+    blob_properties = [{
+      delete_retention_policy = [{}]
+    }]
   }
 }
 
@@ -26,11 +26,11 @@ resource "azurerm_storage_account" "pass_lower_boundary" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties = {
-      delete_retention_policy = {
+    blob_properties = [{
+      delete_retention_policy = [{
         days = 7
-      }
-    }
+      }]
+    }]
   }
 }
 
@@ -42,11 +42,11 @@ resource "azurerm_storage_account" "pass_upper_boundary" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties = {
-      delete_retention_policy = {
+    blob_properties = [{
+      delete_retention_policy = [{
         days = 365
-      }
-    }
+      }]
+    }]
   }
 }
 
@@ -61,9 +61,9 @@ resource "azurerm_storage_account" "pass_blob_properties_list_form" {
     account_kind             = "StorageV2"
     blob_properties = [
       {
-        delete_retention_policy = {
+        delete_retention_policy = [{
           days = 7
-        }
+        }]
       }
     ]
   }
@@ -103,7 +103,7 @@ resource "azurerm_storage_account" "fail_missing_delete_retention_policy" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties          = {}
+    blob_properties          = [{}]
   }
 }
 
@@ -116,11 +116,11 @@ resource "azurerm_storage_account" "fail_below_retention_range" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties = {
-      delete_retention_policy = {
+    blob_properties = [{
+      delete_retention_policy = [{
         days = 6
-      }
-    }
+      }]
+    }]
   }
 }
 
@@ -133,11 +133,11 @@ resource "azurerm_storage_account" "fail_above_retention_range" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties = {
-      delete_retention_policy = {
+    blob_properties = [{
+      delete_retention_policy = [{
         days = 366
-      }
-    }
+      }]
+    }]
   }
 }
 
@@ -175,10 +175,10 @@ resource "azurerm_storage_account" "fail_days_below_cis_minimum" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties = {
-      delete_retention_policy = {
+    blob_properties = [{
+      delete_retention_policy = [{
         days = 1
-      }
-    }
+      }]
+    }]
   }
 }

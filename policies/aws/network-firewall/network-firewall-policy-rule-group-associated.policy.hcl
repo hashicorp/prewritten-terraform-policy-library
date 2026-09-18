@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -24,10 +24,12 @@ resource_policy "aws_networkfirewall_firewall_policy" "rule_group_required" {
     locals {
         firewall_policy_config = attrs.firewall_policy[0]
         
-        stateful_rule_groups = core::try(local.firewall_policy_config.stateful_rule_group_reference, [])
+        stateful_rule_groups_raw = core::try(local.firewall_policy_config.stateful_rule_group_reference, null)
+        stateful_rule_groups     = local.stateful_rule_groups_raw != null ? local.stateful_rule_groups_raw : []
         has_stateful_rules = core::length(local.stateful_rule_groups) > 0
         
-        stateless_rule_groups = core::try(local.firewall_policy_config.stateless_rule_group_reference, [])
+        stateless_rule_groups_raw = core::try(local.firewall_policy_config.stateless_rule_group_reference, null)
+        stateless_rule_groups     = local.stateless_rule_groups_raw != null ? local.stateless_rule_groups_raw : []
         has_stateless_rules = core::length(local.stateless_rule_groups) > 0
         
         has_rule_groups = local.has_stateful_rules || local.has_stateless_rules

@@ -13,9 +13,9 @@ resource "aws_waf_rule_group" "pass_with_one_activated_rule" {
     metric_name = "exampleRuleGroup"
     activated_rule = [
       {
-        action = {
+        action = [{
           type = "BLOCK"
-        }
+        }]
         priority = 1
         rule_id  = "rule-12345"
         type     = "REGULAR"
@@ -31,17 +31,17 @@ resource "aws_waf_rule_group" "pass_with_multiple_activated_rules" {
     metric_name = "exampleRuleGroup"
     activated_rule = [
       {
-        action = {
+        action = [{
           type = "BLOCK"
-        }
+        }]
         priority = 1
         rule_id  = "rule-12345"
         type     = "REGULAR"
       },
       {
-        action = {
+        action = [{
           type = "COUNT"
-        }
+        }]
         priority = 2
         rule_id  = "rule-67890"
         type     = "RATE_BASED"

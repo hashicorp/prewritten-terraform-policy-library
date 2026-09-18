@@ -24,82 +24,74 @@ This rule is covered by the [s3-lifecycle-policy-check](https://github.com/hashi
 
 ```bash
 trace:
-      # s3-lifecycle-policy-check.policytest.hcl...
-      running
-      # resource.aws_s3_bucket.bucket_with_lifecycle...
-      running
-      # resource.aws_s3_bucket.bucket_with_lifecycle...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.valid_lifecycle...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.valid_lifecycle...
-      pass
-      # resource.aws_s3_bucket.bucket_without_lifecycle...
-      running
-      # resource.aws_s3_bucket.bucket_without_lifecycle...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_with_transition...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_with_transition...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_with_expiration...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_with_expiration...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_no_rules...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_no_rules...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_disabled_rules...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_disabled_rules...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_no_actions...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_no_actions...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_valid_storage_classes...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_valid_storage_classes...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_intelligent_tiering...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_intelligent_tiering...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_onezone_ia...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_onezone_ia...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_glacier_ir...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_glacier_ir...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_noncurrent_transition...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_noncurrent_transition...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_noncurrent_expiration...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_noncurrent_expiration...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_abort_multipart...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_abort_multipart...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_invalid_storage_class...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_invalid_storage_class...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_mixed_rules...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_mixed_rules...
-      pass
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_multiple_actions...
-      running
-      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_multiple_actions...
-      pass
-      # s3-lifecycle-policy-check.policytest.hcl...
-      pass
+      # s3-lifecycle-policy-check.policytest.hcl... running
+      # resource.aws_s3_bucket_lifecycle_configuration.valid_lifecycle... running
+      # resource.aws_s3_bucket_lifecycle_configuration.valid_lifecycle... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_with_transition... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_with_transition... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_with_expiration... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_with_expiration... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_no_rules... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_no_rules... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_disabled_rules... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_disabled_rules... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_no_actions... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_no_actions... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_valid_storage_classes... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_valid_storage_classes... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_intelligent_tiering... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_intelligent_tiering... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_onezone_ia... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_onezone_ia... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_glacier_ir... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_glacier_ir... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_noncurrent_transition... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_noncurrent_transition... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_noncurrent_expiration... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_noncurrent_expiration... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_abort_multipart... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_abort_multipart... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_invalid_storage_class... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_invalid_storage_class... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_mixed_rules... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_mixed_rules... pass
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_multiple_actions... running
+      # resource.aws_s3_bucket_lifecycle_configuration.lifecycle_multiple_actions... pass
+      # resource.aws_s3_bucket.secure_bucket_with_lifecycle... running
+      # resource.aws_s3_bucket.secure_bucket_with_lifecycle... pass
+      # resource.aws_s3_bucket.test_bucket_1... running
+      # resource.aws_s3_bucket.test_bucket_1... pass
+      # resource.aws_s3_bucket.test_bucket_2... running
+      # resource.aws_s3_bucket.test_bucket_2... pass
+      # resource.aws_s3_bucket.test_bucket_3... running
+      # resource.aws_s3_bucket.test_bucket_3... pass
+      # resource.aws_s3_bucket.test_bucket_4... running
+      # resource.aws_s3_bucket.test_bucket_4... pass
+      # resource.aws_s3_bucket.test_bucket_5... running
+      # resource.aws_s3_bucket.test_bucket_5... pass
+      # resource.aws_s3_bucket.test_bucket_6... running
+      # resource.aws_s3_bucket.test_bucket_6... pass
+      # resource.aws_s3_bucket.test_bucket_7... running
+      # resource.aws_s3_bucket.test_bucket_7... pass
+      # resource.aws_s3_bucket.test_bucket_8... running
+      # resource.aws_s3_bucket.test_bucket_8... pass
+      # resource.aws_s3_bucket.test_bucket_9... running
+      # resource.aws_s3_bucket.test_bucket_9... pass
+      # resource.aws_s3_bucket.test_bucket_10... running
+      # resource.aws_s3_bucket.test_bucket_10... pass
+      # resource.aws_s3_bucket.test_bucket_11... running
+      # resource.aws_s3_bucket.test_bucket_11... pass
+      # resource.aws_s3_bucket.test_bucket_12... running
+      # resource.aws_s3_bucket.test_bucket_12... pass
+      # resource.aws_s3_bucket.test_bucket_13... running
+      # resource.aws_s3_bucket.test_bucket_13... pass
+      # resource.aws_s3_bucket.test_bucket_14... running
+      # resource.aws_s3_bucket.test_bucket_14... pass
+      # resource.aws_s3_bucket.test_bucket_15... running
+      # resource.aws_s3_bucket.test_bucket_15... pass
+      # resource.aws_s3_bucket.no_lifecycle_bucket... running
+      # resource.aws_s3_bucket.no_lifecycle_bucket... pass
+      # s3-lifecycle-policy-check.policytest.hcl... pass
 ```
 
 ---

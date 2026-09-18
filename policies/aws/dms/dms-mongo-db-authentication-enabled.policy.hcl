@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -29,7 +29,8 @@ resource_policy "aws_dms_endpoint" "dms_mongo_db_authentication_enabled" {
     mongodb_settings = local.has_mongodb_settings ? local.mongodb_settings_list[0] : {}
 
     # Get auth_mechanism value, defaulting to "default" if not set (matching Sentinel behavior)
-    auth_mechanism = core::try(local.mongodb_settings.auth_mechanism, "default")
+    auth_mechanism_raw = core::try(local.mongodb_settings.auth_mechanism, null)
+    auth_mechanism     = local.auth_mechanism_raw != null ? local.auth_mechanism_raw : "default"
 
     # Policy is violated if auth_mechanism is "default"
     is_compliant = local.auth_mechanism != "default"

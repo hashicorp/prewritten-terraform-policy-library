@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.47.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -28,7 +28,7 @@ resource_policy "aws_sagemaker_endpoint_configuration" "endpoint_instance_count_
 
         variants_with_ha = [
             for variant in local.instance_based_variants :
-            variant if core::try(variant.initial_instance_count, 1) > 1
+            variant if (core::try(variant.initial_instance_count, null) != null ? variant.initial_instance_count : 1) > 1
         ]
 
         shadow_variants = core::try(attrs.shadow_production_variants, [])
@@ -40,7 +40,7 @@ resource_policy "aws_sagemaker_endpoint_configuration" "endpoint_instance_count_
 
         shadow_variants_with_ha = [
             for variant in local.instance_based_shadow_variants :
-            variant if core::try(variant.initial_instance_count, 1) > 1
+            variant if (core::try(variant.initial_instance_count, null) != null ? variant.initial_instance_count : 1) > 1
         ]
 
         total_instance_variants = core::length(local.instance_based_variants)
@@ -51,12 +51,12 @@ resource_policy "aws_sagemaker_endpoint_configuration" "endpoint_instance_count_
 
         failing_variants = [
             for variant in local.instance_based_variants :
-            core::try(variant.variant_name, "unnamed") if core::try(variant.initial_instance_count, 1) <= 1
+            core::try(variant.variant_name, "unnamed") if (core::try(variant.initial_instance_count, null) != null ? variant.initial_instance_count : 1) <= 1
         ]
 
         failing_shadow_variants = [
             for variant in local.instance_based_shadow_variants :
-            core::try(variant.variant_name, "unnamed") if core::try(variant.initial_instance_count, 1) <= 1
+            core::try(variant.variant_name, "unnamed") if (core::try(variant.initial_instance_count, null) != null ? variant.initial_instance_count : 1) <= 1
         ]
     }
 

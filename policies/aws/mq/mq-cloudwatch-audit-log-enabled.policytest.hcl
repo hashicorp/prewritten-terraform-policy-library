@@ -14,7 +14,7 @@ resource "aws_mq_broker" "pass_audit_enabled" {
     host_instance_type = "mq.t3.micro"
     logs = [
       {
-        audit = true
+        audit = "true"
         general = true
       }
     ]
@@ -30,7 +30,7 @@ resource "aws_mq_broker" "fail_audit_disabled" {
     host_instance_type = "mq.t3.micro"
     logs = [
       {
-        audit = false
+        audit = "false"
         general = true
       }
     ]

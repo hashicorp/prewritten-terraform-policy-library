@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -97,7 +97,7 @@ resource_policy "aws_db_instance" "no_public_subnet_igw" {
           for route in core::try(rt.route, []) :
           route if (
             (core::try(route.cidr_block, "") == "0.0.0.0/0" || core::try(route.ipv6_cidr_block, "") == "::/0") &&
-            core::length(core::regexall("^igw-", core::try(route.gateway_id, ""))) > 0
+            core::length(core::regexall("^igw-", core::try(route.gateway_id, null) != null ? route.gateway_id : "")) > 0
           )
         ]) > 0
       )

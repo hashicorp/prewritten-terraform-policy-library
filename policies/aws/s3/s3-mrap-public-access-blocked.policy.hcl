@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -25,10 +25,14 @@ resource_policy "aws_s3control_multi_region_access_point" "block_public_access_e
 
         # Extract individual settings with safe defaults
         # If setting is not specified, it defaults to true (compliant)
-        block_public_acls = core::try(local.public_access_block[0].block_public_acls, true)
-        block_public_policy = core::try(local.public_access_block[0].block_public_policy, true)
-        ignore_public_acls = core::try(local.public_access_block[0].ignore_public_acls, true)
-        restrict_public_buckets = core::try(local.public_access_block[0].restrict_public_buckets, true)
+        block_public_acls_raw = core::try(local.public_access_block[0].block_public_acls, null)
+        block_public_acls = local.block_public_acls_raw != null ? local.block_public_acls_raw : true
+        block_public_policy_raw = core::try(local.public_access_block[0].block_public_policy, null)
+        block_public_policy = local.block_public_policy_raw != null ? local.block_public_policy_raw : true
+        ignore_public_acls_raw = core::try(local.public_access_block[0].ignore_public_acls, null)
+        ignore_public_acls = local.ignore_public_acls_raw != null ? local.ignore_public_acls_raw : true
+        restrict_public_buckets_raw = core::try(local.public_access_block[0].restrict_public_buckets, null)
+        restrict_public_buckets = local.restrict_public_buckets_raw != null ? local.restrict_public_buckets_raw : true
     }
 
     # Enforce: all public access block settings must be true

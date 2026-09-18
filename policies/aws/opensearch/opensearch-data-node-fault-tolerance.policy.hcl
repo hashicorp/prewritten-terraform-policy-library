@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.9.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -21,8 +21,10 @@ resource_policy "aws_opensearch_domain" "data_node_fault_tolerance" {
 
     locals {
         cluster_config = core::try(attrs.cluster_config, [])
-        instance_count = core::length(local.cluster_config) > 0 ? core::try(local.cluster_config[0].instance_count, 1) : 1
-        zone_awareness_enabled = core::try(local.cluster_config[0].zone_awareness_enabled, false)
+        instance_count_raw = core::length(local.cluster_config) > 0 ? core::try(local.cluster_config[0].instance_count, null) : null
+        instance_count     = local.instance_count_raw != null ? local.instance_count_raw : 1
+        zone_awareness_enabled_raw = core::try(local.cluster_config[0].zone_awareness_enabled, null)
+        zone_awareness_enabled     = local.zone_awareness_enabled_raw != null ? local.zone_awareness_enabled_raw : false
     }
 
     enforce {

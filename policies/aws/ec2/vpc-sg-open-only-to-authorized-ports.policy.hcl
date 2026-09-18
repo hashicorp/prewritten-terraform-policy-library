@@ -5,7 +5,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.56.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -64,11 +64,11 @@ resource_policy "aws_security_group" "restrict_unrestricted_ingress" {
       for rule in local.ingress_rules :
       rule
       if core::length([
-        for c in core::try(rule.cidr_blocks, []) :
+        for c in (core::try(rule.cidr_blocks, null) != null ? rule.cidr_blocks : []) :
         c if core::length(core::regexall(local.public_ipv4_cidr_pattern, c)) > 0
       ]) > 0
       || core::length([
-        for c in core::try(rule.ipv6_cidr_blocks, []) :
+        for c in (core::try(rule.ipv6_cidr_blocks, null) != null ? rule.ipv6_cidr_blocks : []) :
         c if core::length(core::regexall(local.public_ipv6_cidr_pattern, c)) > 0
       ]) > 0
     ]

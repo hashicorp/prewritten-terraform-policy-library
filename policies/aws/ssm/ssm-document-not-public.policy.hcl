@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -23,11 +23,14 @@ resource_policy "aws_ssm_document" "ssm_document_not_public" {
         # Get the owner of the document (computed attribute)
         owner = core::try(attrs.owner, "")
         
-        # Get permissions configuration if it exists
-        permissions_raw = core::try(attrs.permissions, null)
-        permissions = local.permissions_raw != null ? local.permissions_raw : []
-        permissions_type = core::try(local.permissions[0].type, "")
-        account_ids = core::try(local.permissions[0].account_ids, [])
+        # Get permissions configuration if it exists.
+        # `permissions` is a map(string) attribute (not a list of blocks); `account_ids`
+        # is a single comma-separated string, e.g. "111111111111,All".
+        permissions_raw   = core::try(attrs.permissions, null)
+        permissions       = local.permissions_raw != null ? local.permissions_raw : {}
+        permissions_type  = core::try(local.permissions.type, "")
+        account_ids_raw   = core::try(local.permissions.account_ids, "")
+        account_ids       = local.account_ids_raw != "" ? core::split(",", local.account_ids_raw) : []
         
         # Check if document is owned by Self (the account)
         is_self_owned = local.owner == "Self"

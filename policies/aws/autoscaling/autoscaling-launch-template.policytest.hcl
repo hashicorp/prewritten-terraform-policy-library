@@ -11,10 +11,10 @@ resource "aws_autoscaling_group" "with_template" {
     name = "asg-with-template"
     max_size = 5
     min_size = 1
-    launch_template = {
+    launch_template = [{
       id = "lt-0123456789abcdef0"
       version = "$Latest"
-    }
+    }]
   }
 }
 
@@ -26,16 +26,16 @@ resource "aws_autoscaling_group" "with_mixed_policy" {
     min_size = 2
     mixed_instances_policy = [
       {
-        launch_template = {
-          launch_template_specification = {
+        launch_template = [{
+          launch_template_specification = [{
             launch_template_id = "lt-0123456789abcdef1"
             version = "$Default"
-          }
-        }
-        instances_distribution = {
+          }]
+        }]
+        instances_distribution = [{
           on_demand_base_capacity = 1
           on_demand_percentage_above_base_capacity = 50
-        }
+        }]
       }
     ]
   }
@@ -47,10 +47,10 @@ resource "aws_autoscaling_group" "with_both" {
     name = "asg-with-both"
     max_size = 3
     min_size = 1
-    launch_template = {
+    launch_template = [{
       name = "my-launch-template"
       version = "1"
-    }
+    }]
     launch_configuration = "my-launch-config"
   }
 }

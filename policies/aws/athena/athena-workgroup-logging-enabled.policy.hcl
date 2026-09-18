@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -28,11 +28,12 @@ resource_policy "aws_athena_workgroup" "logging_enabled" {
     # Standard SQL workgroups: the AWS Config rule athena-workgroup-logging-enabled
     # evaluates PublishCloudWatchMetricsEnabled as the primary logging signal.
     # Default to false — a missing configuration block means logging is not enabled.
-    publish_cloudwatch_metrics_enabled = local.has_config ? core::try(local.configuration[0].publish_cloudwatch_metrics_enabled, false) : false
+    publish_cloudwatch_metrics_enabled = local.has_config ? (core::try(local.configuration[0].publish_cloudwatch_metrics_enabled, null) != null ? local.configuration[0].publish_cloudwatch_metrics_enabled : false) : false
 
     # --- Signals 2/3/4: monitoring_configuration (Apache Spark engine only) ---
     # monitoring_configuration supports three log destinations; any one enabled satisfies the control.
-    monitoring = core::try(local.configuration[0].monitoring_configuration, [])
+    monitoring_raw = core::try(local.configuration[0].monitoring_configuration, null)
+    monitoring     = local.monitoring_raw != null ? local.monitoring_raw : []
     has_monitoring = local.has_config && core::length(local.monitoring) > 0
 
     cloudwatch_logging_enabled = local.has_monitoring ? core::try(local.monitoring[0].cloud_watch_logging_configuration[0].enabled, false) : false

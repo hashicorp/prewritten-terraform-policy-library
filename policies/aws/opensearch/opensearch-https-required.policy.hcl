@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.9.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -22,7 +22,8 @@ resource_policy "aws_opensearch_domain" "tls_policy_check" {
         endpoint_options = core::try(attrs.domain_endpoint_options, null)
         has_endpoint_options = local.endpoint_options != null ? core::length(local.endpoint_options) > 0 : false
 
-        enforce_https = local.has_endpoint_options ? core::try(local.endpoint_options[0].enforce_https, true) : false
+        enforce_https_raw = local.has_endpoint_options ? core::try(local.endpoint_options[0].enforce_https, null) : null
+        enforce_https     = local.has_endpoint_options ? (local.enforce_https_raw != null ? local.enforce_https_raw : true) : false
         tls_policy = local.has_endpoint_options ? core::try(local.endpoint_options[0].tls_security_policy, "") : ""
 
         required_tls_policy = "Policy-Min-TLS-1-2-PFS-2023-10"

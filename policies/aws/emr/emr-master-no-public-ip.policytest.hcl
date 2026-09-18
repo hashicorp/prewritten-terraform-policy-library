@@ -11,10 +11,10 @@ resource "aws_emr_cluster" "pass_private_subnet_with_subnet_id" {
     name = "compliant-cluster"
     release_label = "emr-6.10.0"
     service_role = "arn:aws:iam::123456789012:role/EMR_DefaultRole"
-    ec2_attributes = {
+    ec2_attributes = [{
       subnet_id = "subnet-12345678"
       instance_profile = "arn:aws:iam::123456789012:instance-profile/EMR_EC2_DefaultRole"
-    }
+    }]
   }
 }
 
@@ -34,10 +34,10 @@ resource "aws_emr_cluster" "fail_public_subnet_with_subnet_id" {
     name = "non-compliant-cluster"
     release_label = "emr-6.10.0"
     service_role = "arn:aws:iam::123456789012:role/EMR_DefaultRole"
-    ec2_attributes = {
+    ec2_attributes = [{
       subnet_id = "subnet-87654321"
       instance_profile = "arn:aws:iam::123456789012:instance-profile/EMR_EC2_DefaultRole"
-    }
+    }]
   }
 }
 
@@ -56,10 +56,10 @@ resource "aws_emr_cluster" "pass_private_subnet_with_subnet_ids" {
     name = "compliant-cluster-multi"
     release_label = "emr-6.10.0"
     service_role = "arn:aws:iam::123456789012:role/EMR_DefaultRole"
-    ec2_attributes = {
+    ec2_attributes = [{
       subnet_ids = ["subnet-11111111", "subnet-22222222"]
       instance_profile = "arn:aws:iam::123456789012:instance-profile/EMR_EC2_DefaultRole"
-    }
+    }]
   }
 }
 
@@ -88,10 +88,10 @@ resource "aws_emr_cluster" "fail_public_subnet_with_subnet_ids" {
     name = "non-compliant-cluster-multi"
     release_label = "emr-6.10.0"
     service_role = "arn:aws:iam::123456789012:role/EMR_DefaultRole"
-    ec2_attributes = {
+    ec2_attributes = [{
       subnet_ids = ["subnet-99999999", "subnet-88888888"]
       instance_profile = "arn:aws:iam::123456789012:instance-profile/EMR_EC2_DefaultRole"
-    }
+    }]
   }
 }
 
@@ -130,9 +130,9 @@ resource "aws_emr_cluster" "fail_missing_subnet_config" {
     name = "no-subnet-cluster"
     release_label = "emr-6.10.0"
     service_role = "arn:aws:iam::123456789012:role/EMR_DefaultRole"
-    ec2_attributes = {
+    ec2_attributes = [{
       instance_profile = "arn:aws:iam::123456789012:instance-profile/EMR_EC2_DefaultRole"
-    }
+    }]
   }
 }
 
@@ -145,10 +145,10 @@ resource "aws_emr_cluster" "fail_mixed_subnet_ids_non_first_public" {
     name = "mixed-subnets-cluster"
     release_label = "emr-6.10.0"
     service_role = "arn:aws:iam::123456789012:role/EMR_DefaultRole"
-    ec2_attributes = {
+    ec2_attributes = [{
       subnet_ids = ["subnet-aaaaaaaa", "subnet-bbbbbbbb"]
       instance_profile = "arn:aws:iam::123456789012:instance-profile/EMR_EC2_DefaultRole"
-    }
+    }]
   }
 }
 

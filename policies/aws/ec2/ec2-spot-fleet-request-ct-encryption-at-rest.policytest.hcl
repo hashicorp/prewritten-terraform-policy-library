@@ -168,10 +168,10 @@ resource "aws_spot_fleet_request" "fail_launch_template_no_spec" {
   attrs = {
     launch_template_config = [
       {
-        launch_template_specification = {
+        launch_template_specification = [{
           id = "lt-12345678"
           version = "$Latest"
-        }
+        }]
       }
     ]
   }

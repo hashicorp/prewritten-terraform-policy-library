@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -22,7 +22,7 @@ resource_policy "aws_cloudfront_distribution" "default-root-object-configured" {
         origins = core::try(attrs.origin, [])
         s3_origins = [
             for origin in local.origins : origin
-            if core::try(origin.origin_access_control_id, "") != "" || core::try(origin.s3_origin_config, null) != null
+            if ((core::try(origin.origin_access_control_id, null) != null ? origin.origin_access_control_id : "") != "") || core::try(origin.s3_origin_config, null) != null
         ]
         condition = core::length(local.s3_origins) > 0 ? core::try(attrs.default_root_object, "") != "" : true
     }

@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -23,7 +23,7 @@ resource_policy "aws_ecs_service" "no_public_ip" {
     }
 
     enforce {
-        condition = local.has_network_config ? !core::try(attrs.network_configuration[0].assign_public_ip, false) : true
+        condition = local.has_network_config ? !(core::try(attrs.network_configuration[0].assign_public_ip, null) != null ? attrs.network_configuration[0].assign_public_ip : false) : true
         error_message = "ECS service has assign_public_ip set to true in network_configuration. This allows automatic public IP assignment, making the service reachable from the internet"
     }
 }

@@ -5,7 +5,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -23,7 +23,7 @@ resource_policy "aws_api_gateway_stage" "access_logging_enabled" {
         has_access_log = local.access_log_settings != null ? core::length(local.access_log_settings) > 0 : false
         
         # Verify destination ARN is set
-        has_destination = local.has_access_log ? core::try(local.access_log_settings[0].destination_arn, "") != "" : false
+        has_destination = local.has_access_log ? ((core::try(local.access_log_settings[0].destination_arn, null) != null ? local.access_log_settings[0].destination_arn : "") != "") : false
     }
 
     enforce {
@@ -55,7 +55,7 @@ resource_policy "aws_apigatewayv2_stage" "execution_logging_enabled" {
         # Also check if access logging is configured
         access_log_settings = core::try(attrs.access_log_settings, null)
         has_access_log = local.access_log_settings != null ? core::length(local.access_log_settings) > 0 : false
-        has_destination = local.has_access_log ? core::try(local.access_log_settings[0].destination_arn, "") != "" : false
+        has_destination = local.has_access_log ? ((core::try(local.access_log_settings[0].destination_arn, null) != null ? local.access_log_settings[0].destination_arn : "") != "") : false
     }
 
     enforce {

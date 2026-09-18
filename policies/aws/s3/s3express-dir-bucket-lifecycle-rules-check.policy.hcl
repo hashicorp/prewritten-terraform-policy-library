@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.28.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -41,8 +41,8 @@ resource_policy "aws_s3_directory_bucket" "directory_bucket_lifecycle" {
       for rule in local.rules :
       rule if (
         core::try(rule.status, "") == "Enabled" && (
-          core::length(core::try(rule.expiration, [])) > 0 ||
-          core::length(core::try(rule.abort_incomplete_multipart_upload, [])) > 0
+          core::length(core::try(rule.expiration, null) != null ? rule.expiration : []) > 0 ||
+          core::length(core::try(rule.abort_incomplete_multipart_upload, null) != null ? rule.abort_incomplete_multipart_upload : []) > 0
         )
       )
     ]

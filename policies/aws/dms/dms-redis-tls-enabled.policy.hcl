@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.29.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -28,7 +28,8 @@ resource_policy "aws_dms_endpoint" "redis_tls_enabled" {
         
         # Get ssl_security_protocol value
         # Default is "ssl-encryption" if not specified, which is compliant
-        ssl_protocol = core::try(local.redis_config.ssl_security_protocol, "ssl-encryption")
+        ssl_protocol_raw = core::try(local.redis_config.ssl_security_protocol, null)
+        ssl_protocol = local.ssl_protocol_raw != null ? local.ssl_protocol_raw : "ssl-encryption"
         
         # Check if TLS is enabled (not using plaintext)
         tls_enabled = local.ssl_protocol == "ssl-encryption"

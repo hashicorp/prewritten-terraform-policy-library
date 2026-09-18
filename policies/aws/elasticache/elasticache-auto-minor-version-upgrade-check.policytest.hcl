@@ -12,7 +12,7 @@ resource "aws_elasticache_cluster" "pass_redis_6_enabled" {
     cluster_id                  = "redis-6-enabled"
     engine                      = "redis"
     engine_version              = "6.0"
-    auto_minor_version_upgrade  = true
+    auto_minor_version_upgrade  = "true"
   }
 }
 
@@ -22,7 +22,7 @@ resource "aws_elasticache_cluster" "pass_valkey_7_enabled" {
     cluster_id                  = "valkey-7-enabled"
     engine                      = "valkey"
     engine_version              = "7.0"
-    auto_minor_version_upgrade  = true
+    auto_minor_version_upgrade  = "true"
   }
 }
 
@@ -42,7 +42,7 @@ resource "aws_elasticache_cluster" "fail_redis_6_disabled" {
     cluster_id                  = "redis-6-disabled"
     engine                      = "redis"
     engine_version              = "6.0"
-    auto_minor_version_upgrade  = false
+    auto_minor_version_upgrade  = "false"
   }
 }
 
@@ -53,7 +53,7 @@ resource "aws_elasticache_cluster" "fail_valkey_7_disabled" {
     cluster_id                  = "valkey-7-disabled"
     engine                      = "valkey"
     engine_version              = "7.0"
-    auto_minor_version_upgrade  = false
+    auto_minor_version_upgrade  = "false"
   }
 }
 
@@ -63,7 +63,7 @@ resource "aws_elasticache_cluster" "pass_non_matching_engine" {
     cluster_id                  = "memcached-excluded"
     engine                      = "memcached"
     engine_version              = "1.6.0"
-    auto_minor_version_upgrade  = false
+    auto_minor_version_upgrade  = "false"
   }
 }
 
@@ -72,7 +72,7 @@ resource "aws_elasticache_cluster" "pass_missing_engine_version" {
   attrs = {
     cluster_id                  = "missing-version"
     engine                      = "redis"
-    auto_minor_version_upgrade  = true
+    auto_minor_version_upgrade  = "true"
   }
 }
 
@@ -83,6 +83,6 @@ resource "aws_elasticache_cluster" "pass_redis_below_6" {
     cluster_id                  = "redis-5-excluded"
     engine                      = "redis"
     engine_version              = "5.0.6"
-    auto_minor_version_upgrade  = false
+    auto_minor_version_upgrade  = "false"
   }
 }

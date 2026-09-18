@@ -52,9 +52,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_with_expiration" {
       {
         id     = "expiration-rule"
         status = "Enabled"
-        expiration = {
+        expiration = [{
           days = 365
-        }
+        }]
       }
     ]
   }
@@ -211,9 +211,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_noncurrent_expiratio
       {
         id     = "noncurrent-expiration-rule"
         status = "Enabled"
-        noncurrent_version_expiration = {
+        noncurrent_version_expiration = [{
           noncurrent_days = 90
-        }
+        }]
       }
     ]
   }
@@ -227,9 +227,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_abort_multipart" {
       {
         id     = "abort-multipart-rule"
         status = "Enabled"
-        abort_incomplete_multipart_upload = {
+        abort_incomplete_multipart_upload = [{
           days_after_initiation = 7
-        }
+        }]
       }
     ]
   }
@@ -272,9 +272,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_mixed_rules" {
       {
         id     = "disabled-rule"
         status = "Disabled"
-        expiration = {
+        expiration = [{
           days = 365
-        }
+        }]
       }
     ]
   }
@@ -294,18 +294,18 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_multiple_actions" {
             storage_class = "STANDARD_IA"
           }
         ]
-        expiration = {
+        expiration = [{
           days = 365
-        }
+        }]
         noncurrent_version_transition = [
           {
             noncurrent_days = 30
             storage_class   = "GLACIER"
           }
         ]
-        noncurrent_version_expiration = {
+        noncurrent_version_expiration = [{
           noncurrent_days = 90
-        }
+        }]
       }
     ]
   }

@@ -12,13 +12,13 @@ resource "aws_msk_cluster" "iam_auth_object_shape_pass" {
     cluster_name = "test-cluster-iam-object"
     kafka_version = "2.8.1"
     number_of_broker_nodes = 3
-    client_authentication = {
-      sasl = {
+    client_authentication = [{
+      sasl = [{
         iam = true
         scram = false
-      }
+      }]
       unauthenticated = false
-    }
+    }]
   }
 }
 

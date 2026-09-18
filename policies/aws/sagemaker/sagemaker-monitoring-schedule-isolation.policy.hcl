@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.63.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -24,8 +24,9 @@ resource_policy "aws_sagemaker_monitoring_schedule" "network_isolation_enabled" 
     locals {
         schedule_config = core::jsondecode(core::jsonencode(attrs.monitoring_schedule_config[0]))
         job_def = local.schedule_config.monitoring_job_definition[0]
-        has_network_config = core::try(local.job_def.network_config, null) != null && core::length(core::try(local.job_def.network_config, [])) > 0
-        network_isolation_enabled = local.has_network_config ? core::try(local.job_def.network_config[0].enable_network_isolation, false) : false
+        has_network_config = core::try(local.job_def.network_config, null) != null && core::length(core::try(local.job_def.network_config, null) != null ? local.job_def.network_config : []) > 0
+        network_isolation_enabled_raw = local.has_network_config ? core::try(local.job_def.network_config[0].enable_network_isolation, null) : null
+        network_isolation_enabled = local.network_isolation_enabled_raw != null ? local.network_isolation_enabled_raw : false
     }
 
     enforce {

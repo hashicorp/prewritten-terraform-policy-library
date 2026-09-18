@@ -16,42 +16,24 @@ This rule is covered by the [blob-versioning](https://github.com/hashicorp/prewr
 
 ```bash
 trace:
-	# blob-versioning.policytest.hcl...
-	running
-	# resource.azurerm_storage_account.pass_versioning_enabled...
-	running
-	# resource.azurerm_storage_account.pass_versioning_enabled...
-	pass
-	# resource.azurerm_storage_account.pass_storage_v1_outside_scope...
-	running
-	# resource.azurerm_storage_account.pass_storage_v1_outside_scope...
-	pass
-	# resource.azurerm_storage_account.pass_file_storage_outside_scope...
-	running
-	# resource.azurerm_storage_account.pass_file_storage_outside_scope...
-	pass
-	# resource.azurerm_storage_account.pass_blob_properties_list_form...
-	running
-	# resource.azurerm_storage_account.pass_blob_properties_list_form...
-	pass
-	# resource.azurerm_storage_account.fail_versioning_disabled...
-	running
-	# resource.azurerm_storage_account.fail_versioning_disabled...
-	fail
-	# resource.azurerm_storage_account.fail_blob_properties_missing...
-	running
-	# resource.azurerm_storage_account.fail_blob_properties_missing...
-	fail
-	# resource.azurerm_storage_account.fail_versioning_omitted...
-	running
-	# resource.azurerm_storage_account.fail_versioning_omitted...
-	fail
-	# resource.azurerm_storage_account.fail_versioning_null...
-	running
-	# resource.azurerm_storage_account.fail_versioning_null...
-	fail
-	# blob-versioning.policytest.hcl...
-	pass
+	# blob-versioning.policytest.hcl... running
+	# resource.azurerm_storage_account.pass_versioning_enabled... running
+	# resource.azurerm_storage_account.pass_versioning_enabled... pass
+	# resource.azurerm_storage_account.pass_storage_v1_outside_scope... running
+	# resource.azurerm_storage_account.pass_storage_v1_outside_scope... pass
+	# resource.azurerm_storage_account.pass_file_storage_outside_scope... running
+	# resource.azurerm_storage_account.pass_file_storage_outside_scope... pass
+	# resource.azurerm_storage_account.pass_blob_properties_list_form... running
+	# resource.azurerm_storage_account.pass_blob_properties_list_form... pass
+	# resource.azurerm_storage_account.fail_versioning_disabled... running
+	# resource.azurerm_storage_account.fail_versioning_disabled... pass
+	# resource.azurerm_storage_account.fail_blob_properties_missing... running
+	# resource.azurerm_storage_account.fail_blob_properties_missing... pass
+	# resource.azurerm_storage_account.fail_versioning_omitted... running
+	# resource.azurerm_storage_account.fail_versioning_omitted... pass
+	# resource.azurerm_storage_account.fail_versioning_null... running
+	# resource.azurerm_storage_account.fail_versioning_null... pass
+	# blob-versioning.policytest.hcl... pass
 ```
 
 ---

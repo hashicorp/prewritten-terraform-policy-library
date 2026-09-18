@@ -79,11 +79,11 @@ resource "aws_cloudfront_distribution" "pass_custom_origin_only" {
       {
         domain_name = "example.com"
         origin_id = "custom-origin"
-        custom_origin_config = {
+        custom_origin_config = [{
           http_port = 80
           https_port = 443
           origin_protocol_policy = "https-only"
-        }
+        }]
       }
     ]
     enabled = true
@@ -205,11 +205,11 @@ resource "aws_cloudfront_distribution" "pass_mixed_custom_and_s3_with_oac" {
       {
         domain_name = "api.example.com"
         origin_id   = "custom-api"
-        custom_origin_config = {
+        custom_origin_config = [{
           http_port              = 80
           https_port             = 443
           origin_protocol_policy = "https-only"
-        }
+        }]
       },
       {
         domain_name              = "my-bucket.s3.amazonaws.com"
@@ -229,11 +229,11 @@ resource "aws_cloudfront_distribution" "fail_mixed_custom_and_s3_without_oac" {
       {
         domain_name = "api.example.com"
         origin_id   = "custom-api"
-        custom_origin_config = {
+        custom_origin_config = [{
           http_port              = 80
           https_port             = 443
           origin_protocol_policy = "https-only"
-        }
+        }]
       },
       {
         domain_name = "my-bucket.s3.amazonaws.com"

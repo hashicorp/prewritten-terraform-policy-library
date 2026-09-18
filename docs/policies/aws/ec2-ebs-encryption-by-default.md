@@ -21,8 +21,8 @@ trace:
       # resource.aws_ebs_encryption_by_default.enabled_true... pass
       # resource.aws_ebs_encryption_by_default.enabled_false... running
       # resource.aws_ebs_encryption_by_default.enabled_false... pass
-      # resource.aws_ebs_encryption_by_default.no_enabled_attr... running
-      # resource.aws_ebs_encryption_by_default.no_enabled_attr... pass
+      # resource.aws_ebs_encryption_by_default.pass_enabled_unset... running
+      # resource.aws_ebs_encryption_by_default.pass_enabled_unset... pass
       # ec2-ebs-encryption-by-default.policytest.hcl... pass
 ```
 

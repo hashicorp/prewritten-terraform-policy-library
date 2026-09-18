@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -27,7 +27,8 @@ resource_policy "aws_dax_cluster" "encryption_at_rest_required" {
         has_sse_block = core::length(local.sse_config) > 0
         
         # Check if encryption is enabled (defaults to false if not set)
-        encryption_enabled = local.has_sse_block && core::try(local.sse_config[0].enabled, false)
+        encryption_enabled_raw = core::try(local.sse_config[0].enabled, null)
+        encryption_enabled = local.has_sse_block && (local.encryption_enabled_raw != null ? local.encryption_enabled_raw : false)
     }
 
     enforce {

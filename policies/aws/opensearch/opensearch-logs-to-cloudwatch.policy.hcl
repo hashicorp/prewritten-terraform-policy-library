@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.9.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -26,7 +26,8 @@ resource_policy "aws_opensearch_domain" "error_logging_enabled" {
         ]
         has_application_logs = core::length(local.application_log_configs) > 0
 
-        is_enabled = local.has_application_logs ? core::try(local.application_log_configs[0].enabled, true) : false
+        is_enabled_raw = local.has_application_logs ? core::try(local.application_log_configs[0].enabled, null) : null
+        is_enabled     = local.has_application_logs ? (local.is_enabled_raw != null ? local.is_enabled_raw : true) : false
 
         log_group_arn = local.has_application_logs ? core::try(local.application_log_configs[0].cloudwatch_log_group_arn, null) : null
         has_log_group = local.log_group_arn != null && local.log_group_arn != ""

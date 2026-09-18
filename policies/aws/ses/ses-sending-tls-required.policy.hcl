@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.35.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -25,7 +25,8 @@ resource_policy "aws_ses_configuration_set" "tls_required" {
         has_delivery_options = core::length(local.delivery_options) > 0
         
         # Extract TLS policy (default is 'Optional' if not specified)
-        tls_policy = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, "Optional") : "Optional"
+        tls_policy_raw = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, null) : null
+        tls_policy = local.tls_policy_raw != null ? local.tls_policy_raw : "Optional"
         
         # Check if TLS is required
         is_compliant = local.tls_policy == "Require"
@@ -46,7 +47,8 @@ resource_policy "aws_sesv2_configuration_set" "tls_required" {
         has_delivery_options = core::length(local.delivery_options) > 0
         
         # Extract TLS policy (default is 'OPTIONAL' if not specified)
-        tls_policy = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, "OPTIONAL") : "OPTIONAL"
+        tls_policy_raw = local.has_delivery_options ? core::try(local.delivery_options[0].tls_policy, null) : null
+        tls_policy = local.tls_policy_raw != null ? local.tls_policy_raw : "OPTIONAL"
         
         # Check if TLS is required
         is_compliant = local.tls_policy == "REQUIRE"

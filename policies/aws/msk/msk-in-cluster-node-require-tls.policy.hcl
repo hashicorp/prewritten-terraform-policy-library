@@ -5,7 +5,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -20,9 +20,10 @@ resource_policy "aws_msk_cluster" "encryption_in_transit" {
     locals {
         has_encryption_info = core::try(attrs.encryption_info, null) != null && core::length(core::try(attrs.encryption_info, [])) > 0
         
-        has_encryption_in_transit = local.has_encryption_info && core::try(attrs.encryption_info[0].encryption_in_transit, null) != null && core::length(core::try(attrs.encryption_info[0].encryption_in_transit, [])) > 0
+        has_encryption_in_transit = local.has_encryption_info && core::try(attrs.encryption_info[0].encryption_in_transit, null) != null && core::length(core::try(attrs.encryption_info[0].encryption_in_transit, null) != null ? attrs.encryption_info[0].encryption_in_transit : []) > 0
         
-        in_cluster_encryption = local.has_encryption_in_transit ? core::try(attrs.encryption_info[0].encryption_in_transit[0].in_cluster, true) : true
+        in_cluster_encryption_raw = local.has_encryption_in_transit ? core::try(attrs.encryption_info[0].encryption_in_transit[0].in_cluster, null) : null
+        in_cluster_encryption     = local.has_encryption_in_transit ? (local.in_cluster_encryption_raw != null ? local.in_cluster_encryption_raw : true) : true
         
         encryption_enabled = local.in_cluster_encryption == true
     }

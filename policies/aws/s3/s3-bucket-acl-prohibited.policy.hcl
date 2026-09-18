@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -21,13 +21,9 @@ resource_policy "aws_s3_bucket" "acl_prohibited" {
   locals {
     bucket_name = core::try(attrs.bucket, "")
 
-    # Check for ACL set directly on the aws_s3_bucket resource itself.
-    # NOTE: attrs.acl was deprecated in AWS provider v5 and removed in v6+.
-    # This check is kept for plans using provider v4/v5; it is effectively
-    # dead code for provider v6+ plans (acl attribute will not be present).
-    has_direct_acl    = core::try(attrs.acl, "") != ""
-    has_direct_policy = core::length(core::try(attrs.access_control_policy, [])) > 0
-    has_direct_acl_config = local.has_direct_acl || local.has_direct_policy
+    # ACL set directly on the aws_s3_bucket resource. Still present in the provider
+    # schema for the supported range (>= 4.0.0, < 7.0.0), so this is a live check.
+    has_direct_acl = core::try(attrs.acl, "") != ""
 
     # Find separate aws_s3_bucket_acl resources targeting this bucket.
     matching_bucket_acls = core::getresources("aws_s3_bucket_acl", {
@@ -48,7 +44,7 @@ resource_policy "aws_s3_bucket" "acl_prohibited" {
   }
 
   enforce {
-    condition     = !local.has_direct_acl_config && !local.has_acl_association
-    error_message = "S3 bucket must not use ACLs to manage access, whether set directly on the bucket resource (via 'acl' or 'access_control_policy') or via an associated aws_s3_bucket_acl resource. Use a bucket policy or IAM policy instead."
+    condition     = !local.has_direct_acl && !local.has_acl_association
+    error_message = "S3 bucket must not use ACLs to manage access, whether set directly on the bucket resource via 'acl' or via an associated aws_s3_bucket_acl resource. Use a bucket policy or IAM policy instead."
   }
 }

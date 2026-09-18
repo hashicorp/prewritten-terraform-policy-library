@@ -12,9 +12,9 @@ resource "azurerm_storage_account" "pass_versioning_enabled" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties = {
+    blob_properties = [{
       versioning_enabled = true
-    }
+    }]
   }
 }
 
@@ -65,9 +65,9 @@ resource "azurerm_storage_account" "fail_versioning_disabled" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties = {
+    blob_properties = [{
       versioning_enabled = false
-    }
+    }]
   }
 }
 
@@ -92,7 +92,7 @@ resource "azurerm_storage_account" "fail_versioning_omitted" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties          = {}
+    blob_properties          = [{}]
   }
 }
 
@@ -105,8 +105,8 @@ resource "azurerm_storage_account" "fail_versioning_null" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    blob_properties = {
+    blob_properties = [{
       versioning_enabled = null
-    }
+    }]
   }
 }

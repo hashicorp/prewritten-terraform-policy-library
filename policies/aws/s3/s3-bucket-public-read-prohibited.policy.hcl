@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -51,7 +51,7 @@ resource_policy "aws_s3_bucket" "bucket-public-read-prohibited" {
     public_acl_grants = local.has_access_control_policy ? [
       for grant in core::try(local.final_acl.access_control_policy[0].grant, []) : grant
       if core::try(grant.grantee[0].type, "") == "Group" &&
-      core::contains(core::split("/", core::try(grant.grantee[0].uri, "")), "AllUsers") &&
+      core::contains(core::split("/", core::try(grant.grantee[0].uri, null) != null ? grant.grantee[0].uri : ""), "AllUsers") &&
       core::contains(local.public_read_permissions, core::try(grant.permission, ""))
     ] : []
 

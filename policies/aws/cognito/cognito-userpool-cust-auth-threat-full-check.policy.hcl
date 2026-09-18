@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.0.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
@@ -27,7 +27,7 @@ resource_policy "aws_cognito_user_pool" "threat_protection_enforced" {
         security_mode = local.has_add_ons ? core::try(local.add_ons[0].advanced_security_mode, "") : ""
         
         # Check if advanced_security_additional_flows exists
-        additional_flows = local.has_add_ons ? core::try(local.add_ons[0].advanced_security_additional_flows, []) : []
+        additional_flows = local.has_add_ons ? (core::try(local.add_ons[0].advanced_security_additional_flows, null) != null ? local.add_ons[0].advanced_security_additional_flows : []) : []
         has_additional_flows = core::length(local.additional_flows) > 0
         
         # Get custom_auth_mode
