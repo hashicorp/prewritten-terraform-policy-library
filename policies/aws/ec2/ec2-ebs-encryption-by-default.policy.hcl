@@ -18,8 +18,12 @@ input "ec2-ebs-encryption-by-default-enforcement-level" {
 
 resource_policy "aws_ebs_encryption_by_default" "encryption_enabled" {
     enforcement_level = input.ec2-ebs-encryption-by-default-enforcement-level
+    locals {
+        enabled_raw = core::try(attrs.enabled, null)
+        enabled     = local.enabled_raw != null ? local.enabled_raw : true
+    }
     enforce {
-        condition = core::try(attrs.enabled, true) == true
+        condition = local.enabled == true
         error_message = "EBS default encryption resource must have 'enabled = true'"
     }
 }

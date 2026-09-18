@@ -35,7 +35,8 @@ resource_policy "aws_cloudfront_distribution" "sni_required" {
         uses_default_cert = core::try(local.viewer_cert[0].cloudfront_default_certificate, false) == true
         
         # Extract SSL support method
-        ssl_support_method = core::try(local.viewer_cert[0].ssl_support_method, "")
+        ssl_support_method_raw = core::try(local.viewer_cert[0].ssl_support_method, null)
+        ssl_support_method = local.ssl_support_method_raw != null ? local.ssl_support_method_raw : ""
         
         # Check if using dedicated IP (violation)
         uses_dedicated_ip = local.ssl_support_method == "vip" || local.ssl_support_method == "static-ip"

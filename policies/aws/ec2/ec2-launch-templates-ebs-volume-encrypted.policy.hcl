@@ -24,7 +24,7 @@ resource_policy "aws_launch_template" "ebs_encryption_enabled" {
         # Filter for block device mappings that have EBS volumes without encryption
         unencrypted_devices = [
             for mapping in core::try(attrs.block_device_mappings, []) : mapping
-            if core::length(core::try(mapping.ebs, [])) > 0 && !core::try(mapping.ebs[0].encrypted, false)
+            if core::length(core::try(mapping.ebs, null) != null ? mapping.ebs : []) > 0 && !(core::try(mapping.ebs[0].encrypted, null) != null ? mapping.ebs[0].encrypted : false)
         ]
     }
 

@@ -30,7 +30,8 @@ resource_policy "aws_appsync_graphql_api" "field_logging_enabled" {
         log_config = local.has_log_config ? core::try(local.raw_log_config[0], null) : null
         
         # Extract field log level with safe fallback
-        field_log_level = core::try(local.log_config.field_log_level, "NONE")
+        field_log_level_raw = core::try(local.log_config.field_log_level, null)
+        field_log_level = local.field_log_level_raw != null ? local.field_log_level_raw : "NONE"
         cloudwatch_logs_role_arn = core::try(local.log_config.cloudwatch_logs_role_arn, "")
         has_cloudwatch_logs_role_arn = core::try(local.cloudwatch_logs_role_arn != "", false)
         

@@ -30,12 +30,12 @@ resource_policy "aws_elasticsearch_domain" "audit_logging_enabled" {
 
         audit_log_configs = [
             for config in core::try(attrs.log_publishing_options, []) : config
-            if config.log_type == "AUDIT_LOGS" && core::try(config.cloudwatch_log_group_arn, "") != ""  && (
+            if config.log_type == "AUDIT_LOGS" && (core::try(config.cloudwatch_log_group_arn, null) != null && config.cloudwatch_log_group_arn != "")  && (
                 core::length(local.inputs) > 0 ? core::contains(local.inputs, core::try(config.cloudwatch_log_group_arn, "")) : true
             )
         ]
         has_audit_logs = core::length(local.audit_log_configs) > 0
-        audit_enabled = local.has_audit_logs ? core::try(local.audit_log_configs[0].enabled, true) : false
+        audit_enabled = local.has_audit_logs ? (core::try(local.audit_log_configs[0].enabled, null) != null ? local.audit_log_configs[0].enabled : true) : false
     }
 
     enforce {

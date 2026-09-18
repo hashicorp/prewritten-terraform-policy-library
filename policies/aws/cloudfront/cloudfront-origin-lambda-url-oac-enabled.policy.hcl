@@ -32,7 +32,7 @@ resource_policy "aws_cloudfront_distribution" "lambda_url_oac_required" {
             for origin in local.origins :
             origin if (
                 core::try(origin.custom_origin_config, null) != null &&
-                core::length(core::try(origin.custom_origin_config, [])) > 0 &&
+                core::length(core::try(origin.custom_origin_config, null) != null ? origin.custom_origin_config : []) > 0 &&
                 core::length(
                     core::regexall(
                         "^[^.]+\\.lambda-url\\.[^.]+\\.on\\.aws$",

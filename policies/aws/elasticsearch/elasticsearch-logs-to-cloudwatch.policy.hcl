@@ -27,7 +27,7 @@ resource_policy "aws_elasticsearch_domain" "error_logging_enabled" {
         has_app_logs = core::length([
           for opt in local.log_publishing_options : opt
           if core::try(opt.log_type, "") == local.es_log_type &&
-            core::try(opt.enabled, true) == true &&
+            (core::try(opt.enabled, null) != null ? opt.enabled : true) &&
             core::try(opt.cloudwatch_log_group_arn, "") != ""
         ]) > 0
     }

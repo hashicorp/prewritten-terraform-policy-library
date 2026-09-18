@@ -24,7 +24,8 @@ resource_policy "aws_mskconnect_connector" "encryption_in_transit_required" {
         kafka_encryption_in_transit = local.kafka_encryption_in_transit_raw != null ? local.kafka_encryption_in_transit_raw : []
         
         # Extract encryption type with safe fallback
-        encryption_type = core::try(local.kafka_encryption_in_transit[0].encryption_type, "PLAINTEXT")
+        encryption_type_raw = core::try(local.kafka_encryption_in_transit[0].encryption_type, null)
+        encryption_type     = local.encryption_type_raw != null ? local.encryption_type_raw : "PLAINTEXT"
         
         # Check if encryption is properly configured
         is_encrypted = local.encryption_type == "TLS"

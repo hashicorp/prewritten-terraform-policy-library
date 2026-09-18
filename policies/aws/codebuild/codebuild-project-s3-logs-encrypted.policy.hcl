@@ -29,7 +29,8 @@ resource_policy "aws_codebuild_project" "s3_logs_encrypted" {
         s3_logging_enabled = local.s3_logs != null && core::try(local.s3_logs.status, "DISABLED") == "ENABLED"
         
         # Check if encryption is explicitly disabled (default is false, meaning encryption is ON)
-        encryption_disabled = core::try(local.s3_logs.encryption_disabled, false)
+        encryption_disabled_raw = core::try(local.s3_logs.encryption_disabled, null)
+        encryption_disabled     = local.encryption_disabled_raw != null ? local.encryption_disabled_raw : false
         
         # Policy passes if:
         # 1. S3 logging is not enabled, OR
