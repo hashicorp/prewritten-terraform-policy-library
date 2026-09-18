@@ -6,7 +6,7 @@
 
 ## Description
 
-This control checks that no `network_interface` on a `google_compute_instance` defines an `access_config` (public IPv4) or `ipv6_access_config` (public IPv6) block. As an exception, GKE-managed nodes — identified by a name prefixed with `gke-` combined with the `goog-gke-node` label — are excluded, since GKE provisions and manages its own node networking.
+This control checks that no `network_interface` on a `google_compute_instance` defines an `access_config` (public IPv4) or `ipv6_access_config` (public IPv6) block. This control does not exempt instances that appear to be GKE-managed nodes: a `gke-` name prefix and a `goog-gke-node` label are both attacker/author-controlled on a hand-written `google_compute_instance` resource and do not reliably prove GKE ownership — genuine GKE nodes are provisioned by GCP through node pools and managed instance groups, and normally never appear as directly authored `google_compute_instance` resources in a Terraform plan.
 
 An instance with a public IP address is directly reachable from the internet, bypassing any expectation that traffic must first traverse a load balancer, bastion host, or Cloud NAT gateway. This significantly increases the instance's exposure to internet-based scanning and attacks. Instances that don't need to be directly internet-facing should rely on private IPs only, with Cloud NAT or a load balancer providing any necessary outbound/inbound connectivity.
 
@@ -22,9 +22,9 @@ trace:
    running
    # resource.google_compute_instance.pass_without_public_access... 
    pass
-   # resource.google_compute_instance.pass_gke_exception... 
+   # resource.google_compute_instance.fail_gke_named_instance_with_public_ip... 
    running
-   # resource.google_compute_instance.pass_gke_exception... 
+   # resource.google_compute_instance.fail_gke_named_instance_with_public_ip... 
    pass
    # resource.google_compute_instance.fail_ephemeral_ipv4... 
    running
