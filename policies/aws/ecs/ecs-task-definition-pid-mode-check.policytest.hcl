@@ -10,12 +10,7 @@ policytest {
 resource "aws_ecs_task_definition" "pass_pid_mode_not_specified" {
   attrs = {
     family = "test-task-default"
-    container_definitions = [
-        {
-            name = "test-container"
-            image = "nginx:latest"
-        }
-    ]
+    container_definitions = "[{\"name\":\"test-container\",\"image\":\"nginx:latest\"}]"
     cpu    = "256"
     memory = "512"
     network_mode = "awsvpc"
@@ -27,12 +22,7 @@ resource "aws_ecs_task_definition" "pass_pid_mode_not_specified" {
 resource "aws_ecs_task_definition" "pass_pid_mode_task" {
   attrs = {
     family = "test-task-explicit"
-    container_definitions = [
-        {
-            name = "test-container"
-            image = "nginx:latest"
-        }
-    ]
+    container_definitions = "[{\"name\":\"test-container\",\"image\":\"nginx:latest\"}]"
     cpu    = "256"
     memory = "512"
     network_mode = "awsvpc"
@@ -46,12 +36,7 @@ resource "aws_ecs_task_definition" "fail_pid_mode_host" {
   expect_failure = true
   attrs = {
     family = "test-task-host"
-    container_definitions = [
-        {
-            name = "test-container"
-            image = "nginx:latest"
-        }
-    ]
+    container_definitions = "[{\"name\":\"test-container\",\"image\":\"nginx:latest\"}]"
     cpu    = "256"
     memory = "512"
     network_mode = "bridge"

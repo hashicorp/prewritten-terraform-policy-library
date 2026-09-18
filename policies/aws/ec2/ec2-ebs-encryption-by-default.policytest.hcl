@@ -21,7 +21,10 @@ resource "aws_ebs_encryption_by_default" "enabled_false" {
   }
 }
 
-# Test 3: PASS - Resource without enabled attribute (defaults to false)
-resource "aws_ebs_encryption_by_default" "no_enabled_attr" {
-  attrs = {}
+# Test 3: PASS - 'enabled' unset. A missing attribute resolves to null, which the
+# policy coalesces to the provider default of true, so this passes.
+resource "aws_ebs_encryption_by_default" "pass_enabled_unset" {
+  attrs = {
+    enabled = null
+  }
 }

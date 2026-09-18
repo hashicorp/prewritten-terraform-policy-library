@@ -14,7 +14,7 @@ resource "aws_launch_template" "pass_single_volume_encrypted" {
         device_name = "/dev/sda1"
         ebs = [
           {
-            encrypted = true
+            encrypted = "true"
             volume_size = 20
             volume_type = "gp3"
           }
@@ -33,7 +33,7 @@ resource "aws_launch_template" "fail_single_volume_not_encrypted" {
         device_name = "/dev/sda1"
         ebs = [
           {
-            encrypted = false
+            encrypted = "false"
             volume_size = 20
             volume_type = "gp3"
           }
@@ -69,7 +69,7 @@ resource "aws_launch_template" "pass_multiple_volumes_all_encrypted" {
         device_name = "/dev/sda1"
         ebs = [
           {
-            encrypted = true
+            encrypted = "true"
             volume_size = 20
             volume_type = "gp3"
           }
@@ -79,7 +79,7 @@ resource "aws_launch_template" "pass_multiple_volumes_all_encrypted" {
         device_name = "/dev/sdb"
         ebs = [
           {
-            encrypted = true
+            encrypted = "true"
             volume_size = 100
             volume_type = "gp3"
           }
@@ -98,7 +98,7 @@ resource "aws_launch_template" "fail_multiple_volumes_mixed_encryption" {
         device_name = "/dev/sda1"
         ebs = [
           {
-            encrypted = true
+            encrypted = "true"
             volume_size = 20
             volume_type = "gp3"
           }
@@ -108,7 +108,7 @@ resource "aws_launch_template" "fail_multiple_volumes_mixed_encryption" {
         device_name = "/dev/sdb"
         ebs = [
           {
-            encrypted = false
+            encrypted = "false"
             volume_size = 100
             volume_type = "gp3"
           }
@@ -127,7 +127,7 @@ resource "aws_launch_template" "fail_multiple_volumes_some_missing_encryption" {
         device_name = "/dev/sda1"
         ebs = [
           {
-            encrypted = true
+            encrypted = "true"
             volume_size = 20
             volume_type = "gp3"
           }
@@ -174,7 +174,7 @@ resource "aws_launch_template" "pass_encrypted_with_kms_key" {
         device_name = "/dev/sda1"
         ebs = [
           {
-            encrypted = true
+            encrypted = "true"
             kms_key_id = "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
             volume_size = 20
             volume_type = "gp3"

@@ -25,7 +25,7 @@ resource "aws_instance" "secondary_eni_fail" {
     secondary_network_interface = [
       {
         device_index = 1
-        network_interface_id = "eni-secondary-123"
+        secondary_interface_id = "eni-secondary-123"
         delete_on_termination = true
       }
     ]
@@ -79,12 +79,12 @@ resource "aws_instance" "multiple_secondary_fail" {
     secondary_network_interface = [
       {
         device_index = 1
-        network_interface_id = "eni-secondary-1"
+        secondary_interface_id = "eni-secondary-1"
         delete_on_termination = true
       },
       {
         device_index = 2
-        network_interface_id = "eni-secondary-2"
+        secondary_interface_id = "eni-secondary-2"
         delete_on_termination = true
       }
     ]
@@ -110,7 +110,7 @@ resource "aws_instance" "combined_fail" {
     secondary_network_interface = [
       {
         device_index = 1
-        network_interface_id = "eni-combined-secondary"
+        secondary_interface_id = "eni-combined-secondary"
         delete_on_termination = true
       }
     ]

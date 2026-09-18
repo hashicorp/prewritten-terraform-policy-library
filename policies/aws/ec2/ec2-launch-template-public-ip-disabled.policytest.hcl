@@ -20,7 +20,7 @@ resource "aws_launch_template" "pass_explicit_false" {
     name = "example-template"
     network_interfaces = [
       {
-        associate_public_ip_address = false
+        associate_public_ip_address = "false"
         device_index = 0
         subnet_id = "subnet-12345678"
       }
@@ -49,7 +49,7 @@ resource "aws_launch_template" "fail_public_ip_enabled" {
     name = "example-template"
     network_interfaces = [
       {
-        associate_public_ip_address = true
+        associate_public_ip_address = "true"
         device_index = 0
         subnet_id = "subnet-12345678"
       }
@@ -64,12 +64,12 @@ resource "aws_launch_template" "fail_multiple_interfaces_one_public" {
     name = "example-template"
     network_interfaces = [
       {
-        associate_public_ip_address = false
+        associate_public_ip_address = "false"
         device_index = 0
         subnet_id = "subnet-12345678"
       },
       {
-        associate_public_ip_address = true
+        associate_public_ip_address = "true"
         device_index = 1
         subnet_id = "subnet-87654321"
       }
@@ -83,12 +83,12 @@ resource "aws_launch_template" "pass_multiple_interfaces_all_false" {
     name = "example-template"
     network_interfaces = [
       {
-        associate_public_ip_address = false
+        associate_public_ip_address = "false"
         device_index = 0
         subnet_id = "subnet-12345678"
       },
       {
-        associate_public_ip_address = false
+        associate_public_ip_address = "false"
         device_index = 1
         subnet_id = "subnet-87654321"
       }

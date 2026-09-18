@@ -10,7 +10,7 @@ policytest {
 resource "aws_fsx_openzfs_file_system" "pass_copy_tags_enabled" {
     attrs = {
         storage_capacity    = 64
-        subnet_ids          = "test_subnet_id"
+        subnet_ids          = ["test_subnet_id"]
         deployment_type     = "SINGLE_AZ_1"
         throughput_capacity = 64
         copy_tags_to_backups = true
@@ -23,7 +23,7 @@ resource "aws_fsx_openzfs_file_system" "fail_copy_tags_backup_disabled" {
     expect_failure = true
     attrs = {
         storage_capacity    = 64
-        subnet_ids          = "test_subnet_id"
+        subnet_ids          = ["test_subnet_id"]
         deployment_type     = "SINGLE_AZ_1"
         throughput_capacity = 64
         copy_tags_to_backups = false
@@ -36,7 +36,7 @@ resource "aws_fsx_openzfs_file_system" "fail_copy_tags_volume_disabled" {
     expect_failure = true
     attrs = {
         storage_capacity    = 64
-        subnet_ids          = "test_subnet_id"
+        subnet_ids          = ["test_subnet_id"]
         deployment_type     = "SINGLE_AZ_1"
         throughput_capacity = 64
         copy_tags_to_backups = true
@@ -49,7 +49,7 @@ resource "aws_fsx_openzfs_file_system" "fail_copy_tags_disabled" {
     expect_failure = true
     attrs = {
         storage_capacity    = 64
-        subnet_ids          = "test_subnet_id"
+        subnet_ids          = ["test_subnet_id"]
         deployment_type     = "SINGLE_AZ_1"
         throughput_capacity = 64
         copy_tags_to_backups = false
@@ -62,7 +62,7 @@ resource "aws_fsx_openzfs_file_system" "fail_copy_tags_backup_missing" {
     expect_failure = true
     attrs = {
         storage_capacity    = 64
-        subnet_ids          = "test_subnet_id"
+        subnet_ids          = ["test_subnet_id"]
         deployment_type     = "SINGLE_AZ_1"
         throughput_capacity = 64
         copy_tags_to_volumes = true
@@ -74,7 +74,7 @@ resource "aws_fsx_openzfs_file_system" "fail_copy_tags_missing" {
     expect_failure = true
     attrs = {
         storage_capacity    = 64
-        subnet_ids          = "test_subnet_id"
+        subnet_ids          = ["test_subnet_id"]
         deployment_type     = "SINGLE_AZ_1"
         throughput_capacity = 64
     }

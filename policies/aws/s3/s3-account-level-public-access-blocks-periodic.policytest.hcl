@@ -82,7 +82,13 @@ resource "aws_s3_account_public_access_block" "fail_multiple_settings_disabled" 
   }
 }
 
-# Test 8: Pass - Settings not configured (defaults to false)
-resource "aws_s3_account_public_access_block" "fail_settings_not_configured" {
-  attrs = {}
+# Test 8: PASS - No settings configured. Each unset attribute resolves to null, which
+# the policy coalesces to true (block enabled), so the account is compliant.
+resource "aws_s3_account_public_access_block" "pass_settings_not_configured" {
+  attrs = {
+    block_public_acls       = null
+    block_public_policy     = null
+    ignore_public_acls      = null
+    restrict_public_buckets = null
+  }
 }

@@ -11,7 +11,7 @@ resource "aws_elasticache_replication_group" "pass_redis_encrypted" {
   attrs = {
     replication_group_id          = "redis-encrypted"
     engine                        = "redis"
-    at_rest_encryption_enabled    = true
+    at_rest_encryption_enabled    = "true"
   }
 }
 
@@ -20,7 +20,7 @@ resource "aws_elasticache_replication_group" "pass_valkey_encrypted_explicit" {
   attrs = {
     replication_group_id          = "valkey-encrypted-explicit"
     engine                        = "valkey"
-    at_rest_encryption_enabled    = true
+    at_rest_encryption_enabled    = "true"
   }
 }
 
@@ -36,7 +36,7 @@ resource "aws_elasticache_replication_group" "pass_valkey_encrypted_default" {
 resource "aws_elasticache_replication_group" "pass_default_engine_encrypted" {
   attrs = {
     replication_group_id          = "default-engine-encrypted"
-    at_rest_encryption_enabled    = true
+    at_rest_encryption_enabled    = "true"
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_elasticache_replication_group" "fail_redis_not_encrypted" {
   attrs = {
     replication_group_id          = "redis-not-encrypted"
     engine                        = "redis"
-    at_rest_encryption_enabled    = false
+    at_rest_encryption_enabled    = "false"
   }
 }
 
@@ -65,7 +65,7 @@ resource "aws_elasticache_replication_group" "fail_valkey_encryption_disabled" {
   attrs = {
     replication_group_id          = "valkey-not-encrypted"
     engine                        = "valkey"
-    at_rest_encryption_enabled    = false
+    at_rest_encryption_enabled    = "false"
   }
 }
 
@@ -85,7 +85,7 @@ resource "aws_elasticache_replication_group" "pass_valkey_encrypted_full_config"
     engine_version                = "7.2"
     node_type                     = "cache.m6g.large"
     num_cache_clusters            = 3
-    at_rest_encryption_enabled    = true
+    at_rest_encryption_enabled    = "true"
     transit_encryption_enabled    = true
   }
 }

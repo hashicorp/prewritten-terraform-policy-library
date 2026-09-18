@@ -57,7 +57,7 @@ resource "aws_elasticache_subnet_group" "pass_custom_sg" {
 resource "aws_elasticache_cluster" "fail_explicit_default_sg" {
   expect_failure = true
   attrs = {
-    name    = "default"
+    subnet_group_name    = "default"
   }
 }
 

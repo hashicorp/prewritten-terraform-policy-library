@@ -22,11 +22,11 @@ resource "aws_lb_listener" "default_action_redirect" {
     default_action = [
       {
         type = "redirect"
-        redirect = {
+        redirect = [{
           protocol    = "HTTPS"
           port        = "443"
           status_code = "HTTP_301"
-        }
+        }]
       }
     ]
   }
@@ -60,11 +60,11 @@ resource "aws_lb_listener_rule" "listener_rule_redirect" {
     action = [
       {
         type = "redirect"
-        redirect = {
+        redirect = [{
           protocol    = "HTTPS"
           port        = "443"
           status_code = "HTTP_301"
-        }
+        }]
       }
     ]
   }
@@ -118,11 +118,11 @@ resource "aws_lb_listener" "http_to_http" {
     default_action = [
       {
         type = "redirect"
-        redirect = {
+        redirect = [{
           protocol    = "HTTP"
           port        = "8080"
           status_code = "HTTP_301"
-        }
+        }]
       }
     ]
   }
@@ -145,11 +145,11 @@ resource "aws_lb_listener" "http_8080_only" {
     default_action = [
       {
         type = "redirect"
-        redirect = {
+        redirect = [{
           protocol    = "HTTPS"
           port        = "443"
           status_code = "HTTP_301"
-        }
+        }]
       }
     ]
   }
@@ -171,11 +171,11 @@ resource "aws_lb_listener" "computed_empty_arn_default_action" {
     default_action = [
       {
         type = "redirect"
-        redirect = {
+        redirect = [{
           protocol    = "HTTPS"
           port        = "443"
           status_code = "HTTP_301"
-        }
+        }]
       }
     ]
   }
@@ -210,11 +210,11 @@ resource "aws_lb_listener_rule" "computed_empty_arn_listener_rule" {
     action = [
       {
         type = "redirect"
-        redirect = {
+        redirect = [{
           protocol    = "HTTPS"
           port        = "443"
           status_code = "HTTP_301"
-        }
+        }]
       }
     ]
   }
@@ -237,11 +237,11 @@ resource "aws_lb_listener" "mixed_http_listeners_redirect" {
     default_action = [
       {
         type = "redirect"
-        redirect = {
+        redirect = [{
           protocol    = "HTTPS"
           port        = "443"
           status_code = "HTTP_301"
-        }
+        }]
       }
     ]
   }

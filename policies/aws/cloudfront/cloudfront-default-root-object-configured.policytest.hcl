@@ -14,9 +14,9 @@ resource "aws_cloudfront_distribution" "pass_s3_origin_with_default_root_object"
       {
         domain_name = "example-bucket.s3.amazonaws.com"
         origin_id   = "s3Origin"
-        s3_origin_config = {
+        s3_origin_config = [{
           origin_access_identity = "origin-access-identity/cloudfront/EXAMPLE"
-        }
+        }]
       }
     ]
   }
@@ -30,9 +30,9 @@ resource "aws_cloudfront_distribution" "fail_s3_origin_missing_default_root_obje
       {
         domain_name = "example-bucket.s3.amazonaws.com"
         origin_id   = "s3Origin"
-        s3_origin_config = {
+        s3_origin_config = [{
           origin_access_identity = "origin-access-identity/cloudfront/EXAMPLE"
-        }
+        }]
       }
     ]
   }
@@ -45,11 +45,11 @@ resource "aws_cloudfront_distribution" "pass_custom_origin_no_default_root_objec
       {
         domain_name = "app.example.com"
         origin_id   = "customOrigin"
-        custom_origin_config = {
+        custom_origin_config = [{
           http_port              = 80
           https_port             = 443
           origin_protocol_policy = "https-only"
-        }
+        }]
       }
     ]
   }

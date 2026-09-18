@@ -11,7 +11,7 @@ policytest {
 resource "aws_fsx_lustre_file_system" "pass_copy_tags_enabled" {
     attrs = {
         storage_capacity = 1200
-        subnet_ids       = "test_subnet_id"
+        subnet_ids       = ["test_subnet_id"]
         deployment_type     = "PERSISTENT_1"
         copy_tags_to_backups = true
     }
@@ -22,7 +22,7 @@ resource "aws_fsx_lustre_file_system" "fail_copy_tags_disabled" {
     expect_failure = true
     attrs = {
         storage_capacity = 1200
-        subnet_ids       = "test_subnet_id"
+        subnet_ids       = ["test_subnet_id"]
         deployment_type     = "PERSISTENT_1"
         copy_tags_to_backups = false
     }
@@ -32,7 +32,7 @@ resource "aws_fsx_lustre_file_system" "fail_copy_tags_disabled" {
 resource "aws_fsx_lustre_file_system" "fail_wrong_deployment" {
     attrs = {
         storage_capacity = 1200
-        subnet_ids       = "test_subnet_id"
+        subnet_ids       = ["test_subnet_id"]
         deployment_type     = "SCRATCH_2"
         copy_tags_to_backups = true
     }
@@ -42,7 +42,7 @@ resource "aws_fsx_lustre_file_system" "fail_wrong_deployment" {
 resource "aws_fsx_lustre_file_system" "pass_persistent_2" {
     attrs = {
         storage_capacity = 1200
-        subnet_ids       = "test_subnet_id"
+        subnet_ids       = ["test_subnet_id"]
         deployment_type     = "PERSISTENT_2"
         copy_tags_to_backups = true
     }
@@ -53,7 +53,7 @@ resource "aws_fsx_lustre_file_system" "fail_persistent_2" {
     expect_failure = true
     attrs = {
         storage_capacity = 1200
-        subnet_ids       = "test_subnet_id"
+        subnet_ids       = ["test_subnet_id"]
         deployment_type     = "PERSISTENT_2"
     }
 }

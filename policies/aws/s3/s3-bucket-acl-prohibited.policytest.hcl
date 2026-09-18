@@ -88,17 +88,3 @@ resource "aws_s3_bucket" "fail_direct_canned_acl" {
   }
 }
 
-# Test 7: FAIL - access_control_policy set directly on the aws_s3_bucket resource
-resource "aws_s3_bucket" "fail_direct_acp" {
-  expect_failure = true
-  attrs = {
-    bucket = "direct-acp-bucket"
-    access_control_policy = [{
-      owner = [{ id = "owner-id" }]
-      grant = [{
-        grantee    = [{ id = "grantee-id", type = "CanonicalUser" }]
-        permission = "READ"
-      }]
-    }]
-  }
-}

@@ -24,12 +24,10 @@ resource "aws_ssm_document" "pass_specific_accounts" {
     document_type = "Command"
     content       = "{\"schemaVersion\":\"2.2\",\"description\":\"Test\"}"
     owner         = "Self"
-    permissions = [
-      {
-        type        = "Share"
-        account_ids = ["123456789012", "987654321098"]
-      }
-    ]
+    permissions = {
+      type        = "Share"
+      account_ids = "123456789012,987654321098"
+    }
   }
 }
 
@@ -41,12 +39,10 @@ resource "aws_ssm_document" "fail_public_document" {
     document_type = "Command"
     content       = "{\"schemaVersion\":\"2.2\",\"description\":\"Test\"}"
     owner         = "Self"
-    permissions = [
-      {
-        type        = "Share"
-        account_ids = ["All"]
-      }
-    ]
+    permissions = {
+      type        = "Share"
+      account_ids = "All"
+    }
   }
 }
 
@@ -57,12 +53,10 @@ resource "aws_ssm_document" "pass_not_self_owned" {
     document_type = "Command"
     content       = "{\"schemaVersion\":\"2.2\",\"description\":\"AWS Managed\"}"
     owner         = "Amazon"
-    permissions = [
-      {
-        type        = "Share"
-        account_ids = ["All"]
-      }
-    ]
+    permissions = {
+      type        = "Share"
+      account_ids = "All"
+    }
   }
 }
 
@@ -73,12 +67,10 @@ resource "aws_ssm_document" "pass_empty_account_ids" {
     document_type = "Command"
     content       = "{\"schemaVersion\":\"2.2\",\"description\":\"Test\"}"
     owner         = "Self"
-    permissions = [
-      {
-        type        = "Share"
-        account_ids = []
-      }
-    ]
+    permissions = {
+      type        = "Share"
+      account_ids = ""
+    }
   }
 }
 
@@ -90,11 +82,9 @@ resource "aws_ssm_document" "fail_all_with_specific" {
     document_type = "Command"
     content       = "{\"schemaVersion\":\"2.2\",\"description\":\"Test\"}"
     owner         = "Self"
-    permissions = [
-      {
-        type        = "Share"
-        account_ids = ["123456789012", "All"]
-      }
-    ]
+    permissions = {
+      type        = "Share"
+      account_ids = "123456789012,All"
+    }
   }
 }

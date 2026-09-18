@@ -11,11 +11,11 @@ resource "azurerm_storage_account" "pass_aes_256_gcm_only" {
     location                 = "eastus"
     account_tier             = "Standard"
     account_replication_type = "LRS"
-    share_properties = {
-      smb = {
+    share_properties = [{
+      smb = [{
         channel_encryption_type = ["AES-256-GCM"]
-      }
-    }
+      }]
+    }]
   }
 }
 
@@ -38,7 +38,7 @@ resource "azurerm_storage_account" "fail_missing_smb" {
     location                 = "eastus"
     account_tier             = "Standard"
     account_replication_type = "LRS"
-    share_properties         = {}
+    share_properties         = [{}]
   }
 }
 
@@ -50,9 +50,9 @@ resource "azurerm_storage_account" "fail_missing_channel_encryption_type" {
     location                 = "eastus"
     account_tier             = "Standard"
     account_replication_type = "LRS"
-    share_properties = {
-      smb = {}
-    }
+    share_properties = [{
+      smb = [{}]
+    }]
   }
 }
 
@@ -64,11 +64,11 @@ resource "azurerm_storage_account" "fail_empty_channel_encryption_type" {
     location                 = "eastus"
     account_tier             = "Standard"
     account_replication_type = "LRS"
-    share_properties = {
-      smb = {
+    share_properties = [{
+      smb = [{
         channel_encryption_type = []
-      }
-    }
+      }]
+    }]
   }
 }
 
@@ -80,11 +80,11 @@ resource "azurerm_storage_account" "fail_aes_128_ccm_only" {
     location                 = "eastus"
     account_tier             = "Standard"
     account_replication_type = "LRS"
-    share_properties = {
-      smb = {
+    share_properties = [{
+      smb = [{
         channel_encryption_type = ["AES-128-CCM"]
-      }
-    }
+      }]
+    }]
   }
 }
 
@@ -96,11 +96,11 @@ resource "azurerm_storage_account" "fail_aes_128_gcm_only" {
     location                 = "eastus"
     account_tier             = "Standard"
     account_replication_type = "LRS"
-    share_properties = {
-      smb = {
+    share_properties = [{
+      smb = [{
         channel_encryption_type = ["AES-128-GCM"]
-      }
-    }
+      }]
+    }]
   }
 }
 
@@ -112,11 +112,11 @@ resource "azurerm_storage_account" "fail_aes_256_with_weaker_types" {
     location                 = "eastus"
     account_tier             = "Standard"
     account_replication_type = "LRS"
-    share_properties = {
-      smb = {
+    share_properties = [{
+      smb = [{
         channel_encryption_type = ["AES-256-GCM", "AES-128-CCM", "AES-128-GCM"]
-      }
-    }
+      }]
+    }]
   }
 }
 
@@ -128,11 +128,11 @@ resource "azurerm_storage_account" "fail_null_channel_encryption_type" {
     location                 = "eastus"
     account_tier             = "Standard"
     account_replication_type = "LRS"
-    share_properties = {
-      smb = {
+    share_properties = [{
+      smb = [{
         channel_encryption_type = null
-      }
-    }
+      }]
+    }]
   }
 }
 
