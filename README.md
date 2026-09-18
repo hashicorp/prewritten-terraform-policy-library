@@ -8,6 +8,7 @@ A library of prewritten terraform policies for multiple cloud providers.
 | -------- | ----------- | -------- |
 | AWS | 58 services | 348 |
 | Azure | 3 services | 16 |
+| GCP | 3 services | 17 |
 
 Additional providers will be added in future releases.
 
@@ -21,6 +22,12 @@ The Azure policies in this library implement a subset of controls from the [CIS 
 
 > **Note:** Only a subset of the CIS Azure Benchmark controls are currently implemented as policies in this library — not the full benchmark. Coverage will expand in future releases.
 
+## GCP — CIS GCP Foundations Benchmark
+
+The GCP policies in this library implement a subset of controls from the [CIS Google Cloud Platform Foundation Benchmark](https://www.cisecurity.org/benchmark/google_cloud_computing_platform). The CIS GCP Benchmark is a set of security configuration best practices for Google Cloud Platform developed by the Center for Internet Security (CIS).
+
+> **Note:** Only a subset of the CIS GCP Benchmark controls are currently implemented as policies in this library — not the full benchmark. Coverage will expand in future releases.
+
 ## Repository structure
 
 ```
@@ -30,14 +37,19 @@ policies/
 │   ├── apigateway/
 │   ├── ...                  (58 service folders)
 │   └── workspaces/
-└── azure/
+├── azure/
+│   ├── iam/
+│   ├── network/
+│   └── storage/
+└── gcp/
     ├── iam/
     ├── network/
-    └── storage/
+    └── compute/
 docs/
 └── policies/
     ├── aws/                 (one .md per policy — description, category, test output)
-    └── azure/               (one .md per policy — description, category, test output)
+    ├── azure/               (one .md per policy — description, category, test output)
+    └── gcp/                 (one .md per policy — description, category, test output)
 ```
 
 ## Prerequisites
@@ -59,6 +71,7 @@ tfpolicy version
 ```bash
 tfpolicy validate policies/aws/s3
 tfpolicy validate policies/azure/storage
+tfpolicy validate policies/gcp/iam
 ```
 
 ### Run tests for a policy set
@@ -66,6 +79,7 @@ tfpolicy validate policies/azure/storage
 ```bash
 tfpolicy test policies/aws/s3
 tfpolicy test policies/azure/storage
+tfpolicy test policies/gcp/iam
 ```
 
 ## Documentation
