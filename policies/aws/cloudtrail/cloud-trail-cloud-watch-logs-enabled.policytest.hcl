@@ -37,3 +37,14 @@ resource "aws_cloudtrail" "fail_cloudwatch_logs_empty" {
     enable_logging             = true
   }
 }
+
+# Regression: explicitly null cloud_watch_logs_group_arn must fail, matching what a
+# real plan emits for an unset optional attribute.
+resource "aws_cloudtrail" "fail_log_group_arn_explicit_null" {
+  expect_failure = true
+  attrs = {
+    name                       = "null-arn-trail"
+    s3_bucket_name             = "test-bucket"
+    cloud_watch_logs_group_arn = null
+  }
+}

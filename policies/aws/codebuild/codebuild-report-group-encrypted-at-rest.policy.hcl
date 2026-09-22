@@ -28,7 +28,8 @@ resource_policy "aws_codebuild_report_group" "encryption_required" {
         
         # Check encryption settings
         has_s3_destination = local.s3_destination != null && core::length(local.s3_destination) > 0
-        encryption_key = core::try(local.s3_destination[0].encryption_key, "")
+        encryption_key_raw = core::try(local.s3_destination[0].encryption_key, null)
+        encryption_key     = local.encryption_key_raw != null ? local.encryption_key_raw : ""
         encryption_disabled_raw = core::try(local.s3_destination[0].encryption_disabled, null)
         encryption_disabled     = local.encryption_disabled_raw != null ? local.encryption_disabled_raw : false
         

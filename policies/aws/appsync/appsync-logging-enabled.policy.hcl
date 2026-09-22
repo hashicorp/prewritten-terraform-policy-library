@@ -32,8 +32,9 @@ resource_policy "aws_appsync_graphql_api" "field_logging_enabled" {
         # Extract field log level with safe fallback
         field_log_level_raw = core::try(local.log_config.field_log_level, null)
         field_log_level = local.field_log_level_raw != null ? local.field_log_level_raw : "NONE"
-        cloudwatch_logs_role_arn = core::try(local.log_config.cloudwatch_logs_role_arn, "")
-        has_cloudwatch_logs_role_arn = core::try(local.cloudwatch_logs_role_arn != "", false)
+        cloudwatch_logs_role_arn_raw = core::try(local.log_config.cloudwatch_logs_role_arn, null)
+        cloudwatch_logs_role_arn     = local.cloudwatch_logs_role_arn_raw != null ? local.cloudwatch_logs_role_arn_raw : ""
+        has_cloudwatch_logs_role_arn = local.cloudwatch_logs_role_arn != ""
         
         valid_input_levels = ["ERROR", "ALL"]
         required_log_level = input.fieldLoggingLevel != "" ? input.fieldLoggingLevel : "ERROR"

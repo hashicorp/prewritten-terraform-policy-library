@@ -46,3 +46,15 @@ resource "aws_cloudtrail" "pass_encryption_with_alias" {
     enable_logging = true
   }
 }
+
+# Regression: a real plan emits unset optional attributes as explicit null, which
+# core::try returns as-is rather than substituting the default. An explicitly null
+# kms_key_id must still be treated as unencrypted.
+resource "aws_cloudtrail" "fail_kms_key_id_explicit_null" {
+  expect_failure = true
+  attrs = {
+    name           = "null-kms-trail"
+    s3_bucket_name = "test-bucket"
+    kms_key_id     = null
+  }
+}
