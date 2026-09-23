@@ -6,7 +6,7 @@
 
 ## Description
 
-This control checks that a `google_compute_instance` enables Confidential Computing through its `confidential_instance_config` block. The block must set the legacy `enable_confidential_compute` field to `true` or select a supported `confidential_instance_type`: `SEV`, `SEV_SNP`, or `TDX`. For general-purpose instances, the policy covers N2D (AMD SEV/SEV-SNP), C2D/C3D/C4D (AMD SEV), and `c3-standard-*` and `c4-standard-*` (Intel TDX) machine types. Bare-metal variants, C4D configurations above 255 vCPUs, and unsupported C3/C4 high-CPU and high-memory variants are out of scope.
+This control checks that a `google_compute_instance` enables Confidential Computing through its `confidential_instance_config` block. The block must set the legacy `enable_confidential_compute` field to `true` or select a supported `confidential_instance_type`: `SEV`, `SEV_SNP`, or `TDX`. A valid type is sufficient even when the legacy flag is `false`, because the provider omits that value from the API request. For general-purpose instances, the policy covers N2D (AMD SEV/SEV-SNP), C2D/C3D/C4D (AMD SEV), and `c3-standard-*` and `c4-standard-*` (Intel TDX) machine types. Bare-metal variants, C4D configurations above 255 vCPUs, and unsupported C3/C4 high-CPU and high-memory variants are out of scope.
 
 Confidential Computing encrypts data in-use, while it is being processed in memory, using hardware-based Trusted Execution Environments so that the underlying hypervisor and cloud provider cannot access memory contents in plaintext. Without it enabled, workloads that process sensitive data (e.g. secrets, PII, or regulated data) leave that data exposed to memory-level attacks during processing, even if the data is otherwise encrypted at rest and in transit.
 
@@ -37,6 +37,10 @@ trace:
    # resource.google_compute_instance.pass_sev_instance_type...
    running
    # resource.google_compute_instance.pass_sev_instance_type...
+   pass
+   # resource.google_compute_instance.pass_disabled_legacy_flag_with_type...
+   running
+   # resource.google_compute_instance.pass_disabled_legacy_flag_with_type...
    pass
    # resource.google_compute_instance.fail_confidential_computing_disabled... 
    running

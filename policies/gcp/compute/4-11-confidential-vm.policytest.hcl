@@ -98,6 +98,28 @@ resource "google_compute_instance" "pass_sev_instance_type" {
   }
 }
 
+# The provider omits false from the API request when a valid type is set,
+# so GCP still creates a Confidential VM.
+resource "google_compute_instance" "pass_disabled_legacy_flag_with_type" {
+  attrs = {
+    name         = "pass-disabled-legacy-flag-with-type"
+    machine_type = "c3-standard-4"
+    zone         = "us-central1-a"
+    boot_disk = [{
+      initialize_params = [{
+        image = "debian-cloud/debian-12"
+      }]
+    }]
+    network_interface = [{
+      network = "default"
+    }]
+    confidential_instance_config = [{
+      enable_confidential_compute = false
+      confidential_instance_type  = "TDX"
+    }]
+  }
+}
+
 resource "google_compute_instance" "fail_confidential_computing_disabled" {
   expect_failure = true
   attrs = {
