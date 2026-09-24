@@ -19,7 +19,7 @@ input "blob-soft-delete-enforcement-level" {
 resource_policy "azurerm_storage_account" "azure_blob_soft_delete" {
   locals {
     account_kind     = core::try(attrs.account_kind, "StorageV2")
-    unsupported_kind = core::contains(["Storage", "FileStorage"], local.account_kind)
+    unsupported_kind = core::contains(["FileStorage"], local.account_kind)
 
     blob_properties_raw         = core::try(attrs.blob_properties, null)
     has_blob_properties         = local.blob_properties_raw != null

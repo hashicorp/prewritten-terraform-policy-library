@@ -8,7 +8,7 @@
 
 This control checks whether Azure Storage Accounts have blob versioning enabled. Blob versioning automatically maintains previous versions of a blob whenever it is modified or deleted, providing a complete history of changes and enabling recovery from accidental overwrites or deletions.
 
-Enabling versioning is a critical data protection measure for blob storage. Without versioning, overwritten or deleted blob data cannot be recovered. Storage accounts of kind `Storage` (V1) and `FileStorage` do not support blob versioning and are excluded from enforcement via the policy filter.
+Enabling versioning is a critical data protection measure for blob storage. Without versioning, overwritten or deleted blob data cannot be recovered. Storage accounts of kind `Storage` (V1) and `FileStorage` do not support blob versioning and are excluded from enforcement via the policy filter. Accounts with a hierarchical namespace enabled (`is_hns_enabled = true`, used for Azure Data Lake Storage) are also excluded, since Azure does not currently support blob versioning on HNS-enabled accounts.
 
 This rule is covered by the [blob-versioning](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/azure/storage/blob-versioning.policy.hcl) policy.
 
@@ -16,24 +16,46 @@ This rule is covered by the [blob-versioning](https://github.com/hashicorp/prewr
 
 ```bash
 trace:
-	# blob-versioning.policytest.hcl... running
-	# resource.azurerm_storage_account.pass_versioning_enabled... running
-	# resource.azurerm_storage_account.pass_versioning_enabled... pass
-	# resource.azurerm_storage_account.pass_storage_v1_outside_scope... running
-	# resource.azurerm_storage_account.pass_storage_v1_outside_scope... pass
-	# resource.azurerm_storage_account.pass_file_storage_outside_scope... running
-	# resource.azurerm_storage_account.pass_file_storage_outside_scope... pass
-	# resource.azurerm_storage_account.pass_blob_properties_list_form... running
-	# resource.azurerm_storage_account.pass_blob_properties_list_form... pass
-	# resource.azurerm_storage_account.fail_versioning_disabled... running
-	# resource.azurerm_storage_account.fail_versioning_disabled... pass
-	# resource.azurerm_storage_account.fail_blob_properties_missing... running
-	# resource.azurerm_storage_account.fail_blob_properties_missing... pass
-	# resource.azurerm_storage_account.fail_versioning_omitted... running
-	# resource.azurerm_storage_account.fail_versioning_omitted... pass
-	# resource.azurerm_storage_account.fail_versioning_null... running
-	# resource.azurerm_storage_account.fail_versioning_null... pass
-	# blob-versioning.policytest.hcl... pass
+	# blob-versioning.policytest.hcl...
+	running
+	# resource.azurerm_storage_account.pass_versioning_enabled...
+	running
+	# resource.azurerm_storage_account.pass_versioning_enabled...
+	pass
+	# resource.azurerm_storage_account.pass_storage_v1_outside_scope...
+	running
+	# resource.azurerm_storage_account.pass_storage_v1_outside_scope...
+	pass
+	# resource.azurerm_storage_account.pass_file_storage_outside_scope...
+	running
+	# resource.azurerm_storage_account.pass_file_storage_outside_scope...
+	pass
+	# resource.azurerm_storage_account.pass_hns_enabled_out_of_scope...
+	running
+	# resource.azurerm_storage_account.pass_hns_enabled_out_of_scope...
+	pass
+	# resource.azurerm_storage_account.pass_blob_properties_list_form...
+	running
+	# resource.azurerm_storage_account.pass_blob_properties_list_form...
+	pass
+	# resource.azurerm_storage_account.fail_versioning_disabled...
+	running
+	# resource.azurerm_storage_account.fail_versioning_disabled...
+	pass
+	# resource.azurerm_storage_account.fail_blob_properties_missing...
+	running
+	# resource.azurerm_storage_account.fail_blob_properties_missing...
+	pass
+	# resource.azurerm_storage_account.fail_versioning_omitted...
+	running
+	# resource.azurerm_storage_account.fail_versioning_omitted...
+	pass
+	# resource.azurerm_storage_account.fail_versioning_null...
+	running
+	# resource.azurerm_storage_account.fail_versioning_null...
+	pass
+	# blob-versioning.policytest.hcl...
+	pass
 ```
 
 ---

@@ -8,7 +8,7 @@
 
 This control checks whether Azure Storage Accounts that support SMB file shares are configured to use only AES-256-GCM channel encryption. SMB channel encryption protects data in transit between SMB clients and the storage account. Using weaker ciphers such as AES-128-CCM or AES-128-GCM exposes data to potential interception and decryption.
 
-The `channel_encryption_type` in `share_properties.smb` must include `AES-256-GCM` and must not include `AES-128-CCM` or `AES-128-GCM`. Only `StorageV2` and `FileStorage` account kinds support SMB file shares — other account kinds are excluded from enforcement.
+The `channel_encryption_type` in `share_properties.smb` must include `AES-256-GCM` and must not include `AES-128-CCM` or `AES-128-GCM`. `share_properties` is only valid for `Standard`-tier `Storage` (GPv1) or `StorageV2` accounts, or `Premium`-tier `FileStorage` accounts — replication type has no bearing on support. Other kind/tier combinations are excluded from enforcement since they have no file share service.
 
 This rule is covered by the [smb-aes256-encryption](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/azure/storage/smb-aes256-encryption.policy.hcl) policy.
 
@@ -16,30 +16,66 @@ This rule is covered by the [smb-aes256-encryption](https://github.com/hashicorp
 
 ```bash
 trace:
-	# smb-aes256-encryption.policytest.hcl... running
-	# resource.azurerm_storage_account.pass_aes_256_gcm_only... running
-	# resource.azurerm_storage_account.pass_aes_256_gcm_only... pass
-	# resource.azurerm_storage_account.fail_missing_share_properties... running
-	# resource.azurerm_storage_account.fail_missing_share_properties... pass
-	# resource.azurerm_storage_account.fail_missing_smb... running
-	# resource.azurerm_storage_account.fail_missing_smb... pass
-	# resource.azurerm_storage_account.fail_missing_channel_encryption_type... running
-	# resource.azurerm_storage_account.fail_missing_channel_encryption_type... pass
-	# resource.azurerm_storage_account.fail_empty_channel_encryption_type... running
-	# resource.azurerm_storage_account.fail_empty_channel_encryption_type... pass
-	# resource.azurerm_storage_account.fail_aes_128_ccm_only... running
-	# resource.azurerm_storage_account.fail_aes_128_ccm_only... pass
-	# resource.azurerm_storage_account.fail_aes_128_gcm_only... running
-	# resource.azurerm_storage_account.fail_aes_128_gcm_only... pass
-	# resource.azurerm_storage_account.fail_aes_256_with_weaker_types... running
-	# resource.azurerm_storage_account.fail_aes_256_with_weaker_types... pass
-	# resource.azurerm_storage_account.fail_null_channel_encryption_type... running
-	# resource.azurerm_storage_account.fail_null_channel_encryption_type... pass
-	# resource.azurerm_storage_account.pass_unsupported_kind_blob... running
-	# resource.azurerm_storage_account.pass_unsupported_kind_blob... pass
-	# resource.azurerm_storage_account.pass_unsupported_kind_block_blob... running
-	# resource.azurerm_storage_account.pass_unsupported_kind_block_blob... pass
-	# smb-aes256-encryption.policytest.hcl... pass
+	# smb-aes256-encryption.policytest.hcl...
+	running
+	# resource.azurerm_storage_account.pass_aes_256_gcm_only...
+	running
+	# resource.azurerm_storage_account.pass_aes_256_gcm_only...
+	pass
+	# resource.azurerm_storage_account.fail_missing_share_properties...
+	running
+	# resource.azurerm_storage_account.fail_missing_share_properties...
+	pass
+	# resource.azurerm_storage_account.fail_missing_smb...
+	running
+	# resource.azurerm_storage_account.fail_missing_smb...
+	pass
+	# resource.azurerm_storage_account.fail_missing_channel_encryption_type...
+	running
+	# resource.azurerm_storage_account.fail_missing_channel_encryption_type...
+	pass
+	# resource.azurerm_storage_account.fail_empty_channel_encryption_type...
+	running
+	# resource.azurerm_storage_account.fail_empty_channel_encryption_type...
+	pass
+	# resource.azurerm_storage_account.fail_aes_128_ccm_only...
+	running
+	# resource.azurerm_storage_account.fail_aes_128_ccm_only...
+	pass
+	# resource.azurerm_storage_account.fail_aes_128_gcm_only...
+	running
+	# resource.azurerm_storage_account.fail_aes_128_gcm_only...
+	pass
+	# resource.azurerm_storage_account.fail_aes_256_with_weaker_types...
+	running
+	# resource.azurerm_storage_account.fail_aes_256_with_weaker_types...
+	pass
+	# resource.azurerm_storage_account.fail_null_channel_encryption_type...
+	running
+	# resource.azurerm_storage_account.fail_null_channel_encryption_type...
+	pass
+	# resource.azurerm_storage_account.pass_unsupported_kind_blob...
+	running
+	# resource.azurerm_storage_account.pass_unsupported_kind_blob...
+	pass
+	# resource.azurerm_storage_account.pass_unsupported_kind_block_blob...
+	running
+	# resource.azurerm_storage_account.pass_unsupported_kind_block_blob...
+	pass
+	# resource.azurerm_storage_account.fail_gpv1_standard_no_longer_exempt...
+	running
+	# resource.azurerm_storage_account.fail_gpv1_standard_no_longer_exempt...
+	pass
+	# resource.azurerm_storage_account.pass_gpv1_standard_compliant...
+	running
+	# resource.azurerm_storage_account.pass_gpv1_standard_compliant...
+	pass
+	# resource.azurerm_storage_account.pass_storagev2_premium_out_of_scope...
+	running
+	# resource.azurerm_storage_account.pass_storagev2_premium_out_of_scope...
+	pass
+	# smb-aes256-encryption.policytest.hcl...
+	pass
 ```
 
 ---
