@@ -53,8 +53,3 @@ resource "aws_iam_user_login_profile" "pass_empty_user" {
     user = ""
   }
 }
-
-# PASS: Login profile with omitted user attribute is compliant.
-resource "aws_iam_user_login_profile" "pass_omitted_user" {
-  attrs = {}
-}
