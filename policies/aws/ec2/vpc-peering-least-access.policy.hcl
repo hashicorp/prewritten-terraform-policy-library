@@ -37,3 +37,26 @@ resource_policy "aws_route" "vpc_peering_least_access" {
   }
 }
 
+# aws_route_table accepts inline route blocks that carry vpc_peering_connection_id
+# directly, bypassing the standalone aws_route resource entirely.
+resource_policy "aws_route_table" "vpc_peering_least_access_inline_routes" {
+  enforcement_level = input.vpc-peering-least-access-enforcement-level
+
+  locals {
+    inline_routes = core::try(attrs.route, [])
+
+    overly_permissive_peering_routes = [
+      for route in local.inline_routes : route
+      if core::try(route.vpc_peering_connection_id, "") != "" &&
+      core::try(route.vpc_peering_connection_id, null) != null &&
+      (core::try(route.cidr_block, "") == "0.0.0.0/0" ||
+      core::try(route.ipv6_cidr_block, "") == "::/0")
+    ]
+  }
+
+  enforce {
+    condition     = core::length(local.overly_permissive_peering_routes) == 0
+    error_message = "Inline route block with vpc_peering_connection_id must not use a catch-all CIDR (0.0.0.0/0 or ::/0). Use the most specific CIDR block needed to comply with CIS 5.5 least-access principle."
+  }
+}
+

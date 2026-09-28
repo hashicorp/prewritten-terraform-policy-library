@@ -146,3 +146,45 @@ resource "aws_iam_role_policy_attachment" "pass_other_policy_role_attachment" {
     policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
   }
 }
+
+# Supporting user for the AWSSupportAccess user-attachment cases.
+resource "aws_iam_user" "support_user" {
+  skip = true
+  attrs = {
+    name = "support-engineer"
+  }
+}
+
+# PASS: AWSSupportAccess attached to a user that is declared in the plan.
+resource "aws_iam_user_policy_attachment" "support_access_declared_user" {
+  attrs = {
+    user       = "support-engineer"
+    policy_arn = "arn:aws:iam::aws:policy/AWSSupportAccess"
+  }
+}
+
+# PASS: a non-support policy on an undeclared user is not evaluated.
+resource "aws_iam_user_policy_attachment" "other_policy_undeclared_user" {
+  attrs = {
+    user       = "ghost-user"
+    policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+  }
+}
+
+# FAIL: AWSSupportAccess attached to a user with no aws_iam_user resource.
+resource "aws_iam_user_policy_attachment" "support_access_undeclared_user" {
+  expect_failure = true
+  attrs = {
+    user       = "ghost-user"
+    policy_arn = "arn:aws:iam::aws:policy/AWSSupportAccess"
+  }
+}
+
+# FAIL: AWSSupportAccess attached with a null user attribute.
+resource "aws_iam_user_policy_attachment" "support_access_null_user" {
+  expect_failure = true
+  attrs = {
+    user       = null
+    policy_arn = "arn:aws:iam::aws:policy/AWSSupportAccess"
+  }
+}

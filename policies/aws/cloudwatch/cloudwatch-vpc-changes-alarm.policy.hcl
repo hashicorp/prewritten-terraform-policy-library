@@ -27,11 +27,26 @@ locals {
   vpc_changes_sns_subscriptions    = core::getresources("aws_sns_topic_subscription", {})
   vpc_changes_metric_filters       = core::getresources("aws_cloudwatch_log_metric_filter", {})
 
-  vpc_change_pattern = "{($.eventName=CreateVpc) || ($.eventName=DeleteVpc) || ($.eventName=ModifyVpcAttribute) || ($.eventName=AcceptVpcPeeringConnection) || ($.eventName=CreateVpcPeeringConnection) || ($.eventName=DeleteVpcPeeringConnection) || ($.eventName=RejectVpcPeeringConnection) || ($.eventName=AttachClassicLinkVpc) || ($.eventName=DetachClassicLinkVpc) || ($.eventName=DisableVpcClassicLink) || ($.eventName=EnableVpcClassicLink)}"
+  vpc_change_required_events = [
+    "CreateVpc",
+    "DeleteVpc",
+    "ModifyVpcAttribute",
+    "AcceptVpcPeeringConnection",
+    "CreateVpcPeeringConnection",
+    "DeleteVpcPeeringConnection",
+    "RejectVpcPeeringConnection",
+    "AttachClassicLinkVpc",
+    "DetachClassicLinkVpc",
+    "DisableVpcClassicLink",
+    "EnableVpcClassicLink",
+  ]
 
   vpc_changes_valid_metric_filters = [
     for filter in local.vpc_changes_metric_filters : filter
-    if core::try(filter.pattern, "") == local.vpc_change_pattern &&
+    if core::length([
+      for event in local.vpc_change_required_events : event
+      if core::try(core::contains_substring(filter.pattern, event), false)
+    ]) == core::length(local.vpc_change_required_events) &&
     core::try(filter.metric_transformation[0].namespace, "") == input.cloudwatch-vpc-changes-alarm-metric-namespace &&
     core::try(filter.metric_transformation[0].name, "") != "" &&
     core::try(filter.metric_transformation[0].value, "") == "1" &&
@@ -108,7 +123,10 @@ resource_policy "aws_cloudwatch_log_metric_filter" "cloudwatch-vpc-changes-alarm
     transformation_default     = core::try(local.transformations[0].default_value, "")
 
     is_compliant = (
-      local.pattern == local.vpc_change_pattern &&
+      core::length([
+        for event in local.vpc_change_required_events : event
+        if core::try(core::contains_substring(local.pattern, event), false)
+      ]) == core::length(local.vpc_change_required_events) &&
       local.transformation_namespace == input.cloudwatch-vpc-changes-alarm-metric-namespace &&
       local.transformation_name != "" &&
       local.transformation_value == "1" &&

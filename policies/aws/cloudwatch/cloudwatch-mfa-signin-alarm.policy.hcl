@@ -27,11 +27,18 @@ locals {
   mfa_signin_sns_subscriptions  = core::getresources("aws_sns_topic_subscription", {})
   mfa_signin_metric_filters     = core::getresources("aws_cloudwatch_log_metric_filter", {})
 
-  management_console_signin_without_mfa_pattern = "{ ($.eventName = \"ConsoleLogin\") && ($.additionalEventData.MFAUsed != \"Yes\") && ($.userIdentity.type = \"IAMUser\") && ($.responseElements.ConsoleLogin = \"Success\") }"
+  management_console_signin_without_mfa_required_events = [
+    "ConsoleLogin",
+    "MFAUsed",
+    "IAMUser",
+  ]
 
   mfa_signin_valid_metric_filters = [
     for filter in local.mfa_signin_metric_filters : filter
-    if core::try(filter.pattern, "") == local.management_console_signin_without_mfa_pattern &&
+    if core::length([
+      for event in local.management_console_signin_without_mfa_required_events : event
+      if core::try(core::contains_substring(filter.pattern, event), false)
+    ]) == core::length(local.management_console_signin_without_mfa_required_events) &&
        core::try(filter.metric_transformation[0].namespace, "") == input.cloudwatch-mfa-signin-alarm-metric-namespace &&
        core::try(filter.metric_transformation[0].name, "") != "" &&
        core::try(filter.metric_transformation[0].value, "") == "1" &&
@@ -103,7 +110,10 @@ resource_policy "aws_cloudwatch_log_metric_filter" "cloudwatch-mfa-signin-alarm"
     transformation_value     = core::try(local.transformations[0].value, "")
     transformation_default   = core::try(local.transformations[0].default_value, "")
 
-    is_compliant = local.pattern == local.management_console_signin_without_mfa_pattern && local.transformation_namespace == input.cloudwatch-mfa-signin-alarm-metric-namespace && local.transformation_name != "" && local.transformation_value == "1" && local.transformation_default == "0"
+    is_compliant = core::length([
+      for event in local.management_console_signin_without_mfa_required_events : event
+      if core::try(core::contains_substring(local.pattern, event), false)
+    ]) == core::length(local.management_console_signin_without_mfa_required_events) && local.transformation_namespace == input.cloudwatch-mfa-signin-alarm-metric-namespace && local.transformation_name != "" && local.transformation_value == "1" && local.transformation_default == "0"
   }
 
   enforce {

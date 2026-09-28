@@ -27,11 +27,23 @@ locals {
   route_table_sns_subscriptions = core::getresources("aws_sns_topic_subscription", {})
   route_table_metric_filters    = core::getresources("aws_cloudwatch_log_metric_filter", {})
 
-  route_table_pattern = "{($.eventSource=ec2.amazonaws.com) && (($.eventName=CreateRoute) || ($.eventName=CreateRouteTable) || ($.eventName=ReplaceRoute) || ($.eventName=ReplaceRouteTableAssociation) || ($.eventName=DeleteRouteTable) || ($.eventName=DeleteRoute) || ($.eventName=DisassociateRouteTable))}"
+  route_table_required_events = [
+    "ec2.amazonaws.com",
+    "CreateRoute",
+    "CreateRouteTable",
+    "ReplaceRoute",
+    "ReplaceRouteTableAssociation",
+    "DeleteRouteTable",
+    "DeleteRoute",
+    "DisassociateRouteTable",
+  ]
 
   route_table_valid_metric_filters = [
     for filter in local.route_table_metric_filters : filter
-    if core::try(filter.pattern, "") == local.route_table_pattern &&
+    if core::length([
+      for event in local.route_table_required_events : event
+      if core::try(core::contains_substring(filter.pattern, event), false)
+    ]) == core::length(local.route_table_required_events) &&
        core::try(filter.metric_transformation[0].namespace, "") == input.cloudwatch-route-table-alarm-metric-namespace &&
        core::try(filter.metric_transformation[0].name, "") != "" &&
        core::try(filter.metric_transformation[0].value, "") == "1" &&
@@ -102,7 +114,10 @@ resource_policy "aws_cloudwatch_log_metric_filter" "cloudwatch-route-table-alarm
     transformation_value     = core::try(local.transformations[0].value, "")
     transformation_default   = core::try(local.transformations[0].default_value, "")
 
-    is_compliant = local.pattern == local.route_table_pattern && local.transformation_namespace == input.cloudwatch-route-table-alarm-metric-namespace && local.transformation_name != "" && local.transformation_value == "1" && local.transformation_default == "0"
+    is_compliant = core::length([
+      for event in local.route_table_required_events : event
+      if core::try(core::contains_substring(local.pattern, event), false)
+    ]) == core::length(local.route_table_required_events) && local.transformation_namespace == input.cloudwatch-route-table-alarm-metric-namespace && local.transformation_name != "" && local.transformation_value == "1" && local.transformation_default == "0"
   }
 
   enforce {

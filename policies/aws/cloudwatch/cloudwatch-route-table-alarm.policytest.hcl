@@ -37,6 +37,22 @@ resource "aws_cloudwatch_log_metric_filter" "cloudwatch_13_pass" {
   }
 }
 
+# PASS: canonical AWS/CIS filter pattern (whitespace variant) must also be accepted.
+resource "aws_cloudwatch_log_metric_filter" "cloudwatch_13_pass_spaced_pattern" {
+  attrs = {
+    log_group_name = "cloudtrail-logs"
+    pattern        = "{ ($.eventSource = ec2.amazonaws.com) && (($.eventName = CreateRoute) || ($.eventName = CreateRouteTable) || ($.eventName = ReplaceRoute) || ($.eventName = ReplaceRouteTableAssociation) || ($.eventName = DeleteRouteTable) || ($.eventName = DeleteRoute) || ($.eventName = DisassociateRouteTable)) }"
+    metric_transformation = [
+      {
+        namespace     = "LogMetrics"
+        name          = "RouteTableChangesSpaced"
+        value         = "1"
+        default_value = "0"
+      }
+    ]
+  }
+}
+
 resource "aws_cloudwatch_metric_alarm" "cloudwatch_13_pass" {
   attrs = {
     metric_name         = "RouteTableChanges"

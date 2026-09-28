@@ -30,10 +30,21 @@ resource_policy "aws_iam_user" "iam_user_group_membership_check" {
     memberships = core::getresources("aws_iam_user_group_membership", {
       user = local.user_name
     })
-    user_groups = [
+    user_side_groups = [
       for membership in local.memberships : membership.groups
       if core::length(core::try(membership.groups, [])) > 0
     ]
+
+    # Membership can equivalently be declared from the group side via
+    # aws_iam_group_membership, which lists its member users.
+    group_memberships = core::getresources("aws_iam_group_membership", {})
+    group_side_groups = [
+      for membership in local.group_memberships : [core::try(membership.group, "")]
+      if core::contains(core::try(membership.users, []), local.user_name) &&
+      core::try(membership.group, "") != ""
+    ]
+
+    user_groups          = core::concat(local.user_side_groups, local.group_side_groups)
     has_group_membership = core::length(local.user_groups) > 0
 
     has_required_groups = core::length([

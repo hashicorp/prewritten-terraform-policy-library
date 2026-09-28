@@ -28,11 +28,17 @@ locals {
   unauth_api_sns_subscriptions  = core::getresources("aws_sns_topic_subscription", {})
   unauth_api_metric_filters     = core::getresources("aws_cloudwatch_log_metric_filter", {})
 
-  unauthorized_api_calls_pattern = "{($.errorCode=\"*UnauthorizedOperation\") || ($.errorCode=\"AccessDenied*\")}"
+  unauthorized_api_calls_required_events = [
+    "UnauthorizedOperation",
+    "AccessDenied",
+  ]
 
   unauth_api_valid_metric_filters = [
     for filter in local.unauth_api_metric_filters : filter
-    if core::try(filter.pattern, "") == local.unauthorized_api_calls_pattern &&
+    if core::length([
+      for event in local.unauthorized_api_calls_required_events : event
+      if core::try(core::contains_substring(filter.pattern, event), false)
+    ]) == core::length(local.unauthorized_api_calls_required_events) &&
        core::try(filter.metric_transformation[0].namespace, "") == input.cloudwatch-unauthorised-api-alarm-metric-namespace &&
        core::try(filter.metric_transformation[0].name, "") != "" &&
        core::try(filter.metric_transformation[0].value, "") == "1" &&
@@ -104,7 +110,10 @@ resource_policy "aws_cloudwatch_log_metric_filter" "cloudwatch-unauthorised-api-
     transformation_value       = core::try(local.transformations[0].value, "")
     transformation_default     = core::try(local.transformations[0].default_value, "")
 
-    is_compliant = local.pattern == "{($.errorCode=\"*UnauthorizedOperation\") || ($.errorCode=\"AccessDenied*\")}" && local.transformation_namespace == input.cloudwatch-unauthorised-api-alarm-metric-namespace && local.transformation_name != "" && local.transformation_value == "1" && local.transformation_default == "0"
+    is_compliant = core::length([
+      for event in local.unauthorized_api_calls_required_events : event
+      if core::try(core::contains_substring(local.pattern, event), false)
+    ]) == core::length(local.unauthorized_api_calls_required_events) && local.transformation_namespace == input.cloudwatch-unauthorised-api-alarm-metric-namespace && local.transformation_name != "" && local.transformation_value == "1" && local.transformation_default == "0"
   }
 
   enforce {

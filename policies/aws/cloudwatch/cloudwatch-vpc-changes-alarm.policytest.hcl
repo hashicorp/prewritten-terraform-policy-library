@@ -37,6 +37,22 @@ resource "aws_cloudwatch_log_metric_filter" "cloudwatch_14_pass" {
   }
 }
 
+# PASS: canonical AWS/CIS filter pattern (whitespace variant) must also be accepted.
+resource "aws_cloudwatch_log_metric_filter" "cloudwatch_14_pass_spaced_pattern" {
+  attrs = {
+    log_group_name = "cloudtrail-logs"
+    pattern        = "{ ($.eventName = CreateVpc) || ($.eventName = DeleteVpc) || ($.eventName = ModifyVpcAttribute) || ($.eventName = AcceptVpcPeeringConnection) || ($.eventName = CreateVpcPeeringConnection) || ($.eventName = DeleteVpcPeeringConnection) || ($.eventName = RejectVpcPeeringConnection) || ($.eventName = AttachClassicLinkVpc) || ($.eventName = DetachClassicLinkVpc) || ($.eventName = DisableVpcClassicLink) || ($.eventName = EnableVpcClassicLink) }"
+    metric_transformation = [
+      {
+        namespace     = "LogMetrics"
+        name          = "VpcChangesSpaced"
+        value         = "1"
+        default_value = "0"
+      }
+    ]
+  }
+}
+
 resource "aws_cloudwatch_metric_alarm" "cloudwatch_14_pass" {
   attrs = {
     metric_name         = "VpcChanges"

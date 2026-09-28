@@ -31,10 +31,37 @@ resource "aws_iam_user_group_membership" "empty_membership" {
   }
 }
 
+# PASS: dana's membership is declared from the group side via aws_iam_group_membership.
+resource "aws_iam_group_membership" "group_side_membership" {
+  skip = true
+  attrs = {
+    name  = "developers-membership"
+    group = "developers"
+    users = ["dana", "erin"]
+  }
+}
+
+# Supporting group-side membership with no users — does not satisfy any user.
+resource "aws_iam_group_membership" "group_side_empty" {
+  skip = true
+  attrs = {
+    name  = "empty-membership"
+    group = "empty-group"
+    users = []
+  }
+}
+
 # PASS: User whose name matches a membership resource that has a non-empty groups list.
 resource "aws_iam_user" "matching_nonempty_membership" {
   attrs = {
     name = "alice"
+  }
+}
+
+# PASS: User whose membership is declared group-side via aws_iam_group_membership.
+resource "aws_iam_user" "group_side_membership_user" {
+  attrs = {
+    name = "dana"
   }
 }
 

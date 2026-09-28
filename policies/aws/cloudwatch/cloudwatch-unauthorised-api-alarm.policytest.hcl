@@ -37,6 +37,22 @@ resource "aws_cloudwatch_log_metric_filter" "cloudwatch_2_pass" {
   }
 }
 
+# PASS: canonical AWS/CIS filter pattern (whitespace variant) must also be accepted.
+resource "aws_cloudwatch_log_metric_filter" "cloudwatch_2_pass_spaced_pattern" {
+  attrs = {
+    log_group_name = "cloudtrail-logs"
+    pattern        = "{ ($.errorCode = \"*UnauthorizedOperation\") || ($.errorCode = \"AccessDenied*\") && ($.sourceIPAddress != \"delivery.logs.amazonaws.com\") && ($.eventName != \"HeadBucket\") }"
+    metric_transformation = [
+      {
+        namespace     = "LogMetrics"
+        name          = "UnauthorisedApiCallsSpaced"
+        value         = "1"
+        default_value = "0"
+      }
+    ]
+  }
+}
+
 resource "aws_cloudwatch_metric_alarm" "cloudwatch_2_pass" {
   attrs = {
     metric_name         = "UnauthorisedApiCalls"

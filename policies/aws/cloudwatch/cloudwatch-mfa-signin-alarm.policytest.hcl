@@ -37,6 +37,22 @@ resource "aws_cloudwatch_log_metric_filter" "cloudwatch_3_pass" {
   }
 }
 
+# PASS: canonical AWS/CIS filter pattern (whitespace variant) must also be accepted.
+resource "aws_cloudwatch_log_metric_filter" "cloudwatch_3_pass_spaced_pattern" {
+  attrs = {
+    log_group_name = "cloudtrail-logs"
+    pattern        = "{($.eventName=\"ConsoleLogin\") && ($.additionalEventData.MFAUsed!=\"Yes\") && ($.userIdentity.type=\"IAMUser\") && ($.responseElements.ConsoleLogin=\"Success\")}"
+    metric_transformation = [
+      {
+        namespace     = "LogMetrics"
+        name          = "ConsoleSigninWithoutMfaSpaced"
+        value         = "1"
+        default_value = "0"
+      }
+    ]
+  }
+}
+
 resource "aws_cloudwatch_metric_alarm" "cloudwatch_3_pass" {
   attrs = {
     metric_name         = "ConsoleSigninWithoutMfa"

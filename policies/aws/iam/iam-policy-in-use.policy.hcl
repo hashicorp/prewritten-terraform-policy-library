@@ -71,3 +71,24 @@ resource_policy "aws_iam_role_policy_attachment" "support_access_on_role" {
     error_message = "When AWSSupportAccess is attached to an IAM role, the role must have a trusted principal and an STS assume-role action in its assume_role_policy."
   }
 }
+
+resource_policy "aws_iam_user_policy_attachment" "support_access_on_user" {
+
+  locals {
+    policy_arn_raw = core::try(attrs.policy_arn, null)
+    policy_arn     = local.policy_arn_raw != null ? local.policy_arn_raw : ""
+    user_raw       = core::try(attrs.user, null)
+    user           = local.user_raw != null ? local.user_raw : ""
+
+    users = core::getresources("aws_iam_user", {
+      name = local.user
+    })
+  }
+
+  enforcement_level = input.iam-policy-in-use-enforcement-level
+
+  enforce {
+    condition     = local.policy_arn != local.support_policy_arn || (local.user != "" && core::length(local.users) > 0)
+    error_message = "When AWSSupportAccess is attached to an IAM user, the user must be declared as an aws_iam_user resource."
+  }
+}
