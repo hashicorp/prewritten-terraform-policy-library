@@ -39,6 +39,14 @@ trace:
       # resource.aws_iam_role_policy_attachment.pass_saml_role_attachment... pass
       # resource.aws_iam_role_policy_attachment.pass_other_policy_role_attachment... running
       # resource.aws_iam_role_policy_attachment.pass_other_policy_role_attachment... pass
+      # resource.aws_iam_user_policy_attachment.support_access_declared_user... running
+      # resource.aws_iam_user_policy_attachment.support_access_declared_user... pass
+      # resource.aws_iam_user_policy_attachment.other_policy_undeclared_user... running
+      # resource.aws_iam_user_policy_attachment.other_policy_undeclared_user... pass
+      # resource.aws_iam_user_policy_attachment.support_access_undeclared_user... running
+      # resource.aws_iam_user_policy_attachment.support_access_undeclared_user... pass
+      # resource.aws_iam_user_policy_attachment.support_access_null_user... running
+      # resource.aws_iam_user_policy_attachment.support_access_null_user... pass
       # iam-policy-in-use.policytest.hcl... pass
 ```
 

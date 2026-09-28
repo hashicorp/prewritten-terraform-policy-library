@@ -21,6 +21,8 @@ trace:
       # iam-user-group-membership-check.policytest.hcl... running
       # resource.aws_iam_user.matching_nonempty_membership... running
       # resource.aws_iam_user.matching_nonempty_membership... pass
+      # resource.aws_iam_user.group_side_membership_user... running
+      # resource.aws_iam_user.group_side_membership_user... pass
       # resource.aws_iam_user.missing_membership... running
       # resource.aws_iam_user.missing_membership... pass
       # resource.aws_iam_user.membership_with_empty_groups... running

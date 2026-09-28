@@ -33,6 +33,16 @@ trace:
       # resource.aws_route.fail_catch_all_ipv4... pass
       # resource.aws_route.fail_catch_all_ipv6... running
       # resource.aws_route.fail_catch_all_ipv6... pass
+      # resource.aws_route_table.pass_inline_specific_cidr... running
+      # resource.aws_route_table.pass_inline_specific_cidr... pass
+      # resource.aws_route_table.pass_inline_non_peering... running
+      # resource.aws_route_table.pass_inline_non_peering... pass
+      # resource.aws_route_table.pass_inline_no_routes... running
+      # resource.aws_route_table.pass_inline_no_routes... pass
+      # resource.aws_route_table.fail_inline_catch_all_ipv4... running
+      # resource.aws_route_table.fail_inline_catch_all_ipv4... pass
+      # resource.aws_route_table.fail_inline_catch_all_ipv6... running
+      # resource.aws_route_table.fail_inline_catch_all_ipv6... pass
       # vpc-peering-least-access.policytest.hcl... pass
 ```
 

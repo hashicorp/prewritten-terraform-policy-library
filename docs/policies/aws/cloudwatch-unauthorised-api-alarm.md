@@ -23,6 +23,8 @@ trace:
       # resource.aws_cloudtrail.cloudwatch_2_pass... pass
       # resource.aws_cloudwatch_log_metric_filter.cloudwatch_2_pass... running
       # resource.aws_cloudwatch_log_metric_filter.cloudwatch_2_pass... pass
+      # resource.aws_cloudwatch_log_metric_filter.cloudwatch_2_pass_spaced_pattern... running
+      # resource.aws_cloudwatch_log_metric_filter.cloudwatch_2_pass_spaced_pattern... pass
       # resource.aws_cloudwatch_metric_alarm.cloudwatch_2_pass... running
       # resource.aws_cloudwatch_metric_alarm.cloudwatch_2_pass... pass
       # resource.aws_sns_topic_subscription.cloudwatch_2_pass... running
