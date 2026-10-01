@@ -1,0 +1,59 @@
+# Ensure that the Expiration Date is Set for All Keys in Key Vaults Using RBAC
+
+| Provider | Category |
+| -------- | -------- |
+| Azure    | Data protection |
+
+## Description
+
+This control checks whether Azure Key Vault keys have an explicit `expiration_date`. Keys without an expiration date stay valid indefinitely, which increases the time available to misuse a compromised key.
+
+The policy evaluates `azurerm_key_vault_key` resources whose parent `azurerm_key_vault` (matched by `key_vault_id`) uses Azure RBAC, that is `rbac_authorization_enabled = true`. Keys in vaults using access policies are covered by the companion policy, and keys whose parent vault is not in the Terraform plan are not evaluated because their permission model cannot be determined.
+
+A null, empty, or whitespace-only `expiration_date` does not satisfy the requirement. The policy requires AzureRM provider version 5.7.0 or later, which provides the `rbac_authorization_enabled` attribute.
+
+This rule is covered by the [key-expiration-rbac](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/azure/keyvault/key-expiration-rbac.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+	# key-expiration-rbac.policytest.hcl...
+	running
+	# resource.azurerm_key_vault_key.pass_rbac_with_expiration...
+	running
+	# resource.azurerm_key_vault_key.pass_rbac_with_expiration...
+	pass
+	# resource.azurerm_key_vault_key.fail_rbac_expiration_absent...
+	running
+	# resource.azurerm_key_vault_key.fail_rbac_expiration_absent...
+	pass
+	# resource.azurerm_key_vault_key.fail_rbac_expiration_null...
+	running
+	# resource.azurerm_key_vault_key.fail_rbac_expiration_null...
+	pass
+	# resource.azurerm_key_vault_key.fail_rbac_expiration_empty...
+	running
+	# resource.azurerm_key_vault_key.fail_rbac_expiration_empty...
+	pass
+	# resource.azurerm_key_vault_key.fail_rbac_expiration_whitespace...
+	running
+	# resource.azurerm_key_vault_key.fail_rbac_expiration_whitespace...
+	pass
+	# resource.azurerm_key_vault_key.skip_inline_ap_no_expiration...
+	running
+	# resource.azurerm_key_vault_key.skip_inline_ap_no_expiration...
+	pass
+	# resource.azurerm_key_vault_key.skip_standalone_ap_no_expiration...
+	running
+	# resource.azurerm_key_vault_key.skip_standalone_ap_no_expiration...
+	pass
+	# resource.azurerm_key_vault_key.skip_vault_not_in_plan_no_expiration...
+	running
+	# resource.azurerm_key_vault_key.skip_vault_not_in_plan_no_expiration...
+	pass
+	# key-expiration-rbac.policytest.hcl...
+	pass
+```
+
+---
