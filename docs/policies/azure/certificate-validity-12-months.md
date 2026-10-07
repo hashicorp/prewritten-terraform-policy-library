@@ -1,0 +1,53 @@
+# Ensure Certificate 'Validity Period (in months)' is Less Than or Equal to '12'
+
+| Provider | Category |
+| -------- | -------- |
+| Azure    | Data protection |
+
+## Description
+
+This control checks that the X.509 certificate issuance policy for each Azure Key Vault certificate has a validity period of no more than 12 months. Shorter certificate lifetimes limit the period in which a compromised certificate can be misused.
+
+The policy evaluates `validity_in_months` in `certificate_policy.x509_certificate_properties`. If that value is absent from the Terraform plan, it is treated as the 12-month default; any configured value above 12 months violates the control.
+
+This rule is covered by the [certificate-validity-12-months](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/azure/keyvault/certificate-validity-12-months.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+	# certificate-validity-12-months.policytest.hcl...
+	running
+	# resource.azurerm_key_vault_certificate.validity_12_boundary_pass...
+	running
+	# resource.azurerm_key_vault_certificate.validity_12_boundary_pass...
+	pass
+	# resource.azurerm_key_vault_certificate.validity_6_pass...
+	running
+	# resource.azurerm_key_vault_certificate.validity_6_pass...
+	pass
+	# resource.azurerm_key_vault_certificate.validity_1_pass...
+	running
+	# resource.azurerm_key_vault_certificate.validity_1_pass...
+	pass
+	# resource.azurerm_key_vault_certificate.no_certificate_policy_pass...
+	running
+	# resource.azurerm_key_vault_certificate.no_certificate_policy_pass...
+	pass
+	# resource.azurerm_key_vault_certificate.validity_13_boundary_fail...
+	running
+	# resource.azurerm_key_vault_certificate.validity_13_boundary_fail...
+	pass
+	# resource.azurerm_key_vault_certificate.validity_24_fail...
+	running
+	# resource.azurerm_key_vault_certificate.validity_24_fail...
+	pass
+	# resource.azurerm_key_vault_certificate.validity_60_fail...
+	running
+	# resource.azurerm_key_vault_certificate.validity_60_fail...
+	pass
+	# certificate-validity-12-months.policytest.hcl...
+	pass
+```
+
+---

@@ -1,0 +1,53 @@
+# Ensure That Microsoft Defender for Azure Cosmos DB Is Set To 'On'
+
+| Provider | Category |
+| -------- | -------- |
+| Azure    | Security posture management |
+
+## Description
+
+This control checks that Microsoft Defender for Azure Cosmos DB is enabled at the Standard tier. It evaluates `azurerm_security_center_subscription_pricing` resources with `resource_type = "CosmosDbs"`.
+
+The Standard plan scans requests to Azure Cosmos DB accounts for potential threats. A Free tier, omitted tier, or other tier does not meet the control.
+
+This rule is covered by the [defender-cosmosdb-on](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/azure/security-center/defender-cosmosdb-on.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+	# defender-cosmosdb-on.policytest.hcl...
+	running
+	# resource.azurerm_security_center_subscription_pricing.cosmosdbs_standard_passes...
+	running
+	# resource.azurerm_security_center_subscription_pricing.cosmosdbs_standard_passes...
+	pass
+	# resource.azurerm_security_center_subscription_pricing.cosmosdbs_free_fails...
+	running
+	# resource.azurerm_security_center_subscription_pricing.cosmosdbs_free_fails...
+	pass
+	# resource.azurerm_security_center_subscription_pricing.cosmosdbs_tier_absent_fails...
+	running
+	# resource.azurerm_security_center_subscription_pricing.cosmosdbs_tier_absent_fails...
+	pass
+	# resource.azurerm_security_center_subscription_pricing.cosmosdbs_tier_null_fails...
+	running
+	# resource.azurerm_security_center_subscription_pricing.cosmosdbs_tier_null_fails...
+	pass
+	# resource.azurerm_security_center_subscription_pricing.virtualmachines_free_out_of_scope...
+	running
+	# resource.azurerm_security_center_subscription_pricing.virtualmachines_free_out_of_scope...
+	pass
+	# resource.azurerm_security_center_subscription_pricing.virtualmachines_standard_out_of_scope...
+	running
+	# resource.azurerm_security_center_subscription_pricing.virtualmachines_standard_out_of_scope...
+	pass
+	# resource.azurerm_security_center_subscription_pricing.resource_type_absent_out_of_scope...
+	running
+	# resource.azurerm_security_center_subscription_pricing.resource_type_absent_out_of_scope...
+	pass
+	# defender-cosmosdb-on.policytest.hcl...
+	pass
+```
+
+---
