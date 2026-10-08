@@ -16,36 +16,25 @@ input "s3-bucket-should-be-encrypted-at-rest-enforcement-level" {
   default = "advisory"
 }
 
-resource_policy "aws_s3_bucket" "s3_bucket_should_be_encrypted_at_rest" {
+resource_policy "aws_s3_bucket_server_side_encryption_configuration" "s3_bucket_should_be_encrypted_at_rest" {
   enforcement_level = input.s3-bucket-should-be-encrypted-at-rest-enforcement-level
   locals {
-    bucket_name = core::try(attrs.bucket, "")
-
-    all_enc_configs = core::getresources("aws_s3_bucket_server_side_encryption_configuration", {})
-
-    # Only configs that belong to this bucket
-    encryption_configs = [
-      for c in local.all_enc_configs : c
-      if core::try(c.bucket, "") == local.bucket_name && local.bucket_name != ""
-    ]
-
-    # One entry per linked configuration: true when it uses a customer-specified KMS key.
-    config_compliance = [
-      for c in local.encryption_configs : (
-        core::try(c.rule[0].apply_server_side_encryption_by_default[0].sse_algorithm, null) != null
-        && core::try(c.rule[0].apply_server_side_encryption_by_default[0].sse_algorithm, "") != ""
-        && core::try(c.rule[0].apply_server_side_encryption_by_default[0].sse_algorithm, "") != "AES256"
-        && core::try(c.rule[0].apply_server_side_encryption_by_default[0].kms_master_key_id, null) != null
-        && core::try(c.rule[0].apply_server_side_encryption_by_default[0].kms_master_key_id, "") != ""
-        && core::try(c.rule[0].apply_server_side_encryption_by_default[0].kms_master_key_id, "") != "aws/s3"
-      )
-    ]
-
-    has_compliant_config = core::length([for ok in local.config_compliance : ok if ok]) > 0
+    rule          = core::try(attrs.rule[0], null)
+    apply_block   = local.rule != null ? core::try(local.rule.apply_server_side_encryption_by_default[0], null) : null
+    sse_algorithm = local.apply_block != null ? core::try(local.apply_block.sse_algorithm, null) : null
+    kms_key_id    = local.apply_block != null ? core::try(local.apply_block.kms_master_key_id, null) : null
+    is_compliant  = (
+      local.sse_algorithm != null
+      && local.sse_algorithm != ""
+      && local.sse_algorithm != "AES256"
+      && local.kms_key_id != null
+      && local.kms_key_id != ""
+      && local.kms_key_id != "aws/s3"
+    )
   }
 
   enforce {
-    condition     = local.has_compliant_config
+    condition     = local.is_compliant
     error_message = "S3 Buckets should have encryption enabled at rest with AWS KMS Key"
   }
 }
