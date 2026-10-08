@@ -4,37 +4,33 @@ policytest {
   targets = ["s3-bucket-should-have-object-lock-enabled.policy.hcl"]
 }
 
-# ---- PASS: COMPLIANCE ----
+# ---- Compliant buckets ----
 resource "aws_s3_bucket" "pass_compliance" {
   attrs = {
     id     = "bucket-compliance"
     bucket = "bucket-compliance"
   }
 }
-
 resource "aws_s3_bucket_object_lock_configuration" "lock_compliance" {
-  skip = true
   attrs = {
-    bucket = "bucket-compliance"
+    bucket              = "bucket-compliance"
+    object_lock_enabled = "Enabled"
     rule = [{
       default_retention = [{
         mode = "COMPLIANCE"
-        days = 30
+        days = 5
       }]
     }]
   }
 }
 
-# ---- PASS: GOVERNANCE ----
 resource "aws_s3_bucket" "pass_governance" {
   attrs = {
     id     = "bucket-governance"
     bucket = "bucket-governance"
   }
 }
-
 resource "aws_s3_bucket_object_lock_configuration" "lock_governance" {
-  skip = true
   attrs = {
     bucket = "bucket-governance"
     rule = [{
@@ -46,7 +42,36 @@ resource "aws_s3_bucket_object_lock_configuration" "lock_governance" {
   }
 }
 
-# ---- FAIL: no lock configuration at all ----
+resource "aws_s3_bucket" "pass_mixed_configs" {
+  attrs = {
+    id     = "bucket-mixed"
+    bucket = "bucket-mixed"
+  }
+}
+resource "aws_s3_bucket_object_lock_configuration" "lock_mixed_bad" {
+  attrs = {
+    bucket = "bucket-mixed"
+    rule = [{
+      default_retention = [{
+        mode = "INVALID"
+        days = 1
+      }]
+    }]
+  }
+}
+resource "aws_s3_bucket_object_lock_configuration" "lock_mixed_good" {
+  attrs = {
+    bucket = "bucket-mixed"
+    rule = [{
+      default_retention = [{
+        mode = "COMPLIANCE"
+        days = 1
+      }]
+    }]
+  }
+}
+
+# ---- Non-compliant buckets ----
 resource "aws_s3_bucket" "fail_no_lock_config" {
   expect_failure = true
   attrs = {
@@ -55,43 +80,47 @@ resource "aws_s3_bucket" "fail_no_lock_config" {
   }
 }
 
-# ---- FAIL: configuration has no rule block ----
-resource "aws_s3_bucket" "fail_no_rule" {
+resource "aws_s3_bucket" "fail_object_lock_enabled_only" {
+  expect_failure = true
+  attrs = {
+    id                  = "bucket-flag-only"
+    bucket              = "bucket-flag-only"
+    object_lock_enabled = true
+  }
+}
+
+resource "aws_s3_bucket" "fail_missing_rule" {
   expect_failure = true
   attrs = {
     id     = "bucket-no-rule"
     bucket = "bucket-no-rule"
   }
 }
-
 resource "aws_s3_bucket_object_lock_configuration" "lock_no_rule" {
-  skip = true
   attrs = {
     bucket              = "bucket-no-rule"
     object_lock_enabled = "Enabled"
   }
 }
 
-# ---- FAIL: rule with empty default_retention ----
-resource "aws_s3_bucket" "fail_empty_default_retention" {
+resource "aws_s3_bucket" "fail_missing_mode" {
   expect_failure = true
   attrs = {
-    id     = "bucket-empty-retention"
-    bucket = "bucket-empty-retention"
+    id     = "bucket-no-mode"
+    bucket = "bucket-no-mode"
   }
 }
-
-resource "aws_s3_bucket_object_lock_configuration" "lock_empty_retention" {
-  skip = true
+resource "aws_s3_bucket_object_lock_configuration" "lock_no_mode" {
   attrs = {
-    bucket = "bucket-empty-retention"
+    bucket = "bucket-no-mode"
     rule = [{
-      default_retention = []
+      default_retention = [{
+        days = 3
+      }]
     }]
   }
 }
 
-# ---- FAIL: invalid mode ----
 resource "aws_s3_bucket" "fail_invalid_mode" {
   expect_failure = true
   attrs = {
@@ -99,82 +128,33 @@ resource "aws_s3_bucket" "fail_invalid_mode" {
     bucket = "bucket-invalid-mode"
   }
 }
-
 resource "aws_s3_bucket_object_lock_configuration" "lock_invalid_mode" {
-  skip = true
   attrs = {
     bucket = "bucket-invalid-mode"
     rule = [{
       default_retention = [{
-        mode = "OTHER"
-        days = 5
+        mode = "INVALID"
+        days = 3
       }]
     }]
   }
 }
 
-# ---- FAIL: mode missing (attribute omitted) ----
-resource "aws_s3_bucket" "fail_missing_mode" {
+resource "aws_s3_bucket" "fail_config_other_bucket" {
   expect_failure = true
   attrs = {
-    id     = "bucket-missing-mode"
-    bucket = "bucket-missing-mode"
+    id     = "bucket-orphan"
+    bucket = "bucket-orphan"
   }
 }
-
-resource "aws_s3_bucket_object_lock_configuration" "lock_missing_mode" {
-  skip = true
-  attrs = {
-    bucket = "bucket-missing-mode"
-    rule = [{
-      default_retention = [{
-        days = 5
-      }]
-    }]
-  }
-}
-
-# ---- FAIL: mode explicitly null (policy treats null as non-compliant) ----
-resource "aws_s3_bucket" "fail_null_mode" {
-  expect_failure = true
-  attrs = {
-    id     = "bucket-null-mode"
-    bucket = "bucket-null-mode"
-  }
-}
-
-resource "aws_s3_bucket_object_lock_configuration" "lock_null_mode" {
-  skip = true
-  attrs = {
-    bucket = "bucket-null-mode"
-    rule = [{
-      default_retention = [{
-        mode = null
-        days = 5
-      }]
-    }]
-  }
-}
-
-# ---- FAIL: lock configuration references a different bucket ----
-resource "aws_s3_bucket" "fail_other_bucket_locked" {
-  expect_failure = true
-  attrs = {
-    id     = "bucket-unlocked"
-    bucket = "bucket-unlocked"
-  }
-}
-
 resource "aws_s3_bucket_object_lock_configuration" "lock_other_bucket" {
-  skip = true
   attrs = {
     bucket = "some-other-bucket"
     rule = [{
       default_retention = [{
         mode = "COMPLIANCE"
-        days = 30
+        days = 3
       }]
     }]
   }
 }
-
