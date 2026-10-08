@@ -1,0 +1,53 @@
+# EBS volumes should be covered by a backup plan
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Data Protection |
+
+## Description
+
+This control checks whether Amazon EBS volumes are included in an AWS Backup plan. The control fails if an EBS volume's ARN is not referenced in the `resources` list of any `aws_backup_selection` resource, or if the volume's `arn` attribute is absent or null.
+
+Backing up EBS volumes ensures that data can be recovered in the event of accidental deletion, corruption, or a ransomware attack. AWS Backup provides a centralised, policy-driven approach to automating and managing backups across AWS services. Including EBS volumes in a backup plan helps meet business continuity and regulatory requirements for data durability and recovery point objectives (RPO).
+
+This rule is covered by the [ebs-volumes-should-be-in-a-backup-plan](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ebs-volumes-should-be-in-a-backup-plan.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # ebs-volumes-should-be-in-a-backup-plan.policytest.hcl...
+      running
+      # resource.aws_ebs_volume.pass_covered...
+      running
+      # resource.aws_ebs_volume.pass_covered...
+      pass
+      # resource.aws_ebs_volume.pass_covered_multi...
+      running
+      # resource.aws_ebs_volume.pass_covered_multi...
+      pass
+      # resource.aws_ebs_volume.fail_not_covered...
+      running
+      # resource.aws_ebs_volume.fail_not_covered...
+      pass
+      # resource.aws_ebs_volume.fail_missing_arn...
+      running
+      # resource.aws_ebs_volume.fail_missing_arn...
+      pass
+      # resource.aws_ebs_volume.fail_null_arn...
+      running
+      # resource.aws_ebs_volume.fail_null_arn...
+      pass
+      # ebs-volumes-should-be-in-a-backup-plan.policytest.hcl...
+      pass
+      # ebs-volumes-should-be-in-a-backup-plan-2.policytest.hcl...
+      running
+      # resource.aws_ebs_volume.fail_no_selection...
+      running
+      # resource.aws_ebs_volume.fail_no_selection...
+      pass
+      # ebs-volumes-should-be-in-a-backup-plan-2.policytest.hcl...
+      pass
+```
+
+---
