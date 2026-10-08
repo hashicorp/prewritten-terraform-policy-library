@@ -10,6 +10,11 @@ policy {
   }
 }
 
+input "wafv2-webacl-should-have-logging-enabled-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 resource_policy "aws_wafv2_web_acl" "logging_enabled" {
   locals {
     web_acl_arn     = core::try(attrs.arn, null)
@@ -18,7 +23,7 @@ resource_policy "aws_wafv2_web_acl" "logging_enabled" {
     })
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.wafv2-webacl-should-have-logging-enabled-enforcement-level
   enforce {
     condition     = core::length(local.logging_configs) > 0
     error_message = "WAFv2 Web ACLs should have logging enabled. Add an aws_wafv2_web_acl_logging_configuration whose resource_arn references this web ACL."

@@ -10,6 +10,11 @@ policy {
   }
 }
 
+input "s3-bucket-should-have-object-lock-enabled-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 input "valid_mode" {
   type    = list(string)
   default = ["GOVERNANCE", "COMPLIANCE"]
@@ -32,7 +37,7 @@ resource_policy "aws_s3_bucket" "s3_bucket_should_have_object_lock_enabled" {
     is_compliant = core::length(local.valid_modes) > 0
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.s3-bucket-should-have-object-lock-enabled-enforcement-level
   enforce {
     condition     = local.is_compliant
     error_message = "S3 Buckets should have object lock enabled"

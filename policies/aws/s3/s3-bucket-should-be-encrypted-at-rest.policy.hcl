@@ -10,6 +10,11 @@ policy {
   }
 }
 
+input "s3-bucket-should-be-encrypted-at-rest-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 resource_policy "aws_s3_bucket" "encrypted_at_rest_with_kms" {
   locals {
     encryption_configs = core::getresources("aws_s3_bucket_server_side_encryption_configuration", {
@@ -33,7 +38,7 @@ resource_policy "aws_s3_bucket" "encrypted_at_rest_with_kms" {
     has_compliant_config = core::length([for f in local.compliant_flags : f if f]) > 0
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.s3-bucket-should-be-encrypted-at-rest-enforcement-level
   enforce {
     condition     = local.has_compliant_config
     error_message = "S3 Buckets should have encryption enabled at rest with AWS KMS Key"
