@@ -97,6 +97,6 @@ resource_policy "aws_s3_bucket" "bucket-public-write-prohibited" {
 
   enforce {
     condition     = local.public_write_prohibited
-    error_message = "S3 bucket '${local.bucket_name}' permits public read access through its bucket policy or ACL"
+    error_message = "S3 bucket '${local.bucket_name}' permits public write access through its bucket policy or ACL"
   }
 }
