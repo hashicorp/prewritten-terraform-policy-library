@@ -3,7 +3,6 @@
 policytest {
   targets = ["cloudwatch-alarms-should-have-specified-actions-configured.policy.hcl"]
 }
-
 resource "aws_cloudwatch_metric_alarm" "pass_one_action" {
   attrs = {
     alarm_name    = "a1"
@@ -83,4 +82,3 @@ resource "aws_cloudwatch_composite_alarm" "fail_null_actions" {
     alarm_actions = null
   }
 }
-

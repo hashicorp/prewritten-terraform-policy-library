@@ -3,7 +3,6 @@
 policytest {
   targets = ["cloudtrail-lake-event-data-stores-should-be-encrypted-with-customer-managed-aws-kms-keys.policy.hcl"]
 }
-
 resource "aws_cloudtrail_event_data_store" "pass_kms_arn" {
   attrs = {
     name       = "eds-arn"
@@ -18,10 +17,18 @@ resource "aws_cloudtrail_event_data_store" "pass_kms_key_id" {
   }
 }
 
-resource "aws_cloudtrail_event_data_store" "pass_kms_alias" {
+resource "aws_cloudtrail_event_data_store" "pass_custom_kms_alias" {
   attrs = {
     name       = "eds-alias"
     kms_key_id = "alias/my-key"
+  }
+}
+
+resource "aws_cloudtrail_event_data_store" "fail_aws_managed_alias" {
+  expect_failure = true
+  attrs = {
+    name       = "eds-aws-alias"
+    kms_key_id = "alias/aws/cloudtrail"
   }
 }
 
@@ -48,5 +55,3 @@ resource "aws_cloudtrail_event_data_store" "fail_empty_kms" {
     kms_key_id = ""
   }
 }
-
-

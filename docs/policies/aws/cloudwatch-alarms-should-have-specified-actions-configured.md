@@ -8,6 +8,8 @@
 
 This control checks whether Amazon CloudWatch metric alarms and composite alarms have at least one alarm action configured. The control fails if the `alarm_actions` attribute is absent, null, or an empty list. Having only `ok_actions` or `insufficient_data_actions` without any `alarm_actions` is also considered non-compliant.
 
+The related `alarmActionRequired` parameter defaults to true and is enforced by this policy. The control also defines `insufficientDataActionRequired` and `okActionRequired` parameters, but they default to false and are not enforced here.
+
 Configuring alarm actions ensures that when a CloudWatch alarm transitions to the `ALARM` state, an automated response is triggered — such as notifying an SNS topic, triggering an EC2 action, or invoking a Systems Manager OpsItem. Without alarm actions, CloudWatch alarms will detect threshold breaches but take no automated remediation or notification steps, reducing the effectiveness of your monitoring strategy. This applies to both `aws_cloudwatch_metric_alarm` and `aws_cloudwatch_composite_alarm` resource types.
 
 This rule is covered by the [cloudwatch-alarms-should-have-specified-actions-configured](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudwatch/cloudwatch-alarms-should-have-specified-actions-configured.policy.hcl) policy.

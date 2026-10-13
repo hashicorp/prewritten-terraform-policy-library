@@ -3,7 +3,6 @@
 policytest {
   targets = ["cloudwatch-alarm-actions-should-be-enabled.policy.hcl"]
 }
-
 resource "aws_cloudwatch_metric_alarm" "metric_enabled" {
   attrs = {
     alarm_name          = "metric-enabled"
@@ -54,5 +53,4 @@ resource "aws_cloudwatch_composite_alarm" "composite_disabled" {
     actions_enabled = false
   }
 }
-
 

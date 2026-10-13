@@ -6,24 +6,35 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 6.68.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
+}
+input "minRetentionTime" {
+  type    = number
+  default = 365
 }
 
 resource_policy "aws_cloudwatch_log_group" "retention_period" {
   locals {
     retention_raw = core::try(attrs.retention_in_days, null)
-    is_set        = local.retention_raw != null
-    # Normalize null to -1 so numeric comparison is always safe (-1 is non-compliant)
-    retention     = local.is_set ? local.retention_raw : -1
-    is_compliant  = local.is_set && (local.retention == 0 || local.retention >= 365)
+    retention     = local.retention_raw != null ? local.retention_raw : 0
+    log_group_class = core::try(attrs.log_group_class, "STANDARD")
+    valid_minimums  = [365, 400, 545, 731, 1827, 3653]
+    is_valid_minimum = core::contains(local.valid_minimums, input.minRetentionTime)
+    is_delivery_class = local.log_group_class == "DELIVERY"
+    is_compliant = (
+      local.is_delivery_class
+      || (
+        local.is_valid_minimum
+        && (local.retention == 0 || local.retention >= input.minRetentionTime)
+      )
+    )
   }
 
   enforcement_level = "advisory"
   enforce {
     condition     = local.is_compliant
-    error_message = "CloudWatch Log Groups should have a retention period of at least 365 days or be set to never expire (0)."
+    error_message = "CloudWatch Log Groups should meet minRetentionTime (365, 400, 545, 731, 1827, or 3653 days), or use 0 for never expire. DELIVERY log groups are exempt because their retention is fixed at 2 days."
   }
 }
-
