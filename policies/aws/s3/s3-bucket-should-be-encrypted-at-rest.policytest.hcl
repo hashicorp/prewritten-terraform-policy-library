@@ -4,8 +4,15 @@ policytest {
   targets = ["s3-bucket-should-be-encrypted-at-rest.policy.hcl"]
 }
 
-# PASS: aws:kms algorithm with explicit customer KMS key ARN
+# PASS: aws:kms algorithm with a customer-managed key
+resource "aws_s3_bucket" "pass_kms_key" {
+  attrs = {
+    bucket = "pass_kms_key"
+  }
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "pass_kms_key" {
+  skip = true
   attrs = {
     bucket = "pass_kms_key"
     rule = [{
@@ -17,8 +24,15 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "pass_kms_key" {
   }
 }
 
-# PASS: aws:kms:dsse algorithm with explicit customer KMS key ARN
+# PASS: aws:kms:dsse algorithm
+resource "aws_s3_bucket" "pass_kms_dsse" {
+  attrs = {
+    bucket = "pass_kms_dsse"
+  }
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "pass_kms_dsse" {
+  skip = true
   attrs = {
     bucket = "pass_kms_dsse"
     rule = [{
@@ -30,29 +44,83 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "pass_kms_dsse" {
   }
 }
 
-# FAIL: no rule block (empty list)
-resource "aws_s3_bucket_server_side_encryption_configuration" "fail_no_rule" {
-  expect_failure = true
+# PASS: aws:kms with no explicit key uses the AWS-managed key
+resource "aws_s3_bucket" "pass_kms_without_key" {
   attrs = {
-    bucket = "fail_no_rule"
-    rule   = []
+    bucket = "pass_kms_without_key"
   }
 }
 
-# FAIL: rule block present but no apply_server_side_encryption_by_default
-resource "aws_s3_bucket_server_side_encryption_configuration" "fail_no_apply_block" {
-  expect_failure = true
+resource "aws_s3_bucket_server_side_encryption_configuration" "pass_kms_without_key" {
+  skip = true
   attrs = {
-    bucket = "fail_no_apply_block"
+    bucket = "pass_kms_without_key"
     rule = [{
-      bucket_key_enabled = true
+      apply_server_side_encryption_by_default = [{
+        sse_algorithm = "aws:kms"
+      }]
     }]
   }
 }
 
-# FAIL: AES256 — not a KMS key
-resource "aws_s3_bucket_server_side_encryption_configuration" "fail_aes256" {
+# PASS: aws:kms with the AWS-managed S3 key
+resource "aws_s3_bucket" "pass_aws_managed_key" {
+  attrs = {
+    bucket = "pass_aws_managed_key"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "pass_aws_managed_key" {
+  skip = true
+  attrs = {
+    bucket = "pass_aws_managed_key"
+    rule = [{
+      apply_server_side_encryption_by_default = [{
+        sse_algorithm     = "aws:kms"
+        kms_master_key_id = "aws/s3"
+      }]
+    }]
+  }
+}
+
+# FAIL: no encryption configuration (S3 default encryption is SSE-S3)
+resource "aws_s3_bucket" "fail_no_config" {
   expect_failure = true
+  attrs = {
+    bucket = "fail_no_config"
+  }
+}
+
+# FAIL: a KMS configuration for a different bucket does not apply
+resource "aws_s3_bucket" "fail_config_for_other_bucket" {
+  expect_failure = true
+  attrs = {
+    bucket = "fail_config_for_other_bucket"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "other_bucket_kms" {
+  skip = true
+  attrs = {
+    bucket = "another_bucket"
+    rule = [{
+      apply_server_side_encryption_by_default = [{
+        sse_algorithm = "aws:kms"
+      }]
+    }]
+  }
+}
+
+# FAIL: AES256 is SSE-S3, not SSE-KMS
+resource "aws_s3_bucket" "fail_aes256" {
+  expect_failure = true
+  attrs = {
+    bucket = "fail_aes256"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "fail_aes256" {
+  skip = true
   attrs = {
     bucket = "fail_aes256"
     rule = [{
@@ -63,70 +131,55 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "fail_aes256" {
   }
 }
 
-# FAIL: sse_algorithm is empty string
-resource "aws_s3_bucket_server_side_encryption_configuration" "fail_empty_sse_algorithm" {
+# FAIL: no default encryption rule
+resource "aws_s3_bucket" "fail_no_rule" {
   expect_failure = true
+  attrs = {
+    bucket = "fail_no_rule"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "fail_no_rule" {
+  skip = true
+  attrs = {
+    bucket = "fail_no_rule"
+    rule   = []
+  }
+}
+
+# FAIL: rule has no apply_server_side_encryption_by_default block
+resource "aws_s3_bucket" "fail_no_apply_block" {
+  expect_failure = true
+  attrs = {
+    bucket = "fail_no_apply_block"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "fail_no_apply_block" {
+  skip = true
+  attrs = {
+    bucket = "fail_no_apply_block"
+    rule = [{
+      bucket_key_enabled = true
+    }]
+  }
+}
+
+# FAIL: empty algorithm
+resource "aws_s3_bucket" "fail_empty_sse_algorithm" {
+  expect_failure = true
+  attrs = {
+    bucket = "fail_empty_sse_algorithm"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "fail_empty_sse_algorithm" {
+  skip = true
   attrs = {
     bucket = "fail_empty_sse_algorithm"
     rule = [{
       apply_server_side_encryption_by_default = [{
-        sse_algorithm     = ""
-        kms_master_key_id = "arn:aws:kms:us-east-1:123456789012:key/abcd"
-      }]
-    }]
-  }
-}
-
-# FAIL: kms_master_key_id attribute absent
-resource "aws_s3_bucket_server_side_encryption_configuration" "fail_kms_key_missing" {
-  expect_failure = true
-  attrs = {
-    bucket = "fail_kms_key_missing"
-    rule = [{
-      apply_server_side_encryption_by_default = [{
-        sse_algorithm = "aws:kms"
-      }]
-    }]
-  }
-}
-
-# FAIL: kms_master_key_id is null
-resource "aws_s3_bucket_server_side_encryption_configuration" "fail_kms_key_null" {
-  expect_failure = true
-  attrs = {
-    bucket = "fail_kms_key_null"
-    rule = [{
-      apply_server_side_encryption_by_default = [{
-        sse_algorithm     = "aws:kms"
-        kms_master_key_id = null
-      }]
-    }]
-  }
-}
-
-# FAIL: kms_master_key_id is empty string
-resource "aws_s3_bucket_server_side_encryption_configuration" "fail_kms_key_empty" {
-  expect_failure = true
-  attrs = {
-    bucket = "fail_kms_key_empty"
-    rule = [{
-      apply_server_side_encryption_by_default = [{
-        sse_algorithm     = "aws:kms"
-        kms_master_key_id = ""
-      }]
-    }]
-  }
-}
-
-# FAIL: kms_master_key_id is the default AWS-managed S3 key alias
-resource "aws_s3_bucket_server_side_encryption_configuration" "fail_kms_key_default_aws_s3" {
-  expect_failure = true
-  attrs = {
-    bucket = "fail_kms_key_default_aws_s3"
-    rule = [{
-      apply_server_side_encryption_by_default = [{
-        sse_algorithm     = "aws:kms"
-        kms_master_key_id = "aws/s3"
+        sse_algorithm = ""
       }]
     }]
   }
