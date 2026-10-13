@@ -5,22 +5,31 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 6.68.0, < 7.0.0"
+      version = ">= 6.65.0, < 7.0.0"
     }
   }
 }
 
-resource_policy "aws_wafv2_web_acl_association" "alb_associated_with_waf_web_acl" {
+resource_policy "aws_lb" "alb_associated_with_waf_web_acl" {
+  filter = core::try(attrs.load_balancer_type, "application") == "application"
+
   locals {
-    resource_arn_raw = core::try(attrs.resource_arn, null)
-    has_resource_arn = local.resource_arn_raw != null && local.resource_arn_raw != ""
+    load_balancer_arn_raw = core::try(attrs.arn, null)
+    load_balancer_arn     = local.load_balancer_arn_raw != null ? local.load_balancer_arn_raw : ""
+    v2_associations       = core::getresources("aws_wafv2_web_acl_association", {})
+    regional_associations = core::getresources("aws_wafregional_web_acl_association", {})
+    associations          = core::concat(local.v2_associations, local.regional_associations)
+    matching_associations = [
+      for association in local.associations : association
+      if local.load_balancer_arn != ""
+        && core::try(association.resource_arn, "") == local.load_balancer_arn
+    ]
+    is_associated = core::length(local.matching_associations) > 0
   }
 
   enforcement_level = "advisory"
   enforce {
-    condition     = local.has_resource_arn
-    error_message = "aws_wafv2_web_acl_association must set resource_arn to the ARN of an Application Load Balancer (e.g. aws_lb.<name>.arn) so the load balancer is associated with an AWS WAF web ACL."
+    condition     = local.is_associated
+    error_message = "Application Load Balancers must have an aws_wafv2_web_acl_association or aws_wafregional_web_acl_association whose resource_arn matches the load balancer ARN."
   }
 }
-
-

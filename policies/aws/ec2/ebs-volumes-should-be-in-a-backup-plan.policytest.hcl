@@ -47,6 +47,37 @@ resource "aws_backup_selection" "sel_null" {
   }
 }
 
+resource "aws_backup_selection" "sel_tags" {
+  skip = true
+  attrs = {
+    iam_role_arn = "arn:aws:iam::123456789012:role/backup"
+    name         = "sel-tags"
+    plan_id      = "plan-tags"
+    resources    = []
+    selection_tag = [{
+      type  = "STRINGEQUALS"
+      key   = "backup"
+      value = "daily"
+    }]
+  }
+}
+
+resource "aws_backup_selection" "sel_condition" {
+  skip = true
+  attrs = {
+    iam_role_arn = "arn:aws:iam::123456789012:role/backup"
+    name         = "sel-condition"
+    plan_id      = "plan-condition"
+    resources    = []
+    condition = [{
+      string_equals = [{
+        key   = "aws:ResourceTag/environment"
+        value = "production"
+      }]
+    }]
+  }
+}
+
 # PASS: ARN listed in a selection
 resource "aws_ebs_volume" "pass_covered" {
   attrs = {
@@ -62,6 +93,33 @@ resource "aws_ebs_volume" "pass_covered_multi" {
     availability_zone = "us-east-1a"
     size              = 10
     arn               = "arn:aws:ec2:us-east-1:123456789012:volume/vol-multi"
+  }
+}
+
+# PASS: volume tags match a selection_tag rule
+resource "aws_ebs_volume" "pass_tag_selection" {
+  attrs = {
+    availability_zone = "us-east-1a"
+    size              = 10
+    tags              = { backup = "daily" }
+  }
+}
+
+# PASS: volume tags match an aws:ResourceTag condition
+resource "aws_ebs_volume" "pass_condition_selection" {
+  attrs = {
+    availability_zone = "us-east-1a"
+    size              = 10
+    tags              = { environment = "production" }
+  }
+}
+
+# PASS: matching tag selection covers a volume with an unknown ARN
+resource "aws_ebs_volume" "pass_tag_with_unknown_arn" {
+  attrs = {
+    availability_zone = "us-east-1a"
+    size              = 10
+    tags              = { backup = "daily" }
   }
 }
 
@@ -93,5 +151,4 @@ resource "aws_ebs_volume" "fail_null_arn" {
     arn               = null
   }
 }
-
 

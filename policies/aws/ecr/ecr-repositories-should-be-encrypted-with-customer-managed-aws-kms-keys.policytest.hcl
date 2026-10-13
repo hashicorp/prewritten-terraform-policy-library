@@ -14,6 +14,16 @@ resource "aws_ecr_repository" "pass_kms_with_key" {
   }
 }
 
+resource "aws_ecr_repository" "pass_kms_dsse_with_key" {
+  attrs = {
+    name = "pass-dsse"
+    encryption_configuration = [{
+      encryption_type = "KMS_DSSE"
+      kms_key         = "arn:aws:kms:us-east-1:123456789012:key/87654321-1234-1234-1234-123456789012"
+    }]
+  }
+}
+
 resource "aws_ecr_repository" "fail_missing_block" {
   expect_failure = true
   attrs = {
@@ -80,6 +90,17 @@ resource "aws_ecr_repository" "fail_kms_empty_key" {
   }
 }
 
+resource "aws_ecr_repository" "fail_aws_managed_alias" {
+  expect_failure = true
+  attrs = {
+    name = "aws-managed-key"
+    encryption_configuration = [{
+      encryption_type = "KMS"
+      kms_key         = "alias/aws/ecr"
+    }]
+  }
+}
+
 resource "aws_ecr_repository" "fail_missing_type" {
   expect_failure = true
   attrs = {
@@ -100,5 +121,3 @@ resource "aws_ecr_repository" "fail_null_type" {
     }]
   }
 }
-
-

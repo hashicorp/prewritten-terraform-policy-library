@@ -6,7 +6,11 @@
 
 ## Description
 
-This control checks whether Amazon ECR repositories are encrypted with a customer-managed AWS KMS key. The control fails if the `encryption_configuration` block is absent, null, or empty; if `encryption_type` is not `KMS`; or if `kms_key` is absent, null, or an empty string.
+This control checks whether Amazon ECR repositories are encrypted with a customer-managed AWS KMS key using `KMS` or `KMS_DSSE`. AWS-managed aliases such as `alias/aws/ecr` are not accepted. The optional `kmsKeyArns` input restricts accepted keys; by default, any specified customer-managed key is allowed.
+
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| `kmsKeyArns` | Optional list of allowed KMS key ARNs or aliases. | `list(string)` | `[]` |
 
 Encrypting ECR repositories with customer-managed KMS keys provides greater control over the encryption keys protecting your container images. Customer-managed keys allow you to define key usage policies, audit key usage via AWS CloudTrail, rotate keys, and revoke access to images by disabling or deleting the key. This separation of data storage and key management helps meet compliance requirements for container image security and data protection at rest.
 
@@ -22,6 +26,10 @@ trace:
       running
       # resource.aws_ecr_repository.pass_kms_with_key...
       pass
+      # resource.aws_ecr_repository.pass_kms_dsse_with_key...
+      running
+      # resource.aws_ecr_repository.pass_kms_dsse_with_key...
+      pass
       # resource.aws_ecr_repository.fail_missing_block...
       running
       # resource.aws_ecr_repository.fail_missing_block...
@@ -49,6 +57,10 @@ trace:
       # resource.aws_ecr_repository.fail_kms_empty_key...
       running
       # resource.aws_ecr_repository.fail_kms_empty_key...
+      pass
+      # resource.aws_ecr_repository.fail_aws_managed_alias...
+      running
+      # resource.aws_ecr_repository.fail_aws_managed_alias...
       pass
       # resource.aws_ecr_repository.fail_missing_type...
       running
