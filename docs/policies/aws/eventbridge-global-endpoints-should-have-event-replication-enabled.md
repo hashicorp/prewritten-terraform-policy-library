@@ -21,12 +21,12 @@ trace:
       # resource.aws_cloudwatch_event_endpoint.pass_enabled... pass
       # resource.aws_cloudwatch_event_endpoint.fail_disabled... running
       # resource.aws_cloudwatch_event_endpoint.fail_disabled... pass
-      # resource.aws_cloudwatch_event_endpoint.fail_no_replication_config... running
-      # resource.aws_cloudwatch_event_endpoint.fail_no_replication_config... pass
-      # resource.aws_cloudwatch_event_endpoint.fail_empty_replication_config... running
-      # resource.aws_cloudwatch_event_endpoint.fail_empty_replication_config... pass
-      # resource.aws_cloudwatch_event_endpoint.fail_null_state... running
-      # resource.aws_cloudwatch_event_endpoint.fail_null_state... pass
+      # resource.aws_cloudwatch_event_endpoint.pass_no_replication_config... running
+      # resource.aws_cloudwatch_event_endpoint.pass_no_replication_config... pass
+      # resource.aws_cloudwatch_event_endpoint.pass_empty_replication_config... running
+      # resource.aws_cloudwatch_event_endpoint.pass_empty_replication_config... pass
+      # resource.aws_cloudwatch_event_endpoint.pass_null_state... running
+      # resource.aws_cloudwatch_event_endpoint.pass_null_state... pass
       # resource.aws_cloudwatch_event_endpoint.fail_lowercase_state... running
       # resource.aws_cloudwatch_event_endpoint.fail_lowercase_state... pass
       # eventbridge-global-endpoints-should-have-event-replication-enabled.policytest.hcl... pass

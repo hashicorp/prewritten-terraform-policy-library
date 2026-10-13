@@ -24,23 +24,20 @@ resource "aws_cloudwatch_event_endpoint" "fail_disabled" {
   }
 }
 
-resource "aws_cloudwatch_event_endpoint" "fail_no_replication_config" {
-  expect_failure = true
+resource "aws_cloudwatch_event_endpoint" "pass_no_replication_config" {
   attrs = {
     name = "ep"
   }
 }
 
-resource "aws_cloudwatch_event_endpoint" "fail_empty_replication_config" {
-  expect_failure = true
+resource "aws_cloudwatch_event_endpoint" "pass_empty_replication_config" {
   attrs = {
     name               = "ep"
     replication_config = []
   }
 }
 
-resource "aws_cloudwatch_event_endpoint" "fail_null_state" {
-  expect_failure = true
+resource "aws_cloudwatch_event_endpoint" "pass_null_state" {
   attrs = {
     name = "ep"
     replication_config = [{

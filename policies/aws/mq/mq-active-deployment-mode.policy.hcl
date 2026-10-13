@@ -22,7 +22,7 @@ resource_policy "aws_mq_broker" "mq_active_deployment_mode" {
   locals {
     mode_raw        = core::try(attrs.deployment_mode, null)
     deployment_mode = local.mode_raw != null ? local.mode_raw : "SINGLE_INSTANCE"
-    is_compliant    = local.deployment_mode == "ACTIVE_STANDBY_MULTI_AZ" || local.deployment_mode == "CLUSTER_MULTI_AZ"
+    is_compliant    = local.deployment_mode == "ACTIVE_STANDBY_MULTI_AZ"
   }
 
   enforcement_level = input.mq-active-deployment-mode-enforcement-level
