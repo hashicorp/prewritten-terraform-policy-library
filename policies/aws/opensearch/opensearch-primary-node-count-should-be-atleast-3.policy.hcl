@@ -26,12 +26,12 @@ resource_policy "aws_opensearch_domain" "opensearch_primary_node_count_should_be
     cluster_config_raw = core::try(attrs.cluster_config, null)
     cluster_config     = local.cluster_config_raw != null ? local.cluster_config_raw : []
     has_config         = core::length(local.cluster_config) > 0
-    master_count       = local.has_config ? core::try(local.cluster_config[0].dedicated_master_count, null) : null
-    master_enabled     = local.has_config ? core::try(local.cluster_config[0].dedicated_master_enabled, null) : null
-    is_compliant       = local.master_count != null && local.master_enabled != null && local.master_count >= input.dedicated_master_count_param && local.master_enabled == true
+    master_count_raw   = local.has_config ? core::try(local.cluster_config[0].dedicated_master_count, null) : null
+    master_count       = local.master_count_raw != null ? local.master_count_raw : 0
+    master_enabled_raw = local.has_config ? core::try(local.cluster_config[0].dedicated_master_enabled, null) : null
+    master_enabled     = local.master_enabled_raw != null ? local.master_enabled_raw : false
+    is_compliant       = local.master_enabled == true && local.master_count >= input.dedicated_master_count_param
   }
-
-  filter = local.has_config && local.master_count != null && local.master_enabled != null
 
   enforcement_level = input.opensearch-primary-node-count-should-be-atleast-3-enforcement-level
   enforce {

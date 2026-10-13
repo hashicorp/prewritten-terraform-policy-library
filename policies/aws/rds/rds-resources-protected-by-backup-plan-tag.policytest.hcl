@@ -26,6 +26,9 @@ resource "aws_db_instance" "pass_tag_based_coverage" {
   attrs = {
     arn        = "arn:aws:rds:us-east-1:123456789012:db:tag-pass-tag"
     identifier = "tag-pass-tag"
+    tags = {
+      backup = "true"
+    }
   }
 }
 
@@ -50,6 +53,9 @@ resource "aws_db_instance" "pass_condition_based_coverage" {
   attrs = {
     arn        = "arn:aws:rds:us-east-1:123456789012:db:tag-pass-condition"
     identifier = "tag-pass-condition"
+    tags = {
+      env = "prod"
+    }
   }
 }
 
@@ -77,6 +83,9 @@ resource "aws_db_instance" "pass_null_resources_with_tag_fallback" {
   attrs = {
     arn        = "arn:aws:rds:us-east-1:123456789012:db:tag-pass-null-resources"
     identifier = "tag-pass-null-resources"
+    tags = {
+      backup = "true"
+    }
   }
 }
 
@@ -103,6 +112,9 @@ resource "aws_db_instance" "pass_multiple_selections" {
   attrs = {
     arn        = "arn:aws:rds:us-east-1:123456789012:db:tag-pass-multi-sel"
     identifier = "tag-pass-multi-sel"
+    tags = {
+      backup = "true"
+    }
   }
 }
 
@@ -129,5 +141,27 @@ resource "aws_backup_selection" "pass_multi_tag" {
         value = "true"
       }
     ]
+  }
+}
+
+# TEST 5 — FAIL: RDS instance with non-matching tags
+resource "aws_db_instance" "fail_tag_mismatch" {
+  expect_failure = true
+  attrs = {
+    arn        = "arn:aws:rds:us-east-1:123456789012:db:tag-fail-mismatch"
+    identifier = "tag-fail-mismatch"
+    tags = {
+      backup = "false"
+      env    = "dev"
+    }
+  }
+}
+
+# TEST 6 — FAIL: RDS instance with no tags at all when only tag-based selection is present
+resource "aws_db_instance" "fail_no_tags" {
+  expect_failure = true
+  attrs = {
+    arn        = "arn:aws:rds:us-east-1:123456789012:db:tag-fail-no-tags"
+    identifier = "tag-fail-no-tags"
   }
 }

@@ -31,8 +31,12 @@ trace:
       # resource.aws_db_instance.pass_null_resources_with_tag_fallback... pass
       # resource.aws_db_instance.pass_multiple_selections... running
       # resource.aws_db_instance.pass_multiple_selections... pass
+      # resource.aws_db_instance.fail_tag_mismatch... running
+      # resource.aws_db_instance.fail_tag_mismatch... pass
+      # resource.aws_db_instance.fail_no_tags... running
+      # resource.aws_db_instance.fail_no_tags... pass
       # rds-resources-protected-by-backup-plan-tag.policytest.hcl... pass
-
+      
       # rds-resources-protected-by-backup-plan.policytest.hcl... running
       # resource.aws_db_instance.pass_direct_arn_coverage... running
       # resource.aws_db_instance.pass_direct_arn_coverage... pass

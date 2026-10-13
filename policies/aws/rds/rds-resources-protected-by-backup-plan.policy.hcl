@@ -19,8 +19,8 @@ input "rds-resources-protected-by-backup-plan-enforcement-level" {
 # backupVaultLockCheck: When set to true, additionally verifies that the AWS Backup vault
 # associated with the backup plan protecting the RDS instance has Vault Lock enabled
 input "backupVaultLockCheck" {
-  type    = string
-  default = "false"
+  type    = bool
+  default = false
 }
 
 locals {
@@ -35,12 +35,17 @@ locals {
   ], [])
 }
 
+# Note: Direct coverage is matched by resource ARN. When an RDS DB instance is created
+# in the same Terraform plan, its ARN is computed and unknown at plan time (same limitation
+# as efs-in-backup-plan). In such cases, use tag-based selection (e.g. selection_tag or condition)
+# or reference the instance in a subsequent apply.
 resource_policy "aws_db_instance" "rds_protected_by_backup_plan" {
   enforcement_level = input.rds-resources-protected-by-backup-plan-enforcement-level
 
   locals {
     db_arn_raw = core::try(attrs.arn, null)
     db_arn     = local.db_arn_raw != null ? local.db_arn_raw : ""
+    db_tags    = core::try(attrs.tags, null) != null ? attrs.tags : {}
 
     direct_arn_selections = core::try([
       for sel in local.rds_all_backup_selections : sel
@@ -51,19 +56,41 @@ resource_policy "aws_db_instance" "rds_protected_by_backup_plan" {
     tag_based_selections = core::try([
       for sel in local.rds_all_backup_selections : sel
       if (
-        core::length(core::try(sel.selection_tag, null) != null ? core::try(sel.selection_tag, []) : []) > 0
-        || core::length(core::try(sel.condition, null) != null ? core::try(sel.condition, []) : []) > 0
+        core::length([
+          for stag in (core::try(sel.selection_tag, null) != null ? core::try(sel.selection_tag, []) : []) : stag
+          if core::try(stag.key, null) != null
+            && core::try(stag.value, null) != null
+            && core::try(local.db_tags[stag.key], null) != null
+            && core::try(local.db_tags[stag.key], "") == core::try(stag.value, "")
+        ]) > 0
+        || core::length([
+          for cond in (core::try(sel.condition, null) != null ? core::try(sel.condition, []) : []) : cond
+          if core::length([
+            for seq in (core::try(cond.string_equals, null) != null ? core::try(cond.string_equals, []) : []) : seq
+            if core::try(seq.key, null) != null
+              && core::try(seq.value, null) != null
+              && (
+                (core::try(local.db_tags[seq.key], null) != null && core::try(local.db_tags[seq.key], "") == core::try(seq.value, ""))
+                || (
+                  core::length(core::split("/", seq.key)) > 1
+                  && core::try(local.db_tags[core::split("/", seq.key)[1]], null) != null
+                  && core::try(local.db_tags[core::split("/", seq.key)[1]], "") == core::try(seq.value, "")
+                )
+              )
+          ]) > 0
+        ]) > 0
       )
     ], [])
 
+    matching_selections       = core::try(core::concat(local.direct_arn_selections, local.tag_based_selections), [])
     is_covered_by_direct_arn  = core::length(local.direct_arn_selections) > 0
     is_covered_by_tag         = core::length(local.tag_based_selections) > 0
-    is_covered                = local.is_covered_by_direct_arn || local.is_covered_by_tag
+    is_covered                = core::length(local.matching_selections) > 0
 
-    vault_lock_check_enabled = input.backupVaultLockCheck == "true"
+    vault_lock_check_enabled = input.backupVaultLockCheck == true
 
     associated_vault_names = core::try(core::flatten([
-      for sel in local.direct_arn_selections :
+      for sel in local.matching_selections :
       core::try(core::flatten([
         for plan in local.rds_all_backup_plans :
         core::try([
@@ -88,7 +115,7 @@ resource_policy "aws_db_instance" "rds_protected_by_backup_plan" {
   }
 
   enforce {
-    condition     = !local.vault_lock_check_enabled || !local.is_covered_by_direct_arn || local.all_vaults_locked
+    condition     = !local.vault_lock_check_enabled || !local.is_covered || local.all_vaults_locked
     error_message = "RDS DB instance is protected by backup plan(s) whose vault(s) do not have Vault Lock enabled: [${core::join(", ", local.unlocked_vault_names)}]. Configure aws_backup_vault_lock_configuration for each vault to satisfy the backupVaultLockCheck requirement."
   }
 }

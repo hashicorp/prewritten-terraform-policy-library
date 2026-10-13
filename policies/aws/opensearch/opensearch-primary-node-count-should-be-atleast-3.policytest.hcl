@@ -24,20 +24,23 @@ resource "aws_opensearch_domain" "pass_enabled_count_5" {
   }
 }
 
-resource "aws_opensearch_domain" "pass_no_cluster_config" {
+resource "aws_opensearch_domain" "fail_no_cluster_config" {
+  expect_failure = true
   attrs = {
     domain_name = "d3"
   }
 }
 
-resource "aws_opensearch_domain" "pass_empty_cluster_config" {
+resource "aws_opensearch_domain" "fail_empty_cluster_config" {
+  expect_failure = true
   attrs = {
     domain_name    = "d4"
     cluster_config = []
   }
 }
 
-resource "aws_opensearch_domain" "pass_null_count" {
+resource "aws_opensearch_domain" "fail_null_count" {
+  expect_failure = true
   attrs = {
     domain_name = "d5"
     cluster_config = [{
@@ -47,12 +50,33 @@ resource "aws_opensearch_domain" "pass_null_count" {
   }
 }
 
-resource "aws_opensearch_domain" "pass_null_enabled" {
+resource "aws_opensearch_domain" "fail_null_enabled" {
+  expect_failure = true
   attrs = {
     domain_name = "d6"
     cluster_config = [{
       dedicated_master_enabled = null
-      dedicated_master_count   = 1
+      dedicated_master_count   = 3
+    }]
+  }
+}
+
+resource "aws_opensearch_domain" "fail_missing_enabled" {
+  expect_failure = true
+  attrs = {
+    domain_name = "d7"
+    cluster_config = [{
+      dedicated_master_count = 3
+    }]
+  }
+}
+
+resource "aws_opensearch_domain" "fail_missing_count" {
+  expect_failure = true
+  attrs = {
+    domain_name = "d8"
+    cluster_config = [{
+      dedicated_master_enabled = true
     }]
   }
 }
@@ -60,7 +84,7 @@ resource "aws_opensearch_domain" "pass_null_enabled" {
 resource "aws_opensearch_domain" "fail_enabled_count_2" {
   expect_failure = true
   attrs = {
-    domain_name = "d7"
+    domain_name = "d9"
     cluster_config = [{
       dedicated_master_enabled = true
       dedicated_master_count   = 2
@@ -71,7 +95,7 @@ resource "aws_opensearch_domain" "fail_enabled_count_2" {
 resource "aws_opensearch_domain" "fail_enabled_count_1" {
   expect_failure = true
   attrs = {
-    domain_name = "d8"
+    domain_name = "d10"
     cluster_config = [{
       dedicated_master_enabled = true
       dedicated_master_count   = 1
@@ -82,7 +106,7 @@ resource "aws_opensearch_domain" "fail_enabled_count_1" {
 resource "aws_opensearch_domain" "fail_disabled_count_3" {
   expect_failure = true
   attrs = {
-    domain_name = "d9"
+    domain_name = "d11"
     cluster_config = [{
       dedicated_master_enabled = false
       dedicated_master_count   = 3
@@ -93,11 +117,10 @@ resource "aws_opensearch_domain" "fail_disabled_count_3" {
 resource "aws_opensearch_domain" "fail_disabled_count_1" {
   expect_failure = true
   attrs = {
-    domain_name = "d10"
+    domain_name = "d12"
     cluster_config = [{
       dedicated_master_enabled = false
       dedicated_master_count   = 1
     }]
   }
 }
-
