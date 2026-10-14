@@ -86,3 +86,47 @@ resource "aws_mq_broker" "activemq_active_standby_pass" {
   }
 }
 
+# engine_type lowercasing: "rabbitmq" (all-lowercase) is matched by core::lower() filter
+resource "aws_mq_broker" "rabbit_cluster_pass_lowercase" {
+  attrs = {
+    broker_name        = "b9"
+    engine_type        = "rabbitmq"
+    engine_version     = "3.13"
+    host_instance_type = "mq.m5.large"
+    deployment_mode    = "CLUSTER_MULTI_AZ"
+  }
+}
+
+resource "aws_mq_broker" "rabbit_single_fail_lowercase" {
+  expect_failure = true
+  attrs = {
+    broker_name        = "b10"
+    engine_type        = "rabbitmq"
+    engine_version     = "3.13"
+    host_instance_type = "mq.m5.large"
+    deployment_mode    = "SINGLE_INSTANCE"
+  }
+}
+
+# engine_type lowercasing: "RABBITMQ" (all-uppercase) is matched by core::lower() filter
+resource "aws_mq_broker" "rabbit_cluster_pass_uppercase" {
+  attrs = {
+    broker_name        = "b11"
+    engine_type        = "RABBITMQ"
+    engine_version     = "3.13"
+    host_instance_type = "mq.m5.large"
+    deployment_mode    = "CLUSTER_MULTI_AZ"
+  }
+}
+
+resource "aws_mq_broker" "rabbit_single_fail_uppercase" {
+  expect_failure = true
+  attrs = {
+    broker_name        = "b12"
+    engine_type        = "RABBITMQ"
+    engine_version     = "3.13"
+    host_instance_type = "mq.m5.large"
+    deployment_mode    = "SINGLE_INSTANCE"
+  }
+}
+

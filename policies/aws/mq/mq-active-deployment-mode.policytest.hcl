@@ -77,3 +77,47 @@ resource "aws_mq_broker" "skip_rabbitmq_engine_type" {
     deployment_mode    = "SINGLE_INSTANCE"
   }
 }
+
+# engine_type lowercasing: "activemq" (all-lowercase) is matched by core::lower() filter
+resource "aws_mq_broker" "pass_engine_type_lowercase" {
+  attrs = {
+    broker_name        = "b8"
+    engine_type        = "activemq"
+    engine_version     = "5.17.6"
+    host_instance_type = "mq.t3.micro"
+    deployment_mode    = "ACTIVE_STANDBY_MULTI_AZ"
+  }
+}
+
+resource "aws_mq_broker" "fail_engine_type_lowercase" {
+  expect_failure = true
+  attrs = {
+    broker_name        = "b9"
+    engine_type        = "activemq"
+    engine_version     = "5.17.6"
+    host_instance_type = "mq.t3.micro"
+    deployment_mode    = "SINGLE_INSTANCE"
+  }
+}
+
+# engine_type lowercasing: "ACTIVEMQ" (all-uppercase) is matched by core::lower() filter
+resource "aws_mq_broker" "pass_engine_type_uppercase" {
+  attrs = {
+    broker_name        = "b10"
+    engine_type        = "ACTIVEMQ"
+    engine_version     = "5.17.6"
+    host_instance_type = "mq.t3.micro"
+    deployment_mode    = "ACTIVE_STANDBY_MULTI_AZ"
+  }
+}
+
+resource "aws_mq_broker" "fail_engine_type_uppercase" {
+  expect_failure = true
+  attrs = {
+    broker_name        = "b11"
+    engine_type        = "ACTIVEMQ"
+    engine_version     = "5.17.6"
+    host_instance_type = "mq.t3.micro"
+    deployment_mode    = "SINGLE_INSTANCE"
+  }
+}

@@ -17,7 +17,7 @@ input "mq-active-deployment-mode-enforcement-level" {
 }
 
 resource_policy "aws_mq_broker" "mq_active_deployment_mode" {
-  filter = core::try(attrs.engine_type, null) == "ActiveMQ"
+  filter = core::lower(core::try(attrs.engine_type, "")) == "activemq"
 
   locals {
     mode_raw        = core::try(attrs.deployment_mode, null)
@@ -28,6 +28,6 @@ resource_policy "aws_mq_broker" "mq_active_deployment_mode" {
   enforcement_level = input.mq-active-deployment-mode-enforcement-level
   enforce {
     condition     = local.is_compliant
-    error_message = "Amazon MQ brokers should use ACTIVE_STANDBY_MULTI_AZ or CLUSTER_MULTI_AZ deployment mode for high availability."
+    error_message = "Amazon MQ brokers should use ACTIVE_STANDBY_MULTI_AZ deployment mode for high availability."
   }
 }

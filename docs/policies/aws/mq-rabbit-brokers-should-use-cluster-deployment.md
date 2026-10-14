@@ -33,6 +33,14 @@ trace:
       # resource.aws_mq_broker.activemq_unset_pass... pass
       # resource.aws_mq_broker.activemq_active_standby_pass... running
       # resource.aws_mq_broker.activemq_active_standby_pass... pass
+      # resource.aws_mq_broker.rabbit_cluster_pass_lowercase... running
+      # resource.aws_mq_broker.rabbit_cluster_pass_lowercase... pass
+      # resource.aws_mq_broker.rabbit_single_fail_lowercase... running
+      # resource.aws_mq_broker.rabbit_single_fail_lowercase... pass
+      # resource.aws_mq_broker.rabbit_cluster_pass_uppercase... running
+      # resource.aws_mq_broker.rabbit_cluster_pass_uppercase... pass
+      # resource.aws_mq_broker.rabbit_single_fail_uppercase... running
+      # resource.aws_mq_broker.rabbit_single_fail_uppercase... pass
       # mq-rabbit-brokers-should-use-cluster-deployment.policytest.hcl... pass
 ```
 

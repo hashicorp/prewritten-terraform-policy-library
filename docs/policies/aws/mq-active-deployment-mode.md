@@ -29,6 +29,14 @@ trace:
       # resource.aws_mq_broker.fail_deployment_mode_null... pass
       # resource.aws_mq_broker.fail_empty_deployment_mode... running
       # resource.aws_mq_broker.fail_empty_deployment_mode... pass
+      # resource.aws_mq_broker.pass_engine_type_lowercase... running
+      # resource.aws_mq_broker.pass_engine_type_lowercase... pass
+      # resource.aws_mq_broker.fail_engine_type_lowercase... running
+      # resource.aws_mq_broker.fail_engine_type_lowercase... pass
+      # resource.aws_mq_broker.pass_engine_type_uppercase... running
+      # resource.aws_mq_broker.pass_engine_type_uppercase... pass
+      # resource.aws_mq_broker.fail_engine_type_uppercase... running
+      # resource.aws_mq_broker.fail_engine_type_uppercase... pass
       # mq-active-deployment-mode.policytest.hcl... pass
 ```
 

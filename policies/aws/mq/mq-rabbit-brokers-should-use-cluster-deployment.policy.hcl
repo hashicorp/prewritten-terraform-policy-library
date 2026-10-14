@@ -17,7 +17,7 @@ input "mq-rabbit-brokers-should-use-cluster-deployment-enforcement-level" {
 }
 
 resource_policy "aws_mq_broker" "mq_rabbit_brokers_should_use_cluster_deployment" {
-  filter = core::try(attrs.engine_type, null) == "RabbitMQ"
+  filter = core::lower(core::try(attrs.engine_type, "")) == "rabbitmq"
 
   locals {
     deployment_mode_raw = core::try(attrs.deployment_mode, null)
