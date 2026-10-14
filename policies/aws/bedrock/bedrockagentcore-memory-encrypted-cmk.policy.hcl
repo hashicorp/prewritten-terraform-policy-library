@@ -1,4 +1,3 @@
-# Policy: BedrockAgentCore.3
 # Copyright IBM Corp. 2026
 
 # Bedrock AgentCore Memory should be encrypted with customer managed AWS KMS keys
@@ -22,7 +21,7 @@ resource_policy "aws_bedrockagentcore_memory" "encrypted_with_cmk" {
   locals {
     raw_key = core::try(attrs.encryption_key_arn, null)
     key_arn = local.raw_key == null ? "" : local.raw_key
-    key_set = core::length(core::regexall("^.+$", local.key_arn)) > 0
+    key_set = local.key_arn != ""
     # AWS managed key aliases (alias/aws/...) are not customer managed keys
     is_aws_managed = core::length(core::regexall("alias/aws/", local.key_arn)) > 0
     is_compliant   = local.key_set && !local.is_aws_managed
