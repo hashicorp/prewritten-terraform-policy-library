@@ -10,6 +10,11 @@ policy {
   }
 }
 
+input "ecs-task-definitions-should-not-use-host-network-mode-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecs_task_definition" "ecs_task_definitions_should_not_use_host_network_mode" {
   locals {
     # Missing or null network_mode is treated as "" (not a violation)
@@ -17,11 +22,10 @@ resource_policy "aws_ecs_task_definition" "ecs_task_definitions_should_not_use_h
     network_mode     = local.network_mode_raw == null ? "" : local.network_mode_raw
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.ecs-task-definitions-should-not-use-host-network-mode-enforcement-level
   enforce {
     condition     = local.network_mode != "host"
     error_message = "ECS task definitions should not use 'host' network mode for security reasons."
   }
 }
-
 

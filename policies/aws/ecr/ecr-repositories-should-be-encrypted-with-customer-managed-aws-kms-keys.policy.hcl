@@ -16,6 +16,11 @@ input "kmsKeyArns" {
   default = []
 }
 
+input "ecr-repositories-should-be-encrypted-with-customer-managed-aws-kms-keys-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 resource_policy "aws_ecr_repository" "encrypted_with_customer_managed_kms_key" {
   locals {
     enc_raw         = core::try(attrs.encryption_configuration, null)
@@ -36,7 +41,7 @@ resource_policy "aws_ecr_repository" "encrypted_with_customer_managed_kms_key" {
     is_compliant = local.has_enc && local.is_kms && local.has_kms_key && !local.is_aws_managed_alias && local.is_allowed_key
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.ecr-repositories-should-be-encrypted-with-customer-managed-aws-kms-keys-enforcement-level
   enforce {
     condition     = local.is_compliant
     error_message = "ECR repositories must use a customer-managed KMS or KMS_DSSE key. When configured, the key must be listed in the kmsKeyArns allowlist."

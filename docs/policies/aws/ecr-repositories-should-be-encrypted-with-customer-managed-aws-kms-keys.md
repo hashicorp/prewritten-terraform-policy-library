@@ -10,6 +10,7 @@ This control checks whether Amazon ECR repositories are encrypted with a custome
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
+| `ecr-repositories-should-be-encrypted-with-customer-managed-aws-kms-keys-enforcement-level` | Configurable policy enforcement level. | `string` | `"advisory"` |
 | `kmsKeyArns` | Optional list of allowed KMS key ARNs or aliases. | `list(string)` | `[]` |
 
 Encrypting ECR repositories with customer-managed KMS keys provides greater control over the encryption keys protecting your container images. Customer-managed keys allow you to define key usage policies, audit key usage via AWS CloudTrail, rotate keys, and revoke access to images by disabling or deleting the key. This separation of data storage and key management helps meet compliance requirements for container image security and data protection at rest.

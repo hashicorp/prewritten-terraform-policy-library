@@ -8,6 +8,10 @@
 
 This control checks whether Amazon ECS task definitions are configured to use `host` network mode. The control fails if `network_mode` is explicitly set to `host`. Task definitions where `network_mode` is absent, null, or set to any other value (`bridge`, `awsvpc`, `none`) are considered compliant. The check is case-sensitive — `HOST` (uppercase) does not trigger a failure.
 
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| `ecs-task-definitions-should-not-use-host-network-mode-enforcement-level` | Configurable policy enforcement level. | `string` | `"advisory"` |
+
 Using `host` network mode in ECS task definitions allows containers to share the host's network namespace, giving them direct access to the host's network interfaces. This bypasses container network isolation, potentially exposing the host to network-based attacks from the container and allowing containers to reach services on the host that should not be accessible. Using `awsvpc`, `bridge`, or `none` network modes maintains proper network isolation between containers and the underlying host.
 
 This rule is covered by the [ecs-task-definitions-should-not-use-host-network-mode](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecs/ecs-task-definitions-should-not-use-host-network-mode.policy.hcl) policy.

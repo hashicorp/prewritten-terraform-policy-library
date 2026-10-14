@@ -10,6 +10,11 @@ policy {
   }
 }
 
+input "application-load-balancers-should-be-associated-with-an-aws-waf-web-acl-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 resource_policy "aws_lb" "alb_associated_with_waf_web_acl" {
   filter = core::try(attrs.load_balancer_type, "application") == "application"
 
@@ -27,7 +32,7 @@ resource_policy "aws_lb" "alb_associated_with_waf_web_acl" {
     is_associated = core::length(local.matching_associations) > 0
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.application-load-balancers-should-be-associated-with-an-aws-waf-web-acl-enforcement-level
   enforce {
     condition     = local.is_associated
     error_message = "Application Load Balancers must have an aws_wafv2_web_acl_association or aws_wafregional_web_acl_association whose resource_arn matches the load balancer ARN."
