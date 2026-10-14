@@ -10,6 +10,12 @@ policy {
     }
   }
 }
+
+input "cloudwatch-log-groups-should-be-retained-for-a-specified-time-period-enforcement-level" {
+  type    = string
+  default = "advisory"
+}
+
 input "minRetentionTime" {
   type    = number
   default = 365
@@ -32,7 +38,7 @@ resource_policy "aws_cloudwatch_log_group" "retention_period" {
     )
   }
 
-  enforcement_level = "advisory"
+  enforcement_level = input.cloudwatch-log-groups-should-be-retained-for-a-specified-time-period-enforcement-level
   enforce {
     condition     = local.is_compliant
     error_message = "CloudWatch Log Groups should meet minRetentionTime (365, 400, 545, 731, 1827, or 3653 days), or use 0 for never expire. DELIVERY log groups are exempt because their retention is fixed at 2 days."

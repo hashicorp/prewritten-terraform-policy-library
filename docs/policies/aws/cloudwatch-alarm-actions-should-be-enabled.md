@@ -12,6 +12,12 @@ Enabling alarm actions ensures that CloudWatch alarms automatically trigger a re
 
 This rule is covered by the [cloudwatch-alarm-actions-should-be-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudwatch/cloudwatch-alarm-actions-should-be-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| `cloudwatch-alarm-actions-should-be-enabled-enforcement-level` | Configurable enforcement level for both metric and composite alarms. | `string` | `"advisory"` |
+
 ## Policy Results
 
 ```bash

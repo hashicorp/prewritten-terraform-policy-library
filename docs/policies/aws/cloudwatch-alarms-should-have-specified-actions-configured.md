@@ -14,6 +14,12 @@ Configuring alarm actions ensures that when a CloudWatch alarm transitions to th
 
 This rule is covered by the [cloudwatch-alarms-should-have-specified-actions-configured](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudwatch/cloudwatch-alarms-should-have-specified-actions-configured.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| `cloudwatch-alarms-should-have-specified-actions-configured-enforcement-level` | Configurable enforcement level for both metric and composite alarms. | `string` | `"advisory"` |
+
 ## Policy Results
 
 ```bash
