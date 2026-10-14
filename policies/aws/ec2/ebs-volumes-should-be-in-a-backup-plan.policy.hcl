@@ -17,17 +17,17 @@ input "ebs-volumes-should-be-in-a-backup-plan-enforcement-level" {
 }
 
 # When enabled, also require Vault Lock on the vaults used by matching backup plans.
-input "backupVaultLockCheck" {
+input "ebsBackupVaultLockCheck" {
   type    = bool
   default = false
 }
 
 locals {
-  all_backup_selections = core::getresources("aws_backup_selection", {})
-  all_backup_plans      = core::getresources("aws_backup_plan", {})
-  all_vault_locks       = core::getresources("aws_backup_vault_lock_configuration", {})
-  locked_vault_names = core::try([
-    for lock in local.all_vault_locks :
+  ebs_all_backup_selections = core::getresources("aws_backup_selection", {})
+  ebs_all_backup_plans      = core::getresources("aws_backup_plan", {})
+  ebs_all_vault_locks       = core::getresources("aws_backup_vault_lock_configuration", {})
+  ebs_locked_vault_names = core::try([
+    for lock in local.ebs_all_vault_locks :
     core::try(lock.backup_vault_name, "")
     if core::try(lock.backup_vault_name, "") != ""
   ], [])
@@ -44,7 +44,7 @@ resource_policy "aws_ebs_volume" "ebs_volumes_should_be_in_a_backup_plan" {
     volume_tags    = core::try(attrs.tags, null) != null ? attrs.tags : {}
 
     direct_arn_selections = core::try([
-      for selection in local.all_backup_selections : selection
+      for selection in local.ebs_all_backup_selections : selection
       if local.volume_arn != ""
         && core::contains(
           core::try(selection.resources, null) != null ? core::try(selection.resources, []) : [],
@@ -53,7 +53,7 @@ resource_policy "aws_ebs_volume" "ebs_volumes_should_be_in_a_backup_plan" {
     ], [])
 
     tag_based_selections = core::try([
-      for selection in local.all_backup_selections : selection
+      for selection in local.ebs_all_backup_selections : selection
       if (
         core::length([
           for tag in (core::try(selection.selection_tag, null) != null ? selection.selection_tag : []) : tag
@@ -93,7 +93,7 @@ resource_policy "aws_ebs_volume" "ebs_volumes_should_be_in_a_backup_plan" {
     associated_vault_names = core::try(core::flatten([
       for selection in local.matching_selections :
       core::try(core::flatten([
-        for plan in local.all_backup_plans :
+        for plan in local.ebs_all_backup_plans :
         core::try([
           for rule in core::try(plan.rule, []) : core::try(rule.target_vault_name, "")
           if core::try(rule.target_vault_name, "") != ""
@@ -104,7 +104,7 @@ resource_policy "aws_ebs_volume" "ebs_volumes_should_be_in_a_backup_plan" {
 
     unlocked_vault_names = core::try([
       for vault_name in local.associated_vault_names : vault_name
-      if vault_name != "" && !core::contains(local.locked_vault_names, vault_name)
+      if vault_name != "" && !core::contains(local.ebs_locked_vault_names, vault_name)
     ], [])
     all_vaults_locked = core::length(local.unlocked_vault_names) == 0
   }
@@ -115,7 +115,7 @@ resource_policy "aws_ebs_volume" "ebs_volumes_should_be_in_a_backup_plan" {
   }
 
   enforce {
-    condition     = !input.backupVaultLockCheck || !local.is_in_backup || local.all_vaults_locked
+    condition     = !input.ebsBackupVaultLockCheck || !local.is_in_backup || local.all_vaults_locked
     error_message = "EBS volumes are protected by backup plan(s) whose vault(s) do not have Vault Lock enabled. Configure aws_backup_vault_lock_configuration for each associated vault when backupVaultLockCheck is true."
   }
 }
