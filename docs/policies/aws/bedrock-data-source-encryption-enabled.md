@@ -1,0 +1,53 @@
+# Amazon Bedrock data sources should be encrypted with customer managed AWS KMS keys
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Encryption of data-at-rest |
+
+## Description
+
+This control checks whether an Amazon Bedrock data source is encrypted at rest with a customer managed AWS KMS key. The control fails if the data source isn't encrypted with a customer managed KMS key. The control doesn't evaluate data sources that belong to a managed knowledge base. By default, Amazon Bedrock encrypts data source content with AWS managed keys.
+
+The policy evaluates each `aws_bedrockagent_data_source` resource. It is non-compliant when `server_side_encryption_configuration.kms_key_arn` is missing, `null`, or empty, or when it references an AWS managed key alias (`alias/aws/...`). Data sources of type `MANAGED_KNOWLEDGE_BASE_CONNECTOR` (or that use a `managed_knowledge_base_connector_configuration`) are not evaluated, matching the control.
+
+This rule is covered by the [bedrock-data-source-encryption-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/bedrock/bedrock-data-source-encryption-enabled.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # bedrock-data-source-encryption-enabled.policytest.hcl...
+      running
+      # resource.aws_bedrockagent_data_source.pass_cmk_key_arn...
+      running
+      # resource.aws_bedrockagent_data_source.pass_cmk_key_arn...
+      pass
+      # resource.aws_bedrockagent_data_source.pass_customer_alias...
+      running
+      # resource.aws_bedrockagent_data_source.pass_customer_alias...
+      pass
+      # resource.aws_bedrockagent_data_source.pass_managed_kb_out_of_scope...
+      running
+      # resource.aws_bedrockagent_data_source.pass_managed_kb_out_of_scope...
+      pass
+      # resource.aws_bedrockagent_data_source.pass_managed_type_only_out_of_scope...
+      running
+      # resource.aws_bedrockagent_data_source.pass_managed_type_only_out_of_scope...
+      pass
+      # resource.aws_bedrockagent_data_source.fail_no_encryption_block...
+      running
+      # resource.aws_bedrockagent_data_source.fail_no_encryption_block...
+      pass
+      running
+      pass
+      running
+      pass
+      # resource.aws_bedrockagent_data_source.fail_aws_managed_alias...
+      running
+      # resource.aws_bedrockagent_data_source.fail_aws_managed_alias...
+      pass
+      # bedrock-data-source-encryption-enabled.policytest.hcl...
+      pass
+```
+
+---
