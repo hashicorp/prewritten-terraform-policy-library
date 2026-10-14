@@ -16,7 +16,7 @@ input "cloudtrail-lake-event-data-stores-should-be-encrypted-with-customer-manag
   default = "advisory"
 }
 
-input "kmsKeyArns" {
+input "cloudtrailLakeKmsKeyArns" {
   type    = list(string)
   default = []
 }
@@ -27,16 +27,16 @@ resource_policy "aws_cloudtrail_event_data_store" "encrypted_with_kms_key" {
     kms_key_set    = local.kms_key_id_raw != null && local.kms_key_id_raw != ""
     is_aws_managed_alias = local.kms_key_set ? core::length(core::regexall("^alias/aws/", core::lower(local.kms_key_id_raw))) > 0 : false
     is_allowed_key = (
-      core::length(input.kmsKeyArns) == 0
+      core::length(input.cloudtrailLakeKmsKeyArns) == 0
       ? true
       : local.kms_key_set
-      ? core::contains(input.kmsKeyArns, local.kms_key_id_raw)
+      ? core::contains(input.cloudtrailLakeKmsKeyArns, local.kms_key_id_raw)
       : false
     )
   }
   enforcement_level = input.cloudtrail-lake-event-data-stores-should-be-encrypted-with-customer-managed-aws-kms-keys-enforcement-level
   enforce {
     condition     = local.kms_key_set && !local.is_aws_managed_alias && local.is_allowed_key
-    error_message = "CloudTrail Event Data Stores must use a customer-managed KMS key. Specify a non-AWS-managed key in 'kms_key_id' and, when configured, include it in the 'kmsKeyArns' allowlist."
+    error_message = "CloudTrail Event Data Stores must use a customer-managed KMS key. Specify a non-AWS-managed key in 'kms_key_id' and, when configured, include it in the 'cloudtrailLakeKmsKeyArns' allowlist."
   }
 }
