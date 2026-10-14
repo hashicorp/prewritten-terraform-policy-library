@@ -1,0 +1,66 @@
+# CloudWatch log groups should be retained for a specified time period
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Logging |
+
+## Description
+
+This control checks whether Amazon CloudWatch log groups meet the `minRetentionTime` threshold or are configured to never expire. The threshold accepts 365, 400, 545, 731, 1827, or 3653 days and defaults to 365. A missing or null `retention_in_days` is treated as 0 (never expire). Log groups with `log_group_class = "DELIVERY"` are exempt because AWS fixes their retention at 2 days.
+
+Retaining CloudWatch log groups for the configured minimum ensures that audit trails, application logs, and security event data remain available for incident investigation, forensic analysis, and compliance reporting. Setting `retention_in_days = 0` or omitting the attribute configures logs to never expire.
+
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| `cloudwatch-log-groups-should-be-retained-for-a-specified-time-period-enforcement-level` | Configurable policy enforcement level. | `string` | `"advisory"` |
+| `minRetentionTime` | Minimum retention in days. Allowed values: 365, 400, 545, 731, 1827, or 3653. | `number` | `365` |
+
+This rule is covered by the [cloudwatch-log-groups-should-be-retained-for-a-specified-time-period](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudwatch/cloudwatch-log-groups-should-be-retained-for-a-specified-time-period.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # cloudwatch-log-groups-should-be-retained-for-a-specified-time-period.policytest.hcl...
+      running
+      # resource.aws_cloudwatch_log_group.pass_365...
+      running
+      # resource.aws_cloudwatch_log_group.pass_365...
+      pass
+      # resource.aws_cloudwatch_log_group.pass_731...
+      running
+      # resource.aws_cloudwatch_log_group.pass_731...
+      pass
+      # resource.aws_cloudwatch_log_group.pass_never_expire...
+      running
+      # resource.aws_cloudwatch_log_group.pass_never_expire...
+      pass
+      # resource.aws_cloudwatch_log_group.pass_missing_retention...
+      running
+      # resource.aws_cloudwatch_log_group.pass_missing_retention...
+      pass
+      # resource.aws_cloudwatch_log_group.pass_null_retention...
+      running
+      # resource.aws_cloudwatch_log_group.pass_null_retention...
+      pass
+      # resource.aws_cloudwatch_log_group.pass_delivery_class...
+      running
+      # resource.aws_cloudwatch_log_group.pass_delivery_class...
+      pass
+      # resource.aws_cloudwatch_log_group.fail_364...
+      running
+      # resource.aws_cloudwatch_log_group.fail_364...
+      pass
+      # resource.aws_cloudwatch_log_group.fail_30...
+      running
+      # resource.aws_cloudwatch_log_group.fail_30...
+      pass
+      # resource.aws_cloudwatch_log_group.fail_1...
+      running
+      # resource.aws_cloudwatch_log_group.fail_1...
+      pass
+      # cloudwatch-log-groups-should-be-retained-for-a-specified-time-period.policytest.hcl...
+      pass
+```
+
+---
