@@ -123,3 +123,20 @@ resource "aws_sagemaker_monitoring_schedule" "fail_referenced_definition_unencry
   }
   expect_failure = true
 }
+
+resource "aws_sagemaker_data_quality_job_definition" "definition_without_network_config" {
+  attrs = {
+    name = "dq-no-network-config"
+  }
+}
+
+resource "aws_sagemaker_monitoring_schedule" "fail_referenced_definition_network_config_omitted" {
+  attrs = {
+    name = "fail-ref-no-network-config"
+    monitoring_schedule_config = [{
+      monitoring_type                = "DataQuality"
+      monitoring_job_definition_name = "dq-no-network-config"
+    }]
+  }
+  expect_failure = true
+}
