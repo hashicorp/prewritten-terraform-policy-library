@@ -23,8 +23,9 @@ input "eventTypes" {
 
 resource_policy "aws_s3_bucket" "event_notifications_enabled" {
   locals {
+    s3_bucket = core::try(attrs.bucket, "")
     notifications = core::getresources("aws_s3_bucket_notification", {
-      bucket = attrs.id
+      bucket = local.s3_bucket
     })
     # A notification only counts when it defines at least one topic block (null-safe).
     notifications_with_topic = [

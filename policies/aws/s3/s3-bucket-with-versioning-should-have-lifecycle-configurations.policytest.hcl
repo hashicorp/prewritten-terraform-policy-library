@@ -57,6 +57,27 @@ resource "aws_s3_bucket_lifecycle_configuration" "lc_compliant" {
   }
 }
 
+resource "aws_s3_bucket_versioning" "ver_disabled_rules" {
+  skip = true
+  attrs = {
+    bucket = "disabled-rules-bucket"
+    versioning_configuration = [{
+      status = "Enabled"
+    }]
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "lc_disabled_rules" {
+  skip = true
+  attrs = {
+    bucket = "disabled-rules-bucket"
+    rule = [{
+      id     = "expire"
+      status = "Disabled"
+    }]
+  }
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "lc_unrelated" {
   skip = true
   attrs = {
@@ -100,6 +121,15 @@ resource "aws_s3_bucket" "fail_versioned_without_lifecycle" {
   attrs = {
     id     = "noncompliant-bucket"
     bucket = "noncompliant-bucket"
+  }
+}
+
+# FAIL: versioning Enabled; lifecycle configuration exists but all rules are Disabled
+resource "aws_s3_bucket" "fail_versioned_lifecycle_all_rules_disabled" {
+  expect_failure = true
+  attrs = {
+    id     = "disabled-rules-bucket"
+    bucket = "disabled-rules-bucket"
   }
 }
 

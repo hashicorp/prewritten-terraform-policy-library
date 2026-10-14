@@ -100,6 +100,34 @@ resource "aws_sagemaker_feature_group" "fail_security_config_absent" {
   }
 }
 
+# FAIL: storage_type omitted (AWS defaults to Standard) and no KMS key
+resource "aws_sagemaker_feature_group" "fail_storage_type_omitted_no_kms" {
+  expect_failure = true
+  attrs = {
+    feature_group_name             = "fg-fail-storage-omitted"
+    record_identifier_feature_name = "record_id"
+    event_time_feature_name        = "event_time"
+    online_store_config = [{
+      enable_online_store = true
+    }]
+  }
+}
+
+# PASS: storage_type omitted (AWS defaults to Standard) and KMS key set
+resource "aws_sagemaker_feature_group" "pass_storage_type_omitted_kms_set" {
+  attrs = {
+    feature_group_name             = "fg-pass-storage-omitted"
+    record_identifier_feature_name = "record_id"
+    event_time_feature_name        = "event_time"
+    online_store_config = [{
+      enable_online_store = true
+      security_config = [{
+        kms_key_id = "arn:aws:kms:us-east-1:123456789012:key/mrk-abc12345"
+      }]
+    }]
+  }
+}
+
 # SKIP: online_store_config is absent — filter does not match, not evaluated
 resource "aws_sagemaker_feature_group" "skip_no_online_store_config" {
   attrs = {

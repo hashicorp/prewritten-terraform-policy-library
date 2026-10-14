@@ -1,6 +1,9 @@
 # Copyright IBM Corp. 2026
 
 # S3 buckets should have versioning enabled
+#
+# Note: only the aws_s3_bucket_versioning resource is recognised. Buckets that use the
+# deprecated inline versioning {} block on aws_s3_bucket are not evaluated and will fail.
 
 policy {
   required_providers {
@@ -18,8 +21,9 @@ input "s3-bucket-should-have-versioning-enabled-enforcement-level" {
 
 resource_policy "aws_s3_bucket" "s3_bucket_should_have_versioning_enabled" {
   locals {
+    bucket_name = core::try(attrs.bucket, "")
     versioning_resources = core::getresources("aws_s3_bucket_versioning", {
-      bucket = attrs.id
+      bucket = local.bucket_name
     })
     enabled_versioning = [
       for v in local.versioning_resources : v

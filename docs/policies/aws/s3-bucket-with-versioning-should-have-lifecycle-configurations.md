@@ -25,6 +25,8 @@ trace:
       # resource.aws_s3_bucket.pass_no_versioning_no_lifecycle... pass
       # resource.aws_s3_bucket.fail_versioned_without_lifecycle... running
       # resource.aws_s3_bucket.fail_versioned_without_lifecycle... pass
+      # resource.aws_s3_bucket.fail_versioned_lifecycle_all_rules_disabled... running
+      # resource.aws_s3_bucket.fail_versioned_lifecycle_all_rules_disabled... pass
       # resource.aws_s3_bucket.fail_versioned_lifecycle_for_other_bucket... running
       # resource.aws_s3_bucket.fail_versioned_lifecycle_for_other_bucket... pass
       # s3-bucket-with-versioning-should-have-lifecycle-configurations.policytest.hcl... pass

@@ -29,6 +29,10 @@ trace:
       # resource.aws_sagemaker_feature_group.fail_security_config_empty... pass
       # resource.aws_sagemaker_feature_group.fail_security_config_absent... running
       # resource.aws_sagemaker_feature_group.fail_security_config_absent... pass
+      # resource.aws_sagemaker_feature_group.fail_storage_type_omitted_no_kms... running
+      # resource.aws_sagemaker_feature_group.fail_storage_type_omitted_no_kms... pass
+      # resource.aws_sagemaker_feature_group.pass_storage_type_omitted_kms_set... running
+      # resource.aws_sagemaker_feature_group.pass_storage_type_omitted_kms_set... pass
       # resource.aws_sagemaker_feature_group.skip_no_online_store_config... running
       # resource.aws_sagemaker_feature_group.skip_no_online_store_config... pass
       # resource.aws_sagemaker_feature_group.skip_online_store_config_null... running

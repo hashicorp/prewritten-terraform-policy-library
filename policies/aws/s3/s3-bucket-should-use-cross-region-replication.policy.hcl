@@ -18,10 +18,10 @@ input "s3-bucket-should-use-cross-region-replication-enforcement-level" {
 
 resource_policy "aws_s3_bucket" "s3_bucket_should_use_cross_region_replication" {
   locals {
-    bucket_id = core::try(attrs.id, null)
-    replications = local.bucket_id != null ? core::getresources("aws_s3_bucket_replication_configuration", {
-      bucket = attrs.id
-    }) : []
+    bucket_name = core::try(attrs.bucket, "")
+    replications = core::getresources("aws_s3_bucket_replication_configuration", {
+      bucket = local.bucket_name
+    })
 
     rules = core::flatten([
       for repl in local.replications : core::try(repl.rule, core::try(repl.attrs.rule, []))

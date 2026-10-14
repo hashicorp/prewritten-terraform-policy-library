@@ -18,11 +18,12 @@ input "s3-bucket-with-versioning-should-have-lifecycle-configurations-enforcemen
 
 resource_policy "aws_s3_bucket" "versioned_bucket_has_lifecycle_configuration" {
   locals {
+    bucket_name = core::try(attrs.bucket, "")
     versioning_resources = core::getresources("aws_s3_bucket_versioning", {
-      bucket = attrs.id
+      bucket = local.bucket_name
     })
     lifecycle_resources = core::getresources("aws_s3_bucket_lifecycle_configuration", {
-      bucket = attrs.id
+      bucket = local.bucket_name
     })
 
     # Versioning is enabled when any associated versioning resource has status "Enabled"
@@ -30,7 +31,14 @@ resource_policy "aws_s3_bucket" "versioned_bucket_has_lifecycle_configuration" {
       if core::try(v.versioning_configuration[0].status, "") == "Enabled"
     ] : []
     has_versioning_enabled = core::length(local.enabled_versioning) > 0
-    has_lifecycle          = core::length(local.lifecycle_resources) > 0
+
+    # A lifecycle configuration counts only when at least one of its rules has status "Enabled"
+    enabled_lifecycle = [for l in local.lifecycle_resources : l
+      if core::length([for r in (core::try(l.rule, null) != null ? l.rule : []) : r
+        if core::try(r.status, "") == "Enabled"
+      ]) > 0
+    ]
+    has_lifecycle = core::length(local.enabled_lifecycle) > 0
   }
 
   # Only buckets with versioning enabled are in scope
