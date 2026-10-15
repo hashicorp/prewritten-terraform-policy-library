@@ -8,7 +8,7 @@
 
 This control checks whether an Amazon Bedrock AgentCore custom code interpreter is configured with a private network mode. The control fails if the network mode is set to `PUBLIC` or `SANDBOX`. Configuring custom code interpreters with a private network mode keeps code execution environments isolated within your VPC.
 
-The policy evaluates each `aws_bedrockagentcore_code_interpreter` resource and requires `network_configuration.network_mode` to be `VPC`. `PUBLIC`, `SANDBOX`, and an omitted `network_configuration` are non-compliant.
+The policy evaluates each `aws_bedrockagentcore_code_interpreter` resource and passes only when `network_configuration.network_mode` is `VPC`. Any other value, including `PUBLIC` and `SANDBOX`, and an omitted `network_configuration` is non-compliant.
 
 This rule is covered by the [bedrockagentcore-codeinterpreter-networkmode-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/bedrock/bedrockagentcore-codeinterpreter-networkmode-check.policy.hcl) policy.
 

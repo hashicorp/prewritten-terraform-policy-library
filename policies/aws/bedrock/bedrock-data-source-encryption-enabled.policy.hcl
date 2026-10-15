@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 6.65.0, < 7.0.0"
+      version = ">= 6.67.0, < 7.0.0"
     }
   }
 }
@@ -15,6 +15,7 @@ input "bedrock-data-source-encryption-enabled-enforcement-level" {
   type    = string
   default = "advisory"
 }
+
 resource_policy "aws_bedrockagent_data_source" "encrypted_with_cmk" {
   enforcement_level = input.bedrock-data-source-encryption-enabled-enforcement-level
 

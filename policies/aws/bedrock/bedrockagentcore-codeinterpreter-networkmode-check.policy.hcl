@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 6.65.0, < 7.0.0"
+      version = ">= 6.67.0, < 7.0.0"
     }
   }
 }
@@ -15,6 +15,7 @@ input "bedrockagentcore-codeinterpreter-networkmode-check-enforcement-level" {
   type    = string
   default = "advisory"
 }
+
 resource_policy "aws_bedrockagentcore_code_interpreter" "private_network_mode" {
   enforcement_level = input.bedrockagentcore-codeinterpreter-networkmode-check-enforcement-level
 

@@ -6,7 +6,7 @@ policy {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 6.65.0, < 7.0.0"
+      version = ">= 6.67.0, < 7.0.0"
     }
   }
 }
@@ -15,6 +15,7 @@ input "sagemaker-notebook-instance-storage-vol-kms-encrypted-enforcement-level" 
   type    = string
   default = "advisory"
 }
+
 resource_policy "aws_sagemaker_notebook_instance" "storage_volume_kms_encrypted" {
   enforcement_level = input.sagemaker-notebook-instance-storage-vol-kms-encrypted-enforcement-level
 
