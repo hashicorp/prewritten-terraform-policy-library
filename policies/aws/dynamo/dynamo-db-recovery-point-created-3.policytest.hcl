@@ -13,8 +13,10 @@ inputs {
   dynamo-db-recovery-point-created-recovery_point_age_unit  = "hours"
 }
 
-# PASS: PITR enabled - always compliant regardless of the required window.
+# FAIL: PITR enabled but no AWS Backup plan covers the table (PITR alone is not
+# an AWS Backup recovery point).
 resource "aws_dynamodb_table" "pitr_enabled_custom_window" {
+  expect_failure = true
   attrs = {
     name     = "pitr-enabled-custom-window-table"
     hash_key = "id"

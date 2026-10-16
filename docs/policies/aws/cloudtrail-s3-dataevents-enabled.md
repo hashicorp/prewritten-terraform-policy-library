@@ -10,6 +10,8 @@ This policy implements the AWS Config rule [cloudtrail-s3-dataevents-enabled](ht
 
 The policy evaluates `aws_cloudtrail` resources.
 
+For advanced event selectors, a `resources.ARN` `starts_with` filter counts only when it covers every required bucket (or all buckets). `ends_with`, `not_starts_with` and `not_ends_with` filters on `resources.ARN` narrow coverage in ways a plan cannot resolve, so selectors that use them do not count.
+
 This rule is covered by the [cloudtrail-s3-dataevents-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudtrail/cloudtrail-s3-dataevents-enabled.policy.hcl) policy.
 
 ## Policy Results

@@ -67,6 +67,14 @@ locals {
       )
       arn_equals     = core::flatten([for f in a.fs : core::try(f.equals, null) == null ? [] : f.equals if core::try(f.field, "") == "resources.ARN"])
       arn_not_equals = core::flatten([for f in a.fs : core::try(f.not_equals, null) == null ? [] : f.not_equals if core::try(f.field, "") == "resources.ARN"])
+      arn_starts_with = core::flatten([for f in a.fs : core::try(f.starts_with, null) == null ? [] : f.starts_with if core::try(f.field, "") == "resources.ARN"])
+      # ends_with and not_* operators narrow the selector in ways a plan cannot resolve
+      # to bucket coverage, so any use of them is treated as not covering the buckets.
+      arn_other_ops = core::flatten([for f in a.fs : core::concat(
+        core::try(f.ends_with, null) == null ? [] : f.ends_with,
+        core::try(f.not_starts_with, null) == null ? [] : f.not_starts_with,
+        core::try(f.not_ends_with, null) == null ? [] : f.not_ends_with
+      ) if core::try(f.field, "") == "resources.ARN"])
     }]
   }]
 
@@ -84,16 +92,23 @@ locals {
     ||
     # Advanced selectors
     core::length([for a in r.advanced : a if a.data_s3 && (
-      core::length(local.s3de_targets) == 0
-      ? (
-        core::length(a.arn_not_equals) == 0 &&
-        (core::length(a.arn_equals) == 0 || core::length([for v in a.arn_equals : v if core::contains(local.s3de_all_buckets, v)]) > 0)
-      )
-      : (
-        core::length([for b in local.s3de_targets : b if core::length([for v in a.arn_not_equals : v if core::contains(local.s3de_all_buckets, v) || core::startswith(v, "arn:aws:s3:::${b}/") || v == "arn:aws:s3:::${b}"]) > 0]) == 0 &&
-        (
-          core::length(a.arn_equals) == 0 ||
-          core::length([for b in local.s3de_targets : b if core::length([for v in a.arn_equals : v if core::contains(local.s3de_all_buckets, v) || core::startswith(v, "arn:aws:s3:::${b}/") || v == "arn:aws:s3:::${b}"]) > 0]) == core::length(local.s3de_targets)
+      core::length(a.arn_other_ops) == 0 &&
+      core::length([for b in(core::length(local.s3de_targets) == 0 ? ["*"] : local.s3de_targets) : b if
+        core::length(a.arn_starts_with) == 0 ||
+        core::length([for v in a.arn_starts_with : v if core::contains(local.s3de_all_buckets, v) || (b != "*" && core::startswith("arn:aws:s3:::${b}/", v))]) > 0
+      ]) == core::length(core::length(local.s3de_targets) == 0 ? ["*"] : local.s3de_targets) &&
+      (
+        core::length(local.s3de_targets) == 0
+        ? (
+          core::length(a.arn_not_equals) == 0 &&
+          (core::length(a.arn_equals) == 0 || core::length([for v in a.arn_equals : v if core::contains(local.s3de_all_buckets, v)]) > 0)
+        )
+        : (
+          core::length([for b in local.s3de_targets : b if core::length([for v in a.arn_not_equals : v if core::contains(local.s3de_all_buckets, v) || core::startswith(v, "arn:aws:s3:::${b}/") || v == "arn:aws:s3:::${b}"]) > 0]) == 0 &&
+          (
+            core::length(a.arn_equals) == 0 ||
+            core::length([for b in local.s3de_targets : b if core::length([for v in a.arn_equals : v if core::contains(local.s3de_all_buckets, v) || core::startswith(v, "arn:aws:s3:::${b}/") || v == "arn:aws:s3:::${b}"]) > 0]) == core::length(local.s3de_targets)
+          )
         )
       )
     )]) > 0

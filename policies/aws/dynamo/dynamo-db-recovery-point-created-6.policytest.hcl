@@ -13,8 +13,8 @@ inputs {
   dynamo-db-recovery-point-created-resource_tags = "{\"Environment\":\"prod\"}"
 }
 
-# PASS: table tags do not match resource_tags filter -> not evaluated -> passes
-# trivially even though it is non-compliant (PITR disabled, no coverage).
+# FAIL: table tags match resource_tags filter -> evaluated -> no AWS Backup
+# coverage (PITR alone does not count).
 resource "aws_dynamodb_table" "filtered_out_by_tags" {
   attrs = {
     name     = "wrong-tag-table"
@@ -41,6 +41,7 @@ resource "aws_dynamodb_table" "matching_tags_noncompliant" {
 
 # PASS: table tags match resource_tags filter -> evaluated -> compliant (PITR enabled).
 resource "aws_dynamodb_table" "matching_tags_compliant" {
+  expect_failure = true
   attrs = {
     name     = "matching-tag-table-pass"
     hash_key = "id"

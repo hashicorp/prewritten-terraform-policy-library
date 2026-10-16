@@ -13,8 +13,10 @@ policytest {
 # every resource declared below). The wildcard-pattern scenarios are isolated
 # in -2.policytest.hcl for that reason.
 
-# 1. PASS: PITR enabled, no backup coverage needed at all.
+# 1. FAIL: PITR enabled but no AWS Backup plan covers the table. The AWS Config rule
+#    checks AWS Backup recovery points, so PITR alone does not satisfy it.
 resource "aws_dynamodb_table" "pitr_enabled" {
+  expect_failure = true
   attrs = {
     name     = "pitr-enabled-table"
     hash_key = "id"

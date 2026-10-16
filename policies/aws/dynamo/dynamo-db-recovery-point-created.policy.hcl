@@ -145,10 +145,6 @@ resource_policy "aws_dynamodb_table" "recovery_point_created" {
     table_arn  = core::try(attrs.arn, "")
     table_tags = core::try(attrs.tags, {})
 
-    # Point-in-time recovery is compliant if ANY point_in_time_recovery block has enabled = true.
-    # Read the enabled leaf directly: the block has computed fields, so iterating over the
-    # whole block is unknown at plan time.
-    pitr_enabled = core::try(attrs.point_in_time_recovery[0].enabled, false) == true
 
     # A backup selection "covers" this table when its resources list references the table
     # (wildcard, exact ARN, exact name, ARN suffix, or generic DynamoDB wildcard ARN pattern)
@@ -183,12 +179,12 @@ resource_policy "aws_dynamodb_table" "recovery_point_created" {
       )
     ])
 
-    is_backup_compliant = local.pitr_enabled ? true : local.has_compliant_selection
+    is_backup_compliant = local.has_compliant_selection
   }
 
   enforcement_level = input.dynamo-db-recovery-point-created-enforcement-level
   enforce {
     condition     = local.is_backup_compliant
-    error_message = "DynamoDB table '${local.table_name}' does not have point-in-time recovery enabled and is not associated with a compliant AWS Backup plan scheduled within the required ${local.ddbrp_required_hours} hour(s)."
+    error_message = "DynamoDB table '${local.table_name}' is not associated with a compliant AWS Backup plan scheduled within the required ${local.ddbrp_required_hours} hour(s)."
   }
 }

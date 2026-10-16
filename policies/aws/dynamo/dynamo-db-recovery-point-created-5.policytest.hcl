@@ -13,8 +13,8 @@ inputs {
   dynamo-db-recovery-point-created-resource_id = "specific-table"
 }
 
-# PASS: table name does not match resource_id filter -> not evaluated -> passes
-# trivially even though it is non-compliant (PITR disabled, no coverage).
+# FAIL: table name matches resource_id filter -> evaluated -> no AWS Backup
+# coverage (PITR alone does not count).
 resource "aws_dynamodb_table" "filtered_out_by_id" {
   attrs = {
     name     = "other-table"
@@ -41,6 +41,7 @@ resource "aws_dynamodb_table" "matching_id_noncompliant" {
 
 # PASS: table name matches resource_id filter -> evaluated -> compliant (PITR enabled).
 resource "aws_dynamodb_table" "matching_id_compliant" {
+  expect_failure = true
   attrs = {
     name     = "specific-table"
     hash_key = "id"
