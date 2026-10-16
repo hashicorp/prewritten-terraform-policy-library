@@ -21,7 +21,7 @@ Additional providers will be added in future releases.
 | AWS | NIST SP 800-53 Rev. 5 | 277 | [AWS Security Hub: NIST SP 800-53 Rev. 5](https://docs.aws.amazon.com/securityhub/latest/userguide/standards-reference-nist-800-53.html) |
 | AWS | PCI DSS (v3.2.1, v4.0.1) | 137 | [AWS Security Hub: PCI DSS](https://docs.aws.amazon.com/securityhub/latest/userguide/pci-standard.html) |
 | AWS | AI Security Best Practices | 21 | [AWS Security Hub: AI Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/standards-ai-security.html) |
-| AWS | ISO/IEC 27001:2013 Annex A (AWS Audit Manager) | 150 | [AWS Audit Manager: ISO/IEC 27001:2013 Annex A](https://docs.aws.amazon.com/audit-manager/latest/userguide/iso-27001-2013.html) |
+| AWS | ISO/IEC 27001:2013 Annex A | 150 | [AWS Audit Manager: ISO/IEC 27001:2013 Annex A](https://docs.aws.amazon.com/audit-manager/latest/userguide/iso-27001-2013.html) |
 | Azure | CIS Microsoft Azure Foundations Benchmark v6.0.0 | 82 | [CIS Azure Foundations Benchmark](https://www.cisecurity.org/benchmark/azure) |
 | GCP | CIS Google Cloud Platform Foundation Benchmark v5.0.0 | 68 | [CIS Google Cloud Platform Foundation Benchmark](https://www.cisecurity.org/benchmark/google_cloud_computing_platform) |
 
