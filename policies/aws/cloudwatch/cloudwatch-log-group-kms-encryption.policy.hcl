@@ -16,13 +16,6 @@ input "cloudwatch-log-group-kms-encryption-enforcement-level" {
   default = "advisory"
 }
 
-# Converted from Sentinel policy: cloudwatch-log-group-kms-encryption
-# Verifies that Amazon CloudWatch Log Groups are encrypted with an AWS KMS key.
-# Optionally restricts to a specific KMS key (input.cloudwatch-log-group-kms-encryption-kms_key_id). The Sentinel source
-# declared two parameters (kms_key_id and KmsKeyId) that are functionally identical
-# (KmsKeyId takes priority when both are set); they are consolidated into a single
-# `input.cloudwatch-log-group-kms-encryption-kms_key_id` here since there is no operator-facing reason to keep both.
-
 input "cloudwatch-log-group-kms-encryption-kms_key_id" {
   type        = string
   default     = ""
@@ -42,7 +35,6 @@ resource_policy "aws_cloudwatch_log_group" "cloudwatch_log_group_kms_encryption"
     kms_key_matches = local.required_kms_key_id == "" || local.kms_key_id == local.required_kms_key_id
     is_compliant    = local.has_kms_key_id && local.kms_key_matches
 
-    # Mirrors Sentinel's generate_violation_message() branching
     violation_message = local.required_kms_key_id == "" ? (
       "CloudWatch Log Group must be encrypted with an AWS KMS key. Attribute 'kms_key_id' is not set"
       ) : (

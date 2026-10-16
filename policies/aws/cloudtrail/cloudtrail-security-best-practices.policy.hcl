@@ -2,11 +2,6 @@
 
 # At least one CloudTrail trail should be defined with security best practices
 
-# The AWS Config rule cloudtrail-security-trail-enabled is compliant when at least one
-# CloudTrail trail in the account meets all security best practices. Every trail in the
-# plan is evaluated below, and each aws_cloudtrail resource passes when at least one trail
-# in the plan is compliant. Trails that already exist outside this plan are not visible.
-
 policy {
   required_providers {
     aws = {
@@ -29,15 +24,12 @@ locals {
     log_validation  = core::try(t.enable_log_file_validation, null) == null ? false : t.enable_log_file_validation
     kms_encrypted   = core::try(t.kms_key_id, null) == null ? false : t.kms_key_id != ""
 
-    # Basic event selectors: management events for both reads and writes, with no exclusions.
     basic = [for s in(core::try(t.event_selector, null) == null ? [] : t.event_selector) : {
       include_mgmt = core::try(s.include_management_events, null) == null ? true : s.include_management_events
       has_excludes = core::length(core::try(s.exclude_management_event_sources, null) == null ? [] : s.exclude_management_event_sources) > 0
       rw           = core::try(s.read_write_type, null) == null ? "All" : s.read_write_type
     }]
 
-    # Advanced event selectors: eventCategory = Management, optionally split by readOnly,
-    # with no other limiting field.
     advanced = [for s in(core::try(t.advanced_event_selector, null) == null ? [] : t.advanced_event_selector) : {
       fs = core::try(s.field_selector, null) == null ? [] : s.field_selector
     }]

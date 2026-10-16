@@ -16,8 +16,6 @@ input "ec2-non-default-security-groups-attached-to-eni-enforcement-level" {
   default = "advisory"
 }
 
-# Security group IDs used by resources in the plan that place an elastic network
-# interface in a VPC. A security group used by any of them is attached to an ENI.
 locals {
   nondefault_sg_refs_from_lists = core::flatten([
     [for r in core::getresources("aws_network_interface", {}) : core::try([for x in r.security_groups : x], [])],

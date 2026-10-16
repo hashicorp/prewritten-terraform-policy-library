@@ -16,10 +16,6 @@ input "codebuild-project-privileged-mode-disabled-enforcement-level" {
   default = "advisory"
 }
 
-# Converted from Sentinel policy: codebuild-project-privileged-mode-disabled.sentinel
-# This policy checks if AWS CodeBuild projects have privileged mode disabled
-# in their environment configuration.
-
 input "codebuild-project-privileged-mode-disabled-exempted_projects" {
   type        = list(string)
   description = "List of CodeBuild project names that are allowed to have privileged_mode set to true."
@@ -31,12 +27,10 @@ resource_policy "aws_codebuild_project" "privileged_mode_disabled" {
     project_name = core::try(attrs.name, "")
     is_exempted  = core::contains(input.codebuild-project-privileged-mode-disabled-exempted_projects, local.project_name)
 
-    # environment is a list-nesting block (environment = [{...}])
     environment_raw = core::try(attrs.environment, null)
     environment     = local.environment_raw != null ? local.environment_raw : []
     has_environment = core::length(local.environment) > 0
 
-    # If environment is missing/empty, privileged_mode cannot be set -> compliant.
     privileged_mode_raw = local.has_environment ? core::try(local.environment[0].privileged_mode, null) : null
     privileged_mode     = local.privileged_mode_raw == null ? false : local.privileged_mode_raw
 

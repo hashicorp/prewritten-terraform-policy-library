@@ -2,11 +2,6 @@
 
 # Security groups should be attached to an elastic network interface
 
-# NOTE: This policy contains cross-resource references (aws_network_interface,
-# aws_network_interface_sg_attachment, aws_instance) that will not resolve during
-# plan time for newly-created resources whose attributes are unknown until apply,
-# but the policy will run successfully during apply time.
-
 policy {
   required_providers {
     aws = {
@@ -21,8 +16,6 @@ input "ec2-security-group-attached-to-eni-periodic-enforcement-level" {
   default = "advisory"
 }
 
-# Security group IDs used by resources in the plan that place an elastic network
-# interface in a VPC. A security group used by any of them is attached to an ENI.
 locals {
   periodic_sg_refs_from_lists = core::flatten([
     [for r in core::getresources("aws_network_interface", {}) : core::try([for x in r.security_groups : x], [])],

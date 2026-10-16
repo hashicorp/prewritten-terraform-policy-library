@@ -2,26 +2,6 @@
 
 # RDS databases should have a recent recovery point
 
-# LIMITATION:
-# - This policy cannot verify the actual elapsed age of AWS Backup recovery points
-#   (the Sentinel "recoveryPointAgeValue"/"recoveryPointAgeUnit" check) because that
-#   requires runtime AWS Backup data that is not available from a Terraform plan or
-#   apply. As an approximation (matching the Sentinel source's actual implemented
-#   logic), this policy verifies that automated backups are enabled
-#   (backup_retention_period > 0) and that the RDS resource is included in a valid
-#   AWS Backup selection (one whose plan_id/iam_role_arn resolve to an existing
-#   aws_backup_plan/aws_iam_role in the same plan).
-# - Sentinel's config-level reference tracking (verifying that plan_id/iam_role_arn
-#   are set via a Terraform resource reference rather than a literal string) is
-#   approximated by checking that the resolved plan_id/iam_role_arn values match an
-#   existing aws_backup_plan.id / aws_iam_role.arn present in the same plan.
-# - aws_backup_selection's `condition` block (string_equals/string_like/etc.) based
-#   resource selection is not evaluated, mirroring the original Sentinel source,
-#   which also only implements `resources` (ARN list) and `selection_tag` matching.
-# - ARN pattern matching in `resources` is approximated with exact ARN match, a
-#   trailing ":*" wildcard match, and an identifier-suffix match, rather than full
-#   AWS ARN glob semantics.
-
 policy {
   required_providers {
     aws = {
@@ -36,9 +16,6 @@ input "rds-recovery-point-created-within-time-period-enforcement-level" {
   default = "advisory"
 }
 
-# recovery_point_age_value / recovery_point_age_unit: used only to compose the
-# violation message (as in the Sentinel source's generate_violation_message);
-# see LIMITATION above for why the actual age cannot be enforced.
 input "rds-recovery-point-created-within-time-period-recovery_point_age_value" {
   type    = number
   default = 1
@@ -49,13 +26,11 @@ input "rds-recovery-point-created-within-time-period-recovery_point_age_unit" {
   default = "days"
 }
 
-# resource_id: optional specific RDS instance/cluster identifier to check.
 input "rds-recovery-point-created-within-time-period-resource_id" {
   type    = string
   default = ""
 }
 
-# resource_tags: optional tags to filter which RDS instances/clusters are checked.
 input "rds-recovery-point-created-within-time-period-resource_tags" {
   type    = map(string)
   default = {}
@@ -69,9 +44,6 @@ locals {
   rdsrp_valid_plan_ids  = [for p in local.rdsrp_all_backup_plans : core::try(p.id, "")]
   rdsrp_valid_role_arns = [for r in local.rdsrp_all_iam_roles : core::try(r.arn, "")]
 
-  # Only selections whose plan_id/iam_role_arn resolve to an existing
-  # aws_backup_plan/aws_iam_role in this plan are considered valid, mirroring the
-  # Sentinel source's has_valid_backup_selection_dependencies().
   rdsrp_valid_selections = [
     for s in local.rdsrp_all_backup_selections : s
     if core::contains(local.rdsrp_valid_plan_ids, core::try(s.plan_id, "")) &&

@@ -16,9 +16,6 @@ input "ec2-no-public-route-to-igw-enforcement-level" {
   default = "advisory"
 }
 
-# NOTE: `allowed_route_table_ids` (Sentinel `param routeTableIds`) is implemented as a
-# TFPolicy `input` so operators can exempt specific route tables from this check, matching
-# the original Sentinel parameter's default of "" (no exemptions, all route tables checked).
 input "ec2-no-public-route-to-igw-allowed_route_table_ids" {
   type    = list(string)
   default = []
@@ -26,21 +23,12 @@ input "ec2-no-public-route-to-igw-allowed_route_table_ids" {
 
 resource_policy "aws_route_table" "no_public_route_to_igw" {
   locals {
-    # route is a set(object) (attribute-as-blocks mode) — iterate without assuming order/index.
     routes_raw = core::try(attrs.route, null)
     routes     = local.routes_raw != null ? local.routes_raw : []
 
-    # A route table is exempt from this check when its id is in the allowed list.
     route_table_id = core::try(attrs.id, "")
     is_allowed     = core::length(input.ec2-no-public-route-to-igw-allowed_route_table_ids) == 0 ? false : core::contains(input.ec2-no-public-route-to-igw-allowed_route_table_ids, local.route_table_id)
 
-    # A route is a public route to an IGW when:
-    #  - its gateway_id is set and starts with "igw-" (identifies an Internet Gateway target), AND
-    #  - its destination is unrestricted: cidr_block == "0.0.0.0/0" OR ipv6_cidr_block == "::/0"
-    # Each route object always declares all route attribute keys (set(object) schema), but
-    # keys the author didn't set in HCL are explicitly null (not absent) — core::try() does
-    # NOT fall back on explicit null, so every field is normalized to "" via the two-step
-    # pattern before being compared/matched.
     normalized_routes = [for r in local.routes : {
       gateway_id      = core::try(r.gateway_id, null) != null ? core::try(r.gateway_id, null) : ""
       cidr_block      = core::try(r.cidr_block, null) != null ? core::try(r.cidr_block, null) : ""
@@ -62,8 +50,6 @@ resource_policy "aws_route_table" "no_public_route_to_igw" {
   }
 }
 
-# Standalone routes are evaluated separately: a route to an Internet Gateway defined with
-# aws_route is not part of the route table's inline route blocks.
 resource_policy "aws_route" "no_public_route_to_igw" {
   locals {
     route_table_id      = core::try(attrs.route_table_id, null) != null ? attrs.route_table_id : ""

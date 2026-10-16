@@ -16,11 +16,6 @@ input "dynamo-db-table-encrypted-kms-enforcement-level" {
   default = "advisory"
 }
 
-# Converted from Sentinel policy: dynamo-db-table-encrypted-kms.sentinel
-# This policy verifies that AWS DynamoDB tables are encrypted with AWS KMS.
-# It checks the `server_side_encryption` block to ensure KMS encryption is enabled,
-# and optionally restricts encryption to a specific set of allowed KMS key ARNs.
-
 input "dynamo-db-table-encrypted-kms-kms_key_arns" {
   type    = list(string)
   default = []
@@ -28,7 +23,6 @@ input "dynamo-db-table-encrypted-kms-kms_key_arns" {
 
 resource_policy "aws_dynamodb_table" "dynamo_db_table_encrypted_kms" {
   locals {
-    # server_side_encryption is a list-nesting block (max_items = 1); treat as a list.
     sse_raw  = core::try(attrs.server_side_encryption, null)
     sse_list = local.sse_raw != null ? local.sse_raw : []
     has_sse  = core::length(local.sse_list) > 0
@@ -43,8 +37,6 @@ resource_policy "aws_dynamodb_table" "dynamo_db_table_encrypted_kms" {
     has_allowed_keys     = core::length(local.allowed_keys) > 0
     allowed_keys_display = core::join(", ", local.allowed_keys)
 
-    # When no allowed list is supplied, enabled = true is sufficient (provider defaults to
-    # the AWS-managed DynamoDB key when kms_key_arn is omitted).
     key_allowed         = local.has_allowed_keys ? core::contains(local.allowed_keys, local.kms_key_arn) : true
     key_in_allowed_list = local.kms_key_arn != "" ? local.key_allowed : false
 

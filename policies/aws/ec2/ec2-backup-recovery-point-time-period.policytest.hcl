@@ -4,14 +4,7 @@ policytest {
   targets = ["ec2-backup-recovery-point-time-period.policy.hcl"]
 }
 
-# Default inputs (max_recovery_point_age_hours = 24, recovery_point_age_value = 1,
-# recovery_point_age_unit = "days", resource_id = "", resource_tags = "").
-# Every selection/plan below is linked via an exact ARN (or a unique ARN-suffix /
-# selection_tag) scoped to its own scenario's instance only, so none of them
-# accidentally cover a different scenario's instance in this same file.
-
-# --- A1: no backup_selection/backup_plan references this instance at all.
-# Tags are omitted entirely (missing-attribute coverage case).
+# FAIL: no coverage
 resource "aws_instance" "fail_no_coverage" {
   expect_failure = true
   attrs = {
@@ -21,9 +14,7 @@ resource "aws_instance" "fail_no_coverage" {
   }
 }
 
-# --- A2: tags explicitly null (two-step null-normalization check). No selection
-# matches this instance (the selection_tag selection below requires Backup=true, and
-# {} has no Backup key once null is normalized), so it stays non-compliant without crashing.
+# FAIL: tags explicitly null (two-step null-normalization check)
 resource "aws_instance" "fail_null_tags" {
   expect_failure = true
   attrs = {
@@ -34,8 +25,7 @@ resource "aws_instance" "fail_null_tags" {
   }
 }
 
-# --- A3: covered by a compliant-looking selection, but the linked plan's rule
-# (rate(25 hours)) exceeds the default 24-hour requirement by 1 hour (tight boundary).
+# FAIL: too frequent boundary
 resource "aws_instance" "fail_too_frequent_boundary" {
   expect_failure = true
   attrs = {
@@ -70,7 +60,7 @@ resource "aws_backup_selection" "selection_a3" {
   }
 }
 
-# --- A4: exact ARN match, plan schedule rate(12 hours) <= 24h requirement -> compliant.
+# PASS: exact ARN match, plan schedule rate(12 hours) <= 24h requirement
 resource "aws_instance" "pass_rate_hours" {
   attrs = {
     ami = "ami-12345678"
@@ -104,8 +94,7 @@ resource "aws_backup_selection" "selection_a4" {
   }
 }
 
-# --- A5: the instance's ARN is listed in BOTH resources and not_resources of the same
-# selection, so it is explicitly excluded even though the plan itself is compliant.
+# FAIL: excluded not resources
 resource "aws_instance" "fail_excluded_not_resources" {
   expect_failure = true
   attrs = {
@@ -141,8 +130,7 @@ resource "aws_backup_selection" "selection_a5" {
   }
 }
 
-# --- A6: selection_tag match (STRINGEQUALS Backup=true) + instance tagged Backup=true,
-# plan schedule rate(6 hours) -> compliant.
+# PASS: tag match
 resource "aws_instance" "pass_tag_match" {
   attrs = {
     ami = "ami-12345678"
@@ -183,8 +171,7 @@ resource "aws_backup_selection" "selection_a6" {
   }
 }
 
-# --- A7: same selection_tag requirement as A6 (Backup=true), but this instance is
-# tagged Backup=false, so it does not match -> non-compliant (no other coverage).
+# FAIL: tag mismatch
 resource "aws_instance" "fail_tag_mismatch" {
   expect_failure = true
   attrs = {
@@ -197,8 +184,7 @@ resource "aws_instance" "fail_tag_mismatch" {
   }
 }
 
-# --- A8: a selection with no resources/selection_tag/condition at all covers nothing
-# (empty-collection case). The instance has no other coverage either.
+# FAIL: a selection with no resources/selection_tag/condition at all covers nothing (empty-collection case)
 resource "aws_instance" "fail_selection_no_criteria" {
   expect_failure = true
   attrs = {
@@ -236,8 +222,7 @@ resource "aws_backup_selection" "selection_a8" {
   }
 }
 
-# --- A9: selection covers the instance by exact ARN, but its plan_id references a
-# backup plan that does not exist anywhere in the plan -> non-compliant.
+# FAIL: plan id mismatch
 resource "aws_instance" "fail_plan_id_mismatch" {
   expect_failure = true
   attrs = {
@@ -258,8 +243,7 @@ resource "aws_backup_selection" "selection_a9" {
   }
 }
 
-# --- A10: selection covers the instance by exact ARN and links to a real plan, but the
-# plan's only rule has an empty schedule -> cannot satisfy the frequency requirement.
+# FAIL: empty schedule rule
 resource "aws_instance" "fail_empty_schedule_rule" {
   expect_failure = true
   attrs = {
@@ -294,9 +278,7 @@ resource "aws_backup_selection" "selection_a10" {
   }
 }
 
-# --- A11: selection references the instance via an ARN-suffix match
-# (":instance/<id>", distinct from the instance's own full `arn` attr value), plan
-# schedule is cron(0 * * * ? *) (hour field "*" -> approximated as hourly) -> compliant.
+# PASS: arn suffix match
 resource "aws_instance" "pass_arn_suffix_match" {
   attrs = {
     ami = "ami-12345678"
@@ -332,9 +314,7 @@ resource "aws_backup_selection" "selection_a11" {
   }
 }
 
-# --- A12: selection covers the instance by exact ARN; plan schedule is
-# cron(0 0 * * ? *) (hour field "0", not "*" -> approximated as daily/24h). With the
-# default 24-hour requirement this is an exact boundary match -> compliant.
+# PASS: selection covers the instance by exact ARN
 resource "aws_instance" "pass_cron_daily_boundary" {
   attrs = {
     ami = "ami-12345678"
@@ -368,9 +348,7 @@ resource "aws_backup_selection" "selection_a12" {
   }
 }
 
-# ---- Cases merged from ec2-backup-recovery-point-time-period-2.policytest.hcl ----
-
-# PASS: plan schedule rate(1 hour) <= required 1 hour.
+# PASS: required one hour
 resource "aws_instance" "pass_required_one_hour_f2" {
   attrs = {
     ami = "ami-12345678"
@@ -404,7 +382,6 @@ resource "aws_backup_selection" "selection_b1_f2" {
   }
 }
 
-
 resource "aws_backup_plan" "plan_b2_f2" {
   skip = true
   attrs = {
@@ -430,9 +407,7 @@ resource "aws_backup_selection" "selection_b2_f2" {
   }
 }
 
-# ---- Cases merged from ec2-backup-recovery-point-time-period-3.policytest.hcl ----
-
-# PASS: plan schedule rate(1 day) = 24h <= required 48h.
+# PASS: required 48 hours
 resource "aws_instance" "pass_required_48_hours_f3" {
   attrs = {
     ami = "ami-12345678"
@@ -466,7 +441,7 @@ resource "aws_backup_selection" "selection_c1_f3" {
   }
 }
 
-# FAIL: plan schedule rate(3 days) = 72h > required 48h.
+# FAIL: plan schedule rate(3 days) = 72h > required 48h
 resource "aws_instance" "fail_required_48_hours_f3" {
   expect_failure = true
   attrs = {
@@ -501,9 +476,7 @@ resource "aws_backup_selection" "selection_c2_f3" {
   }
 }
 
-# ---- Cases merged from ec2-backup-recovery-point-time-period-4.policytest.hcl ----
-
-# FAIL: id matches resource_id, so it is in scope and has no backup coverage.
+# FAIL: in scope no coverage
 resource "aws_instance" "fail_in_scope_no_coverage_f4" {
   expect_failure = true
   attrs = {
@@ -513,11 +486,7 @@ resource "aws_instance" "fail_in_scope_no_coverage_f4" {
   }
 }
 
-
-# ---- Cases merged from ec2-backup-recovery-point-time-period-5.policytest.hcl ----
-
-# FAIL: Environment=production matches the resourceTags filter, so it is in scope
-# and has no backup coverage.
+# FAIL: in scope by tag
 resource "aws_instance" "fail_in_scope_by_tag_f5" {
   expect_failure = true
   attrs = {
@@ -529,9 +498,6 @@ resource "aws_instance" "fail_in_scope_by_tag_f5" {
     }
   }
 }
-
-
-# ---- Cases merged from ec2-backup-recovery-point-time-period-cron.policytest.hcl ----
 
 resource "aws_backup_plan" "plan_weekly_f6" {
   skip = true
@@ -554,6 +520,7 @@ resource "aws_backup_selection" "sel_weekly_f6" {
   }
 }
 
+# FAIL: cron weekly
 resource "aws_instance" "fail_cron_weekly_f6" {
   expect_failure = true
   attrs = {
@@ -585,6 +552,7 @@ resource "aws_backup_selection" "sel_monthly_f6" {
   }
 }
 
+# FAIL: cron monthly
 resource "aws_instance" "fail_cron_monthly_f6" {
   expect_failure = true
   attrs = {
@@ -616,6 +584,7 @@ resource "aws_backup_selection" "sel_daily_q_f6" {
   }
 }
 
+# PASS: cron daily q
 resource "aws_instance" "pass_cron_daily_q_f6" {
   attrs = {
     ami  = "ami-12345678"
@@ -646,6 +615,7 @@ resource "aws_backup_selection" "sel_every6h_f6" {
   }
 }
 
+# PASS: cron every6h
 resource "aws_instance" "pass_cron_every6h_f6" {
   attrs = {
     ami  = "ami-12345678"

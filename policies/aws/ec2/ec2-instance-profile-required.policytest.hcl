@@ -4,11 +4,7 @@ policytest {
   targets = ["ec2-instance-profile-required.policy.hcl"]
 }
 
-# This file covers the "no allow-list configured" scenarios (default empty
-# input.allowed_iam_instance_profiles = []). Allow-list match scenarios need a
-# non-empty input value and live in ec2-instance-profile-required-2.policytest.hcl.
-
-# PASS: profile set, no allow-list restrictions apply.
+# PASS: profile set no allowlist
 resource "aws_instance" "pass_profile_set_no_allowlist" {
   attrs = {
     ami                  = "ami-0123456789abcdef0"
@@ -21,7 +17,7 @@ resource "aws_instance" "pass_profile_set_no_allowlist" {
   }
 }
 
-# FAIL: iam_instance_profile attribute is entirely missing (null).
+# FAIL: iam_instance_profile attribute is entirely missing (null)
 resource "aws_instance" "fail_profile_missing" {
   expect_failure = true
   attrs = {
@@ -34,7 +30,7 @@ resource "aws_instance" "fail_profile_missing" {
   }
 }
 
-# FAIL: iam_instance_profile attribute is set but empty.
+# FAIL: iam_instance_profile attribute is set but empty
 resource "aws_instance" "fail_profile_empty" {
   expect_failure = true
   attrs = {
@@ -48,9 +44,7 @@ resource "aws_instance" "fail_profile_empty" {
   }
 }
 
-# ---- Cases merged from ec2-instance-profile-required-2.policytest.hcl ----
-
-# PASS: profile exactly matches a plain-name entry in the allow-list.
+# PASS: profile in allowlist exact
 resource "aws_instance" "pass_profile_in_allowlist_exact_f2" {
   attrs = {
     ami                  = "ami-0123456789abcdef0"
@@ -63,7 +57,7 @@ resource "aws_instance" "pass_profile_in_allowlist_exact_f2" {
   }
 }
 
-# PASS: profile equals the short name derived from an ARN-formatted allow-list entry.
+# PASS: profile equals the short name derived from an ARN-formatted allow-list entry
 resource "aws_instance" "pass_profile_matches_arn_derived_name_f2" {
   attrs = {
     ami                  = "ami-0123456789abcdef0"
@@ -76,9 +70,7 @@ resource "aws_instance" "pass_profile_matches_arn_derived_name_f2" {
   }
 }
 
-
-# FAIL: iam_instance_profile missing entirely even though an allow-list is configured —
-# the presence check must fire regardless of allow-list state.
+# FAIL: profile missing with allowlist
 resource "aws_instance" "fail_profile_missing_with_allowlist_f2" {
   expect_failure = true
   attrs = {

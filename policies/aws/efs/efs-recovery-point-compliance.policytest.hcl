@@ -4,25 +4,7 @@ policytest {
   targets = ["efs-recovery-point-compliance.policy.hcl"]
 }
 
-# Main test file. Uses the policy's default input values:
-#   resource_id = "", resource_tags = "", recovery_point_max_age_hours = 24,
-#   recovery_point_age_value = 1, recovery_point_age_unit = "days"
-# (=> required_hours = 24, since recovery_point_age_value/unit are both at
-# their Sentinel defaults).
-#
-# NOTE: Scenarios that rely on a wildcard `resources = ["*"]` backup
-# selection are intentionally NOT included here. core::getresources() sees
-# every mock resource of a type declared anywhere in the file, so a
-# wildcard selection here would silently "cover" every other EFS resource
-# below. Those scenarios live in isolated files (-2 and -3).
-#
-# NOTE: Scenarios that require non-default `inputs {}` values (resourceId
-# filter, resourceTags filter, custom recoveryPointAgeValue/Unit) are also
-# NOT included here, since a file can only declare one `inputs {}` block.
-# Those scenarios live in isolated files (-4 through -7).
-
-# 1) No backup selection references this EFS file system at all -> violation.
-#    Also exercises the "missing attribute" case: `tags` is omitted entirely.
+# FAIL: no selection at all
 resource "aws_efs_file_system" "no_selection_at_all" {
   expect_failure = true
   attrs = {
@@ -33,8 +15,7 @@ resource "aws_efs_file_system" "no_selection_at_all" {
   }
 }
 
-# 2) Covered by resources = [arn], plan has a cron(0 */6 * * ? *) rule
-#    (frequency 6h) -> 6h <= 24h required -> pass.
+# PASS: Covered by resources = [arn], plan has a cron(0 */6 * * ? *) rule (frequency 6h)
 resource "aws_efs_file_system" "specific_arn_compliant_cron" {
   attrs = {
     id             = "fs-00000002"
@@ -69,8 +50,7 @@ resource "aws_backup_selection" "selection_arn_cron_6h" {
   }
 }
 
-# 3) Covered by resources = [arn], plan has a rate(2 days) rule (48h)
-#    -> 48h > 24h required -> violation.
+# FAIL: Covered by resources = [arn], plan has a rate(2 days) rule (48h)
 resource "aws_efs_file_system" "specific_arn_noncompliant_rate" {
   expect_failure = true
   attrs = {
@@ -106,8 +86,7 @@ resource "aws_backup_selection" "selection_arn_rate_48h" {
   }
 }
 
-# 4) Covered via selection_tag (STRINGEQUALS Backup=true), EFS has the
-#    matching tag, plan rate(1 days) = 24h <= 24h required -> pass.
+# PASS: tag match pass
 resource "aws_efs_file_system" "tag_match_pass" {
   attrs = {
     id             = "fs-00000004"
@@ -148,9 +127,7 @@ resource "aws_backup_selection" "selection_tag_match_pass" {
   }
 }
 
-# 5) Covered via selection_tag (STRINGEQUALS Backup=true-mismatch), but the
-#    EFS resource's own tag value does not match -> tag_match fails ->
-#    selection does not cover the EFS -> violation.
+# FAIL: tag mismatch fail
 resource "aws_efs_file_system" "tag_mismatch_fail" {
   expect_failure = true
   attrs = {
@@ -184,9 +161,7 @@ resource "aws_backup_selection" "selection_tag_mismatch_fail" {
   }
 }
 
-# 6) Covered via a selection_tag whose type is STRINGLIKE instead of
-#    STRINGEQUALS -> only STRINGEQUALS is supported for selection_tag
-#    matching (matches Sentinel's selection_matches_efs_tags) -> violation.
+# FAIL: Covered via a selection_tag whose type is STRINGLIKE instead of STRINGEQUALS
 resource "aws_efs_file_system" "tag_wrong_type_fail" {
   expect_failure = true
   attrs = {
@@ -220,8 +195,7 @@ resource "aws_backup_selection" "selection_tag_wrong_type_fail" {
   }
 }
 
-# 7) Covered by resources = [arn], but the plan has zero rule entries ->
-#    a plan with no rules can never be compliant -> violation.
+# FAIL: Covered by resources = [arn], but the plan has zero rule entries
 resource "aws_efs_file_system" "plan_zero_rules_fail" {
   expect_failure = true
   attrs = {
@@ -253,8 +227,7 @@ resource "aws_backup_selection" "selection_plan_zero_rules_fail" {
   }
 }
 
-# 8) Covered by resources = [arn], but the selection's plan_id does not
-#    match the id of any aws_backup_plan resource in the plan -> violation.
+# FAIL: plan id mismatch fail
 resource "aws_efs_file_system" "plan_id_mismatch_fail" {
   expect_failure = true
   attrs = {
@@ -277,8 +250,7 @@ resource "aws_backup_selection" "selection_plan_id_mismatch_fail" {
   }
 }
 
-# 9) Covered via a condition block (string_equals Backup=true-cond-eq), EFS
-#    has the matching tag, compliant plan -> pass.
+# PASS: Covered via a condition block (string_equals Backup=true-cond-eq), EFS has the matching tag, compliant plan
 resource "aws_efs_file_system" "condition_string_equals_pass" {
   attrs = {
     id             = "fs-00000009"
@@ -307,8 +279,7 @@ resource "aws_backup_selection" "selection_condition_string_equals_pass" {
   }
 }
 
-# 10) Covered via a condition block (string_not_equals Environment=test),
-#     EFS tags Environment=prod-cond-neq (not equal to "test") -> pass.
+# PASS: condition string not equals pass
 resource "aws_efs_file_system" "condition_string_not_equals_pass" {
   attrs = {
     id             = "fs-00000010"
@@ -337,9 +308,7 @@ resource "aws_backup_selection" "selection_condition_string_not_equals_pass" {
   }
 }
 
-# 11) Covered via a condition block (string_equals Backup=true-cond-no-tags),
-#     but the EFS resource has NO tags at all -> condition_match requires
-#     non-empty EFS tags -> violation.
+# FAIL: condition no tags fail
 resource "aws_efs_file_system" "condition_no_tags_fail" {
   expect_failure = true
   attrs = {
@@ -366,10 +335,7 @@ resource "aws_backup_selection" "selection_condition_no_tags_fail" {
   }
 }
 
-# ---- Cases merged from efs-recovery-point-compliance-4.policytest.hcl ----
-
-# Matches resourceId (filter passes), covered by resources = [arn] with a
-# compliant plan (rate(1 hours) = 1h <= 24h required) -> pass.
+# PASS: resource id match pass
 resource "aws_efs_file_system" "resource_id_match_pass_f4" {
   attrs = {
     id             = "fs-00000014"
@@ -404,12 +370,7 @@ resource "aws_backup_selection" "selection_for_resource_id_match_f4" {
   }
 }
 
-
-# ---- Cases merged from efs-recovery-point-compliance-5.policytest.hcl ----
-
-# Matches resourceTags ({"Env":"prod"} == attrs.tags.Env), covered by
-# resources = [arn] with a compliant plan (rate(1 hours) = 1h <= 24h
-# required) -> pass.
+# PASS: resource tags match pass
 resource "aws_efs_file_system" "resource_tags_match_pass_f5" {
   attrs = {
     id             = "fs-00000016"
@@ -446,10 +407,7 @@ resource "aws_backup_selection" "selection_for_resource_tags_match_f5" {
   }
 }
 
-# Does NOT match resourceTags (tags.Env = "dev", not "prod") -> filtered
-# out entirely by matches_resource_tags(), so this policy never evaluates
-# it, even though it has no backup selection at all (which would otherwise
-# be a violation) -> expect pass (the resource_policy is a no-op for it).
+# PASS: Does NOT match resourceTags (tags.Env = "dev", not "prod")
 resource "aws_efs_file_system" "resource_tags_no_match_skipped_f5" {
   attrs = {
     id             = "fs-00000017"
@@ -462,10 +420,7 @@ resource "aws_efs_file_system" "resource_tags_no_match_skipped_f5" {
   }
 }
 
-# ---- Cases merged from efs-recovery-point-compliance-6.policytest.hcl ----
-
-# Covered by resources = [arn], plan has a rate(2 hours) rule (frequency
-# 2h) -> 2h <= 2h required -> pass.
+# PASS: age value hours compliant pass
 resource "aws_efs_file_system" "age_value_hours_compliant_pass_f6" {
   attrs = {
     id             = "fs-00000018"
@@ -500,7 +455,6 @@ resource "aws_backup_selection" "selection_age_value_hours_compliant_f6" {
   }
 }
 
-
 resource "aws_backup_plan" "plan_rate_3h_f6" {
   skip = true
   attrs = {
@@ -524,9 +478,6 @@ resource "aws_backup_selection" "selection_age_value_hours_noncompliant_f6" {
     resources    = ["arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000019"]
   }
 }
-
-# ---- Cases merged from efs-recovery-point-compliance-7.policytest.hcl ----
-
 
 resource "aws_backup_plan" "plan_rate_48h_f7" {
   skip = true
@@ -552,8 +503,7 @@ resource "aws_backup_selection" "selection_age_value_days_compliant_f7" {
   }
 }
 
-# Covered by resources = [arn], plan has a rate(3 days) rule (frequency
-# 72h) -> 72h > 48h required -> violation.
+# FAIL: Covered by resources = [arn], plan has a rate(3 days) rule (frequency 72h)
 resource "aws_efs_file_system" "age_value_days_noncompliant_fail_f7" {
   expect_failure = true
   attrs = {
@@ -589,8 +539,6 @@ resource "aws_backup_selection" "selection_age_value_days_noncompliant_f7" {
   }
 }
 
-# ---- Cases merged from efs-recovery-point-compliance-cron.policytest.hcl ----
-
 resource "aws_backup_plan" "plan_weekly_f8" {
   skip = true
   attrs = {
@@ -612,6 +560,7 @@ resource "aws_backup_selection" "sel_weekly_f8" {
   }
 }
 
+# FAIL: cron weekly
 resource "aws_efs_file_system" "fail_cron_weekly_f8" {
   expect_failure = true
   attrs = {
@@ -644,6 +593,7 @@ resource "aws_backup_selection" "sel_monthly_f8" {
   }
 }
 
+# FAIL: cron monthly
 resource "aws_efs_file_system" "fail_cron_monthly_f8" {
   expect_failure = true
   attrs = {
@@ -676,6 +626,7 @@ resource "aws_backup_selection" "sel_daily_q_f8" {
   }
 }
 
+# PASS: cron daily q
 resource "aws_efs_file_system" "pass_cron_daily_q_f8" {
   attrs = {
     id             = "cron-daily-q"
@@ -707,6 +658,7 @@ resource "aws_backup_selection" "sel_every6h_f8" {
   }
 }
 
+# PASS: cron every6h
 resource "aws_efs_file_system" "pass_cron_every6h_f8" {
   attrs = {
     id             = "cron-every6h"

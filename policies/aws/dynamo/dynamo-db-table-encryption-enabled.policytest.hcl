@@ -4,8 +4,7 @@ policytest {
   targets = ["dynamo-db-table-encryption-enabled.policy.hcl"]
 }
 
-# PASS: no server_side_encryption block configured at all.
-# DynamoDB applies its default AWS-owned-key encryption, which is compliant.
+# PASS: no server_side_encryption block configured at all
 resource "aws_dynamodb_table" "pass_default_encryption" {
   attrs = {
     name           = "default-encryption-table"
@@ -22,7 +21,7 @@ resource "aws_dynamodb_table" "pass_default_encryption" {
   }
 }
 
-# PASS: server_side_encryption block present with enabled explicitly set to true.
+# PASS: server_side_encryption block present with enabled explicitly set to true
 resource "aws_dynamodb_table" "pass_enabled_true" {
   attrs = {
     name           = "encrypted-table"
@@ -45,7 +44,7 @@ resource "aws_dynamodb_table" "pass_enabled_true" {
   }
 }
 
-# PASS (AWS owned key): server_side_encryption block present but enabled explicitly set to false.
+# PASS: server_side_encryption block present but enabled explicitly set to false
 resource "aws_dynamodb_table" "pass_enabled_false" {
   attrs = {
     name           = "unencrypted-table"
@@ -67,10 +66,7 @@ resource "aws_dynamodb_table" "pass_enabled_false" {
   }
 }
 
-# PASS (AWS owned key): server_side_encryption block present but the 'enabled' attribute is
-# entirely omitted. core::try() falls back to null -> normalized to false ->
-# non-compliant, since a configured server_side_encryption block must have
-# an explicit enabled = true.
+# PASS: server_side_encryption block present but the 'enabled' attribute is entirely omitted
 resource "aws_dynamodb_table" "pass_enabled_missing" {
   attrs = {
     name           = "missing-enabled-table"
@@ -92,9 +88,7 @@ resource "aws_dynamodb_table" "pass_enabled_missing" {
   }
 }
 
-# PASS (AWS owned key): server_side_encryption block present with 'enabled' explicitly set to null.
-# core::try(attrs.field, default) returns null (not the default) when the key is
-# explicitly null, so the two-step normalization treats this as false -> non-compliant.
+# PASS: server_side_encryption block present with 'enabled' explicitly set to null
 resource "aws_dynamodb_table" "pass_enabled_null" {
   attrs = {
     name           = "null-enabled-table"

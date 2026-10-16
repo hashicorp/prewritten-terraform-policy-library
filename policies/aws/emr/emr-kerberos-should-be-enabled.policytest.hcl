@@ -4,11 +4,6 @@ policytest {
   targets = ["emr-kerberos-should-be-enabled.policy.hcl"]
 }
 
-# ---------------------------------------------------------------------------
-# Companion aws_emr_security_configuration mocks used by core::getresources()
-# lookups below. skip = true because no resource_policy targets this type
-# directly; these resources exist only to be looked up by name.
-# ---------------------------------------------------------------------------
 resource "aws_emr_security_configuration" "with_kerberos" {
   skip = true
   attrs = {
@@ -25,9 +20,7 @@ resource "aws_emr_security_configuration" "without_kerberos" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# PASS: kerberos_attributes with both realm and kdc_admin_password set.
-# ---------------------------------------------------------------------------
+# PASS: realm and password
 resource "aws_emr_cluster" "pass_realm_and_password" {
   attrs = {
     name                   = "cluster-pass-realm-and-password"
@@ -44,9 +37,7 @@ resource "aws_emr_cluster" "pass_realm_and_password" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# PASS: kerberos_attributes with only realm set (kdc_admin_password empty).
-# ---------------------------------------------------------------------------
+# PASS: realm only
 resource "aws_emr_cluster" "pass_realm_only" {
   attrs = {
     name                   = "cluster-pass-realm-only"
@@ -63,9 +54,7 @@ resource "aws_emr_cluster" "pass_realm_only" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# PASS: kerberos_attributes with only kdc_admin_password set (realm empty).
-# ---------------------------------------------------------------------------
+# PASS: password only
 resource "aws_emr_cluster" "pass_password_only" {
   attrs = {
     name                   = "cluster-pass-password-only"
@@ -82,10 +71,7 @@ resource "aws_emr_cluster" "pass_password_only" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# FAIL: kerberos_attributes present but neither realm nor kdc_admin_password
-# is set (both empty strings).
-# ---------------------------------------------------------------------------
+# FAIL: missing realm and password
 resource "aws_emr_cluster" "fail_missing_realm_and_password" {
   expect_failure = true
   attrs = {
@@ -103,10 +89,7 @@ resource "aws_emr_cluster" "fail_missing_realm_and_password" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# PASS: cross-realm trust configured correctly (ad_domain_join_user AND
-# ad_domain_join_password both set).
-# ---------------------------------------------------------------------------
+# PASS: cross realm trust with password
 resource "aws_emr_cluster" "pass_cross_realm_trust_with_password" {
   attrs = {
     name                   = "cluster-pass-cross-realm-trust"
@@ -123,9 +106,7 @@ resource "aws_emr_cluster" "pass_cross_realm_trust_with_password" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# FAIL: ad_domain_join_user set but ad_domain_join_password NOT set.
-# ---------------------------------------------------------------------------
+# FAIL: cross realm trust missing password
 resource "aws_emr_cluster" "fail_cross_realm_trust_missing_password" {
   expect_failure = true
   attrs = {
@@ -143,10 +124,7 @@ resource "aws_emr_cluster" "fail_cross_realm_trust_missing_password" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# FAIL (empty collection): kerberos_attributes is an explicit empty list and
-# no security_configuration is set.
-# ---------------------------------------------------------------------------
+# FAIL: empty kerberos list no security config
 resource "aws_emr_cluster" "fail_empty_kerberos_list_no_security_config" {
   expect_failure = true
   attrs = {
@@ -158,10 +136,7 @@ resource "aws_emr_cluster" "fail_empty_kerberos_list_no_security_config" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# PASS (null normalization): kerberos_attributes explicitly null, falls back
-# to a security_configuration whose JSON contains KerberosConfiguration.
-# ---------------------------------------------------------------------------
+# PASS: kerberos null fallback to security config
 resource "aws_emr_cluster" "pass_kerberos_null_fallback_to_security_config" {
   attrs = {
     name                   = "cluster-pass-null-fallback"
@@ -172,10 +147,7 @@ resource "aws_emr_cluster" "pass_kerberos_null_fallback_to_security_config" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# FAIL (missing attribute): kerberos_attributes and security_configuration
-# keys are entirely omitted from attrs (not just null).
-# ---------------------------------------------------------------------------
+# FAIL: no kerberos attributes at all
 resource "aws_emr_cluster" "fail_no_kerberos_attributes_at_all" {
   expect_failure = true
   attrs = {
@@ -185,10 +157,7 @@ resource "aws_emr_cluster" "fail_no_kerberos_attributes_at_all" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# FAIL: security_configuration is set and matches a real security
-# configuration resource, but that configuration does not contain Kerberos.
-# ---------------------------------------------------------------------------
+# FAIL: security config without kerberos
 resource "aws_emr_cluster" "fail_security_config_without_kerberos" {
   expect_failure = true
   attrs = {
@@ -200,10 +169,7 @@ resource "aws_emr_cluster" "fail_security_config_without_kerberos" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# FAIL: security_configuration references a name that does not match any
-# aws_emr_security_configuration resource in the plan.
-# ---------------------------------------------------------------------------
+# FAIL: security config not found
 resource "aws_emr_cluster" "fail_security_config_not_found" {
   expect_failure = true
   attrs = {
@@ -215,11 +181,7 @@ resource "aws_emr_cluster" "fail_security_config_not_found" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# FAIL: kerberos_attributes is present but invalid, AND a valid matching
-# security_configuration is also attached. kerberos_attributes takes
-# precedence per the original Sentinel logic, so this must still fail.
-# ---------------------------------------------------------------------------
+# FAIL: invalid kerberos overrides valid security config
 resource "aws_emr_cluster" "fail_invalid_kerberos_overrides_valid_security_config" {
   expect_failure = true
   attrs = {

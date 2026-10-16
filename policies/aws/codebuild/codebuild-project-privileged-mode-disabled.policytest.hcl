@@ -4,11 +4,7 @@ policytest {
   targets = ["codebuild-project-privileged-mode-disabled.policy.hcl"]
 }
 
-# Default inputs: exempted_projects uses its default value ([]).
-# Covers: privileged_mode=false (pass), privileged_mode=true without exemption (fail),
-# privileged_mode attribute omitted (pass), privileged_mode explicitly null (pass).
-
-# PASS case: privileged_mode explicitly set to false
+# PASS: privileged mode false
 resource "aws_codebuild_project" "pass_privileged_mode_false" {
   attrs = {
     name         = "test-project"
@@ -38,7 +34,7 @@ resource "aws_codebuild_project" "pass_privileged_mode_false" {
   }
 }
 
-# FAIL case: privileged_mode set to true, project not in exempted_projects (default [])
+# FAIL: privileged_mode set to true, project not in exempted_projects (default [])
 resource "aws_codebuild_project" "fail_privileged_mode_true_not_exempted" {
   expect_failure = true
   attrs = {
@@ -69,8 +65,7 @@ resource "aws_codebuild_project" "fail_privileged_mode_true_not_exempted" {
   }
 }
 
-# PASS case: privileged_mode attribute entirely omitted from environment block
-# (missing attribute -> core::try default is null -> normalized to false -> compliant)
+# PASS: privileged_mode attribute entirely omitted from environment block (missing attribute
 resource "aws_codebuild_project" "pass_privileged_mode_missing_attribute" {
   attrs = {
     name         = "no-privileged-attr-project"
@@ -99,8 +94,7 @@ resource "aws_codebuild_project" "pass_privileged_mode_missing_attribute" {
   }
 }
 
-# PASS case: privileged_mode explicitly set to null
-# (two-step normalization pattern: explicit null -> normalized to false -> compliant)
+# PASS: privileged_mode explicitly set to null (two-step normalization pattern: explicit null
 resource "aws_codebuild_project" "pass_privileged_mode_null" {
   attrs = {
     name         = "null-privileged-attr-project"
@@ -130,11 +124,7 @@ resource "aws_codebuild_project" "pass_privileged_mode_null" {
   }
 }
 
-# ---- Cases merged from codebuild-project-privileged-mode-disabled-2.policytest.hcl ----
-
-
-# FAIL case: privileged_mode is true, project name is NOT in exempted_projects
-# even though the exempted_projects list is non-empty for this file.
+# FAIL: privileged mode true different project
 resource "aws_codebuild_project" "fail_privileged_mode_true_different_project_f2" {
   expect_failure = true
   attrs = {

@@ -4,6 +4,7 @@ policytest {
   targets = ["cloudtrail-security-best-practices.policy.hcl"]
 }
 
+# PASS: fully compliant default
 resource "aws_cloudtrail" "pass_fully_compliant_default" {
   attrs = {
     name                          = "compliant-trail"
@@ -16,6 +17,7 @@ resource "aws_cloudtrail" "pass_fully_compliant_default" {
   }
 }
 
+# PASS: logging null defaults true
 resource "aws_cloudtrail" "pass_logging_null_defaults_true" {
   attrs = {
     name                          = "trail-logging-null"
@@ -28,6 +30,7 @@ resource "aws_cloudtrail" "pass_logging_null_defaults_true" {
   }
 }
 
+# PASS: basic selector all
 resource "aws_cloudtrail" "pass_basic_selector_all" {
   attrs = {
     name                          = "trail-basic-selector-all"
@@ -46,6 +49,7 @@ resource "aws_cloudtrail" "pass_basic_selector_all" {
   }
 }
 
+# PASS: basic selector read and write
 resource "aws_cloudtrail" "pass_basic_selector_read_and_write" {
   attrs = {
     name                          = "trail-basic-selector-read-write"
@@ -68,6 +72,7 @@ resource "aws_cloudtrail" "pass_basic_selector_read_and_write" {
   }
 }
 
+# PASS: advanced selector full coverage
 resource "aws_cloudtrail" "pass_advanced_selector_full_coverage" {
   attrs = {
     name                          = "trail-advanced-selector-full"
@@ -91,6 +96,7 @@ resource "aws_cloudtrail" "pass_advanced_selector_full_coverage" {
   }
 }
 
+# PASS: advanced selector read and write
 resource "aws_cloudtrail" "pass_advanced_selector_read_and_write" {
   attrs = {
     name                          = "trail-advanced-selector-read-write"
@@ -131,7 +137,7 @@ resource "aws_cloudtrail" "pass_advanced_selector_read_and_write" {
   }
 }
 
-# A second, non-compliant regional trail is allowed when another trail in the plan is compliant.
+# PASS: A second, non-compliant regional trail is allowed when another trail in the plan is compliant
 resource "aws_cloudtrail" "pass_noncompliant_trail_alongside_compliant" {
   attrs = {
     name           = "regional-only"

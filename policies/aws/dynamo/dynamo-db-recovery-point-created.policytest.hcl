@@ -4,17 +4,7 @@ policytest {
   targets = ["dynamo-db-recovery-point-created.policy.hcl"]
 }
 
-# Default inputs (backup_period_days=1, resource_id="", resource_tags="",
-# recovery_point_age_value=1, recovery_point_age_unit="days" => required_hours = 24).
-# All selections/plans here use exact-value matching (own ARN cross-references,
-# ARN-suffix, or tag matching) - never the "*" wildcard or the generic
-# "arn:aws:dynamodb:*:*:table/*" pattern - so they cannot accidentally cover
-# any other table's scenario in this same file (core::getresources() sees
-# every resource declared below). The wildcard-pattern scenarios are isolated
-# in -2.policytest.hcl for that reason.
-
-# 1. FAIL: PITR enabled but no AWS Backup plan covers the table. The AWS Config rule
-#    checks AWS Backup recovery points, so PITR alone does not satisfy it.
+# FAIL: pitr enabled
 resource "aws_dynamodb_table" "pitr_enabled" {
   expect_failure = true
   attrs = {
@@ -27,7 +17,7 @@ resource "aws_dynamodb_table" "pitr_enabled" {
   }
 }
 
-# 2. FAIL: PITR disabled, no AWS Backup selection/plan reference this table at all.
+# FAIL: PITR disabled, no AWS Backup selection/plan reference this table at all
 resource "aws_dynamodb_table" "no_coverage" {
   expect_failure = true
   attrs = {
@@ -40,7 +30,7 @@ resource "aws_dynamodb_table" "no_coverage" {
   }
 }
 
-# 3. FAIL (missing attribute edge case): point_in_time_recovery omitted entirely.
+# FAIL: point_in_time_recovery omitted entirely
 resource "aws_dynamodb_table" "pitr_block_omitted" {
   expect_failure = true
   attrs = {
@@ -53,7 +43,7 @@ resource "aws_dynamodb_table" "pitr_block_omitted" {
   }
 }
 
-# 4. FAIL (empty list edge case): point_in_time_recovery explicitly empty list.
+# FAIL: point_in_time_recovery explicitly empty list
 resource "aws_dynamodb_table" "pitr_empty_list" {
   expect_failure = true
   attrs = {
@@ -66,7 +56,7 @@ resource "aws_dynamodb_table" "pitr_empty_list" {
   }
 }
 
-# 5. PASS: exact ARN match + compliant plan (rate(1 day) = 24h <= required 24h).
+# PASS: exact ARN match + compliant plan (rate(1 day) = 24h <= required 24h)
 resource "aws_dynamodb_table" "exact_arn_compliant" {
   attrs = {
     name                   = "exact-arn-compliant-table"
@@ -104,7 +94,7 @@ resource "aws_backup_selection" "selection_exact_arn_compliant" {
   }
 }
 
-# 6. FAIL: exact ARN match but linked plan's schedule (rate(7 days)=168h) exceeds 24h.
+# FAIL: exact ARN match but linked plan's schedule (rate(7 days)=168h) exceeds 24h
 resource "aws_dynamodb_table" "exact_arn_noncompliant_plan" {
   expect_failure = true
   attrs = {
@@ -143,8 +133,7 @@ resource "aws_backup_selection" "selection_exact_arn_noncompliant" {
   }
 }
 
-# 7. FAIL: selection exists and has a compliant plan, but its resources list
-# references a DIFFERENT table's ARN (not this table) - no coverage for this table.
+# FAIL: not referenced table
 resource "aws_dynamodb_table" "not_referenced_table" {
   expect_failure = true
   attrs = {
@@ -169,9 +158,7 @@ resource "aws_backup_selection" "selection_points_elsewhere" {
   }
 }
 
-# 8. FAIL: a selection exists with an otherwise-compliant plan but BOTH its
-# resources list and selection_tag list are empty - it must match nothing
-# (regression guard against vacuous-truth on an empty selection_tag list).
+# FAIL: empty selection no match
 resource "aws_dynamodb_table" "empty_selection_no_match" {
   expect_failure = true
   attrs = {
@@ -196,7 +183,7 @@ resource "aws_backup_selection" "selection_fully_empty" {
   }
 }
 
-# 9. PASS: ARN-suffix match (":table/<name>") with a compliant plan.
+# PASS: ARN-suffix match (":table/<name>") with a compliant plan
 resource "aws_dynamodb_table" "suffix_match_table" {
   attrs = {
     name                   = "orders"
@@ -220,7 +207,7 @@ resource "aws_backup_selection" "selection_suffix_match" {
   }
 }
 
-# 10. PASS: tag-based selection_tag match, resources list empty.
+# PASS: tag-based selection_tag match, resources list empty
 resource "aws_dynamodb_table" "tag_match_table" {
   attrs = {
     name                   = "tag-match-table"
@@ -243,7 +230,7 @@ resource "aws_backup_selection" "selection_tag_match" {
   }
 }
 
-# 11. FAIL: table tags do NOT match the selection's selection_tag entries.
+# FAIL: table tags do NOT match the selection's selection_tag entries
 resource "aws_dynamodb_table" "tag_mismatch_table" {
   expect_failure = true
   attrs = {
@@ -267,8 +254,7 @@ resource "aws_backup_selection" "selection_tag_mismatch" {
   }
 }
 
-# 12. PASS (boundary): linked plan's schedule frequency exactly equals the
-# required window (rate(1 day) = 24h, required_hours = 24).
+# PASS: boundary exact hours
 resource "aws_dynamodb_table" "boundary_exact_hours" {
   attrs = {
     name                   = "boundary-exact-hours-table"
@@ -292,10 +278,7 @@ resource "aws_backup_selection" "selection_boundary_exact_hours" {
   }
 }
 
-# ---- Cases merged from dynamo-db-recovery-point-created-3.policytest.hcl ----
-
-# FAIL: PITR enabled but no AWS Backup plan covers the table (PITR alone is not
-# an AWS Backup recovery point).
+# FAIL: pitr enabled custom window
 resource "aws_dynamodb_table" "pitr_enabled_custom_window_f3" {
   expect_failure = true
   attrs = {
@@ -307,7 +290,6 @@ resource "aws_dynamodb_table" "pitr_enabled_custom_window_f3" {
     tags                   = {}
   }
 }
-
 
 resource "aws_backup_plan" "plan_daily_24h_f3" {
   skip = true
@@ -323,8 +305,7 @@ resource "aws_backup_plan" "plan_daily_24h_f3" {
   }
 }
 
-
-# PASS: linked plan schedule (rate(1 hour) = 1h) is within the tightened 2h window.
+# PASS: linked plan schedule (rate(1 hour) = 1h) is within the tightened 2h window
 resource "aws_dynamodb_table" "plan_within_custom_window_f3" {
   attrs = {
     name                   = "plan-within-custom-window-table"
@@ -362,9 +343,6 @@ resource "aws_backup_selection" "selection_within_custom_window_f3" {
   }
 }
 
-# ---- Cases merged from dynamo-db-recovery-point-created-4.policytest.hcl ----
-
-
 resource "aws_backup_plan" "plan_3day_72h_f4" {
   skip = true
   attrs = {
@@ -379,8 +357,7 @@ resource "aws_backup_plan" "plan_3day_72h_f4" {
   }
 }
 
-
-# FAIL: linked plan schedule (rate(4 days) = 96h) exceeds the required 72h window.
+# FAIL: linked plan schedule (rate(4 days) = 96h) exceeds the required 72h window
 resource "aws_dynamodb_table" "plan_exceeds_72h_f4" {
   expect_failure = true
   attrs = {
@@ -419,10 +396,7 @@ resource "aws_backup_selection" "selection_exceeds_72h_f4" {
   }
 }
 
-# ---- Cases merged from dynamo-db-recovery-point-created-5.policytest.hcl ----
-
-
-# FAIL: table name matches resource_id filter -> evaluated -> non-compliant.
+# FAIL: matching id noncompliant
 resource "aws_dynamodb_table" "matching_id_noncompliant_f5" {
   expect_failure = true
   attrs = {
@@ -435,7 +409,7 @@ resource "aws_dynamodb_table" "matching_id_noncompliant_f5" {
   }
 }
 
-# PASS: table name matches resource_id filter -> evaluated -> compliant (PITR enabled).
+# FAIL: table name matches resource_id filter
 resource "aws_dynamodb_table" "matching_id_compliant_f5" {
   expect_failure = true
   attrs = {
@@ -447,8 +421,6 @@ resource "aws_dynamodb_table" "matching_id_compliant_f5" {
     tags                   = {}
   }
 }
-
-# ---- Cases merged from dynamo-db-recovery-point-created-cron.policytest.hcl ----
 
 resource "aws_backup_plan" "plan_weekly_f7" {
   skip = true
@@ -471,6 +443,7 @@ resource "aws_backup_selection" "sel_weekly_f7" {
   }
 }
 
+# FAIL: cron weekly
 resource "aws_dynamodb_table" "fail_cron_weekly_f7" {
   expect_failure = true
   attrs = {
@@ -504,6 +477,7 @@ resource "aws_backup_selection" "sel_monthly_f7" {
   }
 }
 
+# FAIL: cron monthly
 resource "aws_dynamodb_table" "fail_cron_monthly_f7" {
   expect_failure = true
   attrs = {
@@ -537,6 +511,7 @@ resource "aws_backup_selection" "sel_daily_q_f7" {
   }
 }
 
+# PASS: cron daily q
 resource "aws_dynamodb_table" "pass_cron_daily_q_f7" {
   attrs = {
     name                   = "cron-daily-q"
@@ -569,6 +544,7 @@ resource "aws_backup_selection" "sel_every6h_f7" {
   }
 }
 
+# PASS: cron every6h
 resource "aws_dynamodb_table" "pass_cron_every6h_f7" {
   attrs = {
     name                   = "cron-every6h"

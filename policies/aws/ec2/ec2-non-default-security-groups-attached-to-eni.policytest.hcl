@@ -62,8 +62,7 @@ resource "aws_instance" "instance_for_pass" {
   }
 }
 
-# FAIL: no aws_network_interface, aws_network_interface_sg_attachment, or aws_instance
-# references this security group anywhere in the plan
+# FAIL: no attachment
 resource "aws_security_group" "fail_no_attachment" {
   expect_failure = true
   attrs = {
@@ -74,8 +73,7 @@ resource "aws_security_group" "fail_no_attachment" {
   }
 }
 
-# FAIL: an aws_network_interface exists, but its security_groups list references a
-# different security group (sg-99999), not this one
+# FAIL: wrong eni reference
 resource "aws_security_group" "fail_wrong_eni_reference" {
   expect_failure = true
   attrs = {
@@ -95,8 +93,7 @@ resource "aws_network_interface" "eni_for_fail" {
   }
 }
 
-# FAIL: an aws_instance exists but its vpc_security_group_ids list is empty, and no
-# other resource references this security group
+# FAIL: empty instance list
 resource "aws_security_group" "fail_empty_instance_list" {
   expect_failure = true
   attrs = {
@@ -118,8 +115,7 @@ resource "aws_instance" "instance_empty_list" {
   }
 }
 
-# FAIL: an aws_network_interface exists but omits the security_groups attribute
-# entirely; policy must not crash and must correctly treat this as not attached
+# FAIL: an aws_network_interface exists but omits the security_groups attribute entirely
 resource "aws_security_group" "fail_missing_sg_attribute" {
   expect_failure = true
   attrs = {
@@ -138,8 +134,7 @@ resource "aws_network_interface" "eni_missing_sg_attr" {
   }
 }
 
-# ---- Cases merged from ec2-non-default-security-groups-attached-to-eni-2.policytest.hcl ----
-
+# PASS: used by rds
 resource "aws_security_group" "pass_used_by_rds_f2" {
   attrs = { id = "sg-rds0001", name = "rds" }
 }
@@ -148,6 +143,7 @@ resource "aws_db_instance" "db_f2" {
   attrs = { identifier = "db", instance_class = "db.t3.micro", vpc_security_group_ids = ["sg-rds0001"] }
 }
 
+# PASS: used by lambda
 resource "aws_security_group" "pass_used_by_lambda_f2" {
   attrs = { id = "sg-lambda01", name = "lambda" }
 }
@@ -160,6 +156,7 @@ resource "aws_lambda_function" "fn_f2" {
   }
 }
 
+# PASS: used by alb
 resource "aws_security_group" "pass_used_by_alb_f2" {
   attrs = { id = "sg-alb0001", name = "alb" }
 }
@@ -168,6 +165,7 @@ resource "aws_lb" "alb_f2" {
   attrs = { name = "alb", security_groups = ["sg-alb0001"] }
 }
 
+# FAIL: used by nothing
 resource "aws_security_group" "fail_used_by_nothing_f2" {
   attrs          = { id = "sg-unused01", name = "unused" }
   expect_failure = true

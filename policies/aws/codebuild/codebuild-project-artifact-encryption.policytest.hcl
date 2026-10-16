@@ -4,13 +4,7 @@ policytest {
   targets = ["codebuild-project-artifact-encryption.policy.hcl"]
 }
 
-# ---------------------------------------------------------------------------
-# Shared required attributes used across all mocks (not evaluated by the
-# policy, but required by the aws_codebuild_project resource schema):
-#   name, service_role, environment, source
-# ---------------------------------------------------------------------------
-
-# PASS: primary artifact explicitly encrypted (encryption_disabled = false)
+# PASS: primary encrypted
 resource "aws_codebuild_project" "pass_primary_encrypted" {
   attrs = {
     name         = "project-pass-primary-encrypted"
@@ -67,7 +61,7 @@ resource "aws_codebuild_project" "fail_primary_not_encrypted" {
   }
 }
 
-# PASS: encryption_disabled omitted entirely -> defaults to false (encrypted)
+# PASS: encryption_disabled omitted entirely
 resource "aws_codebuild_project" "pass_primary_encryption_disabled_omitted" {
   attrs = {
     name         = "project-pass-encryption-disabled-omitted"
@@ -94,7 +88,7 @@ resource "aws_codebuild_project" "pass_primary_encryption_disabled_omitted" {
   }
 }
 
-# PASS: type is NO_ARTIFACTS -> encryption_disabled is ignored even if true
+# PASS: type is NO_ARTIFACTS
 resource "aws_codebuild_project" "pass_no_artifacts_type_exempt" {
   attrs = {
     name         = "project-pass-no-artifacts-type"
@@ -194,7 +188,7 @@ resource "aws_codebuild_project" "pass_secondary_encrypted" {
   }
 }
 
-# PASS: secondary_artifacts entirely absent -> normalized to [] (no violation)
+# PASS: secondary_artifacts entirely absent
 resource "aws_codebuild_project" "pass_no_secondary_artifacts" {
   attrs = {
     name         = "project-pass-no-secondary-artifacts"
@@ -265,7 +259,7 @@ resource "aws_codebuild_project" "fail_multiple_secondary_one_unencrypted" {
   }
 }
 
-# PASS: encryption_disabled explicitly set to null -> normalized to false (encrypted)
+# PASS: encryption_disabled explicitly set to null
 resource "aws_codebuild_project" "pass_primary_encryption_disabled_null" {
   attrs = {
     name         = "project-pass-encryption-disabled-null"

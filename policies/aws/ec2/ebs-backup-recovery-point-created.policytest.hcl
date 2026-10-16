@@ -4,14 +4,6 @@ policytest {
   targets = ["ebs-backup-recovery-point-created.policy.hcl"]
 }
 
-# PASS scenarios using default inputs (max_hours_since_backup=24,
-# resource_id="", resource_tags="", recovery_point_age_value=1,
-# recovery_point_age_unit="days" -> required window = 24 hours).
-# Every selection below is compliant, so overlapping universal matchers
-# (wildcard "*" / generic ec2 volume patterns) only reinforce the PASS
-# outcome for other volumes in this file and never cause a false result.
-
-# Scenario 1: wildcard "*" selection + daily cron plan (24h) -> PASS
 resource "aws_backup_plan" "compliant_daily" {
   attrs = {
     id   = "plan-daily-1"
@@ -35,6 +27,7 @@ resource "aws_backup_selection" "wildcard_match" {
   }
 }
 
+# PASS: wildcard pass
 resource "aws_ebs_volume" "wildcard_pass" {
   attrs = {
     id                = "vol-aaa1"
@@ -43,7 +36,6 @@ resource "aws_ebs_volume" "wildcard_pass" {
   }
 }
 
-# Scenario 2: exact ARN match + rate(5 hours) plan -> PASS
 resource "aws_backup_plan" "compliant_rate5h" {
   attrs = {
     id   = "plan-rate5h"
@@ -67,6 +59,7 @@ resource "aws_backup_selection" "exact_arn_match" {
   }
 }
 
+# PASS: exact arn pass
 resource "aws_ebs_volume" "exact_arn_pass" {
   attrs = {
     id                = "vol-aaa2"
@@ -75,7 +68,6 @@ resource "aws_ebs_volume" "exact_arn_pass" {
   }
 }
 
-# Scenario 3: suffix match (":volume/<id>") + rate(1 day) plan -> PASS
 resource "aws_backup_plan" "compliant_rate1day" {
   attrs = {
     id   = "plan-rate1day"
@@ -101,6 +93,7 @@ resource "aws_backup_selection" "suffix_match" {
   }
 }
 
+# PASS: suffix pass
 resource "aws_ebs_volume" "suffix_pass" {
   attrs = {
     id                = "vol-aaa3"
@@ -109,7 +102,6 @@ resource "aws_ebs_volume" "suffix_pass" {
   }
 }
 
-# Scenario 4: generic wildcard pattern "arn:aws:ec2:*:*:volume/*" + cron(0 */6 * * ? *) -> PASS
 resource "aws_backup_plan" "compliant_cron6h" {
   attrs = {
     id   = "plan-cron6h"
@@ -133,6 +125,7 @@ resource "aws_backup_selection" "generic_wildcard_slash_star" {
   }
 }
 
+# PASS: generic wildcard pass
 resource "aws_ebs_volume" "generic_wildcard_pass" {
   attrs = {
     id                = "vol-aaa4"
@@ -141,7 +134,6 @@ resource "aws_ebs_volume" "generic_wildcard_pass" {
   }
 }
 
-# Scenario 5: generic wildcard pattern "arn:aws:ec2:*:*:volume/vol-*" + cron(*/15 * * * ? *) -> PASS
 resource "aws_backup_plan" "compliant_cron15m" {
   attrs = {
     id   = "plan-cron15m"
@@ -165,6 +157,7 @@ resource "aws_backup_selection" "generic_wildcard_vol_star" {
   }
 }
 
+# PASS: generic wildcard vol pass
 resource "aws_ebs_volume" "generic_wildcard_vol_pass" {
   attrs = {
     id                = "vol-aaa5"
@@ -173,7 +166,6 @@ resource "aws_ebs_volume" "generic_wildcard_vol_pass" {
   }
 }
 
-# Scenario 6: tag-based selection match (STRINGEQUALS) + rate(12 hours) -> PASS
 resource "aws_backup_plan" "compliant_rate12h" {
   attrs = {
     id   = "plan-rate12h"
@@ -203,6 +195,7 @@ resource "aws_backup_selection" "tag_match" {
   }
 }
 
+# PASS: tag pass
 resource "aws_ebs_volume" "tag_pass" {
   attrs = {
     id                = "vol-aaa6"
@@ -213,11 +206,6 @@ resource "aws_ebs_volume" "tag_pass" {
   }
 }
 
-# ---- Cases merged from ebs-backup-recovery-point-created-2.policytest.hcl ----
-
-
-# Scenario 8: wildcard "*" selection references the volume, but the linked
-# plan's only rule is rate(2 days) (48h), exceeding the default 24h window -> FAIL
 resource "aws_backup_plan" "noncompliant_rate2days_f2" {
   attrs = {
     id   = "plan-rate2days"
@@ -241,9 +229,6 @@ resource "aws_backup_selection" "wildcard_slow_plan_f2" {
   }
 }
 
-
-# Scenario 9: wildcard "*" selection references the volume, but plan_id does
-# not match any backup plan's id defined in the plan -> FAIL
 resource "aws_backup_selection" "wildcard_bad_plan_id_f2" {
   attrs = {
     iam_role_arn = "arn:aws:iam::123456789012:role/backup-role"
@@ -253,9 +238,6 @@ resource "aws_backup_selection" "wildcard_bad_plan_id_f2" {
   }
 }
 
-
-# Scenario 10: selection_tag type is STRINGLIKE (not STRINGEQUALS); even
-# though a compliant plan is linked, the tag route never matches -> FAIL
 resource "aws_backup_plan" "compliant_but_unreferenced_f2" {
   attrs = {
     id   = "plan-bbb10"
@@ -285,12 +267,7 @@ resource "aws_backup_selection" "stringlike_tag_f2" {
   }
 }
 
-
-# ---- Cases merged from ebs-backup-recovery-point-created-4.policytest.hcl ----
-
-# Scenario 12: resource_id input set to a specific volume's id; a DIFFERENT
-# volume (non-matching id, no backup coverage) is skipped (filtered out) ->
-# PASS for that resource since it was never in scope for evaluation
+# PASS: non matching id skipped pass
 resource "aws_ebs_volume" "non_matching_id_skipped_pass_f4" {
   attrs = {
     id                = "vol-ddd-other"
@@ -299,12 +276,7 @@ resource "aws_ebs_volume" "non_matching_id_skipped_pass_f4" {
   }
 }
 
-
-# ---- Cases merged from ebs-backup-recovery-point-created-5.policytest.hcl ----
-
-# Scenario 14: resource_tags filter is set, and this volume's tags do NOT
-# include Environment=prod -> the volume is skipped (filtered out) -> PASS
-# since it is out of scope
+# PASS: tags mismatch skipped pass
 resource "aws_ebs_volume" "tags_mismatch_skipped_pass_f5" {
   attrs = {
     id                = "vol-eee14"
@@ -315,11 +287,6 @@ resource "aws_ebs_volume" "tags_mismatch_skipped_pass_f5" {
   }
 }
 
-
-# ---- Cases merged from ebs-backup-recovery-point-created-6.policytest.hcl ----
-
-# Scenario 16: required window = 2 hours, and the volume's backup plan rule
-# has schedule = "rate(5 hours)" (5h), exceeding the 2-hour window -> FAIL
 resource "aws_backup_plan" "rate5h_plan_f6" {
   attrs = {
     id   = "plan-fff16"
@@ -343,11 +310,6 @@ resource "aws_backup_selection" "fff16_selection_f6" {
   }
 }
 
-
-# ---- Cases merged from ebs-backup-recovery-point-created-7.policytest.hcl ----
-
-# Scenario 17: required window = 72 hours, and the volume's backup plan rule
-# has schedule = "rate(2 days)" (48h), within the 72-hour window -> PASS
 resource "aws_backup_plan" "rate2days_plan_f7" {
   attrs = {
     id   = "plan-ggg17"
@@ -371,6 +333,7 @@ resource "aws_backup_selection" "ggg17_selection_f7" {
   }
 }
 
+# PASS: custom window days pass
 resource "aws_ebs_volume" "custom_window_days_pass_f7" {
   attrs = {
     id                = "vol-ggg17"
@@ -379,11 +342,6 @@ resource "aws_ebs_volume" "custom_window_days_pass_f7" {
   }
 }
 
-# ---- Cases merged from ebs-backup-recovery-point-created-8.policytest.hcl ----
-
-# Scenario 18: max_hours_since_backup overridden to 12, and the volume's
-# backup plan rule has schedule = "rate(1 day)" (24h), exceeding the 12-hour
-# window -> FAIL
 resource "aws_backup_plan" "rate1day_plan_f8" {
   attrs = {
     id   = "plan-hhh18"
@@ -407,9 +365,6 @@ resource "aws_backup_selection" "hhh18_selection_f8" {
   }
 }
 
-
-# ---- Cases merged from ebs-backup-recovery-point-created-cron.policytest.hcl ----
-
 resource "aws_backup_plan" "plan_weekly_f9" {
   skip = true
   attrs = {
@@ -430,7 +385,6 @@ resource "aws_backup_selection" "sel_weekly_f9" {
     selection_tag = []
   }
 }
-
 
 resource "aws_backup_plan" "plan_monthly_f9" {
   skip = true
@@ -453,7 +407,6 @@ resource "aws_backup_selection" "sel_monthly_f9" {
   }
 }
 
-
 resource "aws_backup_plan" "plan_daily_q_f9" {
   skip = true
   attrs = {
@@ -475,6 +428,7 @@ resource "aws_backup_selection" "sel_daily_q_f9" {
   }
 }
 
+# PASS: cron daily q
 resource "aws_ebs_volume" "pass_cron_daily_q_f9" {
   attrs = {
     id                = "cron-daily-q"
@@ -505,6 +459,7 @@ resource "aws_backup_selection" "sel_every6h_f9" {
   }
 }
 
+# PASS: cron every6h
 resource "aws_ebs_volume" "pass_cron_every6h_f9" {
   attrs = {
     id                = "cron-every6h"

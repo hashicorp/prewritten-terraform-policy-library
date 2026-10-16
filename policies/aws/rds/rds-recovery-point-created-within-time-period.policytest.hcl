@@ -4,11 +4,6 @@ policytest {
   targets = ["rds-recovery-point-created-within-time-period.policy.hcl"]
 }
 
-# Shared companion resources (aws_iam_role / aws_backup_plan / aws_backup_selection)
-# used across the pass/fail scenarios below. All companion resources are marked
-# skip = true because this policy only targets aws_db_instance / aws_rds_cluster;
-# they are visible to core::getresources() but must not be evaluated directly.
-
 resource "aws_iam_role" "backup_role" {
   skip = true
   attrs = {
@@ -29,7 +24,6 @@ resource "aws_backup_plan" "main_plan" {
   }
 }
 
-# Valid selection: links to main_plan + backup_role, selects RDS instances by ARN.
 resource "aws_backup_selection" "sel_arn" {
   skip = true
   attrs = {
@@ -44,7 +38,7 @@ resource "aws_backup_selection" "sel_arn" {
   }
 }
 
-# Scenario 1: PASS - backup_retention_period > 0 and referenced by ARN in a valid selection.
+# PASS: backup_retention_period > 0 and referenced by ARN in a valid selection
 resource "aws_db_instance" "compliant_db" {
   attrs = {
     identifier              = "compliant-db"
@@ -55,7 +49,7 @@ resource "aws_db_instance" "compliant_db" {
   }
 }
 
-# Scenario 2: FAIL - backup_retention_period = 0 even though referenced in a valid selection.
+# FAIL: backup_retention_period = 0 even though referenced in a valid selection
 resource "aws_db_instance" "no_retention_db" {
   expect_failure = true
   attrs = {
@@ -67,7 +61,7 @@ resource "aws_db_instance" "no_retention_db" {
   }
 }
 
-# Scenario 3: FAIL - not referenced by any backup selection (ARN or tag).
+# FAIL: not referenced by any backup selection (ARN or tag)
 resource "aws_db_instance" "unlinked_db" {
   expect_failure = true
   attrs = {
@@ -79,7 +73,6 @@ resource "aws_db_instance" "unlinked_db" {
   }
 }
 
-# Tag-based valid selection: links to main_plan + backup_role, selects by tag conditions.
 resource "aws_backup_selection" "sel_tag" {
   skip = true
   attrs = {
@@ -102,7 +95,7 @@ resource "aws_backup_selection" "sel_tag" {
   }
 }
 
-# Scenario 4: PASS - tags satisfy ALL selection_tag conditions.
+# PASS: tags satisfy ALL selection_tag conditions
 resource "aws_db_instance" "tag_match_db" {
   attrs = {
     identifier              = "tag-match-db"
@@ -116,7 +109,7 @@ resource "aws_db_instance" "tag_match_db" {
   }
 }
 
-# Scenario 5: FAIL - only one of the two selection_tag conditions matches.
+# FAIL: only one of the two selection_tag conditions matches
 resource "aws_db_instance" "partial_tag_db" {
   expect_failure = true
   attrs = {
@@ -131,14 +124,6 @@ resource "aws_db_instance" "partial_tag_db" {
   }
 }
 
-# NOTE: Scenario 6 (wildcard ARN match) lives in its own file
-# (rds-recovery-point-created-within-time-period-5.policytest.hcl) because a
-# selection with a wildcard "resources" entry (ending in ":*") matches EVERY
-# aws_db_instance / aws_rds_cluster in the same test file once that selection is
-# valid, which would corrupt the "not in any backup selection" fail scenarios
-# below (unlinked_db, partial_tag_db, bad_plan_db, bad_role_db, unlinked_cluster).
-
-# Invalid selection: plan_id does not match any aws_backup_plan in the plan.
 resource "aws_backup_selection" "sel_bad_plan" {
   skip = true
   attrs = {
@@ -150,7 +135,7 @@ resource "aws_backup_selection" "sel_bad_plan" {
   }
 }
 
-# Scenario 7: FAIL - the referencing selection has an unresolved plan_id dependency.
+# FAIL: the referencing selection has an unresolved plan_id dependency
 resource "aws_db_instance" "bad_plan_db" {
   expect_failure = true
   attrs = {
@@ -162,7 +147,6 @@ resource "aws_db_instance" "bad_plan_db" {
   }
 }
 
-# Invalid selection: iam_role_arn does not match any aws_iam_role in the plan.
 resource "aws_backup_selection" "sel_bad_role" {
   skip = true
   attrs = {
@@ -174,7 +158,7 @@ resource "aws_backup_selection" "sel_bad_role" {
   }
 }
 
-# Scenario 8: FAIL - the referencing selection has an unresolved iam_role_arn dependency.
+# FAIL: the referencing selection has an unresolved iam_role_arn dependency
 resource "aws_db_instance" "bad_role_db" {
   expect_failure = true
   attrs = {
@@ -186,7 +170,6 @@ resource "aws_db_instance" "bad_role_db" {
   }
 }
 
-# Valid selection covering aws_rds_cluster resources by ARN.
 resource "aws_backup_selection" "sel_cluster" {
   skip = true
   attrs = {
@@ -201,7 +184,7 @@ resource "aws_backup_selection" "sel_cluster" {
   }
 }
 
-# Scenario 10: PASS - cluster referenced by ARN in a valid selection.
+# PASS: cluster referenced by ARN in a valid selection
 resource "aws_rds_cluster" "compliant_cluster" {
   attrs = {
     cluster_identifier      = "compliant-cluster"
@@ -212,7 +195,7 @@ resource "aws_rds_cluster" "compliant_cluster" {
   }
 }
 
-# Scenario 11: FAIL - backup_retention_period = 0 even though referenced in a valid selection.
+# FAIL: backup_retention_period = 0 even though referenced in a valid selection
 resource "aws_rds_cluster" "no_retention_cluster" {
   expect_failure = true
   attrs = {
@@ -224,7 +207,7 @@ resource "aws_rds_cluster" "no_retention_cluster" {
   }
 }
 
-# Scenario 12: FAIL - cluster not referenced by any backup selection.
+# FAIL: cluster not referenced by any backup selection
 resource "aws_rds_cluster" "unlinked_cluster" {
   expect_failure = true
   attrs = {
@@ -236,11 +219,7 @@ resource "aws_rds_cluster" "unlinked_cluster" {
   }
 }
 
-# ---- Cases merged from rds-recovery-point-created-within-time-period-2.policytest.hcl ----
-
-# Scenario 9: FAIL - no AWS Backup selections exist in the plan at all, so the
-# resource cannot be included in any backup selection, regardless of its own
-# backup_retention_period setting.
+# FAIL: no selection at all db
 resource "aws_db_instance" "no_selection_at_all_db_f2" {
   expect_failure = true
   attrs = {

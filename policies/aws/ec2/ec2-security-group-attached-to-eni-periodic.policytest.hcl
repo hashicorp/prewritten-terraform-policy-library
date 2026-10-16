@@ -4,9 +4,6 @@ policytest {
   targets = ["ec2-security-group-attached-to-eni-periodic.policy.hcl"]
 }
 
-# --- Companion resources that establish "attached" relationships ---------
-
-# ENI referencing sg-eni-001 directly in its security_groups list.
 resource "aws_network_interface" "eni_for_sg_eni_001" {
   skip = true
   attrs = {
@@ -15,7 +12,6 @@ resource "aws_network_interface" "eni_for_sg_eni_001" {
   }
 }
 
-# ENI with multiple security groups, one of which is sg-multi-eni-006.
 resource "aws_network_interface" "eni_multi_sg" {
   skip = true
   attrs = {
@@ -24,8 +20,6 @@ resource "aws_network_interface" "eni_multi_sg" {
   }
 }
 
-# ENI with an empty security_groups list - must not crash the policy and
-# must not count as a match for any security group.
 resource "aws_network_interface" "eni_empty_sg_list" {
   skip = true
   attrs = {
@@ -34,7 +28,6 @@ resource "aws_network_interface" "eni_empty_sg_list" {
   }
 }
 
-# Explicit security-group-to-ENI attachment resource for sg-att-002.
 resource "aws_network_interface_sg_attachment" "attachment_for_sg_att_002" {
   skip = true
   attrs = {
@@ -43,8 +36,6 @@ resource "aws_network_interface_sg_attachment" "attachment_for_sg_att_002" {
   }
 }
 
-# Attachment resource with security_group_id explicitly null - verifies the
-# two-step null-safety normalization does not crash the policy.
 resource "aws_network_interface_sg_attachment" "attachment_null_sg_id" {
   skip = true
   attrs = {
@@ -53,7 +44,6 @@ resource "aws_network_interface_sg_attachment" "attachment_null_sg_id" {
   }
 }
 
-# EC2 instance referencing sg-inst-003 via vpc_security_group_ids.
 resource "aws_instance" "instance_for_sg_inst_003" {
   skip = true
   attrs = {
@@ -63,7 +53,6 @@ resource "aws_instance" "instance_for_sg_inst_003" {
   }
 }
 
-# EC2 instance with multiple security groups, one of which is sg-multi-inst-007.
 resource "aws_instance" "instance_multi_sg" {
   skip = true
   attrs = {
@@ -73,8 +62,6 @@ resource "aws_instance" "instance_multi_sg" {
   }
 }
 
-# EC2 instance with vpc_security_group_ids explicitly null - verifies the
-# two-step null-safety normalization does not crash the policy.
 resource "aws_instance" "instance_null_sg_ids" {
   skip = true
   attrs = {
@@ -84,9 +71,7 @@ resource "aws_instance" "instance_null_sg_ids" {
   }
 }
 
-# --- aws_security_group resources under test ------------------------------
-
-# PASS: attached directly via an aws_network_interface's security_groups list.
+# PASS: attached via eni
 resource "aws_security_group" "attached_via_eni" {
   attrs = {
     id     = "sg-eni-001"
@@ -95,7 +80,7 @@ resource "aws_security_group" "attached_via_eni" {
   }
 }
 
-# PASS: attached via an explicit aws_network_interface_sg_attachment resource.
+# PASS: attached via an explicit aws_network_interface_sg_attachment resource
 resource "aws_security_group" "attached_via_attachment" {
   attrs = {
     id     = "sg-att-002"
@@ -104,7 +89,7 @@ resource "aws_security_group" "attached_via_attachment" {
   }
 }
 
-# PASS: attached via an aws_instance's vpc_security_group_ids list.
+# PASS: attached via an aws_instance's vpc_security_group_ids list
 resource "aws_security_group" "attached_via_instance" {
   attrs = {
     id     = "sg-inst-003"
@@ -113,7 +98,7 @@ resource "aws_security_group" "attached_via_instance" {
   }
 }
 
-# PASS: attached via an ENI that references multiple security groups.
+# PASS: attached via an ENI that references multiple security groups
 resource "aws_security_group" "attached_via_eni_multi" {
   attrs = {
     id     = "sg-multi-eni-006"
@@ -122,7 +107,7 @@ resource "aws_security_group" "attached_via_eni_multi" {
   }
 }
 
-# PASS: attached via an instance that references multiple security groups.
+# PASS: attached via an instance that references multiple security groups
 resource "aws_security_group" "attached_via_instance_multi" {
   attrs = {
     id     = "sg-multi-inst-007"
@@ -131,10 +116,7 @@ resource "aws_security_group" "attached_via_instance_multi" {
   }
 }
 
-# FAIL: no aws_network_interface, aws_network_interface_sg_attachment, or
-# aws_instance resource references this security group's id anywhere in the
-# plan - even though OTHER, unrelated security groups ARE referenced by the
-# companion resources declared above.
+# FAIL: unattached
 resource "aws_security_group" "unattached" {
   expect_failure = true
   attrs = {
@@ -144,9 +126,7 @@ resource "aws_security_group" "unattached" {
   }
 }
 
-# FAIL (missing attribute edge case): aws_security_group with id omitted.
-# core::try(attrs.id, "") normalizes to "", which cannot match any companion
-# reference, so the security group is correctly reported as unattached.
+# FAIL: aws_security_group with id omitted
 resource "aws_security_group" "missing_id" {
   expect_failure = true
   attrs = {
@@ -155,8 +135,7 @@ resource "aws_security_group" "missing_id" {
   }
 }
 
-# ---- Cases merged from ec2-security-group-attached-to-eni-periodic-2.policytest.hcl ----
-
+# PASS: used by rds
 resource "aws_security_group" "pass_used_by_rds_f2" {
   attrs = { id = "sg-rds0001", name = "rds" }
 }
@@ -165,6 +144,7 @@ resource "aws_db_instance" "db_f2" {
   attrs = { identifier = "db", instance_class = "db.t3.micro", vpc_security_group_ids = ["sg-rds0001"] }
 }
 
+# PASS: used by lambda
 resource "aws_security_group" "pass_used_by_lambda_f2" {
   attrs = { id = "sg-lambda01", name = "lambda" }
 }
@@ -177,6 +157,7 @@ resource "aws_lambda_function" "fn_f2" {
   }
 }
 
+# PASS: used by alb
 resource "aws_security_group" "pass_used_by_alb_f2" {
   attrs = { id = "sg-alb0001", name = "alb" }
 }
@@ -185,6 +166,7 @@ resource "aws_lb" "alb_f2" {
   attrs = { name = "alb", security_groups = ["sg-alb0001"] }
 }
 
+# FAIL: used by nothing
 resource "aws_security_group" "fail_used_by_nothing_f2" {
   attrs          = { id = "sg-unused01", name = "unused" }
   expect_failure = true

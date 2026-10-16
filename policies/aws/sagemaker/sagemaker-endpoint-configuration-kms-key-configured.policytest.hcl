@@ -4,11 +4,7 @@ policytest {
   targets = ["sagemaker-endpoint-configuration-kms-key-configured.policy.hcl"]
 }
 
-# Default inputs file: assumes input.allowed_kms_arns default ([]) i.e. no allowlist
-# configured. Covers the "any valid, non-empty kms_key_arn is acceptable" path plus
-# missing/empty/null attribute edge cases.
-
-# PASS: kms_key_arn is set to a valid, non-empty ARN, no allowlist configured
+# PASS: kms key set
 resource "aws_sagemaker_endpoint_configuration" "pass_kms_key_set" {
   attrs = {
     name = "pass-kms-key-set"
@@ -66,9 +62,7 @@ resource "aws_sagemaker_endpoint_configuration" "fail_kms_key_null" {
   }
 }
 
-# ---- Cases merged from sagemaker-endpoint-configuration-kms-key-configured-2.policytest.hcl ----
-
-# PASS: kms_key_arn is set to an ARN present in the allowlist
+# PASS: kms key in allowlist
 resource "aws_sagemaker_endpoint_configuration" "pass_kms_key_in_allowlist_f2" {
   attrs = {
     name = "pass-kms-key-in-allowlist"
@@ -81,7 +75,6 @@ resource "aws_sagemaker_endpoint_configuration" "pass_kms_key_in_allowlist_f2" {
     kms_key_arn = "arn:aws:kms:us-east-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab"
   }
 }
-
 
 # FAIL: kms_key_arn attribute is entirely omitted (missing check takes priority over allowlist)
 resource "aws_sagemaker_endpoint_configuration" "fail_kms_key_missing_with_allowlist_f2" {

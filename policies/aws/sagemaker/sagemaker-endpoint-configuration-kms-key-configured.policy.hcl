@@ -16,8 +16,6 @@ input "sagemaker-endpoint-configuration-kms-key-configured-enforcement-level" {
   default = "advisory"
 }
 
-# Operator-tunable allowlist of KMS key ARNs. Empty list (default) means any
-# non-empty, valid KMS key ARN is acceptable.
 input "sagemaker-endpoint-configuration-kms-key-configured-allowed_kms_arns" {
   type    = list(string)
   default = []

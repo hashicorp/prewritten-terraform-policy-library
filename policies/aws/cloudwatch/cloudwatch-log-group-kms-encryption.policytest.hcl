@@ -4,10 +4,7 @@ policytest {
   targets = ["cloudwatch-log-group-kms-encryption.policy.hcl"]
 }
 
-# Default inputs file: no inputs {} block, so input.kms_key_id uses its policy
-# default of "" (no specific KMS key required — any KMS key is acceptable).
-
-# PASS: kms_key_id is set to a non-empty value, no specific key required
+# PASS: any kms key
 resource "aws_cloudwatch_log_group" "pass_any_kms_key" {
   attrs = {
     name              = "app-logs"
@@ -25,8 +22,7 @@ resource "aws_cloudwatch_log_group" "fail_kms_key_id_missing" {
   }
 }
 
-# FAIL: kms_key_id is explicitly null — policy's two-step normalization treats
-# null the same as "" (not configured), so this is a non-compliance case.
+# FAIL: kms key id null
 resource "aws_cloudwatch_log_group" "fail_kms_key_id_null" {
   expect_failure = true
   attrs = {
@@ -46,9 +42,7 @@ resource "aws_cloudwatch_log_group" "fail_kms_key_id_empty_string" {
   }
 }
 
-# ---- Cases merged from cloudwatch-log-group-kms-encryption-2.policytest.hcl ----
-
-# PASS: kms_key_id exactly matches the required key
+# PASS: matching required key
 resource "aws_cloudwatch_log_group" "pass_matching_required_key_f2" {
   attrs = {
     name              = "secure-app-logs"
@@ -56,7 +50,6 @@ resource "aws_cloudwatch_log_group" "pass_matching_required_key_f2" {
     kms_key_id        = "arn:aws:kms:us-east-1:123456789012:key/required-key-aaaa-bbbb-cccc"
   }
 }
-
 
 # FAIL: kms_key_id is omitted entirely while a specific key is required
 resource "aws_cloudwatch_log_group" "fail_missing_key_with_required_f2" {

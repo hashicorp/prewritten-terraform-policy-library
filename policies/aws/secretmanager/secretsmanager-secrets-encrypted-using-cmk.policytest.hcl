@@ -4,11 +4,7 @@ policytest {
   targets = ["secretsmanager-secrets-encrypted-using-cmk.policy.hcl"]
 }
 
-# Default inputs file: no inputs {} block, so input.allowed_kms_key_arns uses its default
-# of [] (no allowlist configured). Covers the "missing / AWS managed key" violation cases
-# and the pass case where any customer managed key is accepted (no allowlist restriction).
-
-# FAIL: kms_key_id attribute entirely omitted -> defaults to AWS managed key
+# FAIL: missing kms key id
 resource "aws_secretsmanager_secret" "fail_missing_kms_key_id" {
   expect_failure = true
   attrs = {
@@ -17,7 +13,7 @@ resource "aws_secretsmanager_secret" "fail_missing_kms_key_id" {
   }
 }
 
-# FAIL: kms_key_id explicitly null -> same as missing
+# FAIL: kms_key_id explicitly null
 resource "aws_secretsmanager_secret" "fail_null_kms_key_id" {
   expect_failure = true
   attrs = {
@@ -67,7 +63,7 @@ resource "aws_secretsmanager_secret" "fail_aws_managed_alias_prefix" {
   }
 }
 
-# PASS: kms_key_id is a customer managed KMS key ARN; no allowlist configured, so any CMK is allowed
+# PASS: kms_key_id is a customer managed KMS key ARN
 resource "aws_secretsmanager_secret" "pass_customer_managed_key_no_allowlist" {
   attrs = {
     name        = "example-secret-cmk"
@@ -76,9 +72,7 @@ resource "aws_secretsmanager_secret" "pass_customer_managed_key_no_allowlist" {
   }
 }
 
-# ---- Cases merged from secretsmanager-secrets-encrypted-using-cmk-2.policytest.hcl ----
-
-# PASS: kms_key_id exactly matches the allowlisted ARN
+# PASS: matches allowlist exact
 resource "aws_secretsmanager_secret" "pass_matches_allowlist_exact_f2" {
   attrs = {
     name        = "example-secret-allowlist-exact"
@@ -95,4 +89,3 @@ resource "aws_secretsmanager_secret" "pass_matches_allowlist_suffix_f2" {
     kms_key_id  = "aaaa1111-aaaa-1111-aaaa-111111111111"
   }
 }
-

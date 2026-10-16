@@ -4,13 +4,7 @@ policytest {
   targets = ["aurora-recovery-point-created.policy.hcl"]
 }
 
-# Default inputs file. No aws_backup_plan / aws_backup_selection resources are declared
-# in this file so that core::getresources() reliably returns zero results for clusters
-# that rely solely on the automated-backup path (see testing-guide.md "core::getresources()
-# sees ALL resources in the test file"). Scenarios that need a compliant/non-compliant
-# AWS Backup plan live in separate files (-2, -3).
-
-# PASS: Aurora cluster with sufficient backup_retention_period, no AWS Backup plan needed.
+# PASS: backup retention sufficient
 resource "aws_rds_cluster" "pass_backup_retention_sufficient" {
   attrs = {
     cluster_identifier      = "aurora-cluster-1"
@@ -21,7 +15,7 @@ resource "aws_rds_cluster" "pass_backup_retention_sufficient" {
   }
 }
 
-# FAIL: Aurora cluster with backup_retention_period = 0 and no AWS Backup plan at all.
+# FAIL: Aurora cluster with backup_retention_period = 0 and no AWS Backup plan at all
 resource "aws_rds_cluster" "fail_backup_retention_insufficient_no_plan" {
   expect_failure = true
   attrs = {
@@ -33,8 +27,7 @@ resource "aws_rds_cluster" "fail_backup_retention_insufficient_no_plan" {
   }
 }
 
-# PASS (not evaluated): non-Aurora engine is excluded by the policy's filter, even
-# though backup_retention_period is 0.
+# PASS: skip non aurora engine
 resource "aws_rds_cluster" "skip_non_aurora_engine" {
   attrs = {
     cluster_identifier      = "mysql-cluster-7"
@@ -45,7 +38,7 @@ resource "aws_rds_cluster" "skip_non_aurora_engine" {
   }
 }
 
-# FAIL: backup_retention_period attribute entirely omitted (defaults to 0 via core::try()).
+# FAIL: backup_retention_period attribute entirely omitted (defaults to 0 via core::try())
 resource "aws_rds_cluster" "fail_missing_backup_retention_attribute" {
   expect_failure = true
   attrs = {
@@ -57,9 +50,7 @@ resource "aws_rds_cluster" "fail_missing_backup_retention_attribute" {
   }
 }
 
-# FAIL: tags explicitly set to null (two-step normalization to {}) combined with
-# insufficient backup_retention_period and no AWS Backup plan. Confirms the policy
-# does not crash when tags is explicitly null.
+# FAIL: tags null no plan
 resource "aws_rds_cluster" "fail_tags_null_no_plan" {
   expect_failure = true
   attrs = {
@@ -70,8 +61,6 @@ resource "aws_rds_cluster" "fail_tags_null_no_plan" {
     arn                     = "arn:aws:rds:us-east-1:123456789012:cluster:aurora-cluster-12"
   }
 }
-
-# ---- Cases merged from aurora-recovery-point-created-3.policytest.hcl ----
 
 resource "aws_backup_plan" "plan_4_noncompliant_f3" {
   skip = true
@@ -97,7 +86,6 @@ resource "aws_backup_plan" "plan_5_compliant_f3" {
   }
 }
 
-# References cluster-4 via cluster_identifier substring match in `resources`.
 resource "aws_backup_selection" "selection_4_identifier_match_f3" {
   skip = true
   attrs = {
@@ -109,7 +97,6 @@ resource "aws_backup_selection" "selection_4_identifier_match_f3" {
   }
 }
 
-# References cluster-5 via selection_tag matching the cluster's tags (STRINGEQUALS).
 resource "aws_backup_selection" "selection_5_tag_match_f3" {
   skip = true
   attrs = {
@@ -125,7 +112,6 @@ resource "aws_backup_selection" "selection_5_tag_match_f3" {
   }
 }
 
-# Does not reference cluster-6 at all (neither resources nor selection_tag match).
 resource "aws_backup_selection" "selection_6_no_match_f3" {
   skip = true
   attrs = {
@@ -141,8 +127,7 @@ resource "aws_backup_selection" "selection_6_no_match_f3" {
   }
 }
 
-# FAIL: backup_retention_period = 0; matched (via cluster_identifier substring) to a
-# backup selection linked to a NON-compliant plan (rate(2 days) = 48h > required 24h).
+# FAIL: backup_retention_period = 0
 resource "aws_rds_cluster" "fail_identifier_match_insufficient_plan_frequency_f3" {
   expect_failure = true
   attrs = {
@@ -154,8 +139,7 @@ resource "aws_rds_cluster" "fail_identifier_match_insufficient_plan_frequency_f3
   }
 }
 
-# PASS: backup_retention_period = 0; matched (via selection_tag) to a backup selection
-# linked to a compliant plan (rate(1 day) = 24h <= required 24h).
+# PASS: backup_retention_period = 0
 resource "aws_rds_cluster" "pass_tag_match_compliant_plan_f3" {
   attrs = {
     cluster_identifier      = "aurora-cluster-5"
@@ -168,8 +152,7 @@ resource "aws_rds_cluster" "pass_tag_match_compliant_plan_f3" {
   }
 }
 
-# FAIL: backup_retention_period = 0; a backup selection exists in the plan, but neither
-# its resources list nor its selection_tag match this cluster, so it provides no cover.
+# FAIL: backup_retention_period = 0
 resource "aws_rds_cluster" "fail_selection_present_no_match_f3" {
   expect_failure = true
   attrs = {
@@ -183,10 +166,7 @@ resource "aws_rds_cluster" "fail_selection_present_no_match_f3" {
   }
 }
 
-# ---- Cases merged from aurora-recovery-point-created-6.policytest.hcl ----
-
-# PASS: required coverage window is 1 hour; 1 day (24h) of backup_retention_period
-# comfortably covers it.
+# PASS: hourly requirement satisfied by daily retention
 resource "aws_rds_cluster" "pass_hourly_requirement_satisfied_by_daily_retention_f6" {
   attrs = {
     cluster_identifier      = "aurora-cluster-10"
@@ -196,8 +176,6 @@ resource "aws_rds_cluster" "pass_hourly_requirement_satisfied_by_daily_retention
     arn                     = "arn:aws:rds:us-east-1:123456789012:cluster:aurora-cluster-10"
   }
 }
-
-# ---- Cases merged from aurora-recovery-point-created-cron.policytest.hcl ----
 
 resource "aws_backup_plan" "plan_weekly_f7" {
   skip = true
@@ -220,6 +198,7 @@ resource "aws_backup_selection" "sel_weekly_f7" {
   }
 }
 
+# FAIL: cron weekly
 resource "aws_rds_cluster" "fail_cron_weekly_f7" {
   expect_failure = true
   attrs = {
@@ -252,6 +231,7 @@ resource "aws_backup_selection" "sel_monthly_f7" {
   }
 }
 
+# FAIL: cron monthly
 resource "aws_rds_cluster" "fail_cron_monthly_f7" {
   expect_failure = true
   attrs = {
@@ -284,6 +264,7 @@ resource "aws_backup_selection" "sel_daily_q_f7" {
   }
 }
 
+# PASS: cron daily q
 resource "aws_rds_cluster" "pass_cron_daily_q_f7" {
   attrs = {
     cluster_identifier      = "cron-daily-q"
@@ -315,6 +296,7 @@ resource "aws_backup_selection" "sel_every6h_f7" {
   }
 }
 
+# PASS: cron every6h
 resource "aws_rds_cluster" "pass_cron_every6h_f7" {
   attrs = {
     cluster_identifier      = "cron-every6h"

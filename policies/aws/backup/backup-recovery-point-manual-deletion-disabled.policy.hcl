@@ -2,15 +2,6 @@
 
 # AWS Backup vaults should prevent manual deletion of recovery points
 
-# NOTE: The cross-resource lookup below (aws_backup_vault_policy linked by
-# backup_vault_name) will not resolve during plan time if the policy is created
-# in the same plan as the vault, but it will resolve successfully once the
-# backup vault policy has been applied (apply-time evaluation).
-#
-# NOTE: principalArnList (Sentinel param, CSV of excluded IAM principal ARNs) is
-# expressed here as the input "backup-recovery-point-manual-deletion-disabled-excluded_principal_arns" (list(string)). Operators
-# can override this per policy set instead of editing the policy file.
-
 policy {
   required_providers {
     aws = {
@@ -36,7 +27,6 @@ resource_policy "aws_backup_vault" "backup_recovery_point_manual_deletion_disabl
     required_update_action = "updaterecoverypointlifecycle"
     required_put_action    = "putbackupvaultaccesspolicy"
 
-    # Find the resource-based access policy attached to this backup vault.
     vault_policies = core::getresources("aws_backup_vault_policy", {
       backup_vault_name = attrs.name
     })
@@ -49,12 +39,9 @@ resource_policy "aws_backup_vault" "backup_recovery_point_manual_deletion_disabl
     statements_raw = core::try(local.policy_doc.Statement, null)
     statements     = local.statements_raw == null ? [] : local.statements_raw
 
-    # A Deny statement with a Condition only applies in some requests, so it does not count.
     deny_statements = [for s in local.statements : s if core::try(s.Effect, "") == "Deny" && core::try(s.Condition, null) == null]
     deny_count      = core::length(local.deny_statements)
 
-    # Normalize Action to a list for every Deny statement. Action may be
-    # specified in the policy JSON either as a single string or as a list.
     deny_actions = [for s in local.deny_statements :
       core::try([for a in core::try(s.Action, []) : a], [core::try(s.Action, "")])
     ]
@@ -69,22 +56,15 @@ resource_policy "aws_backup_vault" "backup_recovery_point_manual_deletion_disabl
       core::length([for a in acts : a if core::contains(["*", "backup:*"], core::lower(a)) || core::endswith(core::lower(a), local.required_put_action)]) > 0
     ]
 
-    # Normalize the explicit AWS principal(s) referenced by each Deny statement.
-    # Principal.AWS may be a single ARN string or a list of ARN strings; when
-    # Principal is the string "*" (or absent), there is no explicit principal.
     deny_principal_aws_raw = [for s in local.deny_statements : core::try(s.Principal.AWS, null)]
     deny_principals = [for p in local.deny_principal_aws_raw :
       p == null ? [] : core::try([for x in p : x], [p])
     ]
 
-    # A Deny statement is skipped only when it names one or more explicit
-    # principals AND every one of them is in the exclusion list.
     deny_all_principals_excluded = [for plist in local.deny_principals :
       core::length(plist) > 0 && core::length([for p in plist : p if core::contains(input.backup-recovery-point-manual-deletion-disabled-excluded_principal_arns, p)]) == core::length(plist)
     ]
 
-    # A Deny statement is compliant when it is not fully excluded and covers all
-    # three required actions.
     deny_compliant = [for i in core::range(local.deny_count) :
       local.deny_has_delete[i] && local.deny_has_update[i] && local.deny_has_put[i] && !local.deny_all_principals_excluded[i]
     ]

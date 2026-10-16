@@ -8,6 +8,7 @@ inputs {
   cloudtrail-s3-dataevents-enabled-s3_bucket_names = "my-target-bucket"
 }
 
+# PASS: legacy target bucket matched
 resource "aws_cloudtrail" "pass_legacy_target_bucket_matched" {
   attrs = {
     name           = "trail-target-matched"
@@ -23,6 +24,7 @@ resource "aws_cloudtrail" "pass_legacy_target_bucket_matched" {
   }
 }
 
+# PASS: legacy all pattern covers target
 resource "aws_cloudtrail" "pass_legacy_all_pattern_covers_target" {
   attrs = {
     name           = "trail-all-pattern-covers-target"
@@ -38,8 +40,7 @@ resource "aws_cloudtrail" "pass_legacy_all_pattern_covers_target" {
   }
 }
 
-# ---- Cases merged from cloudtrail-s3-dataevents-enabled-p1.policytest.hcl ----
-
+# PASS: legacy all buckets
 resource "aws_cloudtrail" "pass_legacy_all_buckets_f11" {
   attrs = {
     name           = "trail-legacy-all"
@@ -55,6 +56,7 @@ resource "aws_cloudtrail" "pass_legacy_all_buckets_f11" {
   }
 }
 
+# PASS: advanced all buckets
 resource "aws_cloudtrail" "pass_advanced_all_buckets_f11" {
   attrs = {
     name           = "trail-advanced-all"
@@ -71,6 +73,7 @@ resource "aws_cloudtrail" "pass_advanced_all_buckets_f11" {
   }
 }
 
+# PASS: legacy empty values
 resource "aws_cloudtrail" "pass_legacy_empty_values_f11" {
   attrs = {
     name           = "trail-legacy-empty-values"
@@ -86,6 +89,7 @@ resource "aws_cloudtrail" "pass_legacy_empty_values_f11" {
   }
 }
 
+# PASS: enable logging omitted
 resource "aws_cloudtrail" "pass_enable_logging_omitted_f11" {
   attrs = {
     name           = "trail-logging-omitted"
@@ -100,6 +104,7 @@ resource "aws_cloudtrail" "pass_enable_logging_omitted_f11" {
   }
 }
 
+# PASS: enable logging null
 resource "aws_cloudtrail" "pass_enable_logging_null_f11" {
   attrs = {
     name           = "trail-logging-null"
@@ -115,7 +120,7 @@ resource "aws_cloudtrail" "pass_enable_logging_null_f11" {
   }
 }
 
-# A trail without S3 data events is allowed when another trail in the plan logs them.
+# PASS: A trail without S3 data events is allowed when another trail in the plan logs them
 resource "aws_cloudtrail" "pass_management_only_trail_alongside_compliant_f11" {
   attrs = {
     name           = "management-only"
@@ -123,8 +128,7 @@ resource "aws_cloudtrail" "pass_management_only_trail_alongside_compliant_f11" {
   }
 }
 
-# ---- Cases merged from cloudtrail-s3-dataevents-enabled-sw2.policytest.hcl ----
-
+# PASS: starts with target bucket
 resource "aws_cloudtrail" "pass_starts_with_target_bucket_f13" {
 
   attrs = {

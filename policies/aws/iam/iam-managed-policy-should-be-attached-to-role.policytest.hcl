@@ -11,7 +11,7 @@ inputs {
   ]
 }
 
-# PASS: both required policies attached with aws_iam_role_policy_attachment.
+# PASS: both required policies attached with aws_iam_role_policy_attachment
 resource "aws_iam_role" "pass_role_policy_attachments" {
   attrs = {
     name               = "role-attachments"
@@ -35,7 +35,7 @@ resource "aws_iam_role_policy_attachment" "attach_audit" {
   }
 }
 
-# FAIL: only one of the two required policies is attached.
+# FAIL: only one of the two required policies is attached
 resource "aws_iam_role" "fail_one_policy_missing" {
   expect_failure = true
   attrs = {
@@ -52,7 +52,7 @@ resource "aws_iam_role_policy_attachment" "attach_partial" {
   }
 }
 
-# FAIL: no policies attached.
+# FAIL: no policies attached
 resource "aws_iam_role" "fail_no_attachments" {
   expect_failure = true
   attrs = {
@@ -61,7 +61,7 @@ resource "aws_iam_role" "fail_no_attachments" {
   }
 }
 
-# FAIL: required policies attached to a different role only.
+# FAIL: required policies attached to a different role only
 resource "aws_iam_role" "fail_attached_to_other_role" {
   expect_failure = true
   attrs = {
@@ -79,7 +79,7 @@ resource "aws_iam_policy_attachment" "attach_to_unrelated_role" {
   }
 }
 
-# PASS: required policies set through the role's managed_policy_arns attribute.
+# PASS: required policies set through the role's managed_policy_arns attribute
 resource "aws_iam_role" "pass_managed_policy_arns" {
   attrs = {
     name               = "role-inline-arns"
@@ -91,8 +91,7 @@ resource "aws_iam_role" "pass_managed_policy_arns" {
   }
 }
 
-# PASS: one policy from aws_iam_policy_attachment (roles list), one from
-# aws_iam_role_policy_attachment.
+# PASS: one policy from aws_iam_policy_attachment (roles list), one from aws_iam_role_policy_attachment
 resource "aws_iam_role" "pass_policy_attachment_roles" {
   attrs = {
     name               = "role-mixed"
@@ -117,7 +116,7 @@ resource "aws_iam_role_policy_attachment" "attach_audit_mixed" {
   }
 }
 
-# PASS: role name with mixed case still matches its attachments exactly.
+# PASS: role name with mixed case still matches its attachments exactly
 resource "aws_iam_role" "pass_mixed_case_name" {
   attrs = {
     name               = "Role-MixedCase"
