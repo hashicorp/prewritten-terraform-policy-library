@@ -1,0 +1,91 @@
+# EMR clusters should have Kerberos authentication enabled
+
+| Provider | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Secure access management |
+
+## Description
+
+This policy checks if Amazon EMR clusters have Kerberos enabled. The policy fails if a security configuration is not attached to the cluster or the security configuration does not satisfy the specified rule parameters.
+
+The policy evaluates `aws_emr_cluster` resources.
+
+This rule is covered by the [emr-kerberos-should-be-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/emr/emr-kerberos-should-be-enabled.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # emr-kerberos-should-be-enabled.policytest.hcl...
+      running
+      # resource.aws_emr_cluster.pass_realm_and_password...
+      running
+      # resource.aws_emr_cluster.pass_realm_and_password...
+      pass
+      # resource.aws_emr_cluster.pass_realm_only...
+      running
+      # resource.aws_emr_cluster.pass_realm_only...
+      pass
+      # resource.aws_emr_cluster.pass_password_only...
+      running
+      # resource.aws_emr_cluster.pass_password_only...
+      pass
+      #
+      resource.aws_emr_cluster.fail_missing_realm_and_password...
+      running
+      #
+      resource.aws_emr_cluster.fail_missing_realm_and_password...
+      pass
+      #
+      resource.aws_emr_cluster.pass_cross_realm_trust_with_password...
+      running
+      #
+      resource.aws_emr_cluster.pass_cross_realm_trust_with_password...
+      pass
+      #
+      resource.aws_emr_cluster.fail_cross_realm_trust_missing_password...
+      running
+      #
+      resource.aws_emr_cluster.fail_cross_realm_trust_missing_password...
+      pass
+      #
+      resource.aws_emr_cluster.fail_empty_kerberos_list_no_security_config...
+      running
+      #
+      resource.aws_emr_cluster.fail_empty_kerberos_list_no_security_config...
+      pass
+      #
+      resource.aws_emr_cluster.pass_kerberos_null_fallback_to_security_config...
+      running
+      #
+      resource.aws_emr_cluster.pass_kerberos_null_fallback_to_security_config...
+      pass
+      #
+      resource.aws_emr_cluster.fail_no_kerberos_attributes_at_all...
+      running
+      #
+      resource.aws_emr_cluster.fail_no_kerberos_attributes_at_all...
+      pass
+      #
+      resource.aws_emr_cluster.fail_security_config_without_kerberos...
+      running
+      #
+      resource.aws_emr_cluster.fail_security_config_without_kerberos...
+      pass
+      #
+      resource.aws_emr_cluster.fail_security_config_not_found...
+      running
+      #
+      resource.aws_emr_cluster.fail_security_config_not_found...
+      pass
+      #
+      resource.aws_emr_cluster.fail_invalid_kerberos_overrides_valid_security_config...
+      running
+      #
+      resource.aws_emr_cluster.fail_invalid_kerberos_overrides_valid_security_config...
+      pass
+      # emr-kerberos-should-be-enabled.policytest.hcl...
+      pass
+```
+
+---
