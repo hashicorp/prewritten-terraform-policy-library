@@ -13,11 +13,9 @@
 #     resolved name/arn (wildcard "*", exact arn, name, ARN-suffix "table/<name>", and the
 #     generic "arn:aws:dynamodb:*:*:table/*" wildcard pattern) instead of Terraform resource
 #     address/label matching.
-#   - AWS Backup cron() schedule parsing is simplified: only the "hour field == '*'" (hourly)
-#     and "day-of-month field in {'*','?'}" (daily) cases are recognized precisely; any other
-#     cron pattern (e.g. step intervals such as "*/6") falls back to a conservative 720-hour
-#     (monthly) estimate, matching the Sentinel policy's own fallback for unrecognized cron
-#     shapes.
+#   - AWS Backup cron() schedules count as daily (or more frequent) only when day-of-month
+#     and day-of-week are both "*" or "?" and month is "*"; weekly, monthly and unparseable
+#     schedules fall back to a conservative 720-hour (30-day) interval.
 # These checks resolve correctly once attribute values are known (existing resources, or
 # resources already applied in a prior run); for brand-new resources created in the same
 # plan, cross-references to not-yet-known attributes (e.g. a new backup plan's id/arn) may
@@ -84,29 +82,47 @@ locals {
 
   # For every backup plan, determine whether ANY of its rules has a schedule frequency
   # (in hours) that is less than or equal to the required maximum recovery point age.
-  ddbrp_plan_compliance = [for p in local.ddbrp_all_backup_plans : {
-    id   = core::try(p.id, "")
-    arn  = core::try(p.arn, "")
-    name = core::try(p.name, "")
-    compliant = core::anytrue([for r in (core::try(p.rule, null) == null ? [] : p.rule) : (
-      core::startswith(core::try(r.schedule, ""), "rate(") ? (
-        core::contains_substring(core::try(r.schedule, ""), "hour")
-        ? core::try(core::parseint(core::try(core::regex("[0-9]+", core::try(r.schedule, "")), "720"), 10), 720)
-        : core::try(core::parseint(core::try(core::regex("[0-9]+", core::try(r.schedule, "")), "30"), 10), 30) * 24
-      ) : core::startswith(core::try(r.schedule, ""), "cron(") ? (
-        core::try(core::split(" ", core::try(r.schedule, ""))[1], "*") == "*"
-        ? 1
-        : (
-          core::try(core::split(" ", core::try(r.schedule, ""))[2], "*") == "*" ||
-          core::try(core::split(" ", core::try(r.schedule, ""))[2], "*") == "?"
-          ) ? 24 : 720
-      ) : 720
-    ) <= local.ddbrp_required_hours])
+  # Backup plan schedules converted to an interval in hours. Shared parsing rules:
+  # - rate(N minute(s)) -> 1, rate(N hour(s)) -> N, rate(N day(s)) -> N * 24.
+  # - cron(min hour day-of-month month day-of-week year) is daily or more frequent only when
+  #   day-of-month and day-of-week are both "*" or "?" and month is "*". Then an hour field
+  #   of "*" is hourly, "*/N" or "M/N" is every N hours, and anything else is daily (24).
+  # - Every other schedule (weekly, monthly, unparseable) counts as 720 hours (30 days).
+  ddbrp_plan_rules = [for p in local.ddbrp_all_backup_plans : {
+    id   = core::try(p.id, null) == null ? "" : p.id
+    arn  = core::try(p.arn, null) == null ? "" : p.arn
+    name = core::try(p.name, null) == null ? "" : p.name
+    rules = [for r in(core::try(p.rule, null) == null ? [] : p.rule) : {
+      kind  = core::startswith(core::try(r.schedule, ""), "rate(") ? "rate" : (core::startswith(core::try(r.schedule, ""), "cron(") ? "cron" : "")
+      parts = core::split(" ", core::trimspace(core::split(")", core::try(core::split("(", core::try(r.schedule, ""))[1], ""))[0]))
+    }]
   }]
 
-  ddbrp_compliant_plan_ids   = [for p in local.ddbrp_plan_compliance : p.id if p.compliant]
-  ddbrp_compliant_plan_arns  = [for p in local.ddbrp_plan_compliance : p.arn if p.compliant]
-  ddbrp_compliant_plan_names = [for p in local.ddbrp_plan_compliance : p.name if p.compliant]
+  ddbrp_plan_hours = [for p in local.ddbrp_plan_rules : {
+    id   = p.id
+    arn  = p.arn
+    name = p.name
+    hours = [for r in p.rules :
+      r.kind == "rate" ? (
+        core::length(r.parts) != 2 ? 720 :
+        core::startswith(r.parts[1], "minute") ? 1 :
+        core::startswith(r.parts[1], "hour") ? core::try(core::parseint(r.parts[0], 10), 720) :
+        core::startswith(r.parts[1], "day") ? core::try(core::parseint(r.parts[0], 10), 30) * 24 :
+        720
+        ) : r.kind == "cron" ? (
+        core::length(r.parts) != 6 ? 720 :
+        !(core::contains(["*", "?"], r.parts[2]) && core::contains(["*", "?"], r.parts[4]) && r.parts[3] == "*") ? 720 :
+        r.parts[1] == "*" ? 1 :
+        core::length(core::split("/", r.parts[1])) == 2 ? core::try(core::parseint(core::split("/", r.parts[1])[1], 10), 24) :
+        24
+      ) : 720
+    ]
+  }]
+
+  ddbrp_compliant_plans      = [for p in local.ddbrp_plan_hours : p if core::length([for h in p.hours : h if h <= local.ddbrp_required_hours]) > 0]
+  ddbrp_compliant_plan_ids   = [for p in local.ddbrp_compliant_plans : p.id]
+  ddbrp_compliant_plan_arns  = [for p in local.ddbrp_compliant_plans : p.arn]
+  ddbrp_compliant_plan_names = [for p in local.ddbrp_compliant_plans : p.name]
 }
 
 resource_policy "aws_dynamodb_table" "recovery_point_created" {

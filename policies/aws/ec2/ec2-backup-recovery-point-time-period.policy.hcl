@@ -8,10 +8,8 @@
 #    supports: the wildcard "*", an exact ARN match, or an ARN ending in ":instance/<id>".
 #    Sentinel's broader regex-based wildcard patterns (e.g. "arn:aws:ec2:*:instance/i-*")
 #    and address/name-substring matching are not replicated.
-# 2. Backup plan schedule-frequency parsing is simplified: `rate(N hours|days)` is parsed
-#    exactly; `cron(...)` expressions are approximated using only the hour field
-#    (hour == "*" -> hourly, otherwise daily) rather than Sentinel's full
-#    minute/hour/day-of-month heuristic.
+# 2. Backup plan schedules: cron(...) counts as daily only when day-of-month and
+#    day-of-week are "*"/"?" and month is "*"; other crons count as 720 hours.
 # 3. `aws_backup_selection.condition` matching supports only `string_equals` /
 #    `string_not_equals`, and only the first `condition` block on a selection.
 #    `string_like` / `string_not_like` wildcard filters are not evaluated (treated as
@@ -79,10 +77,46 @@ locals {
 
   # A backup plan is compliant when it has at least one rule whose backup frequency
   # (parsed from its `schedule` expression) is <= required_hours. See LIMITATION #2.
-  ec2rp_compliant_plans = [for p in local.ec2rp_all_backup_plans : p if core::length([for r in (core::try(p.rule, null) == null ? [] : p.rule) : r if core::try(r.schedule, "") != "" && (core::startswith(r.schedule, "rate(") ? (core::try(core::parseint(core::try(core::split(" ", core::split(")", core::split("(", r.schedule)[1])[0]), [])[0], 10), 999999) * (core::startswith(core::try(core::try(core::split(" ", core::split(")", core::split("(", r.schedule)[1])[0]), [])[1], ""), "day") ? 24 : 1)) <= local.ec2rp_required_hours : (core::startswith(r.schedule, "cron(") ? (core::try(core::try(core::split(" ", core::split(")", core::split("(", r.schedule)[1])[0]), [])[1], "*") == "*" ? 1 : 24) <= local.ec2rp_required_hours : false))]) > 0]
+  # Backup plan schedules converted to an interval in hours. Shared parsing rules:
+  # - rate(N minute(s)) -> 1, rate(N hour(s)) -> N, rate(N day(s)) -> N * 24.
+  # - cron(min hour day-of-month month day-of-week year) is daily or more frequent only when
+  #   day-of-month and day-of-week are both "*" or "?" and month is "*". Then an hour field
+  #   of "*" is hourly, "*/N" or "M/N" is every N hours, and anything else is daily (24).
+  # - Every other schedule (weekly, monthly, unparseable) counts as 720 hours (30 days).
+  ec2rp_plan_rules = [for p in local.ec2rp_all_backup_plans : {
+    id   = core::try(p.id, null) == null ? "" : p.id
+    arn  = core::try(p.arn, null) == null ? "" : p.arn
+    name = core::try(p.name, null) == null ? "" : p.name
+    rules = [for r in(core::try(p.rule, null) == null ? [] : p.rule) : {
+      kind  = core::startswith(core::try(r.schedule, ""), "rate(") ? "rate" : (core::startswith(core::try(r.schedule, ""), "cron(") ? "cron" : "")
+      parts = core::split(" ", core::trimspace(core::split(")", core::try(core::split("(", core::try(r.schedule, ""))[1], ""))[0]))
+    }]
+  }]
 
-  ec2rp_compliant_plan_ids  = [for p in local.ec2rp_compliant_plans : core::try(p.id, "")]
-  ec2rp_compliant_plan_arns = [for p in local.ec2rp_compliant_plans : core::try(p.arn, "")]
+  ec2rp_plan_hours = [for p in local.ec2rp_plan_rules : {
+    id   = p.id
+    arn  = p.arn
+    name = p.name
+    hours = [for r in p.rules :
+      r.kind == "rate" ? (
+        core::length(r.parts) != 2 ? 720 :
+        core::startswith(r.parts[1], "minute") ? 1 :
+        core::startswith(r.parts[1], "hour") ? core::try(core::parseint(r.parts[0], 10), 720) :
+        core::startswith(r.parts[1], "day") ? core::try(core::parseint(r.parts[0], 10), 30) * 24 :
+        720
+        ) : r.kind == "cron" ? (
+        core::length(r.parts) != 6 ? 720 :
+        !(core::contains(["*", "?"], r.parts[2]) && core::contains(["*", "?"], r.parts[4]) && r.parts[3] == "*") ? 720 :
+        r.parts[1] == "*" ? 1 :
+        core::length(core::split("/", r.parts[1])) == 2 ? core::try(core::parseint(core::split("/", r.parts[1])[1], 10), 24) :
+        24
+      ) : 720
+    ]
+  }]
+
+  ec2rp_compliant_plans     = [for p in local.ec2rp_plan_hours : p if core::length([for h in p.hours : h if h <= local.ec2rp_required_hours]) > 0]
+  ec2rp_compliant_plan_ids  = [for p in local.ec2rp_compliant_plans : p.id]
+  ec2rp_compliant_plan_arns = [for p in local.ec2rp_compliant_plans : p.arn]
 }
 
 resource_policy "aws_instance" "backup_recovery_point_time_period" {

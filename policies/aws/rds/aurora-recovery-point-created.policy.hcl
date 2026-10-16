@@ -76,6 +76,43 @@ locals {
   # pattern").
   aurrp_all_backup_plans      = core::getresources("aws_backup_plan", {})
   aurrp_all_backup_selections = core::getresources("aws_backup_selection", {})
+
+  # Backup plan schedules converted to an interval in hours. Shared parsing rules:
+  # - rate(N minute(s)) -> 1, rate(N hour(s)) -> N, rate(N day(s)) -> N * 24.
+  # - cron(min hour day-of-month month day-of-week year) is daily or more frequent only when
+  #   day-of-month and day-of-week are both "*" or "?" and month is "*". Then an hour field
+  #   of "*" is hourly, "*/N" or "M/N" is every N hours, and anything else is daily (24).
+  # - Every other schedule (weekly, monthly, unparseable) counts as 720 hours (30 days).
+  aurrp_plan_rules = [for p in local.aurrp_all_backup_plans : {
+    id   = core::try(p.id, null) == null ? "" : p.id
+    arn  = core::try(p.arn, null) == null ? "" : p.arn
+    name = core::try(p.name, null) == null ? "" : p.name
+    rules = [for r in(core::try(p.rule, null) == null ? [] : p.rule) : {
+      kind  = core::startswith(core::try(r.schedule, ""), "rate(") ? "rate" : (core::startswith(core::try(r.schedule, ""), "cron(") ? "cron" : "")
+      parts = core::split(" ", core::trimspace(core::split(")", core::try(core::split("(", core::try(r.schedule, ""))[1], ""))[0]))
+    }]
+  }]
+
+  aurrp_plan_hours = [for p in local.aurrp_plan_rules : {
+    id   = p.id
+    arn  = p.arn
+    name = p.name
+    hours = [for r in p.rules :
+      r.kind == "rate" ? (
+        core::length(r.parts) != 2 ? 720 :
+        core::startswith(r.parts[1], "minute") ? 1 :
+        core::startswith(r.parts[1], "hour") ? core::try(core::parseint(r.parts[0], 10), 720) :
+        core::startswith(r.parts[1], "day") ? core::try(core::parseint(r.parts[0], 10), 30) * 24 :
+        720
+        ) : r.kind == "cron" ? (
+        core::length(r.parts) != 6 ? 720 :
+        !(core::contains(["*", "?"], r.parts[2]) && core::contains(["*", "?"], r.parts[4]) && r.parts[3] == "*") ? 720 :
+        r.parts[1] == "*" ? 1 :
+        core::length(core::split("/", r.parts[1])) == 2 ? core::try(core::parseint(core::split("/", r.parts[1])[1], 10), 24) :
+        24
+      ) : 720
+    ]
+  }]
 }
 
 resource_policy "aws_rds_cluster" "aurora_recovery_point_created" {
@@ -137,24 +174,12 @@ resource_policy "aws_rds_cluster" "aurora_recovery_point_created" {
       )
     ]
 
-    # A backup plan is compliant when it has at least one rule whose schedule
-    # resolves to a frequency (in hours) at or below required_hours. rate(N unit)
-    # expressions are parsed directly; cron(...) expressions use the day-of-month
-    # field as a heuristic (daily "*" -> 24h, specific day -> 720h/monthly),
-    # matching the original Sentinel helper.
-    compliant_plans = [for p in local.aurrp_all_backup_plans : p if core::length([for r in (core::try(p.rule, null) == null ? [] : p.rule) : r if
-      core::try(r.schedule, "") != "" && (
-        core::startswith(core::try(r.schedule, ""), "rate(") ?
-          core::try(core::parseint(core::split(" ", core::split(")", core::split("(", r.schedule)[1])[0])[0], 10), 999999) *
-            (core::startswith(core::split(" ", core::split(")", core::split("(", r.schedule)[1])[0])[1], "hour") ? 1 : 24) <= local.required_hours
-        : core::startswith(core::try(r.schedule, ""), "cron(") ?
-          (core::try(core::split(" ", core::split(")", core::split("(", r.schedule)[1])[0])[2], "*") == "*" ? 24 : 720) <= local.required_hours
-        : 720 <= local.required_hours
-      )
-    ]) > 0]
+    # A backup plan is compliant when at least one rule runs at least every required_hours
+    # (see the shared schedule parsing rules in the top-level locals).
+    compliant_plans = [for p in local.aurrp_plan_hours : p if core::length([for h in p.hours : h if h <= local.required_hours]) > 0]
 
-    compliant_plan_ids   = [for p in local.compliant_plans : core::try(p.id, "")]
-    compliant_plan_names = [for p in local.compliant_plans : core::try(p.name, "")]
+    compliant_plan_ids   = [for p in local.compliant_plans : p.id]
+    compliant_plan_names = [for p in local.compliant_plans : p.name]
     any_plan_compliant   = core::length(local.compliant_plans) > 0
 
     has_compliant_backup_plan = core::length([for s in local.matching_selections : s if

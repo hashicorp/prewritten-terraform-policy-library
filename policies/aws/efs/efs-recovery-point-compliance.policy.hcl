@@ -67,66 +67,44 @@ locals {
   efsrp_all_backup_plans      = core::getresources("aws_backup_plan", {})
   efsrp_all_backup_selections = core::getresources("aws_backup_selection", {})
 
-  # Stage 1: for every rule of every plan, detect whether the schedule is a
-  # rate(...) or cron(...) expression and extract everything up to the
-  # closing ")" (e.g. "rate(12 hours)" -> "12 hours)"; "cron(0 12 * * ? *)"
-  # -> "0 12 * * ? *)").
-  efsrp_plan_rule_tokens = [for p in local.efsrp_all_backup_plans : {
-    plan_id = core::try(p.id, "")
-    rules = [for r in (core::try(p.rule, null) == null ? [] : p.rule) : {
-      is_rate = core::startswith(core::try(r.schedule, ""), "rate(")
-      is_cron = core::startswith(core::try(r.schedule, ""), "cron(")
-      rest = (
-        core::startswith(core::try(r.schedule, ""), "rate(")
-        ? core::split("rate(", core::try(r.schedule, ""))[1]
-        : core::startswith(core::try(r.schedule, ""), "cron(")
-          ? core::split("cron(", core::try(r.schedule, ""))[1]
-          : ""
-      )
+  # Backup plan schedules converted to an interval in hours. Shared parsing rules:
+  # - rate(N minute(s)) -> 1, rate(N hour(s)) -> N, rate(N day(s)) -> N * 24.
+  # - cron(min hour day-of-month month day-of-week year) is daily or more frequent only when
+  #   day-of-month and day-of-week are both "*" or "?" and month is "*". Then an hour field
+  #   of "*" is hourly, "*/N" or "M/N" is every N hours, and anything else is daily (24).
+  # - Every other schedule (weekly, monthly, unparseable) counts as 720 hours (30 days).
+  efsrp_plan_rules = [for p in local.efsrp_all_backup_plans : {
+    id   = core::try(p.id, null) == null ? "" : p.id
+    arn  = core::try(p.arn, null) == null ? "" : p.arn
+    name = core::try(p.name, null) == null ? "" : p.name
+    rules = [for r in(core::try(p.rule, null) == null ? [] : p.rule) : {
+      kind  = core::startswith(core::try(r.schedule, ""), "rate(") ? "rate" : (core::startswith(core::try(r.schedule, ""), "cron(") ? "cron" : "")
+      parts = core::split(" ", core::trimspace(core::split(")", core::try(core::split("(", core::try(r.schedule, ""))[1], ""))[0]))
     }]
   }]
 
-  # Stage 2: strip the trailing ")" and split the remaining expression into
-  # space-delimited tokens: rate -> [value, unit]; cron -> [minute, hour,
-  # day_of_month, ...].
-  efsrp_plan_rule_parts = [for p in local.efsrp_plan_rule_tokens : {
-    plan_id = p.plan_id
-    rules = [for rt in p.rules : {
-      is_rate = rt.is_rate
-      is_cron = rt.is_cron
-      parts   = core::split(" ", core::split(")", rt.rest)[0])
-    }]
-  }]
-
-  # Stage 3: convert each rule's schedule into a backup frequency in hours.
-  # This mirrors get_backup_frequency_hours() exactly, including its final
-  # fallback of 720 hours (monthly) whenever a schedule cannot be parsed
-  # into one of the recognized shapes.
-  efsrp_plan_rule_frequencies = [for p in local.efsrp_plan_rule_parts : {
-    plan_id = p.plan_id
-    frequencies = [for rp in p.rules :
-      rp.is_rate ? (
-        core::length(rp.parts) == 2 ? (
-          core::startswith(rp.parts[1], "hour") ? core::try(core::parseint(rp.parts[0], 10), 720) :
-          core::startswith(rp.parts[1], "day")  ? core::try(core::parseint(rp.parts[0], 10), 720) * 24 :
-          720
-        ) : 720
-      ) : rp.is_cron ? (
-        core::length(rp.parts) >= 3 ? (
-          rp.parts[1] == "*" ? 1 :
-          core::length(core::split("/", rp.parts[1])) == 2 ? core::try(core::parseint(core::split("/", rp.parts[1])[1], 10), 720) :
-          (rp.parts[0] == "*" || core::length(core::split("/", rp.parts[0])) == 2) ? 1 :
-          (rp.parts[2] == "*" || rp.parts[2] == "?") ? 24 :
-          720
-        ) : 720
+  efsrp_plan_hours = [for p in local.efsrp_plan_rules : {
+    id   = p.id
+    arn  = p.arn
+    name = p.name
+    hours = [for r in p.rules :
+      r.kind == "rate" ? (
+        core::length(r.parts) != 2 ? 720 :
+        core::startswith(r.parts[1], "minute") ? 1 :
+        core::startswith(r.parts[1], "hour") ? core::try(core::parseint(r.parts[0], 10), 720) :
+        core::startswith(r.parts[1], "day") ? core::try(core::parseint(r.parts[0], 10), 30) * 24 :
+        720
+        ) : r.kind == "cron" ? (
+        core::length(r.parts) != 6 ? 720 :
+        !(core::contains(["*", "?"], r.parts[2]) && core::contains(["*", "?"], r.parts[4]) && r.parts[3] == "*") ? 720 :
+        r.parts[1] == "*" ? 1 :
+        core::length(core::split("/", r.parts[1])) == 2 ? core::try(core::parseint(core::split("/", r.parts[1])[1], 10), 24) :
+        24
       ) : 720
     ]
   }]
 
-  # is_backup_plan_compliant(): a plan is compliant if at least one of its
-  # rules has a frequency <= required_hours. A plan with zero rules yields
-  # an empty frequencies list, so it is correctly excluded.
-  efsrp_compliant_plan_ids = [for pf in local.efsrp_plan_rule_frequencies : pf.plan_id if core::length([for f in pf.frequencies : f if f <= local.efsrp_required_hours]) > 0]
+  efsrp_compliant_plan_ids = [for p in local.efsrp_plan_hours : p.id if core::length([for h in p.hours : h if h <= local.efsrp_required_hours]) > 0]
 
   # resourceTags filter, parsed once (JSON object of tag key/value pairs).
   efsrp_resource_tags_raw    = core::try(input.efs-recovery-point-compliance-resource_tags, "")

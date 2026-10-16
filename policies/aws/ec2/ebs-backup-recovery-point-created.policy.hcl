@@ -87,65 +87,44 @@ locals {
       : input.ebs-backup-recovery-point-created-recovery_point_age_value * 24
   ) : input.ebs-backup-recovery-point-created-max_hours_since_backup
 
-  # is_backup_plan_compliant() / get_backup_frequency_hours(): a backup plan
-  # is compliant when at least one of its rules has a `schedule` whose
-  # backup frequency (in hours) is within required_hours. Supports both
-  # `rate(<n> hour(s)|day(s))` and `cron(...)` schedule expressions.
-  ebsrp_plan_compliance = [for p in local.ebsrp_all_backup_plans : {
-    id = p.id
-    ok = core::length([
-      for s in [
-        for r in (core::try(p.rule, null) != null ? p.rule : []) : core::try(r.schedule, "")
-      ] : s
-      if s != "" && (
-        core::startswith(s, "rate(")
-        ? (
-            core::length(core::split(" ", s)) >= 2 &&
-            core::try(core::parseint(core::split("(", core::split(" ", s)[0])[1], 10), null) != null
-            ? (
-                core::startswith(core::split(" ", s)[1], "hour")
-                ? core::try(core::parseint(core::split("(", core::split(" ", s)[0])[1], 10), 999999) <= local.ebsrp_required_hours
-                : core::startswith(core::split(" ", s)[1], "day")
-                  ? core::try(core::parseint(core::split("(", core::split(" ", s)[0])[1], 10), 999999) * 24 <= local.ebsrp_required_hours
-                  : 720 <= local.ebsrp_required_hours
-              )
-            : 720 <= local.ebsrp_required_hours
-          )
-        : core::startswith(s, "cron(")
-          ? (
-              core::length(core::split(" ", core::split("(", s)[1])) >= 3
-              ? (
-                  core::split(" ", core::split("(", s)[1])[1] == "*"
-                  ? 1 <= local.ebsrp_required_hours
-                  : (
-                      core::length(core::split("/", core::split(" ", core::split("(", s)[1])[1])) == 2 &&
-                      core::try(core::parseint(core::split("/", core::split(" ", core::split("(", s)[1])[1])[1], 10), null) != null
-                      ? core::try(core::parseint(core::split("/", core::split(" ", core::split("(", s)[1])[1])[1], 10), 999999) <= local.ebsrp_required_hours
-                      : (
-                          core::split(" ", core::split("(", s)[1])[0] == "*" ||
-                          (
-                            core::length(core::split("/", core::split(" ", core::split("(", s)[1])[0])) == 2 &&
-                            core::try(core::parseint(core::split("/", core::split(" ", core::split("(", s)[1])[0])[1], 10), null) != null
-                          )
-                          ? 1 <= local.ebsrp_required_hours
-                          : (
-                              core::split(" ", core::split("(", s)[1])[2] == "*" ||
-                              core::split(" ", core::split("(", s)[1])[2] == "?"
-                            )
-                            ? 24 <= local.ebsrp_required_hours
-                            : 720 <= local.ebsrp_required_hours
-                        )
-                    )
-                )
-              : 720 <= local.ebsrp_required_hours
-            )
-          : 720 <= local.ebsrp_required_hours
-      )
-    ]) > 0
+  # Backup plan schedules converted to an interval in hours. Shared parsing rules:
+  # - rate(N minute(s)) -> 1, rate(N hour(s)) -> N, rate(N day(s)) -> N * 24.
+  # - cron(min hour day-of-month month day-of-week year) is daily or more frequent only when
+  #   day-of-month and day-of-week are both "*" or "?" and month is "*". Then an hour field
+  #   of "*" is hourly, "*/N" or "M/N" is every N hours, and anything else is daily (24).
+  # - Every other schedule (weekly, monthly, unparseable) counts as 720 hours (30 days).
+  ebsrp_plan_rules = [for p in local.ebsrp_all_backup_plans : {
+    id   = core::try(p.id, null) == null ? "" : p.id
+    arn  = core::try(p.arn, null) == null ? "" : p.arn
+    name = core::try(p.name, null) == null ? "" : p.name
+    rules = [for r in(core::try(p.rule, null) == null ? [] : p.rule) : {
+      kind  = core::startswith(core::try(r.schedule, ""), "rate(") ? "rate" : (core::startswith(core::try(r.schedule, ""), "cron(") ? "cron" : "")
+      parts = core::split(" ", core::trimspace(core::split(")", core::try(core::split("(", core::try(r.schedule, ""))[1], ""))[0]))
+    }]
   }]
 
-  # IDs of backup plans that satisfy the required recovery-point frequency.
-  ebsrp_compliant_plan_ids = [for pc in local.ebsrp_plan_compliance : pc.id if pc.ok]
+  ebsrp_plan_hours = [for p in local.ebsrp_plan_rules : {
+    id   = p.id
+    arn  = p.arn
+    name = p.name
+    hours = [for r in p.rules :
+      r.kind == "rate" ? (
+        core::length(r.parts) != 2 ? 720 :
+        core::startswith(r.parts[1], "minute") ? 1 :
+        core::startswith(r.parts[1], "hour") ? core::try(core::parseint(r.parts[0], 10), 720) :
+        core::startswith(r.parts[1], "day") ? core::try(core::parseint(r.parts[0], 10), 30) * 24 :
+        720
+        ) : r.kind == "cron" ? (
+        core::length(r.parts) != 6 ? 720 :
+        !(core::contains(["*", "?"], r.parts[2]) && core::contains(["*", "?"], r.parts[4]) && r.parts[3] == "*") ? 720 :
+        r.parts[1] == "*" ? 1 :
+        core::length(core::split("/", r.parts[1])) == 2 ? core::try(core::parseint(core::split("/", r.parts[1])[1], 10), 24) :
+        24
+      ) : 720
+    ]
+  }]
+
+  ebsrp_compliant_plan_ids = [for p in local.ebsrp_plan_hours : p.id if core::length([for h in p.hours : h if h <= local.ebsrp_required_hours]) > 0]
 }
 
 resource_policy "aws_ebs_volume" "ebs_backup_recovery_point_created" {
