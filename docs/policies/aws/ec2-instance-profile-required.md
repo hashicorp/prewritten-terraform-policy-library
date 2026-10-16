@@ -1,12 +1,12 @@
 # EC2 instances should have an IAM instance profile attached
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Secure access management |
 
 ## Description
 
-This policy implements the AWS Config rule [ec2-instance-profile-attached](https://docs.aws.amazon.com/config/latest/developerguide/ec2-instance-profile-attached.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if an EC2 instance has an AWS Identity and Access Management (IAM) profile attached to it. The rule is NON_COMPLIANT if no IAM profile is attached to the EC2 instance.
+This policy checks if an EC2 instance has an AWS Identity and Access Management (IAM) profile attached to it. The policy fails if no IAM profile is attached to the EC2 instance.
 
 The policy evaluates `aws_instance` resources.
 

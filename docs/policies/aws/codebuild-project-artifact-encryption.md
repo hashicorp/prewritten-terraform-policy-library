@@ -1,12 +1,12 @@
 # CodeBuild projects should encrypt all artifacts
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Encryption of data-at-rest |
 
 ## Description
 
-This policy implements the AWS Config rule [codebuild-project-artifact-encryption](https://docs.aws.amazon.com/config/latest/developerguide/codebuild-project-artifact-encryption.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if an AWS CodeBuild project has encryption enabled for all of its artifacts. The rule is NON_COMPLIANT if 'encryptionDisabled' is set to 'true' for any primary or secondary (if present) artifact configurations.
+This policy checks if an AWS CodeBuild project has encryption enabled for all of its artifacts. The policy fails if 'encryptionDisabled' is set to 'true' for any primary or secondary (if present) artifact configurations.
 
 The policy evaluates `aws_codebuild_project` resources.
 

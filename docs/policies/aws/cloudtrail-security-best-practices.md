@@ -1,12 +1,12 @@
 # At least one CloudTrail trail should be defined with security best practices
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Logging |
 
 ## Description
 
-This policy implements the AWS Config rule [cloudtrail-security-trail-enabled](https://docs.aws.amazon.com/config/latest/developerguide/cloudtrail-security-trail-enabled.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks that there is at least one AWS CloudTrail trail defined with security best practices. 				This rule is COMPLIANT if there is at least one trail that meets all of the following:
+This policy checks that there is at least one AWS CloudTrail trail defined with security best practices. This rule is COMPLIANT if there is at least one trail that meets all of the following:
 
 The policy evaluates `aws_cloudtrail` resources.
 

@@ -1,12 +1,12 @@
 # SageMaker endpoint configurations should have an AWS KMS key configured
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Encryption of data-at-rest |
 
 ## Description
 
-This policy implements the AWS Config rule [sagemaker-endpoint-configuration-kms-key-configured](https://docs.aws.amazon.com/config/latest/developerguide/sagemaker-endpoint-configuration-kms-key-configured.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if AWS Key Management Service (AWS KMS) key is configured for an Amazon SageMaker endpoint configuration. The rule is NON_COMPLIANT if 'KmsKeyId' is not specified for the Amazon SageMaker endpoint configuration.
+This policy checks if AWS Key Management Service (AWS KMS) key is configured for an Amazon SageMaker endpoint configuration. The policy fails if 'KmsKeyId' is not specified for the Amazon SageMaker endpoint configuration.
 
 The policy evaluates `aws_sagemaker_endpoint_configuration` resources.
 

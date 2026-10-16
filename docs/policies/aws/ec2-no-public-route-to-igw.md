@@ -1,12 +1,12 @@
 # Route tables should not have unrestricted routes to an internet gateway
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Secure network configuration |
 
 ## Description
 
-This policy implements the AWS Config rule [no-unrestricted-route-to-igw](https://docs.aws.amazon.com/config/latest/developerguide/no-unrestricted-route-to-igw.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if there are public routes in the route table to an Internet gateway (IGW). The rule is NON_COMPLIANT if a route to an IGW has a destination CIDR block of '0.0.0.0/0' or '::/0' or if a destination CIDR block does not match the rule parameter.
+This policy checks if there are public routes in the route table to an Internet gateway (IGW). The policy fails if a route to an IGW has a destination CIDR block of '0.0.0.0/0' or '::/0' or if a destination CIDR block does not match the rule parameter.
 
 The policy evaluates `aws_route`, `aws_route_table` resources.
 

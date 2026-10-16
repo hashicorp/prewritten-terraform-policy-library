@@ -1,12 +1,12 @@
 # AWS Backup vaults should prevent manual deletion of recovery points
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Data deletion protection |
 
 ## Description
 
-This policy implements the AWS Config rule [backup-recovery-point-manual-deletion-disabled](https://docs.aws.amazon.com/config/latest/developerguide/backup-recovery-point-manual-deletion-disabled.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if a backup vault has an attached resource-based policy which prevents deletion of recovery points. The rule is NON_COMPLIANT if the Backup Vault does not have resource-based policies or has policies without a suitable 'Deny' statement (statement with backup:DeleteRecoveryPoint, backup:UpdateRecoveryPointLifecycle, and backup:PutBackupVaultAccessPolicy permissions).
+This policy checks if a backup vault has an attached resource-based policy which prevents deletion of recovery points. The policy fails if the Backup Vault does not have resource-based policies or has policies without a suitable 'Deny' statement (statement with backup:DeleteRecoveryPoint, backup:UpdateRecoveryPointLifecycle, and backup:PutBackupVaultAccessPolicy permissions).
 
 The policy evaluates `aws_backup_vault` resources.
 

@@ -1,16 +1,16 @@
 # RDS databases should have a recent recovery point
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Backups enabled |
 
 ## Description
 
-This policy implements the AWS Config rule [rds-last-backup-recovery-point-created](https://docs.aws.amazon.com/config/latest/developerguide/rds-last-backup-recovery-point-created.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if a recovery point was created for Amazon Relational Database Service (Amazon RDS). The rule is NON_COMPLIANT if the Amazon RDS instance does not have a corresponding recovery point created within the specified time period.
+This policy checks if a recovery point was created for Amazon Relational Database Service (Amazon RDS). The policy fails if the Amazon RDS instance does not have a corresponding recovery point created within the specified time period.
 
 The policy evaluates `aws_db_instance`, `aws_rds_cluster` resources.
 
-The AWS Config rule `rds-last-backup-recovery-point-created` checks that a recovery point was actually created within the time period. Recovery points are runtime state and are not visible in a Terraform plan, so this policy checks the configuration that produces them. An `aws_db_instance` or `aws_rds_cluster` passes only when **both** conditions hold:
+The underlying requirement checks that a recovery point was actually created within the time period. Recovery points are runtime state and are not visible in a Terraform plan, so this policy checks the configuration that produces them. An `aws_db_instance` or `aws_rds_cluster` passes only when **both** conditions hold:
 
 1. **Covered by an AWS Backup selection.** An `aws_backup_selection` in the same plan selects the database, either by ARN in `resources` (exact ARN, a `:*` wildcard, or an ARN ending in the identifier) or by `selection_tag` entries that all match the database's tags. The selection is only counted when its `plan_id` matches an `aws_backup_plan` and its `iam_role_arn` matches an `aws_iam_role` that are also in the plan.
 2. **Automated backups enabled.** `backup_retention_period` is greater than 0.

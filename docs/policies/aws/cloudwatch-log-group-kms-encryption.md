@@ -1,12 +1,12 @@
 # CloudWatch log groups should be encrypted with AWS KMS keys
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Encryption of data-at-rest |
 
 ## Description
 
-This policy implements the AWS Config rule [cloudwatch-log-group-encrypted](https://docs.aws.amazon.com/config/latest/developerguide/cloudwatch-log-group-encrypted.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if Amazon CloudWatch Log Groups are encrypted with any AWS KMS key or a specified AWS KMS key Id. The rule is NON_COMPLIANT if a CloudWatch Log Group is not encrypted with a KMS key or is encrypted with a KMS key not supplied in the rule parameter.
+This policy checks if Amazon CloudWatch Log Groups are encrypted with any AWS KMS key or a specified AWS KMS key Id. The policy fails if a CloudWatch Log Group is not encrypted with a KMS key or is encrypted with a KMS key not supplied in the rule parameter.
 
 The policy evaluates `aws_cloudwatch_log_group` resources.
 

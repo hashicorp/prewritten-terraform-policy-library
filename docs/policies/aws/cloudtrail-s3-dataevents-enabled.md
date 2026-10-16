@@ -1,12 +1,12 @@
 # At least one CloudTrail trail should log Amazon S3 data events
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Logging |
 
 ## Description
 
-This policy implements the AWS Config rule [cloudtrail-s3-dataevents-enabled](https://docs.aws.amazon.com/config/latest/developerguide/cloudtrail-s3-dataevents-enabled.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if at least one AWS CloudTrail trail is logging Amazon Simple Storage Service (Amazon S3) data events for all S3 buckets. The rule is NON_COMPLIANT if there are trails or if no trails record S3 data events.
+This policy checks if at least one AWS CloudTrail trail is logging Amazon Simple Storage Service (Amazon S3) data events for all S3 buckets. The policy fails if there are trails or if no trails record S3 data events.
 
 The policy evaluates `aws_cloudtrail` resources.
 

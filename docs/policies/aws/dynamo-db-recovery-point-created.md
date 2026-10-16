@@ -1,22 +1,22 @@
 # DynamoDB tables should have a recent recovery point
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Backups enabled |
 
 ## Description
 
-This policy implements the AWS Config rule [dynamodb-last-backup-recovery-point-created](https://docs.aws.amazon.com/config/latest/developerguide/dynamodb-last-backup-recovery-point-created.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if a recovery point was created for Amazon DynamoDB Tables within the specified period. The rule is NON_COMPLIANT if the DynamoDB Table does not have a corresponding recovery point created within the specified time period.
+This policy checks if a recovery point was created for Amazon DynamoDB Tables within the specified period. The policy fails if the DynamoDB Table does not have a corresponding recovery point created within the specified time period.
 
 The policy evaluates `aws_dynamodb_table` resources.
 
-The AWS Config rule checks that a recovery point was actually created within the time period. Recovery points are runtime state and are not visible in a Terraform plan, so this policy checks the configuration that produces them: the table passes when an `aws_backup_selection` selects the table (by ARN, name, wildcard or `selection_tag`) for a backup plan with a compliant schedule.
+The underlying requirement checks that a recovery point was actually created within the time period. Recovery points are runtime state and are not visible in a Terraform plan, so this policy checks the configuration that produces them: the table passes when an `aws_backup_selection` selects the table (by ARN, name, wildcard or `selection_tag`) for a backup plan with a compliant schedule.
 
 - **Schedule:** a backup plan counts only if one of its rules runs at least every `dynamo-db-recovery-point-created-recovery_point_age_value` `dynamo-db-recovery-point-created-recovery_point_age_unit` (default 1 day). `rate()` and `cron()` schedules are supported.
 - **Same plan only:** the `aws_backup_selection` and `aws_backup_plan` must be in the same plan. When the backup plan is created in the same plan, `aws_backup_selection.plan_id` is unknown until apply, so the result is unknown rather than pass.
 - **Null-safe:** selections without `resources`, `not_resources`, `selection_tag` or `condition` are handled.
 - **Inputs and globals are prefixed** with the policy name so this policy can share a policy set with the other recovery-point policies.
-- **Point-in-time recovery does not count:** the AWS Config rule checks AWS Backup recovery points, so enabling PITR alone does not pass. `dynamodb-pitr-enabled` checks PITR separately.
+- **Point-in-time recovery does not count:** the requirement is for AWS Backup recovery points, so enabling PITR alone does not pass. `dynamodb-pitr-enabled` checks PITR separately.
 - **Cron schedules** count as daily only when day-of-month and day-of-week are `*` or `?` and month is `*`; weekly, monthly and unrecognised schedules count as 30 days.
 
 This rule is covered by the [dynamo-db-recovery-point-created](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dynamo-db-recovery-point-created.policy.hcl) policy.

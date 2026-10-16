@@ -1,12 +1,12 @@
 # Secrets Manager secrets should be encrypted with customer managed AWS KMS keys
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Encryption of data-at-rest |
 
 ## Description
 
-This policy implements the AWS Config rule [secretsmanager-using-cmk](https://docs.aws.amazon.com/config/latest/developerguide/secretsmanager-using-cmk.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if all secrets in AWS Secrets Manager are encrypted using the AWS managed key (aws/secretsmanager)         or a customer managed key that was created in AWS Key Management Service (AWS KMS). The rule is COMPLIANT if a secret is encrypted using a customer managed key.         This rule is NON_COMPLIANT if a secret is encrypted using aws/secretsmanager.
+This policy checks if all secrets in AWS Secrets Manager are encrypted using the AWS managed key (aws/secretsmanager) or a customer managed key that was created in AWS Key Management Service (AWS KMS). The policy passes if a secret is encrypted using a customer managed key. The policy fails if a secret is encrypted using aws/secretsmanager.
 
 The policy evaluates `aws_secretsmanager_secret` resources.
 

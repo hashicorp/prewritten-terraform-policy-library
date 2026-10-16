@@ -1,12 +1,12 @@
 # Athena workgroups should be encrypted at rest
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Encryption of data-at-rest |
 
 ## Description
 
-This policy implements the AWS Config rule [athena-workgroup-encrypted-at-rest](https://docs.aws.amazon.com/config/latest/developerguide/athena-workgroup-encrypted-at-rest.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if an Amazon Athena workgroup is encrypted at rest. The rule is NON_COMPLIANT if encryption of data at rest is not enabled for an Athena workgroup.
+This policy checks if an Amazon Athena workgroup is encrypted at rest. The policy fails if encryption of data at rest is not enabled for an Athena workgroup.
 
 The policy evaluates `aws_athena_workgroup` resources.
 

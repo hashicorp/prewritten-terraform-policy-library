@@ -1,12 +1,12 @@
 # Internet gateways should be attached only to authorized VPCs
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Secure network configuration |
 
 ## Description
 
-This policy implements the AWS Config rule [internet-gateway-authorized-vpc-only](https://docs.aws.amazon.com/config/latest/developerguide/internet-gateway-authorized-vpc-only.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if internet gateways are attached to an authorized virtual private cloud (Amazon VPC). The rule is NON_COMPLIANT if internet gateways are attached to an unauthorized VPC.
+This policy checks if internet gateways are attached to an authorized virtual private cloud (Amazon VPC). The policy fails if internet gateways are attached to an unauthorized VPC.
 
 The policy evaluates `aws_internet_gateway`, `aws_internet_gateway_attachment` resources.
 

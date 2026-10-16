@@ -1,12 +1,12 @@
 # EC2 instances should have a recent recovery point
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Backups enabled |
 
 ## Description
 
-This policy implements the AWS Config rule [ec2-last-backup-recovery-point-created](https://docs.aws.amazon.com/config/latest/developerguide/ec2-last-backup-recovery-point-created.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if a recovery point was created for Amazon Elastic Compute Cloud (Amazon EC2) instances. The rule is NON_COMPLIANT if the Amazon EC2 instance does not have a corresponding recovery point created within the specified time period.
+This policy checks if a recovery point was created for Amazon Elastic Compute Cloud (Amazon EC2) instances. The policy fails if the Amazon EC2 instance does not have a corresponding recovery point created within the specified time period.
 
 The policy evaluates `aws_instance` resources.
 

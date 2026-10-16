@@ -1,12 +1,12 @@
 # Auto Scaling groups with multiple instance types should have Capacity Rebalancing enabled
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Resilience |
 
 ## Description
 
-This policy implements the AWS Config rule [autoscaling-capacity-rebalancing](https://docs.aws.amazon.com/config/latest/developerguide/autoscaling-capacity-rebalancing.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if Capacity Rebalancing is enabled for Amazon EC2 Auto Scaling groups that use multiple instance types. The rule is NON_COMPLIANT if capacity Rebalancing is not enabled.
+This policy checks if Capacity Rebalancing is enabled for Amazon EC2 Auto Scaling groups that use multiple instance types. The policy fails if capacity Rebalancing is not enabled.
 
 The policy evaluates `aws_autoscaling_group` resources.
 

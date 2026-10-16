@@ -1,12 +1,12 @@
 # Security groups should be attached to an elastic network interface
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Inventory |
 
 ## Description
 
-This policy implements the AWS Config rule [ec2-security-group-attached-to-eni-periodic](https://docs.aws.amazon.com/config/latest/developerguide/ec2-security-group-attached-to-eni-periodic.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if non-default security groups are attached to Elastic network interfaces (ENIs). The rule is NON_COMPLIANT if the security group is not associated with an ENI. Security groups not owned by the calling account evaluate as NOT_APPLICABLE.
+This policy checks if non-default security groups are attached to Elastic network interfaces (ENIs). The policy fails if the security group is not associated with an ENI. Security groups not owned by the calling account evaluate as NOT_APPLICABLE.
 
 The policy evaluates `aws_security_group` resources.
 

@@ -1,12 +1,12 @@
 # EMR clusters should have Kerberos authentication enabled
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Secure access management |
 
 ## Description
 
-This policy implements the AWS Config rule [emr-kerberos-enabled](https://docs.aws.amazon.com/config/latest/developerguide/emr-kerberos-enabled.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if Amazon EMR clusters have Kerberos enabled. The rule is NON_COMPLIANT if a security configuration is not attached to the cluster or the security configuration does not satisfy the specified rule parameters.
+This policy checks if Amazon EMR clusters have Kerberos enabled. The policy fails if a security configuration is not attached to the cluster or the security configuration does not satisfy the specified rule parameters.
 
 The policy evaluates `aws_emr_cluster` resources.
 

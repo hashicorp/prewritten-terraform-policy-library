@@ -1,12 +1,12 @@
 # Network Load Balancers should have cross-zone load balancing enabled
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Resilience |
 
 ## Description
 
-This policy implements the AWS Config rule [nlb-cross-zone-load-balancing-enabled](https://docs.aws.amazon.com/config/latest/developerguide/nlb-cross-zone-load-balancing-enabled.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if cross-zone load balancing is enabled on Network Load Balancers (NLBs). The rule is NON_COMPLIANT if cross-zone load balancing is not enabled for an NLB.
+This policy checks if cross-zone load balancing is enabled on Network Load Balancers (NLBs). The policy fails if cross-zone load balancing is not enabled for an NLB.
 
 The policy evaluates `aws_lb` resources.
 

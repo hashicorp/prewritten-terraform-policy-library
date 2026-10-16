@@ -1,12 +1,12 @@
 # IAM roles should have the required managed policies attached
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Secure access management |
 
 ## Description
 
-This policy implements the AWS Config rule [iam-role-managed-policy-check](https://docs.aws.amazon.com/config/latest/developerguide/iam-role-managed-policy-check.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if all managed policies specified in the list of managed policies are attached to the AWS Identity and Access Management (IAM) role. The rule is NON_COMPLIANT if a managed policy is not attached to the IAM role.
+This policy checks if all managed policies specified in the list of managed policies are attached to the AWS Identity and Access Management (IAM) role. The policy fails if a managed policy is not attached to the IAM role.
 
 The policy evaluates `aws_iam_role` resources.
 

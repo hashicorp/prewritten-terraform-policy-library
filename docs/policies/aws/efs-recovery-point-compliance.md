@@ -1,16 +1,16 @@
 # EFS file systems should have a recent recovery point
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Backups enabled |
 
 ## Description
 
-This policy implements the AWS Config rule [efs-last-backup-recovery-point-created](https://docs.aws.amazon.com/config/latest/developerguide/efs-last-backup-recovery-point-created.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if a recovery point was created for Amazon Elastic File System (Amazon EFS) File Systems. The rule is NON_COMPLIANT if the Amazon EFS File System does not have a corresponding Recovery Point created within the specified time period.
+This policy checks if a recovery point was created for Amazon Elastic File System (Amazon EFS) File Systems. The policy fails if the Amazon EFS File System does not have a corresponding Recovery Point created within the specified time period.
 
 The policy evaluates `aws_efs_file_system` resources.
 
-The AWS Config rule checks that a recovery point was actually created within the time period. Recovery points are runtime state and are not visible in a Terraform plan, so this policy checks the configuration that produces them: the file system passes when an `aws_backup_selection` selects it (by ARN, ID, wildcard, `selection_tag` or `condition`, honoring `not_resources`) for a backup plan with a compliant schedule.
+The underlying requirement checks that a recovery point was actually created within the time period. Recovery points are runtime state and are not visible in a Terraform plan, so this policy checks the configuration that produces them: the file system passes when an `aws_backup_selection` selects it (by ARN, ID, wildcard, `selection_tag` or `condition`, honoring `not_resources`) for a backup plan with a compliant schedule.
 
 - **Schedule:** a backup plan counts only if one of its rules runs at least every `efs-recovery-point-compliance-recovery_point_age_value` `efs-recovery-point-compliance-recovery_point_age_unit` (default 1 day). `rate()` and `cron()` schedules are supported.
 - **Same plan only:** the `aws_backup_selection` and `aws_backup_plan` must be in the same plan. When the backup plan is created in the same plan, `aws_backup_selection.plan_id` is unknown until apply, so the result is unknown rather than pass.

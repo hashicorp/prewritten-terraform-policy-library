@@ -1,12 +1,12 @@
 # DynamoDB tables should be encrypted at rest
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Encryption of data-at-rest |
 
 ## Description
 
-This policy implements the AWS Config rule [dynamodb-table-encryption-enabled](https://docs.aws.amazon.com/config/latest/developerguide/dynamodb-table-encryption-enabled.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if the Amazon DynamoDB tables are encrypted and checks their status. The rule is COMPLIANT if the status is enabled or enabling.
+This policy checks if the Amazon DynamoDB tables are encrypted and checks their status. The policy passes if the status is enabled or enabling.
 
 The policy evaluates `aws_dynamodb_table` resources.
 

@@ -1,12 +1,12 @@
 # CodeBuild project environments should not have privileged mode enabled
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Secure access management |
 
 ## Description
 
-This policy implements the AWS Config rule [codebuild-project-environment-privileged-check](https://docs.aws.amazon.com/config/latest/developerguide/codebuild-project-environment-privileged-check.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if an AWS CodeBuild project environment has privileged mode enabled. The rule is NON_COMPLIANT for a CodeBuild project if ‘privilegedMode’ is set to ‘true’.
+This policy checks if an AWS CodeBuild project environment has privileged mode enabled. The policy fails for a CodeBuild project if ‘privilegedMode’ is set to ‘true’.
 
 The policy evaluates `aws_codebuild_project` resources.
 

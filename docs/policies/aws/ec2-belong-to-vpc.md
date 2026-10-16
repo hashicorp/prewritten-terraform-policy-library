@@ -1,12 +1,12 @@
 # EC2 instances should belong to a VPC
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Resources within VPC |
 
 ## Description
 
-This policy implements the AWS Config rule [instances-in-vpc](https://docs.aws.amazon.com/config/latest/developerguide/ec2-instances-in-vpc.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. For this rule, the rule identifier (INSTANCES_IN_VPC) and rule name (ec2-instances-in-vpc) are different.
+This policy checks that EC2 instances are launched in a VPC. The policy fails if an instance has no subnet, VPC security group or network interface that places it in a VPC.
 
 The policy evaluates `aws_instance` resources.
 

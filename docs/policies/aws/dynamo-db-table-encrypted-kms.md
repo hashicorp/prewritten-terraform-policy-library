@@ -1,12 +1,12 @@
 # DynamoDB tables should be encrypted with AWS KMS keys
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Encryption of data-at-rest |
 
 ## Description
 
-This policy implements the AWS Config rule [dynamodb-table-encrypted-kms](https://docs.aws.amazon.com/config/latest/developerguide/dynamodb-table-encrypted-kms.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if Amazon DynamoDB table is encrypted with AWS Key Management Service (KMS). The rule is NON_COMPLIANT if Amazon DynamoDB table is not encrypted with AWS KMS. 				The rule is also NON_COMPLIANT if the encrypted AWS KMS key is not present in kmsKeyArns input parameter.
+This policy checks if Amazon DynamoDB table is encrypted with AWS Key Management Service (KMS). The policy fails if Amazon DynamoDB table is not encrypted with AWS KMS. It also fails if the KMS key is not in the allowed key list input.
 
 The policy evaluates `aws_dynamodb_table` resources.
 

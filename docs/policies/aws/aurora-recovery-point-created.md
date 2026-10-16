@@ -1,12 +1,12 @@
 # Aurora DB clusters should have a recent recovery point
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Backups enabled |
 
 ## Description
 
-This policy implements the AWS Config rule [aurora-last-backup-recovery-point-created](https://docs.aws.amazon.com/config/latest/developerguide/aurora-last-backup-recovery-point-created.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if a recovery point was created for Amazon Aurora DB clusters. The rule is NON_COMPLIANT if the Amazon Relational Database Service (Amazon RDS) DB Cluster does not have a corresponding recovery point created within the specified time period.
+This policy checks if a recovery point was created for Amazon Aurora DB clusters. The policy fails if the Amazon Relational Database Service (Amazon RDS) DB Cluster does not have a corresponding recovery point created within the specified time period.
 
 The policy evaluates `aws_rds_cluster` resources.
 

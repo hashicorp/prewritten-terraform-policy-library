@@ -1,12 +1,12 @@
 # Custom EventBridge schema registries should have a resource policy attached
 
-| Provider            | Category |
+| Provider | Category |
 | ------------------- | -------- |
 | Amazon Web Services | Secure access management |
 
 ## Description
 
-This policy implements the AWS Config rule [custom-schema-registry-policy-attached](https://docs.aws.amazon.com/config/latest/developerguide/custom-schema-registry-policy-attached.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if custom Amazon EventBridge schema registries have a resource policy attached. The rule is NON_COMPLIANT for custom schema registries without a resource policy attached.
+This policy checks if custom Amazon EventBridge schema registries have a resource policy attached. The policy fails for custom schema registries without a resource policy attached.
 
 The policy evaluates `aws_schemas_registry` resources.
 
