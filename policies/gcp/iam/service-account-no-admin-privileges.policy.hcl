@@ -73,7 +73,7 @@ resource_policy "google_project_iam_policy" "service_accounts_must_not_have_admi
   locals {
     violations = [
       for binding in local.normalized_bindings : binding
-      if (
+      if(
         binding.role == "roles/editor" ||
         binding.role == "roles/owner" ||
         core::contains_substring(binding.role, "Admin") ||

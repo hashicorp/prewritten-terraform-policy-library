@@ -6,7 +6,7 @@ policytest {
 
 resource "google_apikeys_key" "pass_single_target" {
   attrs = {
-    name = "key-pass-1"
+    name         = "key-pass-1"
     restrictions = [{ api_targets = [{ service = "translate.googleapis.com", methods = [] }] }]
   }
 }
@@ -24,7 +24,7 @@ resource "google_apikeys_key" "pass_multi_target" {
 resource "google_apikeys_key" "fail_browser_only" {
   expect_failure = true
   attrs = {
-    name = "key-fail-browser"
+    name         = "key-fail-browser"
     restrictions = [{ browser_key_restrictions = [{ allowed_referrers = [".*\\.example\\.com"] }] }]
   }
 }

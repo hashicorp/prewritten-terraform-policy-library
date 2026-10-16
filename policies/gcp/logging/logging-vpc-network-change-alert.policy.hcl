@@ -39,9 +39,9 @@ resource_policy "google_logging_metric" "vpc_network_change_metric_and_alert" {
     name       = local.name_raw == null ? "" : local.name_raw
     filter_raw = core::try(attrs.filter, null)
     filter     = local.filter_raw == null ? "" : local.filter_raw
-    in_scope = local.filter == "" || core::contains_substring(local.filter, "gce_network") || core::contains_substring(local.filter, "compute.networks.")
-    is_vpc  = core::contains(local.network_metric_names, local.name)
-    alerted = local.name != "" && core::length([for filter in local.enabled_network_alert_filters : filter if core::try(core::regex("logging\\.googleapis\\.com/user/${local.name}([^A-Za-z0-9_./-]|$)", filter), null) != null]) > 0
+    in_scope   = local.filter == "" || core::contains_substring(local.filter, "gce_network") || core::contains_substring(local.filter, "compute.networks.")
+    is_vpc     = core::contains(local.network_metric_names, local.name)
+    alerted    = local.name != "" && core::length([for filter in local.enabled_network_alert_filters : filter if core::try(core::regex("logging\\.googleapis\\.com/user/${local.name}([^A-Za-z0-9_./-]|$)", filter), null) != null]) > 0
   }
   filter = local.in_scope
 

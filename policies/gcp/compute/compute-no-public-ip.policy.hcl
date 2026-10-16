@@ -20,7 +20,7 @@ resource_policy "google_compute_instance" "no_public_ip_addresses" {
   locals {
     network_interfaces_raw = core::try(attrs.network_interface, null)
     network_interfaces     = local.network_interfaces_raw != null ? local.network_interfaces_raw : []
-    public_interfaces = [for interface in local.network_interfaces : interface if core::length(core::try(interface.access_config, null) != null ? core::try(interface.access_config, []) : []) > 0 || core::length(core::try(interface.ipv6_access_config, null) != null ? core::try(interface.ipv6_access_config, []) : []) > 0]
+    public_interfaces      = [for interface in local.network_interfaces : interface if core::length(core::try(interface.access_config, null) != null ? core::try(interface.access_config, []) : []) > 0 || core::length(core::try(interface.ipv6_access_config, null) != null ? core::try(interface.ipv6_access_config, []) : []) > 0]
   }
 
   enforcement_level = input.compute-no-public-ip-enforcement-level

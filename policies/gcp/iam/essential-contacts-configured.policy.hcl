@@ -28,11 +28,11 @@ resource_policy "google_essential_contacts_contact" "essential_contacts_org" {
     cats       = core::try([for c in attrs.notification_category_subscriptions : c if c != null], [])
 
     org_contacts = [for r in local.all_contacts : r if core::try(r.parent, null) == local.parent && local.parent != ""]
-    covered = core::flatten([for r in local.org_contacts : core::try([for c in r.notification_category_subscriptions : c if c != null], []) if core::try(core::trimspace(core::try(r.email, "")), "") != ""])
+    covered      = core::flatten([for r in local.org_contacts : core::try([for c in r.notification_category_subscriptions : c if c != null], []) if core::try(core::trimspace(core::try(r.email, "")), "") != ""])
 
-    has_all     = core::contains(local.covered, "ALL")
-    has_four    = core::contains(local.covered, "LEGAL") && core::contains(local.covered, "SECURITY") && core::contains(local.covered, "SUSPENSION") && core::contains(local.covered, "TECHNICAL")
-    self_ok     = local.email != "" && core::length(local.cats) > 0
+    has_all  = core::contains(local.covered, "ALL")
+    has_four = core::contains(local.covered, "LEGAL") && core::contains(local.covered, "SECURITY") && core::contains(local.covered, "SUSPENSION") && core::contains(local.covered, "TECHNICAL")
+    self_ok  = local.email != "" && core::length(local.cats) > 0
   }
 
   filter = core::try(core::startswith(local.parent, "organizations/"), false)

@@ -31,9 +31,9 @@ resource "google_logging_metric" "fail_wrong_alert_reference" {
 resource "google_monitoring_alert_policy" "wrong_alert_reference" {
   skip = true
   attrs = {
-    display_name = "sql-wrong-alert-reference"
-    combiner     = "OR"
-    enabled      = true
+    display_name          = "sql-wrong-alert-reference"
+    combiner              = "OR"
+    enabled               = true
     notification_channels = ["projects/my-project/notificationChannels/1234567890"]
     conditions = [{
       display_name = "sql-change"
@@ -58,9 +58,9 @@ resource "google_logging_metric" "fail_disabled_alert" {
 resource "google_monitoring_alert_policy" "disabled_alert" {
   skip = true
   attrs = {
-    display_name = "sql-disabled-alert"
-    combiner     = "OR"
-    enabled      = false
+    display_name          = "sql-disabled-alert"
+    combiner              = "OR"
+    enabled               = false
     notification_channels = ["projects/my-project/notificationChannels/1234567890"]
     conditions = [{
       display_name = "sql-change"
@@ -111,9 +111,9 @@ resource "google_logging_metric" "fail_absent_condition_only" {
 resource "google_monitoring_alert_policy" "absent_condition_only" {
   skip = true
   attrs = {
-    display_name = "sql-absent-only"
-    combiner     = "OR"
-    enabled      = true
+    display_name          = "sql-absent-only"
+    combiner              = "OR"
+    enabled               = true
     notification_channels = ["projects/my-project/notificationChannels/1234567890"]
     conditions = [{
       display_name = "sql-change-absent"

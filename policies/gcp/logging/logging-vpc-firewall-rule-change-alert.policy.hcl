@@ -55,9 +55,9 @@ locals {
 
 resource_policy "google_logging_metric" "firewall_rule_change_metric_and_alert" {
   locals {
-    name_raw   = core::try(attrs.name, null)
-    name       = local.name_raw == null ? "" : local.name_raw
-    compliant  = core::contains(local.firewall_metric_names, local.name) && core::contains(local.matched_firewall_pairs, local.name)
+    name_raw  = core::try(attrs.name, null)
+    name      = local.name_raw == null ? "" : local.name_raw
+    compliant = core::contains(local.firewall_metric_names, local.name) && core::contains(local.matched_firewall_pairs, local.name)
   }
   filter = core::try(core::contains_substring(attrs.filter, "gce_firewall_rule"), false) || core::try(core::contains_substring(attrs.filter, "compute.firewalls."), false)
 

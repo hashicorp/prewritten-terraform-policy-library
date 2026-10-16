@@ -106,8 +106,8 @@ resource_policy "google_compute_project_metadata_item" "project_serial_port_item
   filter = core::try(attrs.key, "") == "serial-port-enable"
 
   locals {
-    value_raw     = core::try(attrs.value, null)
-    value_falsy   = local.value_raw == null ? true : core::contains(["false", "n", "no", "0"], core::lower(local.value_raw))
+    value_raw   = core::try(attrs.value, null)
+    value_falsy = local.value_raw == null ? true : core::contains(["false", "n", "no", "0"], core::lower(local.value_raw))
   }
 
   enforcement_level = input.compute-serial-port-access-disabled-enforcement-level

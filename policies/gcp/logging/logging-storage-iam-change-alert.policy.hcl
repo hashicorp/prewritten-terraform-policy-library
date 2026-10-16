@@ -34,7 +34,7 @@ locals {
 
   alerted_storage_iam_metric_names = [
     for name in local.matching_storage_iam_metric_names : name
-    if core::length([for policy in local.eligible_storage_iam_policies : policy if core::length([for condition in core::try([for item in policy.conditions : item], []) : condition if core::length([for threshold in core::try([for item in condition.condition_threshold : item], []) : threshold if (core::length(core::split("logging.googleapis.com/user/${name}\"", core::try(threshold.filter, ""))) > 1 || core::length(core::split("logging.googleapis.com/user/${name}\\\"", core::try(threshold.filter, ""))) > 1 || core::length(core::split("logging.googleapis.com/user/${name} ", core::try(threshold.filter, ""))) > 1 || core::endswith(core::try(threshold.filter, ""), "logging.googleapis.com/user/${name}"))]) > 0]) > 0]) > 0
+    if core::length([for policy in local.eligible_storage_iam_policies : policy if core::length([for condition in core::try([for item in policy.conditions : item], []) : condition if core::length([for threshold in core::try([for item in condition.condition_threshold : item], []) : threshold if(core::length(core::split("logging.googleapis.com/user/${name}\"", core::try(threshold.filter, ""))) > 1 || core::length(core::split("logging.googleapis.com/user/${name}\\\"", core::try(threshold.filter, ""))) > 1 || core::length(core::split("logging.googleapis.com/user/${name} ", core::try(threshold.filter, ""))) > 1 || core::endswith(core::try(threshold.filter, ""), "logging.googleapis.com/user/${name}"))]) > 0]) > 0]) > 0
   ]
 
 }
@@ -56,10 +56,10 @@ resource_policy "google_logging_metric" "gcs_iam_change_metric_and_alert" {
 
 resource_policy "google_monitoring_alert_policy" "gcs_iam_change_metric_and_alert" {
   locals {
-    filters = core::flatten([for condition in core::try([for item in attrs.conditions : item], []) : [for threshold in core::try([for item in condition.condition_threshold : item], []) : core::try(threshold.filter, "")]])
+    filters                       = core::flatten([for condition in core::try([for item in attrs.conditions : item], []) : [for threshold in core::try([for item in condition.condition_threshold : item], []) : core::try(threshold.filter, "")]])
     references_storage_iam_metric = core::length([for name in local.matching_storage_iam_metric_names : name if name != "" && core::length([for filter in local.filters : filter if core::try(core::regex("logging\\.googleapis\\.com/user/${name}([^A-Za-z0-9_./-]|$)", filter), null) != null]) > 0]) > 0
-    enabled_raw = core::try(attrs.enabled, null)
-    has_channel = core::length([for channel in core::try([for item in attrs.notification_channels : item], []) : channel if channel != null && channel != ""]) > 0
+    enabled_raw                   = core::try(attrs.enabled, null)
+    has_channel                   = core::length([for channel in core::try([for item in attrs.notification_channels : item], []) : channel if channel != null && channel != ""]) > 0
   }
   filter = local.references_storage_iam_metric
 

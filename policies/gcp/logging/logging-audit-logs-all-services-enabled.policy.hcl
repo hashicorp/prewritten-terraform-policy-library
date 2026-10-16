@@ -18,10 +18,10 @@ input "logging-audit-logs-all-services-enabled-enforcement-level" {
 
 resource_policy "google_project_iam_audit_config" "project_audit_config" {
   locals {
-    service_raw = core::try(attrs.service, null)
-    service     = local.service_raw == null ? "" : local.service_raw
-    configs   = core::try([for c in attrs.audit_log_config : c], [])
-    log_types = [for c in local.configs : core::try(c.log_type, null) == null ? "" : c.log_type]
+    service_raw      = core::try(attrs.service, null)
+    service          = local.service_raw == null ? "" : local.service_raw
+    configs          = core::try([for c in attrs.audit_log_config : c], [])
+    log_types        = [for c in local.configs : core::try(c.log_type, null) == null ? "" : c.log_type]
     exempted         = core::flatten([for c in local.configs : core::try([for m in c.exempted_members : m], [])])
     no_exemptions    = core::length(local.exempted) == 0
     is_all_services  = local.service == "allServices"
@@ -38,10 +38,10 @@ resource_policy "google_project_iam_audit_config" "project_audit_config" {
 
 resource_policy "google_folder_iam_audit_config" "folder_audit_config" {
   locals {
-    service_raw = core::try(attrs.service, null)
-    service     = local.service_raw == null ? "" : local.service_raw
-    configs   = core::try([for c in attrs.audit_log_config : c], [])
-    log_types = [for c in local.configs : core::try(c.log_type, null) == null ? "" : c.log_type]
+    service_raw      = core::try(attrs.service, null)
+    service          = local.service_raw == null ? "" : local.service_raw
+    configs          = core::try([for c in attrs.audit_log_config : c], [])
+    log_types        = [for c in local.configs : core::try(c.log_type, null) == null ? "" : c.log_type]
     exempted         = core::flatten([for c in local.configs : core::try([for m in c.exempted_members : m], [])])
     no_exemptions    = core::length(local.exempted) == 0
     is_all_services  = local.service == "allServices"
@@ -58,10 +58,10 @@ resource_policy "google_folder_iam_audit_config" "folder_audit_config" {
 
 resource_policy "google_organization_iam_audit_config" "organization_audit_config" {
   locals {
-    service_raw = core::try(attrs.service, null)
-    service     = local.service_raw == null ? "" : local.service_raw
-    configs   = core::try([for c in attrs.audit_log_config : c], [])
-    log_types = [for c in local.configs : core::try(c.log_type, null) == null ? "" : c.log_type]
+    service_raw      = core::try(attrs.service, null)
+    service          = local.service_raw == null ? "" : local.service_raw
+    configs          = core::try([for c in attrs.audit_log_config : c], [])
+    log_types        = [for c in local.configs : core::try(c.log_type, null) == null ? "" : c.log_type]
     exempted         = core::flatten([for c in local.configs : core::try([for m in c.exempted_members : m], [])])
     no_exemptions    = core::length(local.exempted) == 0
     is_all_services  = local.service == "allServices"

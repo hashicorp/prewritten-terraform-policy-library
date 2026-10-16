@@ -29,13 +29,13 @@ locals {
 
 resource_policy "google_storage_bucket" "log_sink_bucket_locked_retention" {
   locals {
-    name_raw         = core::try(attrs.name, null)
-    name             = local.name_raw == null ? "" : local.name_raw
-    rp_list          = core::try([for r in attrs.retention_policy : r], [])
-    period_raw       = core::try(local.rp_list[0].retention_period, null)
-    period           = local.period_raw == null ? "" : "${local.period_raw}"
-    locked_raw       = core::try(local.rp_list[0].is_locked, null)
-    locked           = local.locked_raw == null ? false : local.locked_raw
+    name_raw   = core::try(attrs.name, null)
+    name       = local.name_raw == null ? "" : local.name_raw
+    rp_list    = core::try([for r in attrs.retention_policy : r], [])
+    period_raw = core::try(local.rp_list[0].retention_period, null)
+    period     = local.period_raw == null ? "" : "${local.period_raw}"
+    locked_raw = core::try(local.rp_list[0].is_locked, null)
+    locked     = local.locked_raw == null ? false : local.locked_raw
   }
 
   filter = local.name != "" && core::contains(local.sink_bucket_names, local.name)

@@ -96,8 +96,8 @@ resource "google_logging_project_sink" "sink_b05" {
 resource "google_storage_bucket" "logs_b06" {
   expect_failure = true
   attrs = {
-    name     = "logs-b06"
-    location = "US"
+    name             = "logs-b06"
+    location         = "US"
     retention_policy = []
   }
 }
@@ -112,8 +112,8 @@ resource "google_logging_project_sink" "sink_b06" {
 resource "google_storage_bucket" "logs_b07" {
   expect_failure = true
   attrs = {
-    name     = "logs-b07"
-    location = "US"
+    name             = "logs-b07"
+    location         = "US"
     retention_policy = null
   }
 }
@@ -142,8 +142,8 @@ resource "google_logging_project_sink" "sink_bq" {
 resource "google_storage_bucket" "logs_folder_sink" {
   expect_failure = true
   attrs = {
-    name     = "logs-folder-sink"
-    location = "US"
+    name             = "logs-folder-sink"
+    location         = "US"
     retention_policy = [{ retention_period = "2592000", is_locked = false }]
   }
 }

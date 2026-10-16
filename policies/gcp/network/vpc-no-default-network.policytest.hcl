@@ -21,10 +21,10 @@ resource "google_compute_network" "default_network_fails" {
 
 resource "google_project" "auto_create_network_false_passes" {
   attrs = {
-    name                 = "My Project"
-    project_id           = "project-c"
-    org_id               = "1234567"
-    auto_create_network  = false
+    name                = "My Project"
+    project_id          = "project-c"
+    org_id              = "1234567"
+    auto_create_network = false
   }
 }
 

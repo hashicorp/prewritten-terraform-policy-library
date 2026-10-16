@@ -115,11 +115,11 @@ resource_policy "google_project_iam_member" "enforce_kms_separation_of_duties" {
       local.kms_admin_role,
     ]
     conflicts_in_bindings = [for binding in local.all_project_iam_bindings : binding
-      if core::try(binding.project, "") == local.project && core::contains(local.counterpart_roles, core::try(binding.role, "")) && core::contains(core::try(binding.members, null) != null ? binding.members : [], local.member)]
+    if core::try(binding.project, "") == local.project && core::contains(local.counterpart_roles, core::try(binding.role, "")) && core::contains(core::try(binding.members, null) != null ? binding.members : [], local.member)]
     conflicts_in_members = [for member_grant in local.all_project_iam_members : member_grant
-      if core::try(member_grant.project, "") == local.project && core::contains(local.counterpart_roles, core::try(member_grant.role, "")) && core::try(member_grant.member, "") == local.member]
+    if core::try(member_grant.project, "") == local.project && core::contains(local.counterpart_roles, core::try(member_grant.role, "")) && core::try(member_grant.member, "") == local.member]
     conflicts_in_policies = [for grant in local.kms_project_iam_policy_grants : grant
-      if grant.project == local.project && core::contains(local.counterpart_roles, grant.role) && core::contains(grant.members, local.member)]
+    if grant.project == local.project && core::contains(local.counterpart_roles, grant.role) && core::contains(grant.members, local.member)]
     has_conflict = core::length(local.conflicts_in_bindings) > 0 || core::length(local.conflicts_in_members) > 0 || core::length(local.conflicts_in_policies) > 0
   }
 

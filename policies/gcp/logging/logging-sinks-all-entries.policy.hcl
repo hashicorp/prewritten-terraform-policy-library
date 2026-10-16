@@ -23,7 +23,7 @@ locals {
     core::try([for r in core::getresources("google_logging_organization_sink", {}) : r], []),
     core::try([for r in core::getresources("google_logging_billing_account_sink", {}) : r], [])
   ])
-  qualifying_sinks = [for s in local.all_sinks : s if core::try(s.disabled, null) != true && (core::try(s.filter, null) == null ? "" : s.filter) == "" && (core::try(s.destination, null) == null ? "" : core::trimspace(s.destination)) != "" && core::length(core::try([for exclusion in s.exclusions : exclusion if core::try(exclusion.disabled, null) != true], [])) == 0]
+  qualifying_sinks  = [for s in local.all_sinks : s if core::try(s.disabled, null) != true && (core::try(s.filter, null) == null ? "" : s.filter) == "" && (core::try(s.destination, null) == null ? "" : core::trimspace(s.destination)) != "" && core::length(core::try([for exclusion in s.exclusions : exclusion if core::try(exclusion.disabled, null) != true], [])) == 0]
   has_all_logs_sink = core::length(local.qualifying_sinks) > 0
 }
 

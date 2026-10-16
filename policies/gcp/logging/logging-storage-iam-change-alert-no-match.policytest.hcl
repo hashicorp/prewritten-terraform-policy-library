@@ -22,7 +22,7 @@ resource "google_logging_metric" "fail_f3_alert_disabled" {
 
 resource "google_monitoring_alert_policy" "alert_f3" {
   expect_failure = true
-  skip = true
+  skip           = true
   attrs = {
     display_name = "alert_f3"
     combiner     = "OR"
@@ -49,7 +49,7 @@ resource "google_logging_metric" "fail_f5_alert_other_metric" {
 
 resource "google_monitoring_alert_policy" "alert_f5_other_metric" {
   expect_failure = true
-  skip = true
+  skip           = true
   attrs = {
     display_name = "alert_f5_other_metric"
     combiner     = "OR"
@@ -76,7 +76,7 @@ resource "google_logging_metric" "fail_missing_notification_channel" {
 
 resource "google_monitoring_alert_policy" "alert_missing_notification_channel" {
   expect_failure = true
-  skip = true
+  skip           = true
   attrs = {
     display_name = "alert-f7-no-channel"
     combiner     = "OR"
@@ -103,11 +103,11 @@ resource "google_logging_metric" "fail_absent_condition_only" {
 
 resource "google_monitoring_alert_policy" "alert_absent_condition_only" {
   expect_failure = true
-  skip = true
+  skip           = true
   attrs = {
-    display_name = "alert-f9-absent-only"
-    combiner     = "OR"
-    enabled      = true
+    display_name          = "alert-f9-absent-only"
+    combiner              = "OR"
+    enabled               = true
     notification_channels = ["projects/my-project/notificationChannels/1234567890"]
     conditions = [{
       display_name = "c-alert-f9-absent-only"

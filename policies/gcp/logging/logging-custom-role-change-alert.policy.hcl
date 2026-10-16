@@ -17,8 +17,8 @@ input "logging-custom-role-change-alert-enforcement-level" {
 }
 
 locals {
-  all_metrics = core::try([for m in core::getresources("google_logging_metric", {}) : m], [])
-  all_alerts  = core::try([for a in core::getresources("google_monitoring_alert_policy", {}) : a], [])
+  all_metrics                = core::try([for m in core::getresources("google_logging_metric", {}) : m], [])
+  all_alerts                 = core::try([for a in core::getresources("google_monitoring_alert_policy", {}) : a], [])
   custom_role_filter_pattern = "^\\s*resource\\.type\\s*=\\s*\"iam_role\"\\s+AND\\s+\\(\\s*protoPayload\\.methodName\\s*=\\s*\"google\\.iam\\.admin\\.v1\\.CreateRole\"\\s+OR\\s+protoPayload\\.methodName\\s*=\\s*\"google\\.iam\\.admin\\.v1\\.DeleteRole\"\\s+OR\\s+protoPayload\\.methodName\\s*=\\s*\"google\\.iam\\.admin\\.v1\\.UpdateRole\"\\s+OR\\s+protoPayload\\.methodName\\s*=\\s*\"google\\.iam\\.admin\\.v1\\.UndeleteRole\"\\s*\\)\\s*$"
 
   # Alert policies not explicitly disabled
@@ -45,11 +45,11 @@ provider_policy "google" "custom_role_changes_metric_alert_project" {
 
 resource_policy "google_logging_metric" "custom_role_changes_metric_alert" {
   locals {
-    f    = core::try(attrs.filter, null) == null ? "" : attrs.filter
-    name = core::try(attrs.name, null) == null ? "" : attrs.name
+    f            = core::try(attrs.filter, null) == null ? "" : attrs.filter
+    name         = core::try(attrs.name, null) == null ? "" : attrs.name
     is_candidate = local.f == "" || core::try(core::contains_substring(local.f, "iam_role"), false) || core::try(core::contains_substring(local.f, "google.iam.admin.v1."), false)
-    filter_ok = core::try(core::regex(local.custom_role_filter_pattern, local.f), null) != null
-    alert_ok  = local.name != "" && core::length([for af in local.enabled_alert_filters : af if core::try(core::regex("logging\\.googleapis\\.com/user/${local.name}([^A-Za-z0-9_./-]|$)", af), null) != null]) > 0
+    filter_ok    = core::try(core::regex(local.custom_role_filter_pattern, local.f), null) != null
+    alert_ok     = local.name != "" && core::length([for af in local.enabled_alert_filters : af if core::try(core::regex("logging\\.googleapis\\.com/user/${local.name}([^A-Za-z0-9_./-]|$)", af), null) != null]) > 0
   }
 
   filter = local.is_candidate
