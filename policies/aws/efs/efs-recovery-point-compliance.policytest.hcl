@@ -365,3 +365,354 @@ resource "aws_backup_selection" "selection_condition_no_tags_fail" {
     }]
   }
 }
+
+# ---- Cases merged from efs-recovery-point-compliance-4.policytest.hcl ----
+
+# Matches resourceId (filter passes), covered by resources = [arn] with a
+# compliant plan (rate(1 hours) = 1h <= 24h required) -> pass.
+resource "aws_efs_file_system" "resource_id_match_pass_f4" {
+  attrs = {
+    id             = "fs-00000014"
+    arn            = "arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000014"
+    creation_token = "efs-resource-id-match"
+    encrypted      = true
+    tags           = {}
+  }
+}
+
+resource "aws_backup_plan" "plan_for_resource_id_match_f4" {
+  skip = true
+  attrs = {
+    id   = "plan-for-resource-id-match"
+    name = "plan-for-resource-id-match"
+    rule = [{
+      rule_name         = "rule-for-resource-id-match"
+      target_vault_name = "vault-1"
+      schedule          = "rate(1 hours)"
+    }]
+  }
+}
+
+resource "aws_backup_selection" "selection_for_resource_id_match_f4" {
+  skip = true
+  attrs = {
+    id           = "selection-for-resource-id-match"
+    name         = "selection-for-resource-id-match"
+    plan_id      = "plan-for-resource-id-match"
+    iam_role_arn = "arn:aws:iam::123456789012:role/backup-role"
+    resources    = ["arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000014"]
+  }
+}
+
+
+# ---- Cases merged from efs-recovery-point-compliance-5.policytest.hcl ----
+
+# Matches resourceTags ({"Env":"prod"} == attrs.tags.Env), covered by
+# resources = [arn] with a compliant plan (rate(1 hours) = 1h <= 24h
+# required) -> pass.
+resource "aws_efs_file_system" "resource_tags_match_pass_f5" {
+  attrs = {
+    id             = "fs-00000016"
+    arn            = "arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000016"
+    creation_token = "efs-resource-tags-match"
+    encrypted      = true
+    tags = {
+      Env = "prod"
+    }
+  }
+}
+
+resource "aws_backup_plan" "plan_for_resource_tags_match_f5" {
+  skip = true
+  attrs = {
+    id   = "plan-for-resource-tags-match"
+    name = "plan-for-resource-tags-match"
+    rule = [{
+      rule_name         = "rule-for-resource-tags-match"
+      target_vault_name = "vault-1"
+      schedule          = "rate(1 hours)"
+    }]
+  }
+}
+
+resource "aws_backup_selection" "selection_for_resource_tags_match_f5" {
+  skip = true
+  attrs = {
+    id           = "selection-for-resource-tags-match"
+    name         = "selection-for-resource-tags-match"
+    plan_id      = "plan-for-resource-tags-match"
+    iam_role_arn = "arn:aws:iam::123456789012:role/backup-role"
+    resources    = ["arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000016"]
+  }
+}
+
+# Does NOT match resourceTags (tags.Env = "dev", not "prod") -> filtered
+# out entirely by matches_resource_tags(), so this policy never evaluates
+# it, even though it has no backup selection at all (which would otherwise
+# be a violation) -> expect pass (the resource_policy is a no-op for it).
+resource "aws_efs_file_system" "resource_tags_no_match_skipped_f5" {
+  attrs = {
+    id             = "fs-00000017"
+    arn            = "arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000017"
+    creation_token = "efs-resource-tags-no-match"
+    encrypted      = true
+    tags = {
+      Env = "dev"
+    }
+  }
+}
+
+# ---- Cases merged from efs-recovery-point-compliance-6.policytest.hcl ----
+
+# Covered by resources = [arn], plan has a rate(2 hours) rule (frequency
+# 2h) -> 2h <= 2h required -> pass.
+resource "aws_efs_file_system" "age_value_hours_compliant_pass_f6" {
+  attrs = {
+    id             = "fs-00000018"
+    arn            = "arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000018"
+    creation_token = "efs-age-value-hours-compliant"
+    encrypted      = true
+    tags           = {}
+  }
+}
+
+resource "aws_backup_plan" "plan_rate_2h_f6" {
+  skip = true
+  attrs = {
+    id   = "plan-rate-2h"
+    name = "plan-rate-2h"
+    rule = [{
+      rule_name         = "rule-rate-2h"
+      target_vault_name = "vault-1"
+      schedule          = "rate(2 hours)"
+    }]
+  }
+}
+
+resource "aws_backup_selection" "selection_age_value_hours_compliant_f6" {
+  skip = true
+  attrs = {
+    id           = "selection-age-value-hours-compliant"
+    name         = "selection-age-value-hours-compliant"
+    plan_id      = "plan-rate-2h"
+    iam_role_arn = "arn:aws:iam::123456789012:role/backup-role"
+    resources    = ["arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000018"]
+  }
+}
+
+
+resource "aws_backup_plan" "plan_rate_3h_f6" {
+  skip = true
+  attrs = {
+    id   = "plan-rate-3h"
+    name = "plan-rate-3h"
+    rule = [{
+      rule_name         = "rule-rate-3h"
+      target_vault_name = "vault-1"
+      schedule          = "rate(3 hours)"
+    }]
+  }
+}
+
+resource "aws_backup_selection" "selection_age_value_hours_noncompliant_f6" {
+  skip = true
+  attrs = {
+    id           = "selection-age-value-hours-noncompliant"
+    name         = "selection-age-value-hours-noncompliant"
+    plan_id      = "plan-rate-3h"
+    iam_role_arn = "arn:aws:iam::123456789012:role/backup-role"
+    resources    = ["arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000019"]
+  }
+}
+
+# ---- Cases merged from efs-recovery-point-compliance-7.policytest.hcl ----
+
+
+resource "aws_backup_plan" "plan_rate_48h_f7" {
+  skip = true
+  attrs = {
+    id   = "plan-rate-48h-v2"
+    name = "plan-rate-48h-v2"
+    rule = [{
+      rule_name         = "rule-rate-48h-v2"
+      target_vault_name = "vault-1"
+      schedule          = "rate(2 days)"
+    }]
+  }
+}
+
+resource "aws_backup_selection" "selection_age_value_days_compliant_f7" {
+  skip = true
+  attrs = {
+    id           = "selection-age-value-days-compliant"
+    name         = "selection-age-value-days-compliant"
+    plan_id      = "plan-rate-48h-v2"
+    iam_role_arn = "arn:aws:iam::123456789012:role/backup-role"
+    resources    = ["arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000020"]
+  }
+}
+
+# Covered by resources = [arn], plan has a rate(3 days) rule (frequency
+# 72h) -> 72h > 48h required -> violation.
+resource "aws_efs_file_system" "age_value_days_noncompliant_fail_f7" {
+  expect_failure = true
+  attrs = {
+    id             = "fs-00000021"
+    arn            = "arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000021"
+    creation_token = "efs-age-value-days-noncompliant"
+    encrypted      = true
+    tags           = {}
+  }
+}
+
+resource "aws_backup_plan" "plan_rate_72h_f7" {
+  skip = true
+  attrs = {
+    id   = "plan-rate-72h"
+    name = "plan-rate-72h"
+    rule = [{
+      rule_name         = "rule-rate-72h"
+      target_vault_name = "vault-1"
+      schedule          = "rate(3 days)"
+    }]
+  }
+}
+
+resource "aws_backup_selection" "selection_age_value_days_noncompliant_f7" {
+  skip = true
+  attrs = {
+    id           = "selection-age-value-days-noncompliant"
+    name         = "selection-age-value-days-noncompliant"
+    plan_id      = "plan-rate-72h"
+    iam_role_arn = "arn:aws:iam::123456789012:role/backup-role"
+    resources    = ["arn:aws:elasticfilesystem:us-east-1:123456789012:file-system/fs-00000021"]
+  }
+}
+
+# ---- Cases merged from efs-recovery-point-compliance-cron.policytest.hcl ----
+
+resource "aws_backup_plan" "plan_weekly_f8" {
+  skip = true
+  attrs = {
+    id   = "plan-cron-weekly"
+    arn  = "arn:aws:backup:us-east-1:111111111111:backup-plan:plan-cron-weekly"
+    name = "plan-cron-weekly"
+    rule = [{ rule_name = "r", target_vault_name = "v", schedule = "cron(0 5 ? * MON *)" }]
+  }
+}
+
+resource "aws_backup_selection" "sel_weekly_f8" {
+  skip = true
+  attrs = {
+    iam_role_arn  = "arn:aws:iam::111111111111:role/backup"
+    name          = "sel-cron-weekly"
+    plan_id       = "plan-cron-weekly"
+    resources     = ["arn:aws:elasticfilesystem:us-east-1:111111111111:file-system/cron-weekly"]
+    selection_tag = []
+  }
+}
+
+resource "aws_efs_file_system" "fail_cron_weekly_f8" {
+  expect_failure = true
+  attrs = {
+    id             = "cron-weekly"
+    arn            = "arn:aws:elasticfilesystem:us-east-1:111111111111:file-system/cron-weekly"
+    creation_token = "cron-weekly"
+    encrypted      = true
+    tags           = {}
+  }
+}
+
+resource "aws_backup_plan" "plan_monthly_f8" {
+  skip = true
+  attrs = {
+    id   = "plan-cron-monthly"
+    arn  = "arn:aws:backup:us-east-1:111111111111:backup-plan:plan-cron-monthly"
+    name = "plan-cron-monthly"
+    rule = [{ rule_name = "r", target_vault_name = "v", schedule = "cron(0 5 1 * ? *)" }]
+  }
+}
+
+resource "aws_backup_selection" "sel_monthly_f8" {
+  skip = true
+  attrs = {
+    iam_role_arn  = "arn:aws:iam::111111111111:role/backup"
+    name          = "sel-cron-monthly"
+    plan_id       = "plan-cron-monthly"
+    resources     = ["arn:aws:elasticfilesystem:us-east-1:111111111111:file-system/cron-monthly"]
+    selection_tag = []
+  }
+}
+
+resource "aws_efs_file_system" "fail_cron_monthly_f8" {
+  expect_failure = true
+  attrs = {
+    id             = "cron-monthly"
+    arn            = "arn:aws:elasticfilesystem:us-east-1:111111111111:file-system/cron-monthly"
+    creation_token = "cron-monthly"
+    encrypted      = true
+    tags           = {}
+  }
+}
+
+resource "aws_backup_plan" "plan_daily_q_f8" {
+  skip = true
+  attrs = {
+    id   = "plan-cron-daily-q"
+    arn  = "arn:aws:backup:us-east-1:111111111111:backup-plan:plan-cron-daily-q"
+    name = "plan-cron-daily-q"
+    rule = [{ rule_name = "r", target_vault_name = "v", schedule = "cron(0 5 ? * * *)" }]
+  }
+}
+
+resource "aws_backup_selection" "sel_daily_q_f8" {
+  skip = true
+  attrs = {
+    iam_role_arn  = "arn:aws:iam::111111111111:role/backup"
+    name          = "sel-cron-daily-q"
+    plan_id       = "plan-cron-daily-q"
+    resources     = ["arn:aws:elasticfilesystem:us-east-1:111111111111:file-system/cron-daily-q"]
+    selection_tag = []
+  }
+}
+
+resource "aws_efs_file_system" "pass_cron_daily_q_f8" {
+  attrs = {
+    id             = "cron-daily-q"
+    arn            = "arn:aws:elasticfilesystem:us-east-1:111111111111:file-system/cron-daily-q"
+    creation_token = "cron-daily-q"
+    encrypted      = true
+    tags           = {}
+  }
+}
+
+resource "aws_backup_plan" "plan_every6h_f8" {
+  skip = true
+  attrs = {
+    id   = "plan-cron-every6h"
+    arn  = "arn:aws:backup:us-east-1:111111111111:backup-plan:plan-cron-every6h"
+    name = "plan-cron-every6h"
+    rule = [{ rule_name = "r", target_vault_name = "v", schedule = "cron(0 */6 * * ? *)" }]
+  }
+}
+
+resource "aws_backup_selection" "sel_every6h_f8" {
+  skip = true
+  attrs = {
+    iam_role_arn  = "arn:aws:iam::111111111111:role/backup"
+    name          = "sel-cron-every6h"
+    plan_id       = "plan-cron-every6h"
+    resources     = ["arn:aws:elasticfilesystem:us-east-1:111111111111:file-system/cron-every6h"]
+    selection_tag = []
+  }
+}
+
+resource "aws_efs_file_system" "pass_cron_every6h_f8" {
+  attrs = {
+    id             = "cron-every6h"
+    arn            = "arn:aws:elasticfilesystem:us-east-1:111111111111:file-system/cron-every6h"
+    creation_token = "cron-every6h"
+    encrypted      = true
+    tags           = {}
+  }
+}

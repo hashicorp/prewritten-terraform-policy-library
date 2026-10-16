@@ -125,7 +125,7 @@ resource_policy "aws_rds_cluster" "aurora_recovery_point_created" {
     # resourceId and resourceTags params). When set, clusters that do not match
     # are entirely excluded from evaluation.
     # ---------------------------------------------------------------------------
-    cluster_identifier = core::try(attrs.cluster_identifier, "")
+    cluster_identifier  = core::try(attrs.cluster_identifier, "")
     matches_resource_id = input.aurora-recovery-point-created-resource_id == "" ? true : local.cluster_identifier == input.aurora-recovery-point-created-resource_id
 
     cluster_tags_raw = core::try(attrs.tags, null)
@@ -152,8 +152,8 @@ resource_policy "aws_rds_cluster" "aurora_recovery_point_created" {
     # (compared in hours to avoid integer ceiling-division: backup_retention*24
     # covers required_hours exactly when backup_retention >= ceil(required_hours/24)).
     # ---------------------------------------------------------------------------
-    backup_retention    = core::try(attrs.backup_retention_period, 0)
-    has_backup_enabled  = local.backup_retention >= input.aurora-recovery-point-created-max_days_since_backup && (local.backup_retention * 24) >= local.required_hours
+    backup_retention   = core::try(attrs.backup_retention_period, 0)
+    has_backup_enabled = local.backup_retention >= input.aurora-recovery-point-created-max_days_since_backup && (local.backup_retention * 24) >= local.required_hours
 
     # ---------------------------------------------------------------------------
     # Path 2: a compliant AWS Backup plan reached via an aws_backup_selection
@@ -164,10 +164,10 @@ resource_policy "aws_rds_cluster" "aurora_recovery_point_created" {
     matching_selections = [for s in local.aurrp_all_backup_selections : s if
       core::contains((core::try(s.resources, null) == null ? [] : s.resources), "*") ||
       (local.cluster_arn != "" && core::contains((core::try(s.resources, null) == null ? [] : s.resources), local.cluster_arn)) ||
-      (local.cluster_identifier != "" && core::length([for r in (core::try(s.resources, null) == null ? [] : s.resources) : r if core::contains_substring(r, local.cluster_identifier)]) > 0) ||
+      (local.cluster_identifier != "" && core::length([for r in(core::try(s.resources, null) == null ? [] : s.resources) : r if core::contains_substring(r, local.cluster_identifier)]) > 0) ||
       (
         core::length((core::try(s.selection_tag, null) == null ? [] : s.selection_tag)) > 0 &&
-        core::length([for st in (core::try(s.selection_tag, null) == null ? [] : s.selection_tag) : st if
+        core::length([for st in(core::try(s.selection_tag, null) == null ? [] : s.selection_tag) : st if
           core::try(st.type, "STRINGEQUALS") == "STRINGEQUALS" &&
           core::try(local.cluster_tags[core::try(st.key, "")], "") == core::try(st.value, "")
         ]) == core::length((core::try(s.selection_tag, null) == null ? [] : s.selection_tag))
@@ -184,9 +184,9 @@ resource_policy "aws_rds_cluster" "aurora_recovery_point_created" {
 
     has_compliant_backup_plan = core::length([for s in local.matching_selections : s if
       core::try(s.plan_id, "") == "" ?
-        local.any_plan_compliant
+      local.any_plan_compliant
       :
-        core::contains(local.compliant_plan_ids, core::try(s.plan_id, "")) || core::contains(local.compliant_plan_names, core::try(s.plan_id, ""))
+      core::contains(local.compliant_plan_ids, core::try(s.plan_id, "")) || core::contains(local.compliant_plan_names, core::try(s.plan_id, ""))
     ]) > 0
 
     is_compliant = local.has_backup_enabled || local.has_compliant_backup_plan

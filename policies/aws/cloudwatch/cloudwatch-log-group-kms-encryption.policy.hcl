@@ -38,9 +38,9 @@ resource_policy "aws_cloudwatch_log_group" "cloudwatch_log_group_kms_encryption"
     kms_key_id_raw = core::try(attrs.kms_key_id, null)
     kms_key_id     = local.kms_key_id_raw == null ? "" : local.kms_key_id_raw
 
-    has_kms_key_id   = local.kms_key_id != ""
-    kms_key_matches  = local.required_kms_key_id == "" || local.kms_key_id == local.required_kms_key_id
-    is_compliant     = local.has_kms_key_id && local.kms_key_matches
+    has_kms_key_id  = local.kms_key_id != ""
+    kms_key_matches = local.required_kms_key_id == "" || local.kms_key_id == local.required_kms_key_id
+    is_compliant    = local.has_kms_key_id && local.kms_key_matches
 
     # Mirrors Sentinel's generate_violation_message() branching
     violation_message = local.required_kms_key_id == "" ? (
@@ -48,7 +48,7 @@ resource_policy "aws_cloudwatch_log_group" "cloudwatch_log_group_kms_encryption"
       ) : (
       local.kms_key_id == "" ? (
         "CloudWatch Log Group must be encrypted with AWS KMS key '${local.required_kms_key_id}'. Attribute 'kms_key_id' is not set"
-      ) : (
+        ) : (
         "CloudWatch Log Group must be encrypted with AWS KMS key '${local.required_kms_key_id}'. Current value is '${local.kms_key_id}'"
       )
     )

@@ -25,17 +25,20 @@ input "sagemaker-endpoint-configuration-kms-key-configured-allowed_kms_arns" {
 
 resource_policy "aws_sagemaker_endpoint_configuration" "kms_key_configured" {
   locals {
-    kms_key_arn_raw               = core::try(attrs.kms_key_arn, null)
-    kms_key_arn_missing           = local.kms_key_arn_raw == null
-    kms_key_arn                   = local.kms_key_arn_missing ? "" : local.kms_key_arn_raw
-    kms_key_arn_empty             = local.kms_key_arn == ""
-    kms_key_arn_present_but_empty = local.kms_key_arn_empty && !local.kms_key_arn_missing
-    kms_key_arn_set                = !local.kms_key_arn_empty
-    allowed_arns                   = input.sagemaker-endpoint-configuration-kms-key-configured-allowed_kms_arns
-    has_allowlist                  = core::length(local.allowed_arns) > 0
-    kms_key_in_allowlist           = local.has_allowlist ? core::contains(local.allowed_arns, local.kms_key_arn) : true
-    is_compliant                   = local.kms_key_arn_set ? local.kms_key_in_allowlist : false
-    error_message                  = local.kms_key_arn_missing ? "SageMaker endpoint configuration must have KMS key configured for encryption. The 'kms_key_arn' attribute must be set." : (local.kms_key_arn_present_but_empty ? "SageMaker endpoint configuration must have a valid KMS key configured for encryption. The 'kms_key_arn' attribute cannot be empty." : (local.has_allowlist ? "SageMaker endpoint configuration has KMS key '${local.kms_key_arn}' which is not in the allowed list: [${core::join(", ", local.allowed_arns)}]." : "SageMaker endpoint configuration must have a valid KMS key configured for encryption. The 'kms_key_arn' attribute cannot be empty."))
+    kms_key_arn_raw      = core::try(attrs.kms_key_arn, null)
+    kms_key_arn_missing  = local.kms_key_arn_raw == null
+    kms_key_arn          = local.kms_key_arn_missing ? "" : local.kms_key_arn_raw
+    kms_key_arn_empty    = local.kms_key_arn == ""
+    kms_key_arn_set      = !local.kms_key_arn_empty
+    allowed_arns         = input.sagemaker-endpoint-configuration-kms-key-configured-allowed_kms_arns
+    has_allowlist        = core::length(local.allowed_arns) > 0
+    kms_key_in_allowlist = local.has_allowlist ? core::contains(local.allowed_arns, local.kms_key_arn) : true
+    is_compliant         = local.kms_key_arn_set ? local.kms_key_in_allowlist : false
+    error_message = (
+      local.kms_key_arn_missing ? "SageMaker endpoint configuration must have a KMS key configured for encryption. The 'kms_key_arn' attribute must be set." :
+      !local.kms_key_arn_set ? "SageMaker endpoint configuration must have a valid KMS key configured for encryption. The 'kms_key_arn' attribute cannot be empty." :
+      "SageMaker endpoint configuration has KMS key '${local.kms_key_arn}' which is not in the allowed list: [${core::join(", ", local.allowed_arns)}]."
+    )
   }
 
   enforcement_level = input.sagemaker-endpoint-configuration-kms-key-configured-enforcement-level

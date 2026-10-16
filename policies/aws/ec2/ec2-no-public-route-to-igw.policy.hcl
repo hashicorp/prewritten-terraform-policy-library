@@ -49,8 +49,8 @@ resource_policy "aws_route_table" "no_public_route_to_igw" {
 
     public_igw_routes = [for r in local.normalized_routes : r
       if r.gateway_id != "" &&
-         core::startswith(r.gateway_id, "igw-") &&
-         (r.cidr_block == "0.0.0.0/0" || r.ipv6_cidr_block == "::/0")]
+      core::startswith(r.gateway_id, "igw-") &&
+    (r.cidr_block == "0.0.0.0/0" || r.ipv6_cidr_block == "::/0")]
 
     has_public_igw_route = core::length(local.public_igw_routes) > 0
   }
@@ -66,11 +66,11 @@ resource_policy "aws_route_table" "no_public_route_to_igw" {
 # aws_route is not part of the route table's inline route blocks.
 resource_policy "aws_route" "no_public_route_to_igw" {
   locals {
-    route_table_id  = core::try(attrs.route_table_id, null) != null ? attrs.route_table_id : ""
-    is_allowed      = core::length(input.ec2-no-public-route-to-igw-allowed_route_table_ids) == 0 ? false : core::contains(input.ec2-no-public-route-to-igw-allowed_route_table_ids, local.route_table_id)
-    gateway_id      = core::try(attrs.gateway_id, null) != null ? attrs.gateway_id : ""
-    cidr_block      = core::try(attrs.destination_cidr_block, null) != null ? attrs.destination_cidr_block : ""
-    ipv6_cidr_block = core::try(attrs.destination_ipv6_cidr_block, null) != null ? attrs.destination_ipv6_cidr_block : ""
+    route_table_id      = core::try(attrs.route_table_id, null) != null ? attrs.route_table_id : ""
+    is_allowed          = core::length(input.ec2-no-public-route-to-igw-allowed_route_table_ids) == 0 ? false : core::contains(input.ec2-no-public-route-to-igw-allowed_route_table_ids, local.route_table_id)
+    gateway_id          = core::try(attrs.gateway_id, null) != null ? attrs.gateway_id : ""
+    cidr_block          = core::try(attrs.destination_cidr_block, null) != null ? attrs.destination_cidr_block : ""
+    ipv6_cidr_block     = core::try(attrs.destination_ipv6_cidr_block, null) != null ? attrs.destination_ipv6_cidr_block : ""
     is_public_igw_route = core::startswith(local.gateway_id, "igw-") && (local.cidr_block == "0.0.0.0/0" || local.ipv6_cidr_block == "::/0")
   }
 

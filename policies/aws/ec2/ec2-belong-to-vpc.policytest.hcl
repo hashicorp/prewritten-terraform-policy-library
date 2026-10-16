@@ -146,7 +146,52 @@ resource "aws_instance" "pass_subnet_priority_over_vpc_sg" {
   attrs = {
     ami                    = "ami-0123456789abcdef0"
     instance_type          = "t3.micro"
-    subnet_id               = "subnet-0123456789abcdef0"
+    subnet_id              = "subnet-0123456789abcdef0"
     vpc_security_group_ids = ["sg-0123456789abcdef0"]
+  }
+}
+
+# ---- Cases merged from ec2-belong-to-vpc-2.policytest.hcl ----
+
+# Subnet that belongs to the required VPC
+resource "aws_subnet" "matching_vpc_f2" {
+  skip = true
+  attrs = {
+    id         = "subnet-aaaa0001"
+    vpc_id     = "vpc-aaaa1111"
+    cidr_block = "10.0.1.0/24"
+  }
+}
+
+# Subnet that belongs to a DIFFERENT VPC
+resource "aws_subnet" "mismatched_vpc_f2" {
+  skip = true
+  attrs = {
+    id         = "subnet-bbbb0002"
+    vpc_id     = "vpc-bbbb2222"
+    cidr_block = "10.0.2.0/24"
+  }
+}
+
+# PASS: subnet_id references a subnet that belongs to the required vpc_id
+resource "aws_instance" "pass_subnet_matching_vpc_f2" {
+  attrs = {
+    ami           = "ami-0123456789abcdef0"
+    instance_type = "t3.micro"
+    subnet_id     = aws_subnet.matching_vpc_f2.id
+  }
+}
+
+
+# PASS: subnet_id does not match any aws_subnet resource in this plan (e.g. an
+# existing subnet managed outside this plan). The subnet's VPC membership
+# cannot be verified, so the instance is not penalized for this sub-check
+# (matches the original Sentinel's check_subnet_vpc fallback of returning true
+# when no matching subnet config is found).
+resource "aws_instance" "pass_subnet_unresolvable_with_vpc_required_f2" {
+  attrs = {
+    ami           = "ami-0123456789abcdef0"
+    instance_type = "t3.micro"
+    subnet_id     = "subnet-does-not-exist-9999"
   }
 }

@@ -155,3 +155,29 @@ resource "aws_dynamodb_table" "fail_enabled_null" {
     ]
   }
 }
+
+# ---- Cases merged from dynamo-db-table-encrypted-kms-2.policytest.hcl ----
+
+# PASS: server_side_encryption.enabled = true, kms_key_arn matches one of the
+# allowed keys in the restricted list -> compliant.
+resource "aws_dynamodb_table" "pass_key_in_allowed_list_f2" {
+  attrs = {
+    name         = "restricted-table-allowed-key"
+    billing_mode = "PAY_PER_REQUEST"
+    hash_key     = "id"
+    attribute = [
+      {
+        name = "id"
+        type = "S"
+      }
+    ]
+    server_side_encryption = [
+      {
+        enabled     = true
+        kms_key_arn = "arn:aws:kms:us-east-1:123456789012:key/allowed-key-1"
+      }
+    ]
+  }
+}
+
+

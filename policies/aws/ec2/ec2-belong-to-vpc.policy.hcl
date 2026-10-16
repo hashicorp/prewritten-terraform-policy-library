@@ -93,7 +93,7 @@ resource_policy "aws_instance" "belongs_to_vpc" {
     # must not be called directly on a value that may be null.
     has_vpc_sg = local.vpc_sg_raw != null ? core::length(local.vpc_sg_raw) > 0 : false
 
-    pni_raw       = core::try(attrs.primary_network_interface, null)
+    pni_raw = core::try(attrs.primary_network_interface, null)
     # Ternary guard: same reasoning as has_vpc_sg above.
     has_pni       = local.pni_raw != null ? core::length(local.pni_raw) > 0 : false
     pni_ni_id_raw = local.has_pni ? core::try(local.pni_raw[0].network_interface_id, null) : null
@@ -107,10 +107,10 @@ resource_policy "aws_instance" "belongs_to_vpc" {
     subnet_vpc_matches = local.vpc_id_param == "" || !local.subnet_found || local.subnet_vpc_id == local.vpc_id_param
 
     # Cross-resource lookup: network interface referenced by primary_network_interface (apply-time pattern - see header NOTE)
-    ni_lookup     = local.pni_ni_id != "" ? core::getresources("aws_network_interface", { id = local.pni_ni_id }) : []
-    ni_found      = core::length(local.ni_lookup) > 0
-    ni_subnet_raw = local.ni_found ? core::try(local.ni_lookup[0].subnet_id, null) : null
-    ni_has_subnet = local.ni_subnet_raw != null && local.ni_subnet_raw != ""
+    ni_lookup        = local.pni_ni_id != "" ? core::getresources("aws_network_interface", { id = local.pni_ni_id }) : []
+    ni_found         = core::length(local.ni_lookup) > 0
+    ni_subnet_raw    = local.ni_found ? core::try(local.ni_lookup[0].subnet_id, null) : null
+    ni_has_subnet    = local.ni_subnet_raw != null && local.ni_subnet_raw != ""
     primary_ni_valid = local.has_pni && local.pni_ni_id != "" && local.ni_has_subnet
 
     # Priority order mirrors the original Sentinel logic: subnet_id > vpc_security_group_ids > primary_network_interface > none

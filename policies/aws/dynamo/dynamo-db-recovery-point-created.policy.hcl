@@ -153,7 +153,7 @@ resource_policy "aws_dynamodb_table" "recovery_point_created" {
       for sel in local.ddbrp_all_backup_selections : (
         (
           core::anytrue([
-            for ref in (core::try(sel.resources, null) == null ? [] : sel.resources) :
+            for ref in(core::try(sel.resources, null) == null ? [] : sel.resources) :
             ref == "*" ||
             core::endswith(ref, ":table/${local.table_name}") ||
             (local.table_arn != "" && ref == local.table_arn) ||
@@ -164,7 +164,7 @@ resource_policy "aws_dynamodb_table" "recovery_point_created" {
           (
             core::length((core::try(sel.selection_tag, null) == null ? [] : sel.selection_tag)) > 0 &&
             core::alltrue([
-              for st in (core::try(sel.selection_tag, null) == null ? [] : sel.selection_tag) :
+              for st in(core::try(sel.selection_tag, null) == null ? [] : sel.selection_tag) :
               core::try(st.type, "STRINGEQUALS") == "STRINGEQUALS" &&
               core::try(local.table_tags[core::try(st.key, "")], "__missing__") == core::try(st.value, "")
             ])

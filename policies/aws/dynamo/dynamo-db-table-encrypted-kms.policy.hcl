@@ -39,9 +39,9 @@ resource_policy "aws_dynamodb_table" "dynamo_db_table_encrypted_kms" {
     kms_key_raw = local.has_sse ? core::try(local.sse_list[0].kms_key_arn, null) : null
     kms_key_arn = local.kms_key_raw == null ? "" : local.kms_key_raw
 
-    allowed_keys          = input.dynamo-db-table-encrypted-kms-kms_key_arns
-    has_allowed_keys      = core::length(local.allowed_keys) > 0
-    allowed_keys_display   = core::join(", ", local.allowed_keys)
+    allowed_keys         = input.dynamo-db-table-encrypted-kms-kms_key_arns
+    has_allowed_keys     = core::length(local.allowed_keys) > 0
+    allowed_keys_display = core::join(", ", local.allowed_keys)
 
     # When no allowed list is supplied, enabled = true is sufficient (provider defaults to
     # the AWS-managed DynamoDB key when kms_key_arn is omitted).
@@ -57,8 +57,8 @@ resource_policy "aws_dynamodb_table" "dynamo_db_table_encrypted_kms" {
     msg_not_enabled = "DynamoDB table must have 'server_side_encryption.enabled' set to true to use AWS KMS encryption"
 
     msg_default_key_restricted = "DynamoDB table is encrypted with the default KMS-managed key, but the rule parameter 'kmsKeyArns' restricts encryption to these allowed keys: ${local.allowed_keys_display}. Set 'kms_key_arn' to one of the allowed keys"
-    msg_key_not_allowed         = "DynamoDB table is using KMS key '${local.kms_key_arn}' which is not in the allowed list. Allowed keys: ${local.allowed_keys_display}"
-    msg_key_mismatch            = local.kms_key_arn == "" ? local.msg_default_key_restricted : local.msg_key_not_allowed
+    msg_key_not_allowed        = "DynamoDB table is using KMS key '${local.kms_key_arn}' which is not in the allowed list. Allowed keys: ${local.allowed_keys_display}"
+    msg_key_mismatch           = local.kms_key_arn == "" ? local.msg_default_key_restricted : local.msg_key_not_allowed
 
     msg_when_enabled = local.has_allowed_keys ? local.msg_key_mismatch : local.msg_not_enabled
     msg_when_sse     = local.enabled != true ? local.msg_not_enabled : local.msg_when_enabled

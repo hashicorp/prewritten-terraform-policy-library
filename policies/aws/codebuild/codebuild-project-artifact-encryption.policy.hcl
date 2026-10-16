@@ -36,11 +36,11 @@ resource_policy "aws_codebuild_project" "codebuild_project_artifact_encryption" 
     # defaults to false (encrypted), matching the Terraform provider default.
     unencrypted_primary = [for a in local.primary : a
       if core::try(a.type, "") != "NO_ARTIFACTS" &&
-         (core::try(a.encryption_disabled, null) == null ? false : core::try(a.encryption_disabled, null)) == true]
+    (core::try(a.encryption_disabled, null) == null ? false : core::try(a.encryption_disabled, null)) == true]
 
     unencrypted_secondary = [for a in local.secondary : a
       if core::try(a.type, "") != "NO_ARTIFACTS" &&
-         (core::try(a.encryption_disabled, null) == null ? false : core::try(a.encryption_disabled, null)) == true]
+    (core::try(a.encryption_disabled, null) == null ? false : core::try(a.encryption_disabled, null)) == true]
 
     all_artifacts_encrypted = core::length(local.unencrypted_primary) == 0 && core::length(local.unencrypted_secondary) == 0
   }

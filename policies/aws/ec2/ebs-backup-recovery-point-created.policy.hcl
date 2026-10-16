@@ -83,8 +83,8 @@ locals {
   # the last AWS Backup recovery point for a covered EBS volume.
   ebsrp_required_hours = (input.ebs-backup-recovery-point-created-recovery_point_age_value != 1 || input.ebs-backup-recovery-point-created-recovery_point_age_unit != "days") ? (
     input.ebs-backup-recovery-point-created-recovery_point_age_unit == "hours"
-      ? input.ebs-backup-recovery-point-created-recovery_point_age_value
-      : input.ebs-backup-recovery-point-created-recovery_point_age_value * 24
+    ? input.ebs-backup-recovery-point-created-recovery_point_age_value
+    : input.ebs-backup-recovery-point-created-recovery_point_age_value * 24
   ) : input.ebs-backup-recovery-point-created-max_hours_since_backup
 
   # Backup plan schedules converted to an interval in hours. Shared parsing rules:
@@ -160,7 +160,7 @@ resource_policy "aws_ebs_volume" "ebs_backup_recovery_point_created" {
     # has_compliant_backup_plan(): the volume is compliant if ANY backup
     # selection both (a) references this volume (selection_references_volume)
     # and (b) is linked to a compliant backup plan (selection_has_compliant_plan).
-    matching_selections = [for sel in local.ebsrp_all_backup_selections : sel if (
+    matching_selections = [for sel in local.ebsrp_all_backup_selections : sel if(
       (
         # selection_references_volume() -- ARN/wildcard matching routes
         # (the resource-address/name matching route is not convertible --
@@ -175,17 +175,17 @@ resource_policy "aws_ebs_volume" "ebs_backup_recovery_point_created" {
         (
           local.volume_id != "" &&
           core::length([
-            for r in (core::try(sel.resources, null) != null ? [for rr in sel.resources : rr] : [])
+            for r in(core::try(sel.resources, null) != null ? [for rr in sel.resources : rr] : [])
             : r if core::endswith(r, ":volume/${local.volume_id}")
           ]) > 0
         )
         ||
         core::length([
-          for r in (core::try(sel.resources, null) != null ? [for rr in sel.resources : rr] : [])
-          : r if (
-              core::startswith(core::lower(r), "arn:aws:ec2:") &&
-              (core::endswith(core::lower(r), ":volume/*") || core::endswith(core::lower(r), ":volume/vol-*"))
-            )
+          for r in(core::try(sel.resources, null) != null ? [for rr in sel.resources : rr] : [])
+          : r if(
+            core::startswith(core::lower(r), "arn:aws:ec2:") &&
+            (core::endswith(core::lower(r), ":volume/*") || core::endswith(core::lower(r), ":volume/vol-*"))
+          )
         ]) > 0
         ||
         (
@@ -197,11 +197,11 @@ resource_policy "aws_ebs_volume" "ebs_backup_recovery_point_created" {
           core::length(core::keys(local.volume_tags)) > 0
           &&
           core::length([
-            for t in (core::try(sel.selection_tag, null) != null ? [for tt in sel.selection_tag : tt] : [])
+            for t in(core::try(sel.selection_tag, null) != null ? [for tt in sel.selection_tag : tt] : [])
             : t if !(
-                core::try(t.type, "STRINGEQUALS") == "STRINGEQUALS" &&
-                core::try(local.volume_tags[core::try(t.key, "")], "") == core::try(t.value, "")
-              )
+              core::try(t.type, "STRINGEQUALS") == "STRINGEQUALS" &&
+              core::try(local.volume_tags[core::try(t.key, "")], "") == core::try(t.value, "")
+            )
           ]) == 0
         )
       )

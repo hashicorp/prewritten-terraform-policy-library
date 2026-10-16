@@ -50,7 +50,16 @@ resource_policy "aws_iam_role" "managed_policy_should_be_attached" {
       role = local.role_name
     })
 
-    attached_policy_arns = [for a in local.attachments : core::try(a.policy_arn, "")]
+    # aws_iam_policy_attachment attaches one policy to a list of roles.
+    group_attachments = [for a in core::getresources("aws_iam_policy_attachment", {}) : a
+      if core::contains(core::try(a.roles, null) == null ? [] : a.roles, local.role_name)
+    ]
+    inline_arns = core::try(attrs.managed_policy_arns, null) == null ? [] : attrs.managed_policy_arns
+    attached_policy_arns = core::concat(
+      [for a in local.attachments : core::try(a.policy_arn, "")],
+      [for a in local.group_attachments : core::try(a.policy_arn, "")],
+      [for a in local.inline_arns : a],
+    )
 
     missing_policies = [
       for required_arn in input.iam-managed-policy-should-be-attached-to-role-managed_policy_arns :

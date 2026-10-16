@@ -30,10 +30,10 @@ resource_policy "aws_autoscaling_group" "ec2_autoscaling_capacity_rebalancing_en
 
     launch_template_raw = local.has_mixed_instances_policy ? core::try(local.mixed_instances_policy[0].launch_template, null) : null
     launch_template     = local.launch_template_raw != null ? local.launch_template_raw : []
-    has_launch_template  = core::length(local.launch_template) > 0
+    has_launch_template = core::length(local.launch_template) > 0
 
-    overrides_raw = local.has_launch_template ? core::try(local.launch_template[0].override, null) : null
-    overrides     = local.overrides_raw != null ? local.overrides_raw : []
+    overrides_raw  = local.has_launch_template ? core::try(local.launch_template[0].override, null) : null
+    overrides      = local.overrides_raw != null ? local.overrides_raw : []
     override_count = core::length(local.overrides)
 
     # Attribute-based instance selection (instance_requirements) can resolve to multiple

@@ -65,3 +65,34 @@ resource "aws_sagemaker_endpoint_configuration" "fail_kms_key_null" {
     kms_key_arn = null
   }
 }
+
+# ---- Cases merged from sagemaker-endpoint-configuration-kms-key-configured-2.policytest.hcl ----
+
+# PASS: kms_key_arn is set to an ARN present in the allowlist
+resource "aws_sagemaker_endpoint_configuration" "pass_kms_key_in_allowlist_f2" {
+  attrs = {
+    name = "pass-kms-key-in-allowlist"
+    production_variants = [
+      {
+        variant_name = "variant-1"
+        model_name   = "test-model"
+      }
+    ]
+    kms_key_arn = "arn:aws:kms:us-east-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+  }
+}
+
+
+# FAIL: kms_key_arn attribute is entirely omitted (missing check takes priority over allowlist)
+resource "aws_sagemaker_endpoint_configuration" "fail_kms_key_missing_with_allowlist_f2" {
+  expect_failure = true
+  attrs = {
+    name = "fail-kms-key-missing-with-allowlist"
+    production_variants = [
+      {
+        variant_name = "variant-1"
+        model_name   = "test-model"
+      }
+    ]
+  }
+}

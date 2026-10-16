@@ -57,10 +57,10 @@ locals {
   efsrp_required_hours = (
     (input.efs-recovery-point-compliance-recovery_point_age_value != 1 || input.efs-recovery-point-compliance-recovery_point_age_unit != "days")
     ? (
-        input.efs-recovery-point-compliance-recovery_point_age_unit == "hours"
-        ? input.efs-recovery-point-compliance-recovery_point_age_value
-        : input.efs-recovery-point-compliance-recovery_point_age_value * 24
-      )
+      input.efs-recovery-point-compliance-recovery_point_age_unit == "hours"
+      ? input.efs-recovery-point-compliance-recovery_point_age_value
+      : input.efs-recovery-point-compliance-recovery_point_age_value * 24
+    )
     : input.efs-recovery-point-compliance-recovery_point_max_age_hours
   )
 
@@ -122,7 +122,7 @@ locals {
     resources      = core::try(selres.resources, null) != null ? core::try(selres.resources, null) : []
     not_resources  = core::try(selres.not_resources, null) != null ? core::try(selres.not_resources, null) : []
     selection_tags = core::try(selres.selection_tag, null) != null ? core::try(selres.selection_tag, null) : []
-    conditions = [for cb in (core::try(selres.condition, null) != null ? core::try(selres.condition, null) : []) : {
+    conditions = [for cb in(core::try(selres.condition, null) != null ? core::try(selres.condition, null) : []) : {
       string_equals     = core::try(cb.string_equals, null) != null ? core::try(cb.string_equals, null) : []
       string_not_equals = core::try(cb.string_not_equals, null) != null ? core::try(cb.string_not_equals, null) : []
       string_like       = core::try(cb.string_like, null) != null ? core::try(cb.string_like, null) : []
@@ -197,12 +197,12 @@ resource_policy "aws_efs_file_system" "efs_recovery_point_compliance" {
           core::try(core::regex("(?i)arn:aws:elasticfilesystem:.*:file-system/\\*", core::try(ref, "")), null) != null ||
           core::try(core::regex("(?i)arn:aws:elasticfilesystem:.*:file-system/fs-\\*", core::try(ref, "")), null) != null
         ]) == 0
-      ) && (
+        ) && (
         # selection must specify at least one of resources / selection_tag / condition.
         core::length(sn.resources) > 0 ||
         core::length(sn.selection_tags) > 0 ||
         core::length(sn.conditions) > 0
-      ) && (
+        ) && (
         # resource_match: vacuously true if no `resources` entries; else at least one must match.
         core::length(sn.resources) == 0 ||
         core::length([for ref in sn.resources : ref if
@@ -212,7 +212,7 @@ resource_policy "aws_efs_file_system" "efs_recovery_point_compliance" {
           core::try(core::regex("(?i)arn:aws:elasticfilesystem:.*:file-system/\\*", core::try(ref, "")), null) != null ||
           core::try(core::regex("(?i)arn:aws:elasticfilesystem:.*:file-system/fs-\\*", core::try(ref, "")), null) != null
         ]) > 0
-      ) && (
+        ) && (
         # tag_match (selection_matches_efs_tags): vacuously true if no selection_tag
         # entries; else every entry must be type STRINGEQUALS and match exactly.
         core::length(sn.selection_tags) == 0 ||
@@ -220,7 +220,7 @@ resource_policy "aws_efs_file_system" "efs_recovery_point_compliance" {
           core::try(st.type, "") == "STRINGEQUALS" &&
           core::try(core::try(local.efs_tags, {})[core::try(st.key, "")], "") == core::try(st.value, "")
         ]) == core::length(sn.selection_tags)
-      ) && (
+        ) && (
         # condition_match (selection_conditions_match): vacuously true if no condition
         # blocks; else EFS must have tags, and every string_equals/string_not_equals/
         # string_like/string_not_like entry (across every condition block) must match.

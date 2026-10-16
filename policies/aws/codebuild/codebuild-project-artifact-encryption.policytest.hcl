@@ -136,10 +136,10 @@ resource "aws_codebuild_project" "fail_secondary_not_encrypted" {
     ]
     secondary_artifacts = [
       {
-        type                 = "S3"
-        location             = "test-bucket-secondary"
-        artifact_identifier  = "secondary"
-        encryption_disabled  = true
+        type                = "S3"
+        location            = "test-bucket-secondary"
+        artifact_identifier = "secondary"
+        encryption_disabled = true
       }
     ]
     environment = [
@@ -172,10 +172,10 @@ resource "aws_codebuild_project" "pass_secondary_encrypted" {
     ]
     secondary_artifacts = [
       {
-        type                 = "S3"
-        location             = "test-bucket-secondary"
-        artifact_identifier  = "secondary"
-        encryption_disabled  = false
+        type                = "S3"
+        location            = "test-bucket-secondary"
+        artifact_identifier = "secondary"
+        encryption_disabled = false
       }
     ]
     environment = [
@@ -237,16 +237,16 @@ resource "aws_codebuild_project" "fail_multiple_secondary_one_unencrypted" {
     ]
     secondary_artifacts = [
       {
-        type                 = "S3"
-        location             = "test-bucket-secondary-1"
-        artifact_identifier  = "secondary-1"
-        encryption_disabled  = false
+        type                = "S3"
+        location            = "test-bucket-secondary-1"
+        artifact_identifier = "secondary-1"
+        encryption_disabled = false
       },
       {
-        type                 = "S3"
-        location             = "test-bucket-secondary-2"
-        artifact_identifier  = "secondary-2"
-        encryption_disabled  = true
+        type                = "S3"
+        location            = "test-bucket-secondary-2"
+        artifact_identifier = "secondary-2"
+        encryption_disabled = true
       }
     ]
     environment = [

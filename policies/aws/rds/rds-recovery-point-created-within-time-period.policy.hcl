@@ -75,14 +75,14 @@ locals {
   rdsrp_valid_selections = [
     for s in local.rdsrp_all_backup_selections : s
     if core::contains(local.rdsrp_valid_plan_ids, core::try(s.plan_id, "")) &&
-       core::contains(local.rdsrp_valid_role_arns, core::try(s.iam_role_arn, ""))
+    core::contains(local.rdsrp_valid_role_arns, core::try(s.iam_role_arn, ""))
   ]
 }
 
 resource_policy "aws_db_instance" "rds_recovery_point_created_within_time_period" {
   filter = (
     input.rds-recovery-point-created-within-time-period-resource_id == "" || core::try(attrs.identifier, "") == input.rds-recovery-point-created-within-time-period-resource_id
-  ) && (
+    ) && (
     core::length(input.rds-recovery-point-created-within-time-period-resource_tags) == 0 ||
     core::length([
       for k, v in input.rds-recovery-point-created-within-time-period-resource_tags : k
@@ -102,7 +102,7 @@ resource_policy "aws_db_instance" "rds_recovery_point_created_within_time_period
     arn_matched = core::length([
       for s in local.rdsrp_valid_selections : s
       if core::length([
-        for r in (core::try(s.resources, null) == null ? [] : s.resources) : r
+        for r in(core::try(s.resources, null) == null ? [] : s.resources) : r
         if r == local.rds_arn || core::endswith(r, ":*") || core::endswith(r, ":${local.rds_identifier}")
       ]) > 0
     ]) > 0
@@ -110,10 +110,10 @@ resource_policy "aws_db_instance" "rds_recovery_point_created_within_time_period
     tag_matched = core::length([
       for s in local.rdsrp_valid_selections : s
       if core::length((core::try(s.selection_tag, null) == null ? [] : s.selection_tag)) > 0 &&
-         core::length([
-           for t in (core::try(s.selection_tag, null) == null ? [] : s.selection_tag) : t
-           if core::try(local.rds_tags[core::try(t.key, "")], "") == core::try(t.value, "")
-         ]) == core::length((core::try(s.selection_tag, null) == null ? [] : s.selection_tag))
+      core::length([
+        for t in(core::try(s.selection_tag, null) == null ? [] : s.selection_tag) : t
+        if core::try(local.rds_tags[core::try(t.key, "")], "") == core::try(t.value, "")
+      ]) == core::length((core::try(s.selection_tag, null) == null ? [] : s.selection_tag))
     ]) > 0
 
     in_backup_selection = local.arn_matched || local.tag_matched
@@ -138,7 +138,7 @@ resource_policy "aws_db_instance" "rds_recovery_point_created_within_time_period
 resource_policy "aws_rds_cluster" "rds_recovery_point_created_within_time_period" {
   filter = (
     input.rds-recovery-point-created-within-time-period-resource_id == "" || core::try(attrs.cluster_identifier, "") == input.rds-recovery-point-created-within-time-period-resource_id
-  ) && (
+    ) && (
     core::length(input.rds-recovery-point-created-within-time-period-resource_tags) == 0 ||
     core::length([
       for k, v in input.rds-recovery-point-created-within-time-period-resource_tags : k
@@ -158,7 +158,7 @@ resource_policy "aws_rds_cluster" "rds_recovery_point_created_within_time_period
     arn_matched = core::length([
       for s in local.rdsrp_valid_selections : s
       if core::length([
-        for r in (core::try(s.resources, null) == null ? [] : s.resources) : r
+        for r in(core::try(s.resources, null) == null ? [] : s.resources) : r
         if r == local.rds_arn || core::endswith(r, ":*") || core::endswith(r, ":${local.rds_identifier}")
       ]) > 0
     ]) > 0
@@ -166,10 +166,10 @@ resource_policy "aws_rds_cluster" "rds_recovery_point_created_within_time_period
     tag_matched = core::length([
       for s in local.rdsrp_valid_selections : s
       if core::length((core::try(s.selection_tag, null) == null ? [] : s.selection_tag)) > 0 &&
-         core::length([
-           for t in (core::try(s.selection_tag, null) == null ? [] : s.selection_tag) : t
-           if core::try(local.rds_tags[core::try(t.key, "")], "") == core::try(t.value, "")
-         ]) == core::length((core::try(s.selection_tag, null) == null ? [] : s.selection_tag))
+      core::length([
+        for t in(core::try(s.selection_tag, null) == null ? [] : s.selection_tag) : t
+        if core::try(local.rds_tags[core::try(t.key, "")], "") == core::try(t.value, "")
+      ]) == core::length((core::try(s.selection_tag, null) == null ? [] : s.selection_tag))
     ]) > 0
 
     in_backup_selection = local.arn_matched || local.tag_matched

@@ -75,3 +75,24 @@ resource "aws_secretsmanager_secret" "pass_customer_managed_key_no_allowlist" {
     kms_key_id  = "arn:aws:kms:us-east-1:123456789012:key/aaaa1111-aaaa-1111-aaaa-111111111111"
   }
 }
+
+# ---- Cases merged from secretsmanager-secrets-encrypted-using-cmk-2.policytest.hcl ----
+
+# PASS: kms_key_id exactly matches the allowlisted ARN
+resource "aws_secretsmanager_secret" "pass_matches_allowlist_exact_f2" {
+  attrs = {
+    name        = "example-secret-allowlist-exact"
+    description = "Secret using the exact allowlisted KMS key ARN"
+    kms_key_id  = "arn:aws:kms:us-east-1:123456789012:key/aaaa1111-aaaa-1111-aaaa-111111111111"
+  }
+}
+
+# PASS: kms_key_id is the bare key-id, which is the suffix of the allowlisted ARN
+resource "aws_secretsmanager_secret" "pass_matches_allowlist_suffix_f2" {
+  attrs = {
+    name        = "example-secret-allowlist-suffix"
+    description = "Secret using the bare key id matching the allowlisted ARN's suffix"
+    kms_key_id  = "aaaa1111-aaaa-1111-aaaa-111111111111"
+  }
+}
+

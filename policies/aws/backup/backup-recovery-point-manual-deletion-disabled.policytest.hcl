@@ -98,3 +98,57 @@ resource "aws_backup_vault_policy" "empty_policy_vault_policy" {
     policy            = ""
   }
 }
+
+# ---- Cases merged from backup-recovery-point-manual-deletion-disabled-2.policytest.hcl ----
+
+
+resource "aws_backup_vault_policy" "excluded_principal_vault_policy_f2" {
+  attrs = {
+    backup_vault_name = "excluded-principal-vault"
+    policy            = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:role/excluded-role\"},\"Action\":[\"backup:DeleteRecoveryPoint\",\"backup:UpdateRecoveryPointLifecycle\",\"backup:PutBackupVaultAccessPolicy\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# PASS case: the Deny statement's Principal.AWS does NOT match the excluded ARN, so it
+# is still evaluated normally and covers all required actions.
+resource "aws_backup_vault" "non_excluded_principal_vault_f2" {
+  attrs = {
+    name = "non-excluded-principal-vault"
+  }
+}
+
+resource "aws_backup_vault_policy" "non_excluded_principal_vault_policy_f2" {
+  attrs = {
+    backup_vault_name = "non-excluded-principal-vault"
+    policy            = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:role/some-other-role\"},\"Action\":[\"backup:DeleteRecoveryPoint\",\"backup:UpdateRecoveryPointLifecycle\",\"backup:PutBackupVaultAccessPolicy\"],\"Resource\":\"*\"}]}"
+  }
+}
+
+# PASS: a single wildcard "backup:*" Deny covers all three actions.
+resource "aws_backup_vault_policy" "wildcard_action_vault_policy" {
+  attrs = {
+    backup_vault_name = "wildcard-action-vault"
+    policy            = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":{\"AWS\":\"*\"},\"Action\":\"backup:*\",\"Resource\":\"*\"}]}"
+  }
+}
+
+resource "aws_backup_vault" "wildcard_action_vault" {
+  attrs = {
+    name = "wildcard-action-vault"
+  }
+}
+
+# FAIL: the Deny only applies under a Condition, so it does not always block deletion.
+resource "aws_backup_vault_policy" "conditional_deny_vault_policy" {
+  attrs = {
+    backup_vault_name = "conditional-deny-vault"
+    policy            = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":{\"AWS\":\"*\"},\"Action\":[\"backup:DeleteRecoveryPoint\",\"backup:UpdateRecoveryPointLifecycle\",\"backup:PutBackupVaultAccessPolicy\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:PrincipalTag/team\":\"dev\"}}}]}"
+  }
+}
+
+resource "aws_backup_vault" "conditional_deny_vault" {
+  expect_failure = true
+  attrs = {
+    name = "conditional-deny-vault"
+  }
+}

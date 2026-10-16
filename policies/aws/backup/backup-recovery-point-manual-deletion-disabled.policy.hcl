@@ -43,13 +43,14 @@ resource_policy "aws_backup_vault" "backup_recovery_point_manual_deletion_disabl
     has_policy = core::length(local.vault_policies) > 0
 
     policy_json_raw = core::try(local.vault_policies[0].policy, null)
-    policy_json      = local.policy_json_raw == null ? "" : local.policy_json_raw
+    policy_json     = local.policy_json_raw == null ? "" : local.policy_json_raw
 
     policy_doc     = core::try(core::jsondecode(local.policy_json), {})
     statements_raw = core::try(local.policy_doc.Statement, null)
     statements     = local.statements_raw == null ? [] : local.statements_raw
 
-    deny_statements = [for s in local.statements : s if core::try(s.Effect, "") == "Deny"]
+    # A Deny statement with a Condition only applies in some requests, so it does not count.
+    deny_statements = [for s in local.statements : s if core::try(s.Effect, "") == "Deny" && core::try(s.Condition, null) == null]
     deny_count      = core::length(local.deny_statements)
 
     # Normalize Action to a list for every Deny statement. Action may be
@@ -59,13 +60,13 @@ resource_policy "aws_backup_vault" "backup_recovery_point_manual_deletion_disabl
     ]
 
     deny_has_delete = [for acts in local.deny_actions :
-      core::length([for a in acts : a if core::endswith(core::lower(a), local.required_delete_action)]) > 0
+      core::length([for a in acts : a if core::contains(["*", "backup:*"], core::lower(a)) || core::endswith(core::lower(a), local.required_delete_action)]) > 0
     ]
     deny_has_update = [for acts in local.deny_actions :
-      core::length([for a in acts : a if core::endswith(core::lower(a), local.required_update_action)]) > 0
+      core::length([for a in acts : a if core::contains(["*", "backup:*"], core::lower(a)) || core::endswith(core::lower(a), local.required_update_action)]) > 0
     ]
     deny_has_put = [for acts in local.deny_actions :
-      core::length([for a in acts : a if core::endswith(core::lower(a), local.required_put_action)]) > 0
+      core::length([for a in acts : a if core::contains(["*", "backup:*"], core::lower(a)) || core::endswith(core::lower(a), local.required_put_action)]) > 0
     ]
 
     # Normalize the explicit AWS principal(s) referenced by each Deny statement.

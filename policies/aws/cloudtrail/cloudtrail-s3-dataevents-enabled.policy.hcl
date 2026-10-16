@@ -65,8 +65,8 @@ locals {
         core::length([for f in a.fs : f if core::try(f.field, "") == "resources.type" && core::contains(core::try(f.equals, null) == null ? [] : f.equals, "AWS::S3::Object")]) > 0 &&
         core::length([for f in a.fs : f if core::try(f.field, "") == "eventName"]) == 0
       )
-      arn_equals     = core::flatten([for f in a.fs : core::try(f.equals, null) == null ? [] : f.equals if core::try(f.field, "") == "resources.ARN"])
-      arn_not_equals = core::flatten([for f in a.fs : core::try(f.not_equals, null) == null ? [] : f.not_equals if core::try(f.field, "") == "resources.ARN"])
+      arn_equals      = core::flatten([for f in a.fs : core::try(f.equals, null) == null ? [] : f.equals if core::try(f.field, "") == "resources.ARN"])
+      arn_not_equals  = core::flatten([for f in a.fs : core::try(f.not_equals, null) == null ? [] : f.not_equals if core::try(f.field, "") == "resources.ARN"])
       arn_starts_with = core::flatten([for f in a.fs : core::try(f.starts_with, null) == null ? [] : f.starts_with if core::try(f.field, "") == "resources.ARN"])
       # ends_with and not_* operators narrow the selector in ways a plan cannot resolve
       # to bucket coverage, so any use of them is treated as not covering the buckets.

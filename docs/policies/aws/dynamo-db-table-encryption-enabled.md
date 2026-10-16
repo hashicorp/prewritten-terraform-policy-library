@@ -16,7 +16,8 @@ This rule is covered by the [dynamo-db-table-encryption-enabled](https://github.
 
 ```bash
 trace:
-      # dynamo-db-table-encryption-enabled.policytest.hcl...
+      #
+      dynamo-db-table-encryption-enabled.policytest.hcl...
       running
       # resource.aws_dynamodb_table.pass_default_encryption...
       running
@@ -38,7 +39,8 @@ trace:
       running
       # resource.aws_dynamodb_table.pass_enabled_null...
       pass
-      # dynamo-db-table-encryption-enabled.policytest.hcl...
+      #
+      dynamo-db-table-encryption-enabled.policytest.hcl...
       pass
 ```
 

@@ -125,3 +125,59 @@ resource "aws_route_table" "pass_gateway_id_not_igw_prefix" {
     tags = {}
   }
 }
+
+# ---- Cases merged from ec2-no-public-route-to-igw-2.policytest.hcl ----
+
+
+# FAIL: same violating route shape, but this route table's id is NOT in the allowed list,
+# confirming the exemption only applies to the listed id (not a global bypass).
+resource "aws_route_table" "fail_not_in_allowed_list_f2" {
+  expect_failure = true
+  attrs = {
+    id     = "rtb-0notexempted9999"
+    vpc_id = "vpc-0123456789abcdef0"
+    route = [
+      {
+        cidr_block = "0.0.0.0/0"
+        gateway_id = "igw-0123456789abcdef0"
+      }
+    ]
+    tags = {}
+  }
+}
+
+# ---- Cases merged from ec2-no-public-route-to-igw-3.policytest.hcl ----
+
+resource "aws_route" "fail_ipv4_route_to_igw_f3" {
+  attrs = {
+    route_table_id         = "rtb-route1"
+    destination_cidr_block = "0.0.0.0/0"
+    gateway_id             = "igw-0123456789abcdef0"
+  }
+  expect_failure = true
+}
+
+resource "aws_route" "fail_ipv6_route_to_igw_f3" {
+  attrs = {
+    route_table_id              = "rtb-route2"
+    destination_ipv6_cidr_block = "::/0"
+    gateway_id                  = "igw-0123456789abcdef0"
+  }
+  expect_failure = true
+}
+
+resource "aws_route" "pass_restricted_cidr_to_igw_f3" {
+  attrs = {
+    route_table_id         = "rtb-route3"
+    destination_cidr_block = "10.0.0.0/16"
+    gateway_id             = "igw-0123456789abcdef0"
+  }
+}
+
+resource "aws_route" "pass_default_route_to_nat_f3" {
+  attrs = {
+    route_table_id         = "rtb-route4"
+    destination_cidr_block = "0.0.0.0/0"
+    nat_gateway_id         = "nat-0123456789abcdef0"
+  }
+}

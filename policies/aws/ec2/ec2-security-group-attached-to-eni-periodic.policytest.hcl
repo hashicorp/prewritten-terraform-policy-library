@@ -78,9 +78,9 @@ resource "aws_instance" "instance_multi_sg" {
 resource "aws_instance" "instance_null_sg_ids" {
   skip = true
   attrs = {
-    ami                     = "ami-0123456789abcdef0"
-    instance_type           = "t3.micro"
-    vpc_security_group_ids  = null
+    ami                    = "ami-0123456789abcdef0"
+    instance_type          = "t3.micro"
+    vpc_security_group_ids = null
   }
 }
 
@@ -153,4 +153,39 @@ resource "aws_security_group" "missing_id" {
     name   = "sg-missing-id"
     vpc_id = "vpc-0000000000000001"
   }
+}
+
+# ---- Cases merged from ec2-security-group-attached-to-eni-periodic-2.policytest.hcl ----
+
+resource "aws_security_group" "pass_used_by_rds_f2" {
+  attrs = { id = "sg-rds0001", name = "rds" }
+}
+
+resource "aws_db_instance" "db_f2" {
+  attrs = { identifier = "db", instance_class = "db.t3.micro", vpc_security_group_ids = ["sg-rds0001"] }
+}
+
+resource "aws_security_group" "pass_used_by_lambda_f2" {
+  attrs = { id = "sg-lambda01", name = "lambda" }
+}
+
+resource "aws_lambda_function" "fn_f2" {
+  attrs = {
+    function_name = "fn"
+    role          = "arn:aws:iam::123456789012:role/fn"
+    vpc_config    = [{ security_group_ids = ["sg-lambda01"], subnet_ids = ["subnet-1"] }]
+  }
+}
+
+resource "aws_security_group" "pass_used_by_alb_f2" {
+  attrs = { id = "sg-alb0001", name = "alb" }
+}
+
+resource "aws_lb" "alb_f2" {
+  attrs = { name = "alb", security_groups = ["sg-alb0001"] }
+}
+
+resource "aws_security_group" "fail_used_by_nothing_f2" {
+  attrs          = { id = "sg-unused01", name = "unused" }
+  expect_failure = true
 }

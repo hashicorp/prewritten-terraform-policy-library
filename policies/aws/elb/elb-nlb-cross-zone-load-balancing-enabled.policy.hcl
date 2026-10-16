@@ -22,8 +22,8 @@ resource_policy "aws_lb" "elb_nlb_cross_zone_load_balancing_enabled" {
   locals {
     # Default load_balancer_type to "application" when not explicitly set, matching Sentinel's
     # maps.get(res.values, "load_balancer_type", "application") behavior.
-    load_balancer_type_raw = core::try(attrs.load_balancer_type, null)
-    load_balancer_type     = local.load_balancer_type_raw != null ? local.load_balancer_type_raw : "application"
+    load_balancer_type_raw   = core::try(attrs.load_balancer_type, null)
+    load_balancer_type       = local.load_balancer_type_raw != null ? local.load_balancer_type_raw : "application"
     is_network_load_balancer = local.load_balancer_type == "network"
 
     # Default enable_cross_zone_load_balancing to false when not explicitly set, matching

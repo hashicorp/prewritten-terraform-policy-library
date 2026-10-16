@@ -7,9 +7,9 @@ policytest {
 # PASS: NLB with cross-zone load balancing explicitly enabled
 resource "aws_lb" "pass_nlb_cross_zone_enabled" {
   attrs = {
-    name                              = "nlb-pass-enabled"
-    load_balancer_type                = "network"
-    enable_cross_zone_load_balancing  = true
+    name                             = "nlb-pass-enabled"
+    load_balancer_type               = "network"
+    enable_cross_zone_load_balancing = true
   }
 }
 
@@ -17,9 +17,9 @@ resource "aws_lb" "pass_nlb_cross_zone_enabled" {
 resource "aws_lb" "fail_nlb_cross_zone_disabled" {
   expect_failure = true
   attrs = {
-    name                              = "nlb-fail-disabled"
-    load_balancer_type                = "network"
-    enable_cross_zone_load_balancing  = false
+    name                             = "nlb-fail-disabled"
+    load_balancer_type               = "network"
+    enable_cross_zone_load_balancing = false
   }
 }
 
@@ -27,8 +27,8 @@ resource "aws_lb" "fail_nlb_cross_zone_disabled" {
 resource "aws_lb" "fail_nlb_cross_zone_missing" {
   expect_failure = true
   attrs = {
-    name                = "nlb-fail-missing"
-    load_balancer_type  = "network"
+    name               = "nlb-fail-missing"
+    load_balancer_type = "network"
     # enable_cross_zone_load_balancing intentionally omitted
   }
 }
@@ -37,27 +37,27 @@ resource "aws_lb" "fail_nlb_cross_zone_missing" {
 resource "aws_lb" "fail_nlb_cross_zone_null" {
   expect_failure = true
   attrs = {
-    name                              = "nlb-fail-null"
-    load_balancer_type                = "network"
-    enable_cross_zone_load_balancing  = null
+    name                             = "nlb-fail-null"
+    load_balancer_type               = "network"
+    enable_cross_zone_load_balancing = null
   }
 }
 
 # PASS: Application Load Balancer is out of scope for this policy regardless of the flag's value
 resource "aws_lb" "pass_alb_out_of_scope" {
   attrs = {
-    name                              = "alb-pass-out-of-scope"
-    load_balancer_type                = "application"
-    enable_cross_zone_load_balancing  = false
+    name                             = "alb-pass-out-of-scope"
+    load_balancer_type               = "application"
+    enable_cross_zone_load_balancing = false
   }
 }
 
 # PASS: Gateway Load Balancer is out of scope for this policy regardless of the flag's value
 resource "aws_lb" "pass_gwlb_out_of_scope" {
   attrs = {
-    name                              = "gwlb-pass-out-of-scope"
-    load_balancer_type                = "gateway"
-    enable_cross_zone_load_balancing  = false
+    name                             = "gwlb-pass-out-of-scope"
+    load_balancer_type               = "gateway"
+    enable_cross_zone_load_balancing = false
   }
 }
 

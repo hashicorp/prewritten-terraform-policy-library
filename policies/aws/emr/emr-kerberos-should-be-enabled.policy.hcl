@@ -38,8 +38,8 @@ resource_policy "aws_emr_cluster" "emr_kerberos_should_be_enabled" {
 
     has_realm        = local.realm_raw != null && local.realm_raw != ""
     has_kdc_password = local.kdc_admin_password_raw != null && local.kdc_admin_password_raw != ""
-    has_ad_user       = local.ad_domain_join_user_raw != null && local.ad_domain_join_user_raw != ""
-    has_ad_password   = local.ad_domain_join_password_raw != null && local.ad_domain_join_password_raw != ""
+    has_ad_user      = local.ad_domain_join_user_raw != null && local.ad_domain_join_user_raw != ""
+    has_ad_password  = local.ad_domain_join_password_raw != null && local.ad_domain_join_password_raw != ""
 
     # Sentinel Check 1: at least 'realm' or 'kdc_admin_password' must be specified
     check1_ok = local.has_realm || local.has_kdc_password

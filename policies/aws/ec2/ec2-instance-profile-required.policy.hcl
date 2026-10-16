@@ -41,7 +41,7 @@ resource_policy "aws_instance" "ec2_instance_profile_required" {
     # literal attribute values before TFPolicy evaluation, so only the ARN and plain
     # name forms are relevant for aws_instance.iam_instance_profile.
     profile_name_parts = core::split("/", local.profile_value)
-    profile_name = core::length(local.profile_name_parts) > 1 ? local.profile_name_parts[core::length(local.profile_name_parts) - 1] : local.profile_value
+    profile_name       = core::length(local.profile_name_parts) > 1 ? local.profile_name_parts[core::length(local.profile_name_parts) - 1] : local.profile_value
 
     allowed_list   = input.ec2-instance-profile-required-allowed_iam_instance_profiles
     has_allow_list = core::length(local.allowed_list) > 0

@@ -54,11 +54,11 @@ resource "aws_security_group" "pass_via_instance" {
 resource "aws_instance" "instance_for_pass" {
   skip = true
   attrs = {
-    id                      = "i-00003"
-    ami                     = "ami-12345678"
-    instance_type           = "t3.micro"
-    subnet_id               = "subnet-12345678"
-    vpc_security_group_ids  = ["sg-00003"]
+    id                     = "i-00003"
+    ami                    = "ami-12345678"
+    instance_type          = "t3.micro"
+    subnet_id              = "subnet-12345678"
+    vpc_security_group_ids = ["sg-00003"]
   }
 }
 
@@ -110,11 +110,11 @@ resource "aws_security_group" "fail_empty_instance_list" {
 resource "aws_instance" "instance_empty_list" {
   skip = true
   attrs = {
-    id                      = "i-00006"
-    ami                     = "ami-12345678"
-    instance_type           = "t3.micro"
-    subnet_id               = "subnet-12345678"
-    vpc_security_group_ids  = []
+    id                     = "i-00006"
+    ami                    = "ami-12345678"
+    instance_type          = "t3.micro"
+    subnet_id              = "subnet-12345678"
+    vpc_security_group_ids = []
   }
 }
 
@@ -136,4 +136,39 @@ resource "aws_network_interface" "eni_missing_sg_attr" {
     id        = "eni-00007"
     subnet_id = "subnet-12345678"
   }
+}
+
+# ---- Cases merged from ec2-non-default-security-groups-attached-to-eni-2.policytest.hcl ----
+
+resource "aws_security_group" "pass_used_by_rds_f2" {
+  attrs = { id = "sg-rds0001", name = "rds" }
+}
+
+resource "aws_db_instance" "db_f2" {
+  attrs = { identifier = "db", instance_class = "db.t3.micro", vpc_security_group_ids = ["sg-rds0001"] }
+}
+
+resource "aws_security_group" "pass_used_by_lambda_f2" {
+  attrs = { id = "sg-lambda01", name = "lambda" }
+}
+
+resource "aws_lambda_function" "fn_f2" {
+  attrs = {
+    function_name = "fn"
+    role          = "arn:aws:iam::123456789012:role/fn"
+    vpc_config    = [{ security_group_ids = ["sg-lambda01"], subnet_ids = ["subnet-1"] }]
+  }
+}
+
+resource "aws_security_group" "pass_used_by_alb_f2" {
+  attrs = { id = "sg-alb0001", name = "alb" }
+}
+
+resource "aws_lb" "alb_f2" {
+  attrs = { name = "alb", security_groups = ["sg-alb0001"] }
+}
+
+resource "aws_security_group" "fail_used_by_nothing_f2" {
+  attrs          = { id = "sg-unused01", name = "unused" }
+  expect_failure = true
 }

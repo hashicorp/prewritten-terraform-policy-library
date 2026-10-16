@@ -12,11 +12,11 @@ policytest {
 resource "aws_iam_role" "backup_role" {
   skip = true
   attrs = {
-    name                = "backup-role"
-    arn                 = "arn:aws:iam::123456789012:role/backup-role"
-    assume_role_policy   = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"backup.amazonaws.com\"}}]}"
-    path                = "/"
-    tags                = {}
+    name               = "backup-role"
+    arn                = "arn:aws:iam::123456789012:role/backup-role"
+    assume_role_policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"backup.amazonaws.com\"}}]}"
+    path               = "/"
+    tags               = {}
   }
 }
 
@@ -204,11 +204,11 @@ resource "aws_backup_selection" "sel_cluster" {
 # Scenario 10: PASS - cluster referenced by ARN in a valid selection.
 resource "aws_rds_cluster" "compliant_cluster" {
   attrs = {
-    cluster_identifier       = "compliant-cluster"
-    arn                      = "arn:aws:rds:us-east-1:123456789012:cluster:compliant-cluster"
-    backup_retention_period  = 7
-    preferred_backup_window  = "09:46-10:16"
-    tags                     = {}
+    cluster_identifier      = "compliant-cluster"
+    arn                     = "arn:aws:rds:us-east-1:123456789012:cluster:compliant-cluster"
+    backup_retention_period = 7
+    preferred_backup_window = "09:46-10:16"
+    tags                    = {}
   }
 }
 
@@ -216,11 +216,11 @@ resource "aws_rds_cluster" "compliant_cluster" {
 resource "aws_rds_cluster" "no_retention_cluster" {
   expect_failure = true
   attrs = {
-    cluster_identifier       = "no-retention-cluster"
-    arn                      = "arn:aws:rds:us-east-1:123456789012:cluster:no-retention-cluster"
-    backup_retention_period  = 0
-    preferred_backup_window  = "09:46-10:16"
-    tags                     = {}
+    cluster_identifier      = "no-retention-cluster"
+    arn                     = "arn:aws:rds:us-east-1:123456789012:cluster:no-retention-cluster"
+    backup_retention_period = 0
+    preferred_backup_window = "09:46-10:16"
+    tags                    = {}
   }
 }
 
@@ -228,10 +228,26 @@ resource "aws_rds_cluster" "no_retention_cluster" {
 resource "aws_rds_cluster" "unlinked_cluster" {
   expect_failure = true
   attrs = {
-    cluster_identifier       = "unlinked-cluster"
-    arn                      = "arn:aws:rds:us-east-1:123456789012:cluster:unlinked-cluster"
-    backup_retention_period  = 7
-    preferred_backup_window  = "09:46-10:16"
-    tags                     = {}
+    cluster_identifier      = "unlinked-cluster"
+    arn                     = "arn:aws:rds:us-east-1:123456789012:cluster:unlinked-cluster"
+    backup_retention_period = 7
+    preferred_backup_window = "09:46-10:16"
+    tags                    = {}
+  }
+}
+
+# ---- Cases merged from rds-recovery-point-created-within-time-period-2.policytest.hcl ----
+
+# Scenario 9: FAIL - no AWS Backup selections exist in the plan at all, so the
+# resource cannot be included in any backup selection, regardless of its own
+# backup_retention_period setting.
+resource "aws_db_instance" "no_selection_at_all_db_f2" {
+  expect_failure = true
+  attrs = {
+    identifier              = "no-selection-at-all-db"
+    arn                     = "arn:aws:rds:us-east-1:123456789012:db:no-selection-at-all-db"
+    backup_retention_period = 7
+    backup_window           = "09:46-10:16"
+    tags                    = {}
   }
 }

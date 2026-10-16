@@ -45,3 +45,24 @@ resource "aws_cloudwatch_log_group" "fail_kms_key_id_empty_string" {
     kms_key_id        = ""
   }
 }
+
+# ---- Cases merged from cloudwatch-log-group-kms-encryption-2.policytest.hcl ----
+
+# PASS: kms_key_id exactly matches the required key
+resource "aws_cloudwatch_log_group" "pass_matching_required_key_f2" {
+  attrs = {
+    name              = "secure-app-logs"
+    retention_in_days = 90
+    kms_key_id        = "arn:aws:kms:us-east-1:123456789012:key/required-key-aaaa-bbbb-cccc"
+  }
+}
+
+
+# FAIL: kms_key_id is omitted entirely while a specific key is required
+resource "aws_cloudwatch_log_group" "fail_missing_key_with_required_f2" {
+  expect_failure = true
+  attrs = {
+    name              = "secure-app-logs-no-key"
+    retention_in_days = 90
+  }
+}

@@ -180,7 +180,7 @@ resource "aws_athena_workgroup" "fail_managed_query_results_disabled" {
 resource "aws_athena_workgroup" "fail_no_encryption_paths" {
   expect_failure = true
   attrs = {
-    name          = "workgroup-no-encryption"
+    name = "workgroup-no-encryption"
     configuration = [
       {
         enforce_workgroup_configuration = true

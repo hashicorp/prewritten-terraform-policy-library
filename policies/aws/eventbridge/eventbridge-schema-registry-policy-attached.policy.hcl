@@ -35,7 +35,7 @@ locals {
     if core::try(p.registry_name, null) != null
     && core::try(p.registry_name, "") != ""
     && core::try(p.policy, null) != null
-    && core::try(p.policy, "") != ""]
+  && core::try(p.policy, "") != ""]
 
   # Names of registries that have at least one qualifying resource policy attached.
   schreg_registry_names_with_policy = [for p in local.schreg_qualifying_registry_policies : core::try(p.registry_name, "")]

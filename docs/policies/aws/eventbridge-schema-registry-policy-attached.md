@@ -16,7 +16,8 @@ This rule is covered by the [eventbridge-schema-registry-policy-attached](https:
 
 ```bash
 trace:
-      # eventbridge-schema-registry-policy-attached.policytest.hcl...
+      #
+      eventbridge-schema-registry-policy-attached.policytest.hcl...
       running
       # resource.aws_schemas_registry.pass_with_policy...
       running
@@ -46,7 +47,8 @@ trace:
       running
       # resource.aws_schemas_registry.fail_null_name...
       pass
-      # eventbridge-schema-registry-policy-attached.policytest.hcl...
+      #
+      eventbridge-schema-registry-policy-attached.policytest.hcl...
       pass
 ```
 

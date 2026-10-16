@@ -53,7 +53,7 @@ resource_policy "aws_secretsmanager_secret" "secretsmanager_secrets_encrypted_us
     # allowed ARN ends with the kms_key_id (handles key-id-only / alias-only values), mirroring
     # Sentinel's is_allowed_kms_key() helper.
     matched_allowed_arns = [for arn in local.allowed_arns : arn
-      if local.kms_key_id == arn || core::endswith(arn, local.kms_key_id)]
+    if local.kms_key_id == arn || core::endswith(arn, local.kms_key_id)]
 
     matches_allowlist = core::length(local.matched_allowed_arns) > 0
     is_allowed_key    = !local.has_allowlist || local.matches_allowlist

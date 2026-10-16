@@ -129,3 +129,38 @@ resource "aws_codebuild_project" "pass_privileged_mode_null" {
     ]
   }
 }
+
+# ---- Cases merged from codebuild-project-privileged-mode-disabled-2.policytest.hcl ----
+
+
+# FAIL case: privileged_mode is true, project name is NOT in exempted_projects
+# even though the exempted_projects list is non-empty for this file.
+resource "aws_codebuild_project" "fail_privileged_mode_true_different_project_f2" {
+  expect_failure = true
+  attrs = {
+    name         = "other-project"
+    service_role = "arn:aws:iam::123456789012:role/service-role/test-role"
+
+    artifacts = [
+      {
+        type = "NO_ARTIFACTS"
+      }
+    ]
+
+    environment = [
+      {
+        compute_type    = "BUILD_GENERAL1_SMALL"
+        image           = "aws/codebuild/standard:7.0"
+        type            = "LINUX_CONTAINER"
+        privileged_mode = true
+      }
+    ]
+
+    source = [
+      {
+        type     = "GITHUB"
+        location = "https://github.com/example/example.git"
+      }
+    ]
+  }
+}

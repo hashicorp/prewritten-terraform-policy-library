@@ -39,7 +39,7 @@ resource "aws_autoscaling_group" "pass_single_override_no_requirements" {
       launch_template = [{
         launch_template_specification = [{
           launch_template_id = "lt-0123456789abcdef0"
-          version             = "$Latest"
+          version            = "$Latest"
         }]
         override = [
           { instance_type = "t3.micro" }
@@ -63,7 +63,7 @@ resource "aws_autoscaling_group" "pass_multiple_overrides_rebalance_enabled" {
       launch_template = [{
         launch_template_specification = [{
           launch_template_id = "lt-0123456789abcdef0"
-          version             = "$Latest"
+          version            = "$Latest"
         }]
         override = [
           { instance_type = "t3.micro" },
@@ -89,7 +89,7 @@ resource "aws_autoscaling_group" "fail_multiple_overrides_rebalance_disabled" {
       launch_template = [{
         launch_template_specification = [{
           launch_template_id = "lt-0123456789abcdef0"
-          version             = "$Latest"
+          version            = "$Latest"
         }]
         override = [
           { instance_type = "t3.micro" },
@@ -115,7 +115,7 @@ resource "aws_autoscaling_group" "pass_instance_requirements_rebalance_enabled" 
       launch_template = [{
         launch_template_specification = [{
           launch_template_id = "lt-0123456789abcdef0"
-          version             = "$Latest"
+          version            = "$Latest"
         }]
         override = [
           {
@@ -151,7 +151,7 @@ resource "aws_autoscaling_group" "fail_instance_requirements_rebalance_disabled"
       launch_template = [{
         launch_template_specification = [{
           launch_template_id = "lt-0123456789abcdef0"
-          version             = "$Latest"
+          version            = "$Latest"
         }]
         override = [
           {
@@ -187,7 +187,7 @@ resource "aws_autoscaling_group" "fail_multiple_overrides_rebalance_omitted" {
       launch_template = [{
         launch_template_specification = [{
           launch_template_id = "lt-0123456789abcdef0"
-          version             = "$Latest"
+          version            = "$Latest"
         }]
         override = [
           { instance_type = "t3.micro" },
