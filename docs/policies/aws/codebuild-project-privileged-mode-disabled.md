@@ -1,0 +1,53 @@
+# CodeBuild project environments should not have privileged mode enabled
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Secure access management |
+
+## Description
+
+This policy implements the AWS Config rule [codebuild-project-environment-privileged-check](https://docs.aws.amazon.com/config/latest/developerguide/codebuild-project-environment-privileged-check.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if an AWS CodeBuild project environment has privileged mode enabled. The rule is NON_COMPLIANT for a CodeBuild project if ‘privilegedMode’ is set to ‘true’.
+
+The policy evaluates `aws_codebuild_project` resources.
+
+This rule is covered by the [codebuild-project-privileged-mode-disabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/codebuild/codebuild-project-privileged-mode-disabled.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # codebuild-project-privileged-mode-disabled-2.policytest.hcl...
+      running
+      # resource.aws_codebuild_project.pass_privileged_mode_true_exempted...
+      running
+      # resource.aws_codebuild_project.pass_privileged_mode_true_exempted...
+      pass
+      # resource.aws_codebuild_project.fail_privileged_mode_true_different_project...
+      running
+      # resource.aws_codebuild_project.fail_privileged_mode_true_different_project...
+      pass
+      # codebuild-project-privileged-mode-disabled-2.policytest.hcl...
+      pass
+      # codebuild-project-privileged-mode-disabled.policytest.hcl...
+      running
+      # resource.aws_codebuild_project.pass_privileged_mode_false...
+      running
+      # resource.aws_codebuild_project.pass_privileged_mode_false...
+      pass
+      # resource.aws_codebuild_project.fail_privileged_mode_true_not_exempted...
+      running
+      # resource.aws_codebuild_project.fail_privileged_mode_true_not_exempted...
+      pass
+      # resource.aws_codebuild_project.pass_privileged_mode_missing_attribute...
+      running
+      # resource.aws_codebuild_project.pass_privileged_mode_missing_attribute...
+      pass
+      # resource.aws_codebuild_project.pass_privileged_mode_null...
+      running
+      # resource.aws_codebuild_project.pass_privileged_mode_null...
+      pass
+      # codebuild-project-privileged-mode-disabled.policytest.hcl...
+      pass
+```
+
+---

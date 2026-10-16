@@ -1,0 +1,79 @@
+# Security groups should be attached to an elastic network interface
+
+| Provider            | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Inventory |
+
+## Description
+
+This policy implements the AWS Config rule [ec2-security-group-attached-to-eni-periodic](https://docs.aws.amazon.com/config/latest/developerguide/ec2-security-group-attached-to-eni-periodic.html), which is part of the ISO/IEC 27001:2013 Annex A framework in AWS Audit Manager. Checks if non-default security groups are attached to Elastic network interfaces (ENIs). The rule is NON_COMPLIANT if the security group is not associated with an ENI. Security groups not owned by the calling account evaluate as NOT_APPLICABLE.
+
+The policy evaluates `aws_security_group` resources.
+
+- The security group ID is computed. For a security group created in the same plan, the ID and every reference to it are unknown until apply, so the result is unknown at plan time. Existing (imported or already applied) security groups are evaluated.
+
+This rule is covered by the [ec2-security-group-attached-to-eni-periodic](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-security-group-attached-to-eni-periodic.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # ec2-security-group-attached-to-eni-periodic-2.policytest.hcl...
+      running
+      # resource.aws_security_group.pass_used_by_rds...
+      running
+      # resource.aws_security_group.pass_used_by_rds...
+      pass
+      # resource.aws_db_instance.db... running
+      # resource.aws_db_instance.db... pass
+      # resource.aws_security_group.pass_used_by_lambda...
+      running
+      # resource.aws_security_group.pass_used_by_lambda...
+      pass
+      # resource.aws_lambda_function.fn... running
+      # resource.aws_lambda_function.fn... pass
+      # resource.aws_security_group.pass_used_by_alb...
+      running
+      # resource.aws_security_group.pass_used_by_alb...
+      pass
+      # resource.aws_lb.alb... running
+      # resource.aws_lb.alb... pass
+      # resource.aws_security_group.fail_used_by_nothing...
+      running
+      # resource.aws_security_group.fail_used_by_nothing...
+      pass
+      # ec2-security-group-attached-to-eni-periodic-2.policytest.hcl...
+      pass
+      # ec2-security-group-attached-to-eni-periodic.policytest.hcl...
+      running
+      # resource.aws_security_group.attached_via_eni...
+      running
+      # resource.aws_security_group.attached_via_eni...
+      pass
+      # resource.aws_security_group.attached_via_attachment...
+      running
+      # resource.aws_security_group.attached_via_attachment...
+      pass
+      # resource.aws_security_group.attached_via_instance...
+      running
+      # resource.aws_security_group.attached_via_instance...
+      pass
+      # resource.aws_security_group.attached_via_eni_multi...
+      running
+      # resource.aws_security_group.attached_via_eni_multi...
+      pass
+      # resource.aws_security_group.attached_via_instance_multi...
+      running
+      # resource.aws_security_group.attached_via_instance_multi...
+      pass
+      # resource.aws_security_group.unattached...
+      running
+      # resource.aws_security_group.unattached... pass
+      # resource.aws_security_group.missing_id...
+      running
+      # resource.aws_security_group.missing_id... pass
+      # ec2-security-group-attached-to-eni-periodic.policytest.hcl...
+      pass
+```
+
+---
