@@ -1,7 +1,7 @@
 # Copyright IBM Corp. 2026
 
-# Separate file: assumes a different inputs {} block (recoveryPointAgeValue=2,
-# recoveryPointAgeUnit="hours" => required_hours=2). A policytest file can
+# Separate file: assumes a different inputs {} block (recovery_point_age_value=2,
+# recovery_point_age_unit="hours" => required_hours=2). A policytest file can
 # declare only one inputs {} block, so this scenario set needs its own file.
 
 policytest {
@@ -9,8 +9,8 @@ policytest {
 }
 
 inputs {
-  dynamo-db-recovery-point-created-recoveryPointAgeValue = 2
-  dynamo-db-recovery-point-created-recoveryPointAgeUnit  = "hours"
+  dynamo-db-recovery-point-created-recovery_point_age_value = 2
+  dynamo-db-recovery-point-created-recovery_point_age_unit  = "hours"
 }
 
 # PASS: PITR enabled - always compliant regardless of the required window.

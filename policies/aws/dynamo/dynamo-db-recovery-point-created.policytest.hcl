@@ -4,8 +4,8 @@ policytest {
   targets = ["dynamo-db-recovery-point-created.policy.hcl"]
 }
 
-# Default inputs (backup_period_days=1, resourceId="", resourceTags="",
-# recoveryPointAgeValue=1, recoveryPointAgeUnit="days" => required_hours = 24).
+# Default inputs (backup_period_days=1, resource_id="", resource_tags="",
+# recovery_point_age_value=1, recovery_point_age_unit="days" => required_hours = 24).
 # All selections/plans here use exact-value matching (own ARN cross-references,
 # ARN-suffix, or tag matching) - never the "*" wildcard or the generic
 # "arn:aws:dynamodb:*:*:table/*" pattern - so they cannot accidentally cover

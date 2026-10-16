@@ -38,32 +38,32 @@ input "dynamo-db-recovery-point-created-enforcement-level" {
 }
 
 # backup_period_days refers to the maximum number of days since the last backup.
-# Kept in effect unless recoveryPointAgeValue/recoveryPointAgeUnit are explicitly customized.
+# Kept in effect unless recovery_point_age_value/recovery_point_age_unit are explicitly customized.
 input "dynamo-db-recovery-point-created-backup_period_days" {
   type    = number
   default = 1
 }
 
 # Tags of the DynamoDB tables for the rule to check, in JSON format {"tagkey":"tagValue"}.
-input "dynamo-db-recovery-point-created-resourceTags" {
+input "dynamo-db-recovery-point-created-resource_tags" {
   type    = string
   default = ""
 }
 
 # Name of the DynamoDB table for the rule to check.
-input "dynamo-db-recovery-point-created-resourceId" {
+input "dynamo-db-recovery-point-created-resource_id" {
   type    = string
   default = ""
 }
 
 # Numerical value for maximum allowed recovery point age. No more than 744 for hours, 31 for days.
-input "dynamo-db-recovery-point-created-recoveryPointAgeValue" {
+input "dynamo-db-recovery-point-created-recovery_point_age_value" {
   type    = number
   default = 1
 }
 
 # Unit of time for maximum allowed recovery point age. Accepted values: 'hours', 'days'.
-input "dynamo-db-recovery-point-created-recoveryPointAgeUnit" {
+input "dynamo-db-recovery-point-created-recovery_point_age_unit" {
   type    = string
   default = "days"
 }
@@ -71,10 +71,10 @@ input "dynamo-db-recovery-point-created-recoveryPointAgeUnit" {
 locals {
   # Keep the legacy backup_period_days input effective unless the AWS Config style
   # recovery point parameters are explicitly customized away from their defaults.
-  ddbrp_recovery_params_customized = input.dynamo-db-recovery-point-created-recoveryPointAgeValue != 1 || input.dynamo-db-recovery-point-created-recoveryPointAgeUnit != "days"
+  ddbrp_recovery_params_customized = input.dynamo-db-recovery-point-created-recovery_point_age_value != 1 || input.dynamo-db-recovery-point-created-recovery_point_age_unit != "days"
 
   ddbrp_required_hours = local.ddbrp_recovery_params_customized ? (
-    input.dynamo-db-recovery-point-created-recoveryPointAgeUnit == "hours" ? input.dynamo-db-recovery-point-created-recoveryPointAgeValue : input.dynamo-db-recovery-point-created-recoveryPointAgeValue * 24
+    input.dynamo-db-recovery-point-created-recovery_point_age_unit == "hours" ? input.dynamo-db-recovery-point-created-recovery_point_age_value : input.dynamo-db-recovery-point-created-recovery_point_age_value * 24
   ) : input.dynamo-db-recovery-point-created-backup_period_days * 24
 
   # Reverse-reference pattern: cache all AWS Backup plans/selections once at plan time so
@@ -110,15 +110,15 @@ locals {
 }
 
 resource_policy "aws_dynamodb_table" "recovery_point_created" {
-  # Apply the optional resourceId / resourceTags filters: non-matching tables are skipped
+  # Apply the optional resource_id / resource_tags filters: non-matching tables are skipped
   # entirely (not reported as violations), mirroring the Sentinel policy's filter stage.
   filter = (
-    (input.dynamo-db-recovery-point-created-resourceId == "" ? true : core::try(attrs.name, "") == input.dynamo-db-recovery-point-created-resourceId)
+    (input.dynamo-db-recovery-point-created-resource_id == "" ? true : core::try(attrs.name, "") == input.dynamo-db-recovery-point-created-resource_id)
     &&
     (
-      input.dynamo-db-recovery-point-created-resourceTags == "" ? true :
+      input.dynamo-db-recovery-point-created-resource_tags == "" ? true :
       core::alltrue([
-        for k, v in core::try(core::jsondecode(input.dynamo-db-recovery-point-created-resourceTags), {}) :
+        for k, v in core::try(core::jsondecode(input.dynamo-db-recovery-point-created-resource_tags), {}) :
         core::try(core::try(attrs.tags, {})[k], "__missing__") == v
       ])
     )

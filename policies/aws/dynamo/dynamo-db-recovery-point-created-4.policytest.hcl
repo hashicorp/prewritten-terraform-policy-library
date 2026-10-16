@@ -1,7 +1,7 @@
 # Copyright IBM Corp. 2026
 
 # Separate file: assumes a different inputs {} block (backup_period_days=3,
-# recoveryPointAgeValue/recoveryPointAgeUnit left at their defaults of 1/"days"
+# recovery_point_age_value/recovery_point_age_unit left at their defaults of 1/"days"
 # => required_hours=72). A policytest file can declare only one inputs {}
 # block, so this scenario set needs its own file.
 

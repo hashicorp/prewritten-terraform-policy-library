@@ -8,8 +8,8 @@
 # cases, so there is no conflict between them). Mixing a "should fail due to
 # no coverage" table into this file would be incorrectly covered by the
 # wildcard/generic selections below. Assumes default inputs (same as the main
-# test file: backup_period_days=1, resourceId="", resourceTags="",
-# recoveryPointAgeValue=1, recoveryPointAgeUnit="days" => required_hours=24).
+# test file: backup_period_days=1, resource_id="", resource_tags="",
+# recovery_point_age_value=1, recovery_point_age_unit="days" => required_hours=24).
 
 policytest {
   targets = ["dynamo-db-recovery-point-created.policy.hcl"]

@@ -1,7 +1,7 @@
 # Copyright IBM Corp. 2026
 
 # Separate file: assumes a different inputs {} block
-# (resourceTags = "{\"Environment\":\"prod\"}"). A policytest file can
+# (resource_tags = "{\"Environment\":\"prod\"}"). A policytest file can
 # declare only one inputs {} block, so this scenario set needs its own file.
 # Uses default backup_period_days=1 etc. (required_hours=24).
 
@@ -10,10 +10,10 @@ policytest {
 }
 
 inputs {
-  dynamo-db-recovery-point-created-resourceTags = "{\"Environment\":\"prod\"}"
+  dynamo-db-recovery-point-created-resource_tags = "{\"Environment\":\"prod\"}"
 }
 
-# PASS: table tags do not match resourceTags filter -> not evaluated -> passes
+# PASS: table tags do not match resource_tags filter -> not evaluated -> passes
 # trivially even though it is non-compliant (PITR disabled, no coverage).
 resource "aws_dynamodb_table" "filtered_out_by_tags" {
   attrs = {
@@ -26,7 +26,7 @@ resource "aws_dynamodb_table" "filtered_out_by_tags" {
   }
 }
 
-# FAIL: table tags match resourceTags filter -> evaluated -> non-compliant.
+# FAIL: table tags match resource_tags filter -> evaluated -> non-compliant.
 resource "aws_dynamodb_table" "matching_tags_noncompliant" {
   expect_failure = true
   attrs = {
@@ -39,7 +39,7 @@ resource "aws_dynamodb_table" "matching_tags_noncompliant" {
   }
 }
 
-# PASS: table tags match resourceTags filter -> evaluated -> compliant (PITR enabled).
+# PASS: table tags match resource_tags filter -> evaluated -> compliant (PITR enabled).
 resource "aws_dynamodb_table" "matching_tags_compliant" {
   attrs = {
     name     = "matching-tag-table-pass"

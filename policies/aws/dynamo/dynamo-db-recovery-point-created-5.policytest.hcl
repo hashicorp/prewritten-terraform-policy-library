@@ -1,6 +1,6 @@
 # Copyright IBM Corp. 2026
 
-# Separate file: assumes a different inputs {} block (resourceId=
+# Separate file: assumes a different inputs {} block (resource_id=
 # "specific-table"). A policytest file can declare only one inputs {} block,
 # so this scenario set needs its own file. Uses default backup_period_days=1
 # etc. (required_hours=24).
@@ -10,10 +10,10 @@ policytest {
 }
 
 inputs {
-  dynamo-db-recovery-point-created-resourceId = "specific-table"
+  dynamo-db-recovery-point-created-resource_id = "specific-table"
 }
 
-# PASS: table name does not match resourceId filter -> not evaluated -> passes
+# PASS: table name does not match resource_id filter -> not evaluated -> passes
 # trivially even though it is non-compliant (PITR disabled, no coverage).
 resource "aws_dynamodb_table" "filtered_out_by_id" {
   attrs = {
@@ -26,7 +26,7 @@ resource "aws_dynamodb_table" "filtered_out_by_id" {
   }
 }
 
-# FAIL: table name matches resourceId filter -> evaluated -> non-compliant.
+# FAIL: table name matches resource_id filter -> evaluated -> non-compliant.
 resource "aws_dynamodb_table" "matching_id_noncompliant" {
   expect_failure = true
   attrs = {
@@ -39,7 +39,7 @@ resource "aws_dynamodb_table" "matching_id_noncompliant" {
   }
 }
 
-# PASS: table name matches resourceId filter -> evaluated -> compliant (PITR enabled).
+# PASS: table name matches resource_id filter -> evaluated -> compliant (PITR enabled).
 resource "aws_dynamodb_table" "matching_id_compliant" {
   attrs = {
     name     = "specific-table"

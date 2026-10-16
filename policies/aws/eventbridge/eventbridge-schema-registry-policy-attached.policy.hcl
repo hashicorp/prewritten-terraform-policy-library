@@ -27,18 +27,18 @@ locals {
   # Collect all planned aws_schemas_registry_policy resources (plan-time, top-level
   # lookup since the linking key -- registry_name -- is a known literal/stable attribute,
   # typically referencing another registry's `name` directly in config).
-  all_registry_policies = core::getresources("aws_schemas_registry_policy", {})
+  schreg_all_registry_policies = core::getresources("aws_schemas_registry_policy", {})
 
   # Keep only policies that have both a non-empty registry_name and a non-empty policy
   # document -- mirrors the Sentinel helper get_registries_with_policies().
-  qualifying_registry_policies = [for p in local.all_registry_policies : p
+  schreg_qualifying_registry_policies = [for p in local.schreg_all_registry_policies : p
     if core::try(p.registry_name, null) != null
     && core::try(p.registry_name, "") != ""
     && core::try(p.policy, null) != null
     && core::try(p.policy, "") != ""]
 
   # Names of registries that have at least one qualifying resource policy attached.
-  registry_names_with_policy = [for p in local.qualifying_registry_policies : core::try(p.registry_name, "")]
+  schreg_registry_names_with_policy = [for p in local.schreg_qualifying_registry_policies : core::try(p.registry_name, "")]
 }
 
 resource_policy "aws_schemas_registry" "policy_attached" {
@@ -48,7 +48,7 @@ resource_policy "aws_schemas_registry" "policy_attached" {
 
     # Compliant only when the registry has a non-empty name AND that name
     # appears among registries that have a qualifying resource policy attached.
-    is_compliant = local.registry_name != "" && core::contains(local.registry_names_with_policy, local.registry_name)
+    is_compliant = local.registry_name != "" && core::contains(local.schreg_registry_names_with_policy, local.registry_name)
   }
 
   enforcement_level = input.eventbridge-schema-registry-policy-attached-enforcement-level
