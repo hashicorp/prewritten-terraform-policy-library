@@ -6,7 +6,7 @@
 
 ## Description
 
-This policy checks that there is at least one AWS CloudTrail trail defined with security best practices. This rule is COMPLIANT if there is at least one trail that meets all of the following:
+This policy checks that there is at least one AWS CloudTrail trail defined with security best practices. The policy passes if there is at least one trail that meets all of the following:
 
 The policy evaluates `aws_cloudtrail` resources.
 
