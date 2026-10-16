@@ -1,0 +1,213 @@
+# Copyright IBM Corp. 2026
+
+policytest {
+  targets = ["storage-smb-protocol-version-311-required.policy.hcl"]
+}
+
+resource "azurerm_storage_account" "pass_smb311_only" {
+  attrs = {
+    name                     = "sa912t00"
+    account_kind             = "StorageV2"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = [{
+        versions = ["SMB3.1.1"]
+      }]
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_share_properties_absent" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t01"
+    account_kind             = "StorageV2"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+  }
+}
+
+resource "azurerm_storage_account" "pass_block_blob_storage_out_of_scope" {
+  attrs = {
+    name                     = "sa912t12"
+    account_kind             = "BlockBlobStorage"
+    account_replication_type = "LRS"
+    account_tier             = "Premium"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+  }
+}
+
+resource "azurerm_storage_account" "fail_file_storage_missing_smb_versions" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t13"
+    account_kind             = "FileStorage"
+    account_replication_type = "LRS"
+    account_tier             = "Premium"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = [{ multichannel_enabled = false }]
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_share_properties_empty" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t02"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties         = []
+  }
+}
+
+resource "azurerm_storage_account" "fail_smb_absent" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t03"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      retention_policy = [{
+        days = 7
+      }]
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_smb_empty" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t04"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = []
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_versions_absent" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t05"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = [{
+        multichannel_enabled = false
+      }]
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_versions_null" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t06"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = [{
+        versions = null
+      }]
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_versions_empty" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t07"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = [{
+        versions = []
+      }]
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_smb30_and_311" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t08"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = [{
+        versions = ["SMB3.0", "SMB3.1.1"]
+      }]
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_all_versions" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t09"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = [{
+        versions = ["SMB2.1", "SMB3.0", "SMB3.1.1"]
+      }]
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_smb30_only" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t10"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = [{
+        versions = ["SMB3.0"]
+      }]
+    }]
+  }
+}
+
+resource "azurerm_storage_account" "fail_smb21_only" {
+  expect_failure = true
+  attrs = {
+    name                     = "sa912t11"
+    account_replication_type = "LRS"
+    account_tier             = "Standard"
+    location                 = "eastus"
+    resource_group_name      = "rg-test"
+    share_properties = [{
+      smb = [{
+        versions = ["SMB2.1"]
+      }]
+    }]
+  }
+}
