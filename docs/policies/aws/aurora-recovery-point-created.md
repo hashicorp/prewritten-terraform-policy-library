@@ -1,0 +1,101 @@
+# Aurora DB clusters should have a recent recovery point
+
+| Provider | Category |
+| ------------------- | -------- |
+| Amazon Web Services | Backups enabled |
+
+## Description
+
+This policy checks if a recovery point was created for Amazon Aurora DB clusters. The policy fails if the Amazon Relational Database Service (Amazon RDS) DB Cluster does not have a corresponding recovery point created within the specified time period.
+
+The policy evaluates `aws_rds_cluster` resources.
+
+Aurora clusters always have automated backups with a `backup_retention_period` of at least 1 day, so with the default `max_days_since_backup = 1` (input `aurora-recovery-point-created-max_days_since_backup`) every Aurora cluster passes through the automated-backup branch and the policy does not report a violation.
+
+To make the policy stricter, set the `aurora-recovery-point-created-max_days_since_backup` input to the minimum retention (in days) you require. For example, with the input set to 7, a cluster with `backup_retention_period = 1` fails unless it is also covered by an `aws_backup_selection` whose `aws_backup_plan` runs at least every `recovery_point_age_value` `recovery_point_age_unit`.
+
+```hcl
+"aurora-recovery-point-created-max_days_since_backup" = 7
+```
+
+Recovery points themselves are runtime state and are not visible in a Terraform plan; the policy checks the backup configuration that produces them.
+
+This rule is covered by the [aurora-recovery-point-created](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/aurora-recovery-point-created.policy.hcl) policy.
+
+## Policy Results
+
+```bash
+trace:
+      # aurora-recovery-point-created.policytest.hcl...
+      running
+      #
+      resource.aws_rds_cluster.pass_backup_retention_sufficient...
+      running
+      #
+      resource.aws_rds_cluster.pass_backup_retention_sufficient...
+      pass
+      #
+      resource.aws_rds_cluster.fail_backup_retention_insufficient_no_plan...
+      running
+      #
+      resource.aws_rds_cluster.fail_backup_retention_insufficient_no_plan...
+      pass
+      # resource.aws_rds_cluster.skip_non_aurora_engine...
+      running
+      # resource.aws_rds_cluster.skip_non_aurora_engine...
+      pass
+      #
+      resource.aws_rds_cluster.fail_missing_backup_retention_attribute...
+      running
+      #
+      resource.aws_rds_cluster.fail_missing_backup_retention_attribute...
+      pass
+      # resource.aws_rds_cluster.fail_tags_null_no_plan...
+      running
+      # resource.aws_rds_cluster.fail_tags_null_no_plan...
+      pass
+      #
+      resource.aws_rds_cluster.fail_identifier_match_insufficient_plan_frequency_f3...
+      running
+      #
+      resource.aws_rds_cluster.fail_identifier_match_insufficient_plan_frequency_f3...
+      pass
+      #
+      resource.aws_rds_cluster.pass_tag_match_compliant_plan_f3...
+      running
+      #
+      resource.aws_rds_cluster.pass_tag_match_compliant_plan_f3...
+      pass
+      #
+      resource.aws_rds_cluster.fail_selection_present_no_match_f3...
+      running
+      #
+      resource.aws_rds_cluster.fail_selection_present_no_match_f3...
+      pass
+      #
+      resource.aws_rds_cluster.pass_hourly_requirement_satisfied_by_daily_retention_f6...
+      running
+      #
+      resource.aws_rds_cluster.pass_hourly_requirement_satisfied_by_daily_retention_f6...
+      pass
+      # resource.aws_rds_cluster.fail_cron_weekly_f7...
+      running
+      # resource.aws_rds_cluster.fail_cron_weekly_f7...
+      pass
+      # resource.aws_rds_cluster.fail_cron_monthly_f7...
+      running
+      # resource.aws_rds_cluster.fail_cron_monthly_f7...
+      pass
+      # resource.aws_rds_cluster.pass_cron_daily_q_f7...
+      running
+      # resource.aws_rds_cluster.pass_cron_daily_q_f7...
+      pass
+      # resource.aws_rds_cluster.pass_cron_every6h_f7...
+      running
+      # resource.aws_rds_cluster.pass_cron_every6h_f7...
+      pass
+      # aurora-recovery-point-created.policytest.hcl...
+      pass
+```
+
+---
