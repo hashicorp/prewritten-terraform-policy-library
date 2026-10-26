@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2026
+
 policytest {
   targets = [
     "logging-project-ownership-change-alert.policy.hcl",
