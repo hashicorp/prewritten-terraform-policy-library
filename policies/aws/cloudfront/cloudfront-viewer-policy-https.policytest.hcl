@@ -73,3 +73,22 @@ resource "aws_cloudfront_distribution" "pass_missing_ordered_cache_behavior" {
   }
 }
 
+# Test 6: FAIL - a later ordered cache behavior allows HTTP
+resource "aws_cloudfront_distribution" "fail_later_ordered_cache_behavior_allow_all" {
+  expect_failure = true
+  attrs = {
+    default_cache_behavior = [
+      {
+        viewer_protocol_policy = "https-only"
+      }
+    ]
+    ordered_cache_behavior = [
+      {
+        viewer_protocol_policy = "redirect-to-https"
+      },
+      {
+        viewer_protocol_policy = "allow-all"
+      }
+    ]
+  }
+}

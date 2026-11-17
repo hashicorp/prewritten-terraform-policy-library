@@ -8,6 +8,8 @@
 
 This control checks whether Amazon CloudFront distributions are pointing to non-existent Amazon S3 origins. The control fails for a CloudFront distribution if the origin is configured to point to a non-existent bucket. This control only applies to CloudFront distributions where an S3 bucket without static website hosting is the S3 origin.
 
+The policy identifies S3 origins by standard S3 REST and website endpoint domain names; other origin domains are out of scope. Terraform plan data cannot prove whether a literal S3 bucket endpoint that is not managed in the same plan exists, so the policy does not fail such origins. External inventory or an AWS API-backed data source is required to verify those buckets.
+
 When a CloudFront distribution in your account is configured to point to a non-existent bucket, a malicious third party can create the referenced bucket and serve their own content through your distribution. We recommend checking all origins regardless of routing behavior to ensure that your distributions are pointing to appropriate origins.
 
 This rule is covered by the [cloudfront-s3-origin-non-existent-bucket](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudfront/cloudfront-s3-origin-non-existent-bucket.policy.hcl) policy.

@@ -73,7 +73,7 @@ locals {
       core::length([for v in vals : v if core::contains(local.s3de_all_buckets, v)]) > 0 ||
       (
         core::length(local.s3de_targets) > 0 &&
-        core::length([for b in local.s3de_targets : b if core::length([for v in vals : v if core::startswith(v, "arn:aws:s3:::${b}/") || v == "arn:aws:s3:::${b}"]) > 0]) == core::length(local.s3de_targets)
+        core::length([for b in local.s3de_targets : b if core::length([for v in vals : v if v == "arn:aws:s3:::${b}/" || v == "arn:aws:s3:::${b}"]) > 0]) == core::length(local.s3de_targets)
       )
     ]) > 0
     ||

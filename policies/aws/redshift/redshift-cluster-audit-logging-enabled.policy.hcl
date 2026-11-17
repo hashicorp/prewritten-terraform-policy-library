@@ -16,6 +16,32 @@ input "redshift-cluster-audit-logging-enabled-enforcement-level" {
   default = "advisory"
 }
 
+locals {
+  redshift_logging_resources = core::getresources("aws_redshift_logging", {})
+}
+
+resource_policy "aws_redshift_cluster" "audit_logging_enabled" {
+  enforcement_level = input.redshift-cluster-audit-logging-enabled-enforcement-level
+
+  locals {
+    cluster_id = core::try(attrs.cluster_identifier, "")
+    matching_logging_resources = [
+      for logging in local.redshift_logging_resources : logging
+      if core::try(logging.cluster_identifier, "") == local.cluster_id
+    ]
+    inline_logging = core::try(attrs.logging, [])
+    inline_logging_enabled = core::length([
+      for logging in local.inline_logging : logging
+      if core::try(logging.enable, false)
+    ]) > 0
+  }
+
+  enforce {
+    condition     = core::length(local.matching_logging_resources) > 0 || local.inline_logging_enabled
+    error_message = "Redshift cluster must have audit logging configured inline or through a matching aws_redshift_logging resource."
+  }
+}
+
 resource_policy "aws_redshift_logging" "logging_properly_configured" {
   enforcement_level = input.redshift-cluster-audit-logging-enabled-enforcement-level
   locals {

@@ -35,9 +35,7 @@ resource_policy "aws_s3_bucket_policy" "s3-bucket-blacklisted-actions-prohibited
       (core::contains([
         core::try(statement.Principal == "*", false),
         core::try(statement.Principal.AWS == "*", false),
-        core::try(core::length(core::try(statement.Principal.AWS, [])) > 0 && core::contains(statement.Principal.AWS, "*"), false),
-        core::try(core::length(core::regexall("^arn:aws:iam::[0-9]{12}:", core::try(statement.Principal.AWS, ""))) > 0, false),
-        core::try(core::length([for p in core::try(statement.Principal.AWS, []) : p if core::length(core::regexall("^arn:aws:iam::[0-9]{12}:", p)) > 0]) > 0, false)
+        core::try(core::length(core::try(statement.Principal.AWS, [])) > 0 && core::contains(statement.Principal.AWS, "*"), false)
       ], true)) &&
       # Action matching is case-insensitive (IAM actions are case-insensitive).
       # Normalise each action to lowercase before comparing against the blacklist.

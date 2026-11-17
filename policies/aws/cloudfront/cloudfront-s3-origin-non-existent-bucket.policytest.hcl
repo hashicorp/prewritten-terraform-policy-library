@@ -30,9 +30,8 @@ resource "aws_cloudfront_distribution" "pass_existing_bucket" {
   }
 }
 
-# Test 2: Fail - CloudFront distribution with S3 origin (s3_origin_config) referencing non-existent bucket
+# Test 2: Pass - unmanaged literal S3 origin cannot be verified from the plan
 resource "aws_cloudfront_distribution" "fail_nonexistent_bucket_with_s3_config" {
-  expect_failure = true
   attrs = {
     origin = [
       {
@@ -49,9 +48,8 @@ resource "aws_cloudfront_distribution" "fail_nonexistent_bucket_with_s3_config" 
   }
 }
 
-# Test 3: Fail - CloudFront distribution with S3 origin (domain_name pattern) referencing non-existent bucket
+# Test 3: Pass - unmanaged literal S3 domain cannot be verified from the plan
 resource "aws_cloudfront_distribution" "fail_nonexistent_bucket_domain_pattern" {
-  expect_failure = true
   attrs = {
     origin = [
       {
@@ -107,7 +105,7 @@ resource "aws_cloudfront_distribution" "pass_multiple_existing_buckets" {
   }
 }
 
-# Test 5: Fail - CloudFront distribution with multiple S3 origins where one bucket does not exist
+# Test 5: Pass - an unmanaged literal origin cannot be verified from the plan
 resource "aws_s3_bucket" "bucket_exists" {
   attrs = {
     bucket = "bucket-exists"
@@ -115,7 +113,6 @@ resource "aws_s3_bucket" "bucket_exists" {
 }
 
 resource "aws_cloudfront_distribution" "fail_multiple_origins_one_missing" {
-  expect_failure = true
   attrs = {
     origin = [
       {
@@ -186,9 +183,8 @@ resource "aws_cloudfront_distribution" "pass_regional_s3_domain" {
   }
 }
 
-# Test 8: Fail - CloudFront distribution with regional S3 domain name that does not exist
+# Test 8: Pass - an unmanaged literal regional S3 domain cannot be verified from the plan
 resource "aws_cloudfront_distribution" "fail_regional_s3_domain_missing" {
-  expect_failure = true
   attrs = {
     origin = [
       {
@@ -205,10 +201,7 @@ resource "aws_cloudfront_distribution" "fail_regional_s3_domain_missing" {
   }
 }
 
-# Test 9: Fail - Mixed origins where one OAC-style S3 origin points to a non-existent bucket.
-# Previously this would silently PASS because the policy only checked origins with
-# s3_origin_config (OAI-style). OAC-style origins have no s3_origin_config block and were
-# never added to s3_origins, so the filter excluded the distribution entirely.
+# Test 9: Pass - mixed managed and unmanaged literal S3 origins cannot prove non-existence
 resource "aws_s3_bucket" "mixed_existing_bucket" {
   attrs = {
     bucket = "mixed-existing-bucket"
@@ -216,7 +209,6 @@ resource "aws_s3_bucket" "mixed_existing_bucket" {
 }
 
 resource "aws_cloudfront_distribution" "multi_origin_mixed" {
-  expect_failure = true
   attrs = {
     origin = [
       {
@@ -228,6 +220,32 @@ resource "aws_cloudfront_distribution" "multi_origin_mixed" {
         domain_name              = "mixed-nonexistent-bucket.s3.amazonaws.com"
         origin_id                = "S3-mixed-nonexistent"
         origin_access_control_id = "E0987654321XYZ"
+      }
+    ]
+    enabled = true
+  }
+}
+
+# Test 11: Pass - a non-S3 origin without custom_origin_config is out of scope
+resource "aws_cloudfront_distribution" "pass_non_s3_origin_without_custom_config" {
+  attrs = {
+    origin = [
+      {
+        domain_name = "media.example.com"
+        origin_id   = "external-media"
+      }
+    ]
+    enabled = true
+  }
+}
+
+# Test 12: Pass - an unmanaged literal S3 website bucket cannot be verified from the plan
+resource "aws_cloudfront_distribution" "pass_unmanaged_s3_website_origin" {
+  attrs = {
+    origin = [
+      {
+        domain_name = "external-bucket.s3-website-us-east-1.amazonaws.com"
+        origin_id   = "external-s3-website"
       }
     ]
     enabled = true

@@ -6,6 +6,21 @@ policytest {
     ]
 }
 
+resource "aws_guardduty_detector" "pass_matching_runtime_feature" {
+  attrs = {
+    id     = "detector-123"
+    enable = true
+  }
+}
+
+resource "aws_guardduty_detector" "fail_missing_runtime_feature" {
+  expect_failure = true
+  attrs = {
+    id     = "detector-without-runtime"
+    enable = true
+  }
+}
+
 # Test 1: PASS - RUNTIME_MONITORING enabled with ECS_FARGATE_AGENT_MANAGEMENT enabled
 resource "aws_guardduty_detector_feature" "pass_runtime_monitoring_with_ecs_fargate_enabled" {
   attrs = {

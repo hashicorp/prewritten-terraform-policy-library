@@ -26,7 +26,7 @@ resource_policy "aws_network_acl" "no_unrestricted_ssh_rdp" {
         tcp_ssh_unrestricted = [
             for rule in attrs.ingress :
             rule if (
-                rule.action == "allow" &&
+                core::lower(rule.action) == "allow" &&
                 (rule.protocol == "tcp" || rule.protocol == "-1") &&
                 core::try(rule.from_port, 0) <= 22 &&
                 core::try(rule.to_port, 0) >= 22 &&
@@ -38,7 +38,7 @@ resource_policy "aws_network_acl" "no_unrestricted_ssh_rdp" {
         tcp_rdp_unrestricted = [
             for rule in attrs.ingress :
             rule if (
-                rule.action == "allow" &&
+                core::lower(rule.action) == "allow" &&
                 (rule.protocol == "tcp" || rule.protocol == "-1") &&
                 core::try(rule.from_port, 0) <= 3389 &&
                 core::try(rule.to_port, 0) >= 3389 &&
@@ -49,7 +49,7 @@ resource_policy "aws_network_acl" "no_unrestricted_ssh_rdp" {
         udp_ssh_unrestricted = [
             for rule in attrs.ingress :
             rule if (
-                rule.action == "allow" &&
+                core::lower(rule.action) == "allow" &&
                 (rule.protocol == "udp" || rule.protocol == "-1") &&
                 core::try(rule.from_port, 0) <= 22 &&
                 core::try(rule.to_port, 0) >= 22 &&
@@ -60,7 +60,7 @@ resource_policy "aws_network_acl" "no_unrestricted_ssh_rdp" {
         udp_rdp_unrestricted = [
             for rule in attrs.ingress :
             rule if (
-                rule.action == "allow" &&
+                core::lower(rule.action) == "allow" &&
                 (rule.protocol == "udp" || rule.protocol == "-1") &&
                 core::try(rule.from_port, 0) <= 3389 &&
                 core::try(rule.to_port, 0) >= 3389 &&
