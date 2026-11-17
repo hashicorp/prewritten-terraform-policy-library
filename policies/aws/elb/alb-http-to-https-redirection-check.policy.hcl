@@ -28,24 +28,23 @@ resource_policy "aws_lb" "http_to_https_redirect" {
   locals {
     lb_arn = core::try(attrs.arn, "")
 
-    http_port_80_listeners = [
+    http_listeners = [
       for listener in local.alb_http_to_https_listeners :
       listener
       if local.lb_arn != ""
         && core::try(listener.load_balancer_arn, "") != ""
         && core::try(listener.load_balancer_arn, "") == local.lb_arn
         && core::try(listener.protocol, "") == "HTTP"
-        && core::try(listener.port, 0) == 80
     ]
 
-    http_port_80_listener_arns = [
-      for listener in local.http_port_80_listeners :
+    http_listener_arns = [
+      for listener in local.http_listeners :
       core::try(listener.arn, "")
       if core::try(listener.arn, "") != ""
     ]
 
     default_actions = core::flatten([
-      for listener in local.http_port_80_listeners :
+      for listener in local.http_listeners :
       core::try(listener.default_action, [])
     ])
 
@@ -53,7 +52,7 @@ resource_policy "aws_lb" "http_to_https_redirect" {
       for rule in local.alb_http_to_https_listener_rules :
       core::try(rule.action, [])
       if core::try(rule.listener_arn, "") != ""
-        && core::contains(local.http_port_80_listener_arns, core::try(rule.listener_arn, ""))
+        && core::contains(local.http_listener_arns, core::try(rule.listener_arn, ""))
     ])
 
     default_https_redirect_actions = [
@@ -70,8 +69,8 @@ resource_policy "aws_lb" "http_to_https_redirect" {
         && core::try(action.redirect[0].protocol, "") == "HTTPS"
     ]
 
-    http_port_80_listeners_without_redirect = [
-      for listener in local.http_port_80_listeners :
+    http_listeners_without_redirect = [
+      for listener in local.http_listeners :
       listener
       if core::length([
         for action in core::try(listener.default_action, []) :
@@ -92,12 +91,11 @@ resource_policy "aws_lb" "http_to_https_redirect" {
       ]) == 0
     ]
 
-    has_http_port_80_listener = core::length(local.http_port_80_listeners) > 0
-    has_https_redirect        = core::length(local.default_https_redirect_actions) + core::length(local.rule_https_redirect_actions) > 0
+    has_http_listener = core::length(local.http_listeners) > 0
   }
 
   enforce {
-    condition     = local.has_http_port_80_listener && local.has_https_redirect && core::length(local.http_port_80_listeners_without_redirect) == 0
-    error_message = "Application Load Balancer must have an HTTP listener on port 80 with a redirect action that targets the HTTPS protocol, either in the listener default_action or an associated listener rule."
+    condition     = !local.has_http_listener || core::length(local.http_listeners_without_redirect) == 0
+    error_message = "Every HTTP listener on an Application Load Balancer must have a redirect action that targets the HTTPS protocol, either in the listener default_action or an associated listener rule."
   }
 }

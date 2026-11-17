@@ -134,3 +134,13 @@ resource "aws_db_event_subscription" "pass_db_instance_filtered_out" {
     sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
   }
 }
+
+# Test 14: PASS - null event_categories means all categories
+resource "aws_db_event_subscription" "pass_null_event_categories" {
+  attrs = {
+    source_type      = "db-cluster"
+    event_categories = null
+    enabled          = true
+    sns_topic        = "arn:aws:sns:us-east-1:123456789012:rds-events"
+  }
+}

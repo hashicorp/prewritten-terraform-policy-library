@@ -20,7 +20,8 @@ resource_policy "aws_db_event_subscription" "cluster_event_notifications" {
     enforcement_level = input.rds-cluster-event-notifications-configured-enforcement-level
     filter = core::try(attrs.source_type, "") == "db-cluster" || core::try(attrs.source_type, "") == ""
     locals {
-        event_categories = core::try(attrs.event_categories, [])
+        raw_event_categories = core::try(attrs.event_categories, null)
+        event_categories = local.raw_event_categories != null ? local.raw_event_categories : []
         
         has_maintenance = core::contains(local.event_categories, "maintenance")
         has_failure = core::contains(local.event_categories, "failure")
@@ -29,7 +30,7 @@ resource_policy "aws_db_event_subscription" "cluster_event_notifications" {
     }
 
     enforce {
-        condition = local.is_enabled && (local.event_categories == [] || (local.has_maintenance && local.has_failure))
+        condition = local.is_enabled && (core::length(local.event_categories) == 0 || (local.has_maintenance && local.has_failure))
         error_message = "RDS event subscription for db-cluster must be enabled for both 'maintenance' and 'failure' event_categories"
     }
 }

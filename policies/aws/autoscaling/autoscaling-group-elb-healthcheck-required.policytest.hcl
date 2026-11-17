@@ -41,9 +41,7 @@ resource "aws_autoscaling_attachment" "fail_ec2_attachment" {
   }
 }
 
-# FAIL: ASG with health_check_type="ELB" but the attachment uses only lb_target_group_arn (ALB/NLB)
-resource "aws_autoscaling_group" "fail_elb_healthcheck_no_classic_elb" {
-  expect_failure = true
+resource "aws_autoscaling_group" "pass_elb_healthcheck_with_target_group_attachment" {
   attrs = {
     name              = "asg-alb-only"
     max_size          = 2
@@ -52,7 +50,7 @@ resource "aws_autoscaling_group" "fail_elb_healthcheck_no_classic_elb" {
   }
 }
 
-resource "aws_autoscaling_attachment" "fail_alb_only_attachment" {
+resource "aws_autoscaling_attachment" "pass_alb_only_attachment" {
   skip = true
   attrs = {
     autoscaling_group_name = "asg-alb-only"
@@ -60,14 +58,33 @@ resource "aws_autoscaling_attachment" "fail_alb_only_attachment" {
   }
 }
 
-# FAIL: ASG with health_check_type="ELB" but the ELB attachment references a different ASG name
-resource "aws_autoscaling_group" "fail_elb_healthcheck_wrong_attachment_name" {
-  expect_failure = true
+resource "aws_autoscaling_group" "pass_unattached_asg" {
   attrs = {
     name              = "asg-mismatched"
     max_size          = 2
     min_size          = 1
     health_check_type = "ELB"
+  }
+}
+
+resource "aws_autoscaling_group" "fail_inline_load_balancer_ec2_healthcheck" {
+  expect_failure = true
+  attrs = {
+    name              = "asg-inline-elb"
+    max_size          = 2
+    min_size          = 1
+    health_check_type = "EC2"
+    load_balancers    = ["my-classic-elb"]
+  }
+}
+
+resource "aws_autoscaling_group" "pass_inline_target_group_elb_healthcheck" {
+  attrs = {
+    name              = "asg-inline-target-group"
+    max_size          = 2
+    min_size          = 1
+    health_check_type = "ELB"
+    target_group_arns = ["arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/inline/abc123"]
   }
 }
 

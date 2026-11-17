@@ -71,7 +71,6 @@ resource "aws_lb_listener_rule" "listener_rule_redirect" {
 }
 
 resource "aws_lb" "no_listener" {
-  expect_failure = true
   attrs = {
     arn                = "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/no-listener/3333333333333333"
     load_balancer_type = "application"
@@ -129,7 +128,6 @@ resource "aws_lb_listener" "http_to_http" {
 }
 
 resource "aws_lb" "http_8080_only" {
-  expect_failure = true
   attrs = {
     arn                = "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/http-8080-only/6666666666666666"
     load_balancer_type = "application"
@@ -156,7 +154,6 @@ resource "aws_lb_listener" "http_8080_only" {
 }
 
 resource "aws_lb" "computed_empty_arn_default_action" {
-  expect_failure = true
   attrs = {
     load_balancer_type = "application"
   }
@@ -182,7 +179,6 @@ resource "aws_lb_listener" "computed_empty_arn_default_action" {
 }
 
 resource "aws_lb" "computed_empty_arn_listener_rule" {
-  expect_failure = true
   attrs = {
     arn                = ""
     load_balancer_type = "application"

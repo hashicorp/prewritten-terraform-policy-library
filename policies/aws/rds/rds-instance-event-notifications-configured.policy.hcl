@@ -21,7 +21,8 @@ resource_policy "aws_db_event_subscription" "critical_events_configured" {
     filter = core::try(attrs.source_type, "") == "db-instance" || core::try(attrs.source_type, "") == ""
 
     locals {
-        event_categories = core::try(attrs.event_categories, [])
+        raw_event_categories = core::try(attrs.event_categories, null)
+        event_categories = local.raw_event_categories != null ? local.raw_event_categories : []
         is_enabled = core::try(attrs.enabled, true)
         
         has_maintenance = core::contains(local.event_categories, "maintenance")
@@ -32,7 +33,7 @@ resource_policy "aws_db_event_subscription" "critical_events_configured" {
     }
 
     enforce {
-        condition = local.is_enabled && (local.event_categories == [] || local.all_categories_present)
+        condition = local.is_enabled && (core::length(local.event_categories) == 0 || local.all_categories_present)
         error_message = "RDS event subscription must include all critical event categories: 'maintenance', 'configuration change', and 'failure'"
     }
 }

@@ -17,7 +17,6 @@ resource "aws_redshift_logging" "s3_logging" {
 }
 
 resource "aws_redshift_cluster" "compliant_s3" {
-  skip = true
   attrs = {
     cluster_identifier = "test-cluster-s3"
     node_type = "dc2.large"
@@ -35,7 +34,6 @@ resource "aws_redshift_logging" "cloudwatch_logging" {
 }
 
 resource "aws_redshift_cluster" "compliant_cloudwatch" {
-  skip = true
   attrs = {
     cluster_identifier = "test-cluster-cw"
     node_type = "dc2.large"
@@ -53,7 +51,6 @@ resource "aws_redshift_logging" "cloudwatch_single" {
 }
 
 resource "aws_redshift_cluster" "compliant_cw_single" {
-  skip = true
   attrs = {
     cluster_identifier = "test-cluster-cw-single"
     node_type = "dc2.large"
@@ -72,7 +69,6 @@ resource "aws_redshift_logging" "s3_incomplete" {
 }
 
 resource "aws_redshift_cluster" "non_compliant_s3_incomplete" {
-  skip = true
   attrs = {
     cluster_identifier = "test-cluster-s3-incomplete"
     node_type = "dc2.large"
@@ -91,7 +87,6 @@ resource "aws_redshift_logging" "cloudwatch_incomplete" {
 }
 
 resource "aws_redshift_cluster" "non_compliant_cw_incomplete" {
-  skip = true
   attrs = {
     cluster_identifier = "test-cluster-cw-incomplete"
     node_type = "dc2.large"
@@ -110,10 +105,18 @@ resource "aws_redshift_logging" "invalid_destination" {
 }
 
 resource "aws_redshift_cluster" "non_compliant_invalid" {
-  skip = true
   attrs = {
     cluster_identifier = "test-cluster-invalid"
     node_type = "dc2.large"
     master_username = "admin"
+  }
+}
+
+resource "aws_redshift_cluster" "missing_logging" {
+  expect_failure = true
+  attrs = {
+    cluster_identifier = "test-cluster-without-logging"
+    node_type          = "dc2.large"
+    master_username    = "admin"
   }
 }

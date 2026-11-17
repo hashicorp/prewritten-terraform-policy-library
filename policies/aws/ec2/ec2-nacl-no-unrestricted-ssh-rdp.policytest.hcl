@@ -498,3 +498,21 @@ resource "aws_network_acl_rule" "pass_rule_all_traffic_restricted_cidr" {
     to_port        = 0
   }
 }
+
+# Test 30: FAIL - inline mixed-case Allow action is still an allow rule
+resource "aws_network_acl" "fail_unrestricted_ssh_mixed_case_allow" {
+  expect_failure = true
+  attrs = {
+    vpc_id = "vpc-12345678"
+    ingress = [
+      {
+        protocol   = "tcp"
+        rule_no    = 100
+        action     = "AlLoW"
+        cidr_block = "0.0.0.0/0"
+        from_port  = 22
+        to_port    = 22
+      }
+    ]
+  }
+}

@@ -14,6 +14,8 @@ The blacklistedactionpatterns parameter allows for successful evaluation of the 
 
 This rule is covered by the [s3-bucket-blacklisted-actions-prohibited](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-bucket-blacklisted-actions-prohibited.policy.hcl) policy.
 
+Terraform plan data available to this policy does not expose the current AWS account ID, and the policy contract has no account-ID input. The policy therefore enforces blacklisted actions for wildcard principals, but does not classify named AWS account principals as cross-account; doing so would incorrectly reject principals from the current account. Named external accounts require account identity from an external policy context to verify.
+
 ## Policy Results
 
 ```bash

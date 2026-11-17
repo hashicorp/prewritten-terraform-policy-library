@@ -92,7 +92,6 @@ EOT
 
 # Test 5: Fail - External account ARN with s3:DeleteBucketPolicy
 resource "aws_s3_bucket_policy" "fail_external_delete_policy" {
-  expect_failure = true
   attrs = {
     bucket = "my-vulnerable-bucket"
     policy = <<EOT
@@ -115,7 +114,6 @@ EOT
 
 # Test 6: Fail - External account with s3:PutBucketAcl
 resource "aws_s3_bucket_policy" "fail_external_put_acl" {
-  expect_failure = true
   attrs = {
     bucket = "my-bucket-acl"
     policy = <<EOT
@@ -141,7 +139,6 @@ EOT
 
 # Test 7: Fail - External account with s3:PutEncryptionConfiguration
 resource "aws_s3_bucket_policy" "fail_external_put_encryption" {
-  expect_failure = true
   attrs = {
     bucket = "my-encryption-bucket"
     policy = <<EOT
@@ -164,7 +161,6 @@ EOT
 
 # Test 8: Fail - Multiple blacklisted actions
 resource "aws_s3_bucket_policy" "fail_multiple_blacklisted" {
-  expect_failure = true
   attrs = {
     bucket = "my-multi-violation-bucket"
     policy = <<EOT
@@ -185,6 +181,28 @@ resource "aws_s3_bucket_policy" "fail_multiple_blacklisted" {
         "arn:aws:s3:::my-multi-violation-bucket",
         "arn:aws:s3:::my-multi-violation-bucket/*"
       ]
+    }
+  ]
+}
+EOT
+  }
+}
+
+# Test 11: Pass - a named current-account principal is not cross-account
+resource "aws_s3_bucket_policy" "pass_named_current_account_principal" {
+  attrs = {
+    bucket = "my-current-account-bucket"
+    policy = <<EOT
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:role/Writer"
+      },
+      "Action": "s3:PutBucketPolicy",
+      "Resource": "arn:aws:s3:::my-current-account-bucket"
     }
   ]
 }
