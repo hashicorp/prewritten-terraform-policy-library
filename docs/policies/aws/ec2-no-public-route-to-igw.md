@@ -14,6 +14,12 @@ The policy evaluates `aws_route`, `aws_route_table` resources.
 
 This rule is covered by the [ec2-no-public-route-to-igw](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-no-public-route-to-igw.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `ec2-no-public-route-to-igw-allowed_route_table_ids` | List of route table IDs that can have routes to an Internet Gateway with a destination CIDR block of '0.0.0.0/0' or '::/0'. | `list(string)` | `[]` | - |
+
 ## Policy Results
 
 ```bash

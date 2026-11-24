@@ -12,6 +12,12 @@ The policy evaluates `aws_backup_vault` resources.
 
 This rule is covered by the [backup-recovery-point-manual-deletion-disabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/backup/backup-recovery-point-manual-deletion-disabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `backup-recovery-point-manual-deletion-disabled-excluded_principal_arns` | List of AWS Identity and Access Management (IAM) Amazon Resource Names (ARNs) for the rule to NOT check. | `list(string)` | `[]` | - |
+
 ## Policy Results
 
 ```bash

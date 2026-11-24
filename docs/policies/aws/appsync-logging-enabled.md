@@ -22,6 +22,12 @@ You can use logging and metrics to identify, troubleshoot, and optimize your Gra
 
 This rule is covered by the [appsync-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/appsync/appsync-logging-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `fieldLoggingLevel` | Field logging level | `string` | `""` | `{ allowed_values: ["", "ERROR", "ALL"] }` |
+
 ## Policy Results
 
 ```bash

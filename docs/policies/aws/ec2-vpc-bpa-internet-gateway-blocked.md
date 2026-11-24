@@ -12,6 +12,12 @@ Configuring the VPC BPA settings for your account in an AWS Region lets you bloc
 
 This rule is covered by the [ec2-vpc-bpa-internet-gateway-blocked](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-vpc-bpa-internet-gateway-blocked.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `vpcBpaInternetGatewayBlockMode` | String value of the VPC BPA options mode. | `string` | `""` | `{ allowed_values: ["", "block-bidirectional", "block-ingress"] }` |
+
 ## Policy Results
 
 ```bash

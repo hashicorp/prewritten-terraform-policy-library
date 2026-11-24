@@ -12,6 +12,12 @@ The policy evaluates `aws_codebuild_project` resources.
 
 This rule is covered by the [codebuild-project-privileged-mode-disabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/codebuild/codebuild-project-privileged-mode-disabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `codebuild-project-privileged-mode-disabled-exempted_projects` | List of CodeBuild project names that are allowed to have 'privilegedMode' with value 'true'. | `list(string)` | `[]` | - |
+
 ## Policy Results
 
 ```bash

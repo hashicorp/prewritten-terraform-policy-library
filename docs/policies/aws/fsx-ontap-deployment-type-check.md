@@ -12,6 +12,12 @@ Amazon FSx for NetApp ONTAP supports several deployment types for file systems: 
 
 This rule is covered by the [fsx-ontap-deployment-type-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/fsx/fsx-ontap-deployment-type-check.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `ontap_deployment_types` | A list of deployment types to include in the evaluation. The control generates a FAILED finding if a file system isn't configured to use a deployment type specified in the list. | `string` | `"MULTI_AZ_1,MULTI_AZ_2"` | `{ format: csv, allowed_values: ["MULTI_AZ_1", "MULTI_AZ_2"], unique: true }` |
+
 ## Policy Results
 
 ```bash

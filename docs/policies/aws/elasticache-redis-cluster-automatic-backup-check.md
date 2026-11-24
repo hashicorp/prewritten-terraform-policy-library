@@ -14,6 +14,12 @@ This control also evaluates ElastiCache (Redis OSS and Valkey) replication group
 
 This rule is covered by the [elasticache-redis-cluster-automatic-backup-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticache/elasticache-redis-cluster-automatic-backup-check.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `snapshot_retention_period` | Minimum snapshot retention period in days | `number` | `15` | `{ min: 1, max: 35, integer: true }` |
+
 ## Policy Results
 
 ```bash

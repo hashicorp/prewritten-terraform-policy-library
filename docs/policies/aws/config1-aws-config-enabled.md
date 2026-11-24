@@ -6,12 +6,6 @@
 
 ## Description
 
-## Parameters
-
-| Parameter | Description | Type | Allowed custom values | Security Hub CSPM default value |
-| --------- | ----------- | ---- | --------------------- | ------------------------------- |
-| includeConfigServiceLinkedRoleCheck | The control does not evaluate whether AWS Config uses the service-linked role if the parameter is set to `false`. | Boolean | `true` or `false` | `true` |  
-
 This control checks whether AWS Config is enabled in your account in the current AWS Region, records all resources that correspond to controls enabled in the current Region, and uses the service-linked AWS Config role. The service-linked role name is `AWSServiceRoleForConfig`. If you do not use the service-linked role and do not set `includeConfigServiceLinkedRoleCheck` to `false`, the control fails because other roles might not have the permissions that AWS Config needs to accurately record resources.
 
 The control also verifies that the configuration recorder is enabled, records supported resources appropriately, and is backed by a delivery channel so AWS Config can continuously capture and deliver configuration state.
@@ -19,6 +13,12 @@ The control also verifies that the configuration recorder is enabled, records su
 AWS Config performs configuration management for supported AWS resources in your account and delivers log files for those configuration changes. The recorded information includes the configuration item, relationships between configuration items, and configuration changes over time. Global resources are resources that are available in any Region.
 
 This rule is covered by the [config1-aws-config-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/config/config1-aws-config-enabled.policy.hcl) policy.
+
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `includeConfigServiceLinkedRoleCheck` | The control doesn’t evaluate whether AWS Config uses the service-linked role if the parameter is set to false. | `bool` | `true` | - |
 
 ## Policy Results
 

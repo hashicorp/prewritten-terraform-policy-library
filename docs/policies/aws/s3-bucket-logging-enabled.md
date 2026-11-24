@@ -12,6 +12,13 @@ Server access logging provides detailed records of requests made to a bucket. Se
 
 This rule is covered by the [s3-bucket-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-bucket-logging-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `targetBucket` | Target S3 bucket for storing server access logs. | `string` | `""` | - |
+| `loggingTargetPrefix` | Prefix of the S3 bucket for storing server access logs. | `string` | `""` | - |
+
 ## Policy Results
 
 ```bash

@@ -12,6 +12,12 @@ The policy evaluates `aws_iam_role` resources.
 
 This rule is covered by the [iam-managed-policy-should-be-attached-to-role](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/iam/iam-managed-policy-should-be-attached-to-role.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `iam-managed-policy-should-be-attached-to-role-managed_policy_arns` | List of AWS managed policy Amazon Resource Names (ARNs). | `list(string)` | `[]` | - |
+
 ## Policy Results
 
 ```bash

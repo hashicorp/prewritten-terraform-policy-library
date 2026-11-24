@@ -8,13 +8,15 @@
 
 This control checks whether Amazon EBS volumes are covered by an AWS Backup plan through a direct ARN, a matching `selection_tag`, or a `condition.string_equals` tag match. Direct ARN matching may not work for a new volume when its ARN is unknown during plan evaluation; tag-based selections can cover those volumes. Set the optional `backupVaultLockCheck` input to `true` to also require Vault Lock on each vault used by a matching backup plan.
 
-| Parameter | Description | Type | Default |
-| --- | --- | --- | --- |
-| `backupVaultLockCheck` | Require Vault Lock configuration on the backup vaults used by matching plans. | `bool` | `false` |
-
 Backing up EBS volumes ensures that data can be recovered in the event of accidental deletion, corruption, or a ransomware attack. AWS Backup provides a centralised, policy-driven approach to automating and managing backups across AWS services. Including EBS volumes in a backup plan helps meet business continuity and regulatory requirements for data durability and recovery point objectives (RPO).
 
 This rule is covered by the [ebs-volumes-should-be-in-a-backup-plan](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ebs-volumes-should-be-in-a-backup-plan.policy.hcl) policy.
+
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `ebsBackupVaultLockCheck` | The control produces a PASSED finding if the parameter is set to true and the resource uses AWS Backup Vault Lock. | `bool` | `false` | - |
 
 ## Policy Results
 

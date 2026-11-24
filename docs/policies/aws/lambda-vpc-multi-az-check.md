@@ -6,17 +6,17 @@
 
 ## Description
 
-Parameters:
-
-| Parameter | Description | Type | Allowed custom values | Security Hub CSPM default value |
-| --------- | ----------- | ---- | --------------------- | -------------------------------- |
-| availabilityZones | Minimum number of Availability Zones | Enum | 2, 3, 4, 5, 6 | 2 |
-
 This control checks if an AWS Lambda function that connects to a virtual private cloud (VPC) operates in at least the specified number of Availability Zone (AZs). The control fails if the function doesn't operate in at least the specified number of AZs. Unless you provide a custom parameter value for the minimum number of AZs, Security Hub CSPM uses a default value of two AZs.
 
 Deploying resources across multiple AZs is an AWS best practice to ensure high availability within your architecture. Availability is a core pillar in the confidentiality, integrity, and availability triad security model. All Lambda functions that connect to a VPC should have a multi-AZ deployment to ensure that a single zone of failure doesn't cause a total disruption of operations.
 
 This rule is covered by the [lambda-vpc-multi-az-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/lambda/lambda-vpc-multi-az-check.policy.hcl) policy.
+
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `availabilityZones` | Minimum number of Availability Zones | `number` | `2` | `{ allowed_values: [2, 3, 4, 5, 6] }` |
 
 ## Policy Results
 

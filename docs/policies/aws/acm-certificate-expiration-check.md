@@ -12,6 +12,12 @@ ACM can automatically renew certificates that use DNS validation. For certificat
 
 This rule is covered by the [acm-certificate-expiration-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/acm/acm-certificate-expiration-check.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `daysToExpiration` | Number of days within which the ACM certificate must be renewed | `number` | `14` | `{ min: 14, max: 365, integer: true }` |
+
 ## Policy Results
 
 ```bash

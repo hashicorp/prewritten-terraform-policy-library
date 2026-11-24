@@ -12,6 +12,12 @@ The policy evaluates `aws_dynamodb_table` resources.
 
 This rule is covered by the [dynamo-db-table-encrypted-kms](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dynamo-db-table-encrypted-kms.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `dynamo-db-table-encrypted-kms-kms_key_arns` | List of AWS KMS key ARNs allowed for encrypting Amazon DynamoDB Tables | `list(string)` | `[]` | - |
+
 ## Policy Results
 
 ```bash

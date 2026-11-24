@@ -12,6 +12,12 @@ This control checks that Cloud SQL for PostgreSQL instances (`google_sql_databas
 
 This rule is covered by the [cloudsql-postgresql-log-statement-configured](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/gcp/sql/cloudsql-postgresql-log-statement-configured.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `log-statement-allowed-values` | Approved values for the Cloud SQL for PostgreSQL log_statement database flag. CIS recommends ddl. | `list(string)` | `["ddl"]` | `{ allowed_values: ["none", "ddl", "mod", "all"], min_items: 1 }` |
+
 ## Policy Results
 
 ```bash

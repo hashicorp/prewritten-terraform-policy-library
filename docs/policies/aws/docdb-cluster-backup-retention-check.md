@@ -12,6 +12,12 @@ Backups help you recover more quickly from a security incident and strengthen th
 
 This rule is covered by the [docdb-cluster-backup-retention-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/docdb/docdb-cluster-backup-retention-check.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `docdb_min_backup_retention_period` | Minimum backup retention period in days | `number` | `7` | `{ min: 7, max: 35, integer: true }` |
+
 ## Policy Results
 
 ```bash

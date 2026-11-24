@@ -12,6 +12,13 @@ Backups help you to recover more quickly from a security incident. They strength
 
 This rule is covered by the [redshift-backup-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-backup-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `min_retention_period` | Minimum value for the retention period. Minimum value is 1. | `number` | `1` | `{ min: 1, max: 35, integer: true }` |
+| `max_retention_period` | Maximum value for the retention period. Maximum value is 35. | `number` | `35` | `{ min: 1, max: 35, integer: true }` |
+
 ## Policy Results
 
 ```bash
