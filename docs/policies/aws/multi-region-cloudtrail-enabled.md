@@ -10,6 +10,14 @@ Refer to [AWS Security Hub documentation](https://docs.aws.amazon.com/config/lat
 
 This rule is covered by the [multi-region-cloudtrail-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudtrail/multi-region-cloudtrail-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `s3BucketName` | Name of Amazon S3 bucket for AWS CloudTrail to deliver log files to. | `string` | `""` | - |
+| `snsTopicArn` | Amazon SNS topic ARN for AWS CloudTrail to use for notifications. | `string` | `""` | - |
+| `cloudWatchLogsLogGroupArn` | Amazon CloudWatch log group ARN for AWS CloudTrail to send data to. | `string` | `""` | - |
+
 ## Policy Results
 
 ```bash

@@ -12,6 +12,12 @@ Elastic Load Balancing automatically distributes your incoming traffic across mu
 
 This rule is covered by the [elbv2-multiple-az](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elbv2-multiple-az.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `minAvailabilityZones` | Minimum number of Availability Zones | `string` | `"2"` | `{ allowed_values: ["2", "3", "4", "5", "6"] }` |
+
 ## Policy Results
 
 ```bash

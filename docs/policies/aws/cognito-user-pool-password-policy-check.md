@@ -12,6 +12,17 @@ Strong passwords are a security best practice for Amazon Cognito user pools. Wea
 
 This rule is covered by the [cognito-user-pool-password-policy-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cognito/cognito-user-pool-password-policy-check.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `minLength` | The minimum number of characters that a password must contain. | `number` | `8` | `{ min: 8, max: 99, integer: true }` |
+| `requireLowercase` | Require at least one lowercase character in a password. | `bool` | `true` | - |
+| `requireUppercase` | Require at least one uppercase character in a password. | `bool` | `true` | - |
+| `requireNumbers` | Require at least one number in a password. | `bool` | `true` | - |
+| `requireSymbols` | Require at least one symbol in a password. | `bool` | `true` | - |
+| `temporaryPasswordValidity` | The maximum number of days that a password can exist before it expires. | `number` | `7` | `{ min: 1, max: 365, integer: true }` |
+
 ## Policy Results
 
 ```bash

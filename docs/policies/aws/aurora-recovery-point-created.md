@@ -22,6 +22,15 @@ Recovery points themselves are runtime state and are not visible in a Terraform 
 
 This rule is covered by the [aurora-recovery-point-created](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/aurora-recovery-point-created.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `aurora-recovery-point-created-resource_tags` | Tags of Aurora DB clusters for the rule to check, in JSON format `{"tagkey" : "tagValue"}`. | `string` | `""` | `{ format: json }` |
+| `aurora-recovery-point-created-resource_id` | ID of Aurora DB cluster for the rule to check. | `string` | `""` | - |
+| `aurora-recovery-point-created-recovery_point_age_value` | Numerical value for maximum allowed age. No more than 744 for hours, 31 for days. | `number` | `1` | `{ min: 1, max: 744, integer: true }` |
+| `aurora-recovery-point-created-recovery_point_age_unit` | Unit of time for maximum allowed age. Accepted values: 'hours', 'days'. | `string` | `"days"` | `{ allowed_values: ["hours", "days"] }` |
+
 ## Policy Results
 
 ```bash

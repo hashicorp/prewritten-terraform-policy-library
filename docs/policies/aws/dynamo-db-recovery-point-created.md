@@ -21,6 +21,15 @@ The underlying requirement checks that a recovery point was actually created wit
 
 This rule is covered by the [dynamo-db-recovery-point-created](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dynamo-db-recovery-point-created.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `dynamo-db-recovery-point-created-resource_tags` | Tags of the DynamoDB Tables for the rule to check, in JSON format `{"tagkey" : "tagValue"}`. | `string` | `""` | `{ format: json }` |
+| `dynamo-db-recovery-point-created-resource_id` | Name of DynamoDB Table for the rule to check. | `string` | `""` | - |
+| `dynamo-db-recovery-point-created-recovery_point_age_value` | Numerical value for maximum allowed age. No more than 744 for hours, 31 for days. | `number` | `1` | `{ min: 1, max: 744, integer: true }` |
+| `dynamo-db-recovery-point-created-recovery_point_age_unit` | Unit of time for maximum allowed age. Accepted values: 'hours', 'days'. | `string` | `"days"` | `{ allowed_values: ["hours", "days"] }` |
+
 ## Policy Results
 
 ```bash

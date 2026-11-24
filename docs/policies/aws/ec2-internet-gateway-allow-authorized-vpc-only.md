@@ -12,6 +12,12 @@ The policy evaluates `aws_internet_gateway`, `aws_internet_gateway_attachment` r
 
 This rule is covered by the [ec2-internet-gateway-allow-authorized-vpc-only](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-internet-gateway-allow-authorized-vpc-only.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `ec2-internet-gateway-allow-authorized-vpc-only-authorized_vpc_ids` | List of the authorized VPC IDs with attached IGWs. If parameter is not provided all attached IGWs will be NON_COMPLIANT. | `list(string)` | `[]` | - |
+
 ## Policy Results
 
 ```bash

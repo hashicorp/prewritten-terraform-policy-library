@@ -14,6 +14,12 @@ For advanced event selectors, a `resources.ARN` `starts_with` filter counts only
 
 This rule is covered by the [cloudtrail-s3-dataevents-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudtrail/cloudtrail-s3-dataevents-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `cloudtrail-s3-dataevents-enabled-s3_bucket_names` | Comma-separated list of S3 bucket names for which data events logging should be enabled. Default behavior checks for all S3 buckets. | `string` | `""` | `{ format: csv }` |
+
 ## Policy Results
 
 ```bash

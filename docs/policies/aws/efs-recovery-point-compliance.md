@@ -20,6 +20,15 @@ The underlying requirement checks that a recovery point was actually created wit
 
 This rule is covered by the [efs-recovery-point-compliance](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/efs/efs-recovery-point-compliance.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `efs-recovery-point-compliance-resource_tags` | Tags of Amazon EFS File Systems for the rule to check, in JSON format `{"tagkey" : "tagValue"}`. | `string` | `""` | `{ format: json }` |
+| `efs-recovery-point-compliance-resource_id` | ID of EFS File System for the rule to check. | `string` | `""` | - |
+| `efs-recovery-point-compliance-recovery_point_age_value` | Numerical value for maximum allowed age. No more than 744 for hours, 31 for days. | `number` | `1` | `{ min: 1, max: 744, integer: true }` |
+| `efs-recovery-point-compliance-recovery_point_age_unit` | Unit of time for maximum allowed age. Accepted values: 'hours', 'days'. | `string` | `"days"` | `{ allowed_values: ["hours", "days"] }` |
+
 ## Policy Results
 
 ```bash

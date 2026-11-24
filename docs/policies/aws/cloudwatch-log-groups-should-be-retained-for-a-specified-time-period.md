@@ -10,12 +10,13 @@ This control checks whether Amazon CloudWatch log groups meet the `minRetentionT
 
 Retaining CloudWatch log groups for the configured minimum ensures that audit trails, application logs, and security event data remain available for incident investigation, forensic analysis, and compliance reporting. Setting `retention_in_days = 0` or omitting the attribute configures logs to never expire.
 
-| Parameter | Description | Type | Default |
-| --- | --- | --- | --- |
-| `cloudwatch-log-groups-should-be-retained-for-a-specified-time-period-enforcement-level` | Configurable policy enforcement level. | `string` | `"advisory"` |
-| `minRetentionTime` | Minimum retention in days. Allowed values: 365, 400, 545, 731, 1827, or 3653. | `number` | `365` |
-
 This rule is covered by the [cloudwatch-log-groups-should-be-retained-for-a-specified-time-period](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudwatch/cloudwatch-log-groups-should-be-retained-for-a-specified-time-period.policy.hcl) policy.
+
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `minRetentionTime` | Minimum retention period in days for CloudWatch log groups | `number` | `365` | `{ allowed_values: [365, 400, 545, 731, 1827, 3653] }` |
 
 ## Policy Results
 

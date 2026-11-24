@@ -6,17 +6,17 @@
 
 ## Description
 
-Parameters:
-
-| Parameter | Description | Type | Allowed custom values | Security Hub CSPM default value |
-| --------- | ----------- | ---- | --------------------- | -------------------------------- |
-| targetExpirationDays | The number of days, after object creation, when objects should expire. | Integer | 1 to 2147483647 | No default value |
-
 This control checks whether lifecycle rules are configured for an S3 directory bucket. The control fails if lifecycle rules aren't configured for the directory bucket, or a lifecycle rule for the bucket specifies expiration settings that don't match the parameter value that you optionally specify.
 
 In Amazon S3, a lifecycle configuration is a set of rules that define actions for Amazon S3 to apply to a group of objects in a bucket. For an S3 directory bucket, you can create a lifecycle rule that specifies when objects expire based on age (in days). You can also create a lifecycle rule that deletes incomplete multipart uploads. Unlike other types of S3 buckets, such as general purpose buckets, directory buckets do not support other types of actions for lifecycle rules, such as transitioning objects between storage classes.
 
 This rule is covered by the [s3express-dir-bucket-lifecycle-rules-check](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3express-dir-bucket-lifecycle-rules-check.policy.hcl) policy.
+
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `expressTargetExpirationDays` | The number of days, after object creation, when objects should expire. | `number` | `0` | `{ min: 1, max: 2147483647, integer: true }` |
 
 ## Policy Results
 

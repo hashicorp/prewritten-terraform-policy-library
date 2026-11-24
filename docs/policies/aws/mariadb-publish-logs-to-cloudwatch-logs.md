@@ -12,6 +12,12 @@ Database logging provides detailed records of requests made to an Amazon RDS for
 
 This rule is covered by the [mariadb-publish-logs-to-cloudwatch-logs](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/mariadb-publish-logs-to-cloudwatch-logs.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `log_mariadb_types` | A list of the types of logs that a MariaDB DB instance should be configured to publish to CloudWatch Logs. The control generates a FAILED finding if a DB instance isn't configured to publish a log type specified in the list. | `string` | `"audit,error"` | `{ format: csv, allowed_values: ["audit", "error", "general", "slowquery"], max_items: 4, unique: true }` |
+
 ## Policy Results
 
 ```bash

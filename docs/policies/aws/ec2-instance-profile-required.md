@@ -12,6 +12,12 @@ The policy evaluates `aws_instance` resources.
 
 This rule is covered by the [ec2-instance-profile-required](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-instance-profile-required.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `ec2-instance-profile-required-allowed_iam_instance_profiles` | List of IAM profile Amazon Resource Names (ARNs) that can be attached to Amazon EC2 instances. | `list(string)` | `[]` | - |
+
 ## Policy Results
 
 ```bash

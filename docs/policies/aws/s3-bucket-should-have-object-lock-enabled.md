@@ -12,6 +12,12 @@ S3 Object Lock helps prevent objects from being deleted or overwritten for a fix
 
 This rule is covered by the [s3-bucket-should-have-object-lock-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/s3/s3-bucket-should-have-object-lock-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `mode` | S3 Object Lock retention mode | `list(string)` | `[]` | `{ allowed_values: ["GOVERNANCE", "COMPLIANCE"], unique: true }` |
+
 ## Policy Results
 
 ```bash

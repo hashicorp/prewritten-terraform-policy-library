@@ -12,6 +12,12 @@ In Amazon Redshift, you can turn on database encryption for your clusters to hel
 
 This rule is covered by the [redshift-cluster-kms-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/redshift/redshift-cluster-kms-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `redshift-cluster-kms-enabled-kms-key-arns` | Comma-separated list of AWS KMS key Amazon Resource Names (ARNs) used in Amazon Redshift clusters for encryption. | `string` | `""` | `{ format: csv }` |
+
 ## Policy Results
 
 ```bash

@@ -12,6 +12,12 @@ The policy evaluates `aws_cloudwatch_log_group` resources.
 
 This rule is covered by the [cloudwatch-log-group-kms-encryption](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudwatch/cloudwatch-log-group-kms-encryption.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `cloudwatch-log-group-kms-encryption-kms_key_id` | Amazon Resource Name (ARN) of the ID for the KMS key that is used to encrypt the log group. | `string` | `""` | - |
+
 ## Policy Results
 
 ```bash

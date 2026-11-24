@@ -12,6 +12,12 @@ Backups help you more quickly recover from a security incident and strengthens t
 
 This rule is covered by the [rds-db-instance-backup-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/rds/rds-db-instance-backup-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `min_backup_retention` | Minimum backup retention period in days | `number` | `7` | `{ min: 7, max: 35, integer: true }` |
+
 ## Policy Results
 
 ```bash

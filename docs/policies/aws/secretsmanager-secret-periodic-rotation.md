@@ -6,12 +6,6 @@
 
 ## Description
 
-Parameters:
-
-| Parameter | Description | Type | Allowed custom values | Security Hub CSPM default value |
-| --------- | ----------- | ---- | --------------------- | -------------------------------- |
-| maxDaysSinceRotation | Maximum number of days that a secret can remain unchanged | Integer | 1 to 180 | 90 |
-
 This control checks whether an AWS Secrets Manager secret is rotated at least once within the specified time frame. The control fails if a secret isn't rotated at least this frequently. Unless you provide a custom parameter value for the rotation period, Security Hub CSPM uses a default value of 90 days.
 
 Rotating secrets can help you to reduce the risk of an unauthorized use of your secrets in your AWS account. Examples include database credentials, passwords, third-party API keys, and even arbitrary text. If you do not change your secrets for a long period of time, the secrets are more likely to be compromised.
@@ -21,6 +15,12 @@ As more users get access to a secret, it can become more likely that someone mis
 You can configure automatic rotation for secrets in AWS Secrets Manager. With automatic rotation, you can replace long-term secrets with short-term ones, significantly reducing the risk of compromise. We recommend that you configure automatic rotation for your Secrets Manager secrets. For more information, see Rotating your AWS Secrets Manager secrets in the AWS Secrets Manager User Guide.
 
 This rule is covered by the [secretsmanager-secret-periodic-rotation](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/secretmanager/secretsmanager-secret-periodic-rotation.policy.hcl) policy.
+
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `maxDaysSinceRotation` | Maximum number of days that a secret can remain unchanged | `number` | `90` | `{ min: 1, max: 180, integer: true }` |
 
 ## Policy Results
 

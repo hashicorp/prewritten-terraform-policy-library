@@ -12,6 +12,12 @@ The policy evaluates `aws_instance` resources.
 
 This rule is covered by the [ec2-belong-to-vpc](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/ec2-belong-to-vpc.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `ec2-belong-to-vpc-vpc_id` | VPC ID that contains these EC2 instances. | `string` | `""` | - |
+
 ## Policy Results
 
 ```bash

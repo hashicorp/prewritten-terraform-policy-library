@@ -12,6 +12,12 @@ The policy evaluates `aws_sagemaker_endpoint_configuration` resources.
 
 This rule is covered by the [sagemaker-endpoint-configuration-kms-key-configured](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/sagemaker/sagemaker-endpoint-configuration-kms-key-configured.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `sagemaker-endpoint-configuration-kms-key-configured-allowed_kms_arns` | List of specific AWS KMS key ARNs allowed for an Amazon SageMaker endpoint configuration. | `list(string)` | `[]` | - |
+
 ## Policy Results
 
 ```bash

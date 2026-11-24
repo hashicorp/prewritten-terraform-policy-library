@@ -12,6 +12,12 @@ The policy evaluates `aws_secretsmanager_secret` resources.
 
 This rule is covered by the [secretsmanager-secrets-encrypted-using-cmk](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/secretmanager/secretsmanager-secrets-encrypted-using-cmk.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `secretsmanager-secrets-encrypted-using-cmk-allowed_kms_key_arns` | List of KMS key Amazon Resource Names (ARNs) to check if the keys are used in the encryption. | `list(string)` | `[]` | - |
+
 ## Policy Results
 
 ```bash

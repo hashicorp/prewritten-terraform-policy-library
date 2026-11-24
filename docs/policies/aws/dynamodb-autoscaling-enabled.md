@@ -12,6 +12,17 @@ Scaling capacity with demand avoids throttling exceptions, which helps to mainta
 
 This rule is covered by the [dynamodb-autoscaling-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/dynamo/dynamodb-autoscaling-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `minProvisionedReadCapacity` | Minimum number of provisioned read capacity units for DynamoDB auto scaling | `number` | `0` | `{ min: 1, max: 40000, integer: true }` |
+| `maxProvisionedReadCapacity` | The maximum number of units that should be provisioned with read capacity in the Auto Scaling group. | `number` | `0` | `{ min: 1, max: 40000, integer: true }` |
+| `targetReadUtilization` | Target utilization percentage for read capacity | `number` | `0` | `{ min: 20, max: 90, integer: true }` |
+| `minProvisionedWriteCapacity` | Minimum number of provisioned write capacity units for DynamoDB auto scaling | `number` | `0` | `{ min: 1, max: 40000, integer: true }` |
+| `maxProvisionedWriteCapacity` | The maximum number of units that should be provisioned with write capacity in the Auto Scaling group. | `number` | `0` | `{ min: 1, max: 40000, integer: true }` |
+| `targetWriteUtilization` | Target utilization percentage for write capacity | `number` | `0` | `{ min: 20, max: 90, integer: true }` |
+
 ## Policy Results
 
 ```bash

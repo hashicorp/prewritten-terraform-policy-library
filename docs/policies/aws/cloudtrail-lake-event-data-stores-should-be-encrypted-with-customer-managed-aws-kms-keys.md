@@ -8,14 +8,15 @@
 
 This control checks whether an AWS CloudTrail Lake event data store is encrypted with a customer-managed AWS KMS key. The control fails if the `kms_key_id` attribute is absent, null, empty, or uses an AWS-managed alias such as `alias/aws/cloudtrail`.
 
-| Parameter | Description | Type | Default |
-| --- | --- | --- | --- |
-| `cloudtrail-lake-event-data-stores-should-be-encrypted-with-customer-managed-aws-kms-keys-enforcement-level` | Configurable policy enforcement level. | `string` | `"advisory"` |
-| `cloudtrailLakeKmsKeyArns` | Optional list of allowed KMS key IDs, ARNs, or aliases. When empty, any customer-managed key is accepted. | `list(string)` | `[]` |
-
 Encrypting CloudTrail Lake event data stores with customer-managed KMS keys gives you full control over the encryption keys used to protect your audit log data. Customer-managed keys allow you to define key usage policies, enable key rotation, audit key usage via AWS CloudTrail, and revoke access to the data by disabling or deleting the key. This separation of duties between data storage and key management helps meet compliance requirements for sensitive audit data.
 
 This rule is covered by the [cloudtrail-lake-event-data-stores-should-be-encrypted-with-customer-managed-aws-kms-keys](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/cloudtrail/cloudtrail-lake-event-data-stores-should-be-encrypted-with-customer-managed-aws-kms-keys.policy.hcl) policy.
+
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `cloudtrailLakeKmsKeyArns` | A list of Amazon Resource Names (ARNs) of AWS KMS keys to include in the evaluation. The control generates a FAILED finding if an event data store isn't encrypted with a KMS key in the list. | `list(string)` | `[]` | `{ max_items: 3 }` |
 
 ## Policy Results
 

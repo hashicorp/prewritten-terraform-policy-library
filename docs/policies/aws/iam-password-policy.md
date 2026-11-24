@@ -10,6 +10,18 @@ This control checks whether the account password policy for IAM users uses stron
 
 This rule is covered by the [iam-password-policy](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/iam/iam-password-policy.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `RequireUppercaseCharacters` | Require at least one uppercase character in password | `string` | `"true"` | `{ allowed_values: ["true", "false"] }` |
+| `RequireLowercaseCharacters` | Require at least one lowercase character in password | `string` | `"true"` | `{ allowed_values: ["true", "false"] }` |
+| `RequireSymbols` | Require at least one symbol in password | `string` | `"true"` | `{ allowed_values: ["true", "false"] }` |
+| `RequireNumbers` | Require at least one number in password | `string` | `"true"` | `{ allowed_values: ["true", "false"] }` |
+| `MinimumPasswordLength` | Minimum number of characters in the password | `number` | `8` | `{ min: 8, max: 128, integer: true }` |
+| `PasswordReusePrevention` | Number of password rotations before an old password can be reused | `number` | `0` | `{ min: 12, max: 24, integer: true }` |
+| `MaxPasswordAge` | Number of days before password expiration | `number` | `0` | `{ min: 1, max: 90, integer: true }` |
+
 ## Policy Results
 
 ```bash

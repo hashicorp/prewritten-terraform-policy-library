@@ -12,6 +12,12 @@ Data at rest refers to any data that's stored in persistent, non-volatile storag
 
 This rule is covered by the [docdb-cluster-encrypted](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/docdb/docdb-cluster-encrypted.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `docdb_kms_key_arns` | A comma-separated list of KMS key ARNs to compare with the KmsKeyID of the encrypted cluster. | `string` | `""` | `{ format: csv }` |
+
 ## Policy Results
 
 ```bash

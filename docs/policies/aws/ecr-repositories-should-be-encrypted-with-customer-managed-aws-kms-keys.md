@@ -8,14 +8,15 @@
 
 This control checks whether Amazon ECR repositories are encrypted with a customer-managed AWS KMS key using `KMS` or `KMS_DSSE`. AWS-managed aliases such as `alias/aws/ecr` are not accepted. The optional `ecrKmsKeyArns` input restricts accepted keys; by default, any specified customer-managed key is allowed.
 
-| Parameter | Description | Type | Default |
-| --- | --- | --- | --- |
-| `ecr-repositories-should-be-encrypted-with-customer-managed-aws-kms-keys-enforcement-level` | Configurable policy enforcement level. | `string` | `"advisory"` |
-| `ecrKmsKeyArns` | Optional list of allowed KMS key ARNs or aliases. | `list(string)` | `[]` |
-
 Encrypting ECR repositories with customer-managed KMS keys provides greater control over the encryption keys protecting your container images. Customer-managed keys allow you to define key usage policies, audit key usage via AWS CloudTrail, rotate keys, and revoke access to images by disabling or deleting the key. This separation of data storage and key management helps meet compliance requirements for container image security and data protection at rest.
 
 This rule is covered by the [ecr-repositories-should-be-encrypted-with-customer-managed-aws-kms-keys](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ecr/ecr-repositories-should-be-encrypted-with-customer-managed-aws-kms-keys.policy.hcl) policy.
+
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `ecrKmsKeyArns` | A list of Amazon Resource Names (ARNs) of AWS KMS keys to include in the evaluation. The control generates a FAILED finding if an ECR repository isn't encrypted with a KMS key in the list. | `list(string)` | `[]` | `{ max_items: 10 }` |
 
 ## Policy Results
 

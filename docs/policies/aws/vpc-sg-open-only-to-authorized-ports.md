@@ -16,6 +16,13 @@ Security groups provide stateful filtering of ingress and egress network traffic
 
 This rule is covered by the [vpc-sg-open-only-to-authorized-ports](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/ec2/vpc-sg-open-only-to-authorized-ports.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `authorizedTcpPorts` | List of authorized TCP ports | `string` | `"80,443"` | `{ format: csv, pattern: "^([1-9][0-9]{0,3}\|[1-5][0-9]{4}\|6[0-4][0-9]{3}\|65[0-4][0-9]{2}\|655[0-2][0-9]\|6553[0-5])$", pattern_message: "must be a port number between 1 and 65535", max_items: 32 }` |
+| `authorizedUdpPorts` | List of authorized UDP ports | `string` | `""` | `{ format: csv, pattern: "^([1-9][0-9]{0,3}\|[1-5][0-9]{4}\|6[0-4][0-9]{3}\|65[0-4][0-9]{2}\|655[0-2][0-9]\|6553[0-5])$", pattern_message: "must be a port number between 1 and 65535", max_items: 32 }` |
+
 ## Policy Results
 
 ```bash

@@ -14,6 +14,12 @@ To learn more, see Access logs for your Classic Load Balancer in User Guide for 
 
 This rule is covered by the [elb-logging-enabled](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elb/elb-logging-enabled.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `s3_bucket_names` | Comma-separated list of Amazon S3 bucket names for Amazon ELB to deliver the log files. | `string` | `""` | `{ format: csv }` |
+
 ## Policy Results
 
 ```bash

@@ -12,6 +12,12 @@ CloudWatch helps you collect and monitor various metrics for your applications a
 
 This rule is covered by the [elastic-beanstalk-logs-to-cloudwatch](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticbeanstalk/elastic-beanstalk-logs-to-cloudwatch.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `RetentionInDays` | Number of days to keep log events before expiration | `string` | `""` | `{ allowed_values: ["", "1", "3", "5", "7", "14", "30", "60", "90", "120", "150", "180", "365", "400", "545", "731", "1827", "3653"] }` |
+
 ## Policy Results
 
 ```bash

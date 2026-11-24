@@ -12,6 +12,12 @@ Encrypting data at rest reduces the risk that an unauthenticated user gets acces
 
 This rule is covered by the [elasticache-repl-grp-encrypted-at-rest](https://github.com/hashicorp/prewritten-terraform-policy-library/blob/main/policies/aws/elasticache/elasticache-repl-grp-encrypted-at-rest.policy.hcl) policy.
 
+## Parameters
+
+| Parameter | Description | Type | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `approved_kms_keys` | Comma-separated list of KMS Key IDs that are approved for ElastiCache usage. | `string` | `""` | `{ format: csv }` |
+
 ## Policy Results
 
 ```bash
