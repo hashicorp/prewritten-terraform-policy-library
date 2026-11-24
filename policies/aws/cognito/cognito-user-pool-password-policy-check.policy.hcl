@@ -63,10 +63,10 @@ resource_policy "aws_cognito_user_pool" "cognito3_password_policy" {
         valid_temporary_password_validity_input = input.temporaryPasswordValidity >= 1 && input.temporaryPasswordValidity <= 365
 
         has_minimum_length = local.minimum_length >= input.minLength
-        has_required_lowercase = local.require_lowercase == input.requireLowercase
-        has_required_uppercase = local.require_uppercase == input.requireUppercase
-        has_required_numbers = local.require_numbers == input.requireNumbers
-        has_required_symbols = local.require_symbols == input.requireSymbols
+        has_required_lowercase = !input.requireLowercase || local.require_lowercase
+        has_required_uppercase = !input.requireUppercase || local.require_uppercase
+        has_required_numbers = !input.requireNumbers || local.require_numbers
+        has_required_symbols = !input.requireSymbols || local.require_symbols
         has_valid_temporary_password_validity = local.temporary_password_validity_days > 0 && local.temporary_password_validity_days <= input.temporaryPasswordValidity
     }
 
